@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'alixpayment' target in the 'alixpayment' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+#endif

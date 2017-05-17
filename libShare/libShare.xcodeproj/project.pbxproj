@@ -1,0 +1,311 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		17CB685D174CC582005FA4E2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17CB685C174CC582005FA4E2 /* Foundation.framework */; };
+		17CB6872174CC5AC005FA4E2 /* PGShareManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 17CB6871174CC5AC005FA4E2 /* PGShareManager.mm */; };
+		17CB6879174CC877005FA4E2 /* PGShare.mm in Sources */ = {isa = PBXBuildFile; fileRef = 17CB6878174CC877005FA4E2 /* PGShare.mm */; };
+		17EE529F17570715007EA7AF /* PGShareControl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 17EE529E17570715007EA7AF /* PGShareControl.mm */; };
+		246518181DD1CC10008EF529 /* DCSAPPShareManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 246518151DD1CC10008EF529 /* DCSAPPShareManager.m */; };
+		246518191DD1CC10008EF529 /* DCSAppShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 246518171DD1CC10008EF529 /* DCSAppShareView.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		17CB6857174CC582005FA4E2 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		17CB6859174CC582005FA4E2 /* liblibShare.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibShare.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		17CB685C174CC582005FA4E2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		17CB6860174CC582005FA4E2 /* libShare-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "libShare-Prefix.pch"; sourceTree = "<group>"; };
+		17CB6870174CC5A5005FA4E2 /* PGShareManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGShareManager.h; sourceTree = "<group>"; };
+		17CB6871174CC5AC005FA4E2 /* PGShareManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PGShareManager.mm; sourceTree = "<group>"; };
+		17CB6877174CC877005FA4E2 /* PGShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGShare.h; sourceTree = "<group>"; };
+		17CB6878174CC877005FA4E2 /* PGShare.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PGShare.mm; sourceTree = "<group>"; };
+		17EE529D17570715007EA7AF /* PGShareControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGShareControl.h; sourceTree = "<group>"; };
+		17EE529E17570715007EA7AF /* PGShareControl.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PGShareControl.mm; sourceTree = "<group>"; };
+		246518141DD1CC10008EF529 /* DCSAPPShareManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCSAPPShareManager.h; sourceTree = "<group>"; };
+		246518151DD1CC10008EF529 /* DCSAPPShareManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCSAPPShareManager.m; sourceTree = "<group>"; };
+		246518161DD1CC10008EF529 /* DCSAppShareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCSAppShareView.h; sourceTree = "<group>"; };
+		246518171DD1CC10008EF529 /* DCSAppShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCSAppShareView.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		17CB6856174CC582005FA4E2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				17CB685D174CC582005FA4E2 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		17CB6850174CC582005FA4E2 = {
+			isa = PBXGroup;
+			children = (
+				17CB685E174CC582005FA4E2 /* libShare */,
+				17CB685B174CC582005FA4E2 /* Frameworks */,
+				17CB685A174CC582005FA4E2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		17CB685A174CC582005FA4E2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				17CB6859174CC582005FA4E2 /* liblibShare.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		17CB685B174CC582005FA4E2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				17CB685C174CC582005FA4E2 /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		17CB685E174CC582005FA4E2 /* libShare */ = {
+			isa = PBXGroup;
+			children = (
+				17EE529D17570715007EA7AF /* PGShareControl.h */,
+				17EE529E17570715007EA7AF /* PGShareControl.mm */,
+				17CB6877174CC877005FA4E2 /* PGShare.h */,
+				17CB6878174CC877005FA4E2 /* PGShare.mm */,
+				17CB6870174CC5A5005FA4E2 /* PGShareManager.h */,
+				17CB6871174CC5AC005FA4E2 /* PGShareManager.mm */,
+				246518141DD1CC10008EF529 /* DCSAPPShareManager.h */,
+				246518151DD1CC10008EF529 /* DCSAPPShareManager.m */,
+				246518161DD1CC10008EF529 /* DCSAppShareView.h */,
+				246518171DD1CC10008EF529 /* DCSAppShareView.m */,
+				17CB685F174CC582005FA4E2 /* Supporting Files */,
+			);
+			path = libShare;
+			sourceTree = "<group>";
+		};
+		17CB685F174CC582005FA4E2 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				17CB6860174CC582005FA4E2 /* libShare-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		17CB6858174CC582005FA4E2 /* libShare */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 17CB6867174CC582005FA4E2 /* Build configuration list for PBXNativeTarget "libShare" */;
+			buildPhases = (
+				17CB6855174CC582005FA4E2 /* Sources */,
+				17CB6856174CC582005FA4E2 /* Frameworks */,
+				17CB6857174CC582005FA4E2 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = libShare;
+			productName = libShare;
+			productReference = 17CB6859174CC582005FA4E2 /* liblibShare.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		17CB6851174CC582005FA4E2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = DCloud;
+			};
+			buildConfigurationList = 17CB6854174CC582005FA4E2 /* Build configuration list for PBXProject "libShare" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				"zh-Hans",
+				"zh-Hant",
+			);
+			mainGroup = 17CB6850174CC582005FA4E2;
+			productRefGroup = 17CB685A174CC582005FA4E2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				17CB6858174CC582005FA4E2 /* libShare */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		17CB6855174CC582005FA4E2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				246518181DD1CC10008EF529 /* DCSAPPShareManager.m in Sources */,
+				246518191DD1CC10008EF529 /* DCSAppShareView.m in Sources */,
+				17CB6872174CC5AC005FA4E2 /* PGShareManager.mm in Sources */,
+				17CB6879174CC877005FA4E2 /* PGShare.mm in Sources */,
+				17EE529F17570715007EA7AF /* PGShareControl.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		17CB6865174CC582005FA4E2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		17CB6866174CC582005FA4E2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_BITCODE = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		17CB6868174CC582005FA4E2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/libShare.dst;
+				ENABLE_BITCODE = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "libShare/libShare-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = (
+					PDR_PLUS_SINAWEIBO,
+					PDR_PLUS_TENCENTWEIBO,
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../libPDRCore/libPDRCore/tools",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Managers",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/MiniServer",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/stream",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/WebviewEngine",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/libShare/sina/sdk\"",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		17CB6869174CC582005FA4E2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/libShare.dst;
+				ENABLE_BITCODE = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "libShare/libShare-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = (
+					PDR_PLUS_SINAWEIBO,
+					PDR_PLUS_TENCENTWEIBO,
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../libPDRCore/libPDRCore/tools",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Managers",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/MiniServer",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/stream",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/WebviewEngine",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/libShare/sina/sdk\"",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		17CB6854174CC582005FA4E2 /* Build configuration list for PBXProject "libShare" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				17CB6865174CC582005FA4E2 /* Debug */,
+				17CB6866174CC582005FA4E2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		17CB6867174CC582005FA4E2 /* Build configuration list for PBXNativeTarget "libShare" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				17CB6868174CC582005FA4E2 /* Debug */,
+				17CB6869174CC582005FA4E2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 17CB6851174CC582005FA4E2 /* Project object */;
+}

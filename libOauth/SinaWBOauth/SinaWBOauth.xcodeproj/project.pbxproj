@@ -1,0 +1,438 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		177161A41AFA01AF00905029 /* PGSinaWBOauth.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 177161A31AFA01AF00905029 /* PGSinaWBOauth.h */; };
+		177161A61AFA01AF00905029 /* PGSinaWBOauth.m in Sources */ = {isa = PBXBuildFile; fileRef = 177161A51AFA01AF00905029 /* PGSinaWBOauth.m */; };
+		177161AC1AFA01AF00905029 /* libSinaWBOauth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 177161A01AFA01AF00905029 /* libSinaWBOauth.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		177161AD1AFA01AF00905029 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 177161981AFA01AF00905029 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1771619F1AFA01AF00905029;
+			remoteInfo = SinaWBOauth;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		1771619E1AFA01AF00905029 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+				177161A41AFA01AF00905029 /* PGSinaWBOauth.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		177161A01AFA01AF00905029 /* libSinaWBOauth.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSinaWBOauth.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		177161A31AFA01AF00905029 /* PGSinaWBOauth.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGSinaWBOauth.h; sourceTree = "<group>"; };
+		177161A51AFA01AF00905029 /* PGSinaWBOauth.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGSinaWBOauth.m; sourceTree = "<group>"; };
+		177161AB1AFA01AF00905029 /* SinaWBOauthTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SinaWBOauthTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		177161B11AFA01AF00905029 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2FEBD0101D3375CE002D862B /* WBHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WBHttpRequest.h; path = ../../../../Pandora/inc/weibo/WBHttpRequest.h; sourceTree = "<group>"; };
+		2FEBD0111D3375CE002D862B /* WBHttpRequest+WeiboGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "WBHttpRequest+WeiboGame.h"; path = "../../../../Pandora/inc/weibo/WBHttpRequest+WeiboGame.h"; sourceTree = "<group>"; };
+		2FEBD0121D3375CE002D862B /* WBHttpRequest+WeiboShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "WBHttpRequest+WeiboShare.h"; path = "../../../../Pandora/inc/weibo/WBHttpRequest+WeiboShare.h"; sourceTree = "<group>"; };
+		2FEBD0131D3375CE002D862B /* WBHttpRequest+WeiboToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "WBHttpRequest+WeiboToken.h"; path = "../../../../Pandora/inc/weibo/WBHttpRequest+WeiboToken.h"; sourceTree = "<group>"; };
+		2FEBD0141D3375CE002D862B /* WBHttpRequest+WeiboUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "WBHttpRequest+WeiboUser.h"; path = "../../../../Pandora/inc/weibo/WBHttpRequest+WeiboUser.h"; sourceTree = "<group>"; };
+		2FEBD0151D3375CE002D862B /* WBSDKBasicButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WBSDKBasicButton.h; path = ../../../../Pandora/inc/weibo/WBSDKBasicButton.h; sourceTree = "<group>"; };
+		2FEBD0161D3375CE002D862B /* WBSDKCommentButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WBSDKCommentButton.h; path = ../../../../Pandora/inc/weibo/WBSDKCommentButton.h; sourceTree = "<group>"; };
+		2FEBD0171D3375CE002D862B /* WBSDKRelationshipButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WBSDKRelationshipButton.h; path = ../../../../Pandora/inc/weibo/WBSDKRelationshipButton.h; sourceTree = "<group>"; };
+		2FEBD0181D3375CE002D862B /* WeiboSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeiboSDK.h; path = ../../../../Pandora/inc/weibo/WeiboSDK.h; sourceTree = "<group>"; };
+		2FEBD0191D3375CE002D862B /* WeiboSDK+Statistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "WeiboSDK+Statistics.h"; path = "../../../../Pandora/inc/weibo/WeiboSDK+Statistics.h"; sourceTree = "<group>"; };
+		2FEBD01A1D3375CE002D862B /* WeiboUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeiboUser.h; path = ../../../../Pandora/inc/weibo/WeiboUser.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1771619D1AFA01AF00905029 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		177161A81AFA01AF00905029 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				177161AC1AFA01AF00905029 /* libSinaWBOauth.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		177161971AFA01AF00905029 = {
+			isa = PBXGroup;
+			children = (
+				177161A21AFA01AF00905029 /* SinaWBOauth */,
+				177161AF1AFA01AF00905029 /* SinaWBOauthTests */,
+				177161A11AFA01AF00905029 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		177161A11AFA01AF00905029 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				177161A01AFA01AF00905029 /* libSinaWBOauth.a */,
+				177161AB1AFA01AF00905029 /* SinaWBOauthTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		177161A21AFA01AF00905029 /* SinaWBOauth */ = {
+			isa = PBXGroup;
+			children = (
+				177161CE1AFA02F600905029 /* weibo */,
+				177161A31AFA01AF00905029 /* PGSinaWBOauth.h */,
+				177161A51AFA01AF00905029 /* PGSinaWBOauth.m */,
+			);
+			path = SinaWBOauth;
+			sourceTree = "<group>";
+		};
+		177161AF1AFA01AF00905029 /* SinaWBOauthTests */ = {
+			isa = PBXGroup;
+			children = (
+				177161B01AFA01AF00905029 /* Supporting Files */,
+			);
+			path = SinaWBOauthTests;
+			sourceTree = "<group>";
+		};
+		177161B01AFA01AF00905029 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				177161B11AFA01AF00905029 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		177161CE1AFA02F600905029 /* weibo */ = {
+			isa = PBXGroup;
+			children = (
+				2FEBD0101D3375CE002D862B /* WBHttpRequest.h */,
+				2FEBD0111D3375CE002D862B /* WBHttpRequest+WeiboGame.h */,
+				2FEBD0121D3375CE002D862B /* WBHttpRequest+WeiboShare.h */,
+				2FEBD0131D3375CE002D862B /* WBHttpRequest+WeiboToken.h */,
+				2FEBD0141D3375CE002D862B /* WBHttpRequest+WeiboUser.h */,
+				2FEBD0151D3375CE002D862B /* WBSDKBasicButton.h */,
+				2FEBD0161D3375CE002D862B /* WBSDKCommentButton.h */,
+				2FEBD0171D3375CE002D862B /* WBSDKRelationshipButton.h */,
+				2FEBD0181D3375CE002D862B /* WeiboSDK.h */,
+				2FEBD0191D3375CE002D862B /* WeiboSDK+Statistics.h */,
+				2FEBD01A1D3375CE002D862B /* WeiboUser.h */,
+			);
+			path = weibo;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1771619F1AFA01AF00905029 /* SinaWBOauth */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 177161B41AFA01AF00905029 /* Build configuration list for PBXNativeTarget "SinaWBOauth" */;
+			buildPhases = (
+				1771619C1AFA01AF00905029 /* Sources */,
+				1771619D1AFA01AF00905029 /* Frameworks */,
+				1771619E1AFA01AF00905029 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SinaWBOauth;
+			productName = SinaWBOauth;
+			productReference = 177161A01AFA01AF00905029 /* libSinaWBOauth.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		177161AA1AFA01AF00905029 /* SinaWBOauthTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 177161B71AFA01AF00905029 /* Build configuration list for PBXNativeTarget "SinaWBOauthTests" */;
+			buildPhases = (
+				177161A71AFA01AF00905029 /* Sources */,
+				177161A81AFA01AF00905029 /* Frameworks */,
+				177161A91AFA01AF00905029 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				177161AE1AFA01AF00905029 /* PBXTargetDependency */,
+			);
+			name = SinaWBOauthTests;
+			productName = SinaWBOauthTests;
+			productReference = 177161AB1AFA01AF00905029 /* SinaWBOauthTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		177161981AFA01AF00905029 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = DCloud;
+				TargetAttributes = {
+					1771619F1AFA01AF00905029 = {
+						CreatedOnToolsVersion = 6.3;
+					};
+					177161AA1AFA01AF00905029 = {
+						CreatedOnToolsVersion = 6.3;
+					};
+				};
+			};
+			buildConfigurationList = 1771619B1AFA01AF00905029 /* Build configuration list for PBXProject "SinaWBOauth" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 177161971AFA01AF00905029;
+			productRefGroup = 177161A11AFA01AF00905029 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1771619F1AFA01AF00905029 /* SinaWBOauth */,
+				177161AA1AFA01AF00905029 /* SinaWBOauthTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		177161A91AFA01AF00905029 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1771619C1AFA01AF00905029 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				177161A61AFA01AF00905029 /* PGSinaWBOauth.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		177161A71AFA01AF00905029 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		177161AE1AFA01AF00905029 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1771619F1AFA01AF00905029 /* SinaWBOauth */;
+			targetProxy = 177161AD1AFA01AF00905029 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		177161B21AFA01AF00905029 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		177161B31AFA01AF00905029 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		177161B51AFA01AF00905029 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				ENABLE_BITCODE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/../Oauth",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/Managers",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/MiniServer",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		177161B61AFA01AF00905029 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				ENABLE_BITCODE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/../Oauth",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/Managers",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/MiniServer",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		177161B81AFA01AF00905029 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = SinaWBOauthTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "io.dcloud.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		177161B91AFA01AF00905029 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = SinaWBOauthTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "io.dcloud.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1771619B1AFA01AF00905029 /* Build configuration list for PBXProject "SinaWBOauth" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				177161B21AFA01AF00905029 /* Debug */,
+				177161B31AFA01AF00905029 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		177161B41AFA01AF00905029 /* Build configuration list for PBXNativeTarget "SinaWBOauth" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				177161B51AFA01AF00905029 /* Debug */,
+				177161B61AFA01AF00905029 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		177161B71AFA01AF00905029 /* Build configuration list for PBXNativeTarget "SinaWBOauthTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				177161B81AFA01AF00905029 /* Debug */,
+				177161B91AFA01AF00905029 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 177161981AFA01AF00905029 /* Project object */;
+}

@@ -1,0 +1,277 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		17F843DC174B0C7F003C08E6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17F843DB174B0C7F003C08E6 /* Foundation.framework */; };
+		17F843F4174B110C003C08E6 /* PGSpeech.mm in Sources */ = {isa = PBXBuildFile; fileRef = 17F843F3174B110C003C08E6 /* PGSpeech.mm */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		17F843D6174B0C7F003C08E6 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		17F843D8174B0C7F003C08E6 /* liblibSpeech.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibSpeech.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		17F843DB174B0C7F003C08E6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		17F843DF174B0C7F003C08E6 /* libSpeech-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "libSpeech-Prefix.pch"; sourceTree = "<group>"; };
+		17F843F2174B110C003C08E6 /* PGSpeech.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSpeech.h; sourceTree = "<group>"; };
+		17F843F3174B110C003C08E6 /* PGSpeech.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PGSpeech.mm; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		17F843D5174B0C7F003C08E6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				17F843DC174B0C7F003C08E6 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		17F843CF174B0C7F003C08E6 = {
+			isa = PBXGroup;
+			children = (
+				17F843DD174B0C7F003C08E6 /* libSpeech */,
+				17F843DA174B0C7F003C08E6 /* Frameworks */,
+				17F843D9174B0C7F003C08E6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		17F843D9174B0C7F003C08E6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				17F843D8174B0C7F003C08E6 /* liblibSpeech.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		17F843DA174B0C7F003C08E6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				17F843DB174B0C7F003C08E6 /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		17F843DD174B0C7F003C08E6 /* libSpeech */ = {
+			isa = PBXGroup;
+			children = (
+				17F843F2174B110C003C08E6 /* PGSpeech.h */,
+				17F843F3174B110C003C08E6 /* PGSpeech.mm */,
+				17F843DE174B0C7F003C08E6 /* Supporting Files */,
+			);
+			path = libSpeech;
+			sourceTree = "<group>";
+		};
+		17F843DE174B0C7F003C08E6 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				17F843DF174B0C7F003C08E6 /* libSpeech-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		17F843D7174B0C7F003C08E6 /* libSpeech */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 17F843E6174B0C80003C08E6 /* Build configuration list for PBXNativeTarget "libSpeech" */;
+			buildPhases = (
+				17F843D4174B0C7F003C08E6 /* Sources */,
+				17F843D5174B0C7F003C08E6 /* Frameworks */,
+				17F843D6174B0C7F003C08E6 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = libSpeech;
+			productName = libSpeech;
+			productReference = 17F843D8174B0C7F003C08E6 /* liblibSpeech.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		17F843D0174B0C7F003C08E6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = DCloud;
+			};
+			buildConfigurationList = 17F843D3174B0C7F003C08E6 /* Build configuration list for PBXProject "libSpeech" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 17F843CF174B0C7F003C08E6;
+			productRefGroup = 17F843D9174B0C7F003C08E6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				17F843D7174B0C7F003C08E6 /* libSpeech */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		17F843D4174B0C7F003C08E6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				17F843F4174B110C003C08E6 /* PGSpeech.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		17F843E4174B0C80003C08E6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		17F843E5174B0C80003C08E6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_BITCODE = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		17F843E7174B0C80003C08E6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/libSpeech.dst;
+				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/libSpeech\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "libSpeech/libSpeech-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = "";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../libPDRCore/libPDRCore/tools",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Managers",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/MiniServer",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/stream",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		17F843E8174B0C80003C08E6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/libSpeech.dst;
+				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/libSpeech\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "libSpeech/libSpeech-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = "";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../libPDRCore/libPDRCore/tools",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Managers",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/MiniServer",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/stream",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		17F843D3174B0C7F003C08E6 /* Build configuration list for PBXProject "libSpeech" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				17F843E4174B0C80003C08E6 /* Debug */,
+				17F843E5174B0C80003C08E6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		17F843E6174B0C80003C08E6 /* Build configuration list for PBXNativeTarget "libSpeech" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				17F843E7174B0C80003C08E6 /* Debug */,
+				17F843E8174B0C80003C08E6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 17F843D0174B0C7F003C08E6 /* Project object */;
+}

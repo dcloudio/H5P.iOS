@@ -1,0 +1,333 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1712F9BA19207355003C1290 /* pg_gis_overlay.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1712F9AB19207355003C1290 /* pg_gis_overlay.mm */; };
+		1712F9BB19207355003C1290 /* pg_gis_search.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1712F9AD19207355003C1290 /* pg_gis_search.mm */; };
+		1712F9BC19207355003C1290 /* pg_map.m in Sources */ = {isa = PBXBuildFile; fileRef = 1712F9AF19207355003C1290 /* pg_map.m */; };
+		1712F9BD19207355003C1290 /* pg_map_marker.m in Sources */ = {isa = PBXBuildFile; fileRef = 1712F9B119207355003C1290 /* pg_map_marker.m */; };
+		1712F9BE19207355003C1290 /* pg_map_overlay.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1712F9B319207355003C1290 /* pg_map_overlay.mm */; };
+		178AF8831B4E6F2A0038D8A0 /* pg_map_view.m in Sources */ = {isa = PBXBuildFile; fileRef = 178AF8821B4E6F2A0038D8A0 /* pg_map_view.m */; };
+		17F5CF66172797A800356EE5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17F5CF65172797A800356EE5 /* Foundation.framework */; };
+		2FEBD0451D33793E002D862B /* BaiduMapAPI_Base.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FEBD03F1D33793E002D862B /* BaiduMapAPI_Base.framework */; };
+		2FEBD0461D33793E002D862B /* BaiduMapAPI_Location.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FEBD0401D33793E002D862B /* BaiduMapAPI_Location.framework */; };
+		2FEBD0471D33793E002D862B /* BaiduMapAPI_Map.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FEBD0411D33793E002D862B /* BaiduMapAPI_Map.framework */; };
+		2FEBD0491D33793E002D862B /* BaiduMapAPI_Search.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FEBD0431D33793E002D862B /* BaiduMapAPI_Search.framework */; };
+		2FEBD04A1D33793E002D862B /* BaiduMapAPI_Utils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FEBD0441D33793E002D862B /* BaiduMapAPI_Utils.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		17F5CF60172797A800356EE5 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		1712F94C19207355003C1290 /* bmapimp-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "bmapimp-Prefix.pch"; sourceTree = "<group>"; };
+		1712F9AA19207355003C1290 /* pg_gis_overlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pg_gis_overlay.h; sourceTree = "<group>"; };
+		1712F9AB19207355003C1290 /* pg_gis_overlay.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = pg_gis_overlay.mm; sourceTree = "<group>"; };
+		1712F9AC19207355003C1290 /* pg_gis_search.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pg_gis_search.h; sourceTree = "<group>"; };
+		1712F9AD19207355003C1290 /* pg_gis_search.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = pg_gis_search.mm; sourceTree = "<group>"; };
+		1712F9AE19207355003C1290 /* pg_map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pg_map.h; sourceTree = "<group>"; };
+		1712F9AF19207355003C1290 /* pg_map.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = pg_map.m; sourceTree = "<group>"; };
+		1712F9B019207355003C1290 /* pg_map_marker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pg_map_marker.h; sourceTree = "<group>"; };
+		1712F9B119207355003C1290 /* pg_map_marker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = pg_map_marker.m; sourceTree = "<group>"; };
+		1712F9B219207355003C1290 /* pg_map_overlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pg_map_overlay.h; sourceTree = "<group>"; };
+		1712F9B319207355003C1290 /* pg_map_overlay.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = pg_map_overlay.mm; sourceTree = "<group>"; };
+		1712F9B419207355003C1290 /* pg_map_view.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pg_map_view.h; sourceTree = "<group>"; };
+		178AF8821B4E6F2A0038D8A0 /* pg_map_view.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = pg_map_view.m; sourceTree = "<group>"; };
+		178E51991B4D101E000F285E /* PGBaiduKeyVerify.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PGBaiduKeyVerify.h; path = ../../BaiduKeyVerify/BaiduKeyVerify/PGBaiduKeyVerify.h; sourceTree = "<group>"; };
+		17F5CF62172797A800356EE5 /* libbmapimp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libbmapimp.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		17F5CF65172797A800356EE5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		2FEBD03F1D33793E002D862B /* BaiduMapAPI_Base.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI_Base.framework; path = ../../Pandora/libs/Universal/BaiduMapAPI_Base.framework; sourceTree = "<group>"; };
+		2FEBD0401D33793E002D862B /* BaiduMapAPI_Location.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI_Location.framework; path = ../../Pandora/libs/Universal/BaiduMapAPI_Location.framework; sourceTree = "<group>"; };
+		2FEBD0411D33793E002D862B /* BaiduMapAPI_Map.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI_Map.framework; path = ../../Pandora/libs/Universal/BaiduMapAPI_Map.framework; sourceTree = "<group>"; };
+		2FEBD0431D33793E002D862B /* BaiduMapAPI_Search.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI_Search.framework; path = ../../Pandora/libs/Universal/BaiduMapAPI_Search.framework; sourceTree = "<group>"; };
+		2FEBD0441D33793E002D862B /* BaiduMapAPI_Utils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI_Utils.framework; path = ../../Pandora/libs/Universal/BaiduMapAPI_Utils.framework; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		17F5CF5F172797A800356EE5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2FEBD0451D33793E002D862B /* BaiduMapAPI_Base.framework in Frameworks */,
+				2FEBD0461D33793E002D862B /* BaiduMapAPI_Location.framework in Frameworks */,
+				2FEBD0471D33793E002D862B /* BaiduMapAPI_Map.framework in Frameworks */,
+				2FEBD0491D33793E002D862B /* BaiduMapAPI_Search.framework in Frameworks */,
+				2FEBD04A1D33793E002D862B /* BaiduMapAPI_Utils.framework in Frameworks */,
+				17F5CF66172797A800356EE5 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1712F94B19207355003C1290 /* bmapimp */ = {
+			isa = PBXGroup;
+			children = (
+				1712F94C19207355003C1290 /* bmapimp-Prefix.pch */,
+				1712F9AA19207355003C1290 /* pg_gis_overlay.h */,
+				1712F9AB19207355003C1290 /* pg_gis_overlay.mm */,
+				1712F9AC19207355003C1290 /* pg_gis_search.h */,
+				1712F9AD19207355003C1290 /* pg_gis_search.mm */,
+				1712F9B019207355003C1290 /* pg_map_marker.h */,
+				1712F9B119207355003C1290 /* pg_map_marker.m */,
+				1712F9B219207355003C1290 /* pg_map_overlay.h */,
+				1712F9B319207355003C1290 /* pg_map_overlay.mm */,
+				1712F9B419207355003C1290 /* pg_map_view.h */,
+				178AF8821B4E6F2A0038D8A0 /* pg_map_view.m */,
+				1712F9AE19207355003C1290 /* pg_map.h */,
+				1712F9AF19207355003C1290 /* pg_map.m */,
+				178E51991B4D101E000F285E /* PGBaiduKeyVerify.h */,
+			);
+			path = bmapimp;
+			sourceTree = "<group>";
+		};
+		17F5CF59172797A800356EE5 = {
+			isa = PBXGroup;
+			children = (
+				1712F94B19207355003C1290 /* bmapimp */,
+				17F5CF64172797A800356EE5 /* Frameworks */,
+				17F5CF63172797A800356EE5 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		17F5CF63172797A800356EE5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				17F5CF62172797A800356EE5 /* libbmapimp.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		17F5CF64172797A800356EE5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2FEBD03F1D33793E002D862B /* BaiduMapAPI_Base.framework */,
+				2FEBD0401D33793E002D862B /* BaiduMapAPI_Location.framework */,
+				2FEBD0411D33793E002D862B /* BaiduMapAPI_Map.framework */,
+				2FEBD0431D33793E002D862B /* BaiduMapAPI_Search.framework */,
+				2FEBD0441D33793E002D862B /* BaiduMapAPI_Utils.framework */,
+				17F5CF65172797A800356EE5 /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		17F5CF61172797A800356EE5 /* bmapimp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 17F5CF70172797A800356EE5 /* Build configuration list for PBXNativeTarget "bmapimp" */;
+			buildPhases = (
+				17F5CF5E172797A800356EE5 /* Sources */,
+				17F5CF5F172797A800356EE5 /* Frameworks */,
+				17F5CF60172797A800356EE5 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = bmapimp;
+			productName = libMap;
+			productReference = 17F5CF62172797A800356EE5 /* libbmapimp.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		17F5CF5A172797A800356EE5 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = DCloud;
+			};
+			buildConfigurationList = 17F5CF5D172797A800356EE5 /* Build configuration list for PBXProject "bmapimp" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 17F5CF59172797A800356EE5;
+			productRefGroup = 17F5CF63172797A800356EE5 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				17F5CF61172797A800356EE5 /* bmapimp */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		17F5CF5E172797A800356EE5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1712F9BB19207355003C1290 /* pg_gis_search.mm in Sources */,
+				1712F9BC19207355003C1290 /* pg_map.m in Sources */,
+				178AF8831B4E6F2A0038D8A0 /* pg_map_view.m in Sources */,
+				1712F9BA19207355003C1290 /* pg_gis_overlay.mm in Sources */,
+				1712F9BD19207355003C1290 /* pg_map_marker.m in Sources */,
+				1712F9BE19207355003C1290 /* pg_map_overlay.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		17F5CF6E172797A800356EE5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		17F5CF6F172797A800356EE5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_BITCODE = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		17F5CF71172797A800356EE5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/libMap.dst;
+				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"<Multiple",
+					"values>",
+					"$(PROJECT_DIR)/../../Pandora/libs/Universal",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "bmapimp/bmapimp-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/Tools",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/Managers",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/MiniServer",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/WebviewEngine",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/bmapimp/libs/Debug-iphoneos",
+					"$(PROJECT_DIR)/bmapimp/libs/Debug-iphonesimulator",
+					"$(PROJECT_DIR)/bmapimp/libs/Release-iphoneos",
+					"$(PROJECT_DIR)/bmapimp/libs/Release-iphonesimulator",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = bmapimp;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		17F5CF72172797A800356EE5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/libMap.dst;
+				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"<Multiple",
+					"values>",
+					"$(PROJECT_DIR)/../../Pandora/libs/Universal",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "bmapimp/bmapimp-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/Tools",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/Managers",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/MiniServer",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/WebviewEngine",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/bmapimp/libs/Debug-iphoneos",
+					"$(PROJECT_DIR)/bmapimp/libs/Debug-iphonesimulator",
+					"$(PROJECT_DIR)/bmapimp/libs/Release-iphoneos",
+					"$(PROJECT_DIR)/bmapimp/libs/Release-iphonesimulator",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = bmapimp;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		17F5CF5D172797A800356EE5 /* Build configuration list for PBXProject "bmapimp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				17F5CF6E172797A800356EE5 /* Debug */,
+				17F5CF6F172797A800356EE5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		17F5CF70172797A800356EE5 /* Build configuration list for PBXNativeTarget "bmapimp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				17F5CF71172797A800356EE5 /* Debug */,
+				17F5CF72172797A800356EE5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 17F5CF5A172797A800356EE5 /* Project object */;
+}

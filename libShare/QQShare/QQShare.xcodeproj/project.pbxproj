@@ -1,0 +1,301 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		175463831AB7D19F00A92C3C /* PGTencentQQShare.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 175463821AB7D19F00A92C3C /* PGTencentQQShare.h */; };
+		175463851AB7D19F00A92C3C /* PGTencentQQShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 175463841AB7D19F00A92C3C /* PGTencentQQShare.m */; };
+		2FEBD02A1D33761B002D862B /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FEBD0291D33761B002D862B /* TencentOpenAPI.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		1754637D1AB7D19F00A92C3C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+				175463831AB7D19F00A92C3C /* PGTencentQQShare.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		1754637F1AB7D19F00A92C3C /* libQQShare.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libQQShare.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		175463821AB7D19F00A92C3C /* PGTencentQQShare.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGTencentQQShare.h; sourceTree = "<group>"; };
+		175463841AB7D19F00A92C3C /* PGTencentQQShare.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGTencentQQShare.m; sourceTree = "<group>"; };
+		2FEBD0291D33761B002D862B /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TencentOpenAPI.framework; path = ../../Pandora/libs/Universal/TencentOpenAPI.framework; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1754637C1AB7D19F00A92C3C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2FEBD02A1D33761B002D862B /* TencentOpenAPI.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		175463761AB7D19F00A92C3C = {
+			isa = PBXGroup;
+			children = (
+				2FEBD0291D33761B002D862B /* TencentOpenAPI.framework */,
+				175463811AB7D19F00A92C3C /* QQShare */,
+				175463801AB7D19F00A92C3C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		175463801AB7D19F00A92C3C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1754637F1AB7D19F00A92C3C /* libQQShare.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		175463811AB7D19F00A92C3C /* QQShare */ = {
+			isa = PBXGroup;
+			children = (
+				175463821AB7D19F00A92C3C /* PGTencentQQShare.h */,
+				175463841AB7D19F00A92C3C /* PGTencentQQShare.m */,
+			);
+			path = QQShare;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1754637E1AB7D19F00A92C3C /* QQShare */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 175463931AB7D19F00A92C3C /* Build configuration list for PBXNativeTarget "QQShare" */;
+			buildPhases = (
+				1754637B1AB7D19F00A92C3C /* Sources */,
+				1754637C1AB7D19F00A92C3C /* Frameworks */,
+				1754637D1AB7D19F00A92C3C /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = QQShare;
+			productName = QQShare;
+			productReference = 1754637F1AB7D19F00A92C3C /* libQQShare.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		175463771AB7D19F00A92C3C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = DCloud;
+				TargetAttributes = {
+					1754637E1AB7D19F00A92C3C = {
+						CreatedOnToolsVersion = 6.2;
+					};
+				};
+			};
+			buildConfigurationList = 1754637A1AB7D19F00A92C3C /* Build configuration list for PBXProject "QQShare" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 175463761AB7D19F00A92C3C;
+			productRefGroup = 175463801AB7D19F00A92C3C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1754637E1AB7D19F00A92C3C /* QQShare */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1754637B1AB7D19F00A92C3C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				175463851AB7D19F00A92C3C /* PGTencentQQShare.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		175463911AB7D19F00A92C3C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/Managers",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/MiniServer",
+					"$(SRCROOT)/../libShare",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		175463921AB7D19F00A92C3C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/Managers",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/MiniServer",
+					"$(SRCROOT)/../libShare",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		175463941AB7D19F00A92C3C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../Pandora/libs/Universal";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/Managers",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/MiniServer",
+					"$(SRCROOT)/../libShare",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/stream",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		175463951AB7D19F00A92C3C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../Pandora/libs/Universal";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/Managers",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/MiniServer",
+					"$(SRCROOT)/../libShare",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/stream",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1754637A1AB7D19F00A92C3C /* Build configuration list for PBXProject "QQShare" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				175463911AB7D19F00A92C3C /* Debug */,
+				175463921AB7D19F00A92C3C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		175463931AB7D19F00A92C3C /* Build configuration list for PBXNativeTarget "QQShare" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				175463941AB7D19F00A92C3C /* Debug */,
+				175463951AB7D19F00A92C3C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 175463771AB7D19F00A92C3C /* Project object */;
+}

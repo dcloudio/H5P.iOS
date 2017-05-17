@@ -1,0 +1,267 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1712F9CB19209FC7003C1290 /* PGMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 1712F9CA19209FC7003C1290 /* PGMap.m */; };
+		17F5CF66172797A800356EE5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17F5CF65172797A800356EE5 /* Foundation.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		17F5CF60172797A800356EE5 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		1712F9C919209FC7003C1290 /* PGMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGMap.h; sourceTree = "<group>"; };
+		1712F9CA19209FC7003C1290 /* PGMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGMap.m; sourceTree = "<group>"; };
+		17F5CF62172797A800356EE5 /* liblibMap.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibMap.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		17F5CF65172797A800356EE5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		17F5CF69172797A800356EE5 /* libMap-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "libMap-Prefix.pch"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		17F5CF5F172797A800356EE5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				17F5CF66172797A800356EE5 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		17F5CF59172797A800356EE5 = {
+			isa = PBXGroup;
+			children = (
+				17F5CF67172797A800356EE5 /* libMap */,
+				17F5CF64172797A800356EE5 /* Frameworks */,
+				17F5CF63172797A800356EE5 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		17F5CF63172797A800356EE5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				17F5CF62172797A800356EE5 /* liblibMap.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		17F5CF64172797A800356EE5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				17F5CF65172797A800356EE5 /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		17F5CF67172797A800356EE5 /* libMap */ = {
+			isa = PBXGroup;
+			children = (
+				17F5CF68172797A800356EE5 /* Supporting Files */,
+				1712F9C919209FC7003C1290 /* PGMap.h */,
+				1712F9CA19209FC7003C1290 /* PGMap.m */,
+			);
+			path = libMap;
+			sourceTree = "<group>";
+		};
+		17F5CF68172797A800356EE5 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				17F5CF69172797A800356EE5 /* libMap-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		17F5CF61172797A800356EE5 /* libMap */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 17F5CF70172797A800356EE5 /* Build configuration list for PBXNativeTarget "libMap" */;
+			buildPhases = (
+				17F5CF5E172797A800356EE5 /* Sources */,
+				17F5CF5F172797A800356EE5 /* Frameworks */,
+				17F5CF60172797A800356EE5 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = libMap;
+			productName = libMap;
+			productReference = 17F5CF62172797A800356EE5 /* liblibMap.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		17F5CF5A172797A800356EE5 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = DCloud;
+			};
+			buildConfigurationList = 17F5CF5D172797A800356EE5 /* Build configuration list for PBXProject "libMap" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 17F5CF59172797A800356EE5;
+			productRefGroup = 17F5CF63172797A800356EE5 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				17F5CF61172797A800356EE5 /* libMap */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		17F5CF5E172797A800356EE5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1712F9CB19209FC7003C1290 /* PGMap.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		17F5CF6E172797A800356EE5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		17F5CF6F172797A800356EE5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_BITCODE = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		17F5CF71172797A800356EE5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/libMap.dst;
+				ENABLE_BITCODE = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "libMap/libMap-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Tools",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Managers",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/MiniServer",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		17F5CF72172797A800356EE5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/libMap.dst;
+				ENABLE_BITCODE = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "libMap/libMap-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Tools",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Managers",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/MiniServer",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		17F5CF5D172797A800356EE5 /* Build configuration list for PBXProject "libMap" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				17F5CF6E172797A800356EE5 /* Debug */,
+				17F5CF6F172797A800356EE5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		17F5CF70172797A800356EE5 /* Build configuration list for PBXNativeTarget "libMap" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				17F5CF71172797A800356EE5 /* Debug */,
+				17F5CF72172797A800356EE5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 17F5CF5A172797A800356EE5 /* Project object */;
+}

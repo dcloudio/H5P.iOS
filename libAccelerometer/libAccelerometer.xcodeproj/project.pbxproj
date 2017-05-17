@@ -1,0 +1,261 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		17F56BFB1727B31000BD93C7 /* PGAccelerometer.m in Sources */ = {isa = PBXBuildFile; fileRef = 17F56BFA1727B31000BD93C7 /* PGAccelerometer.m */; };
+		17F5CDC61727958300356EE5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17F5CDC51727958300356EE5 /* Foundation.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		17F5CDC01727958300356EE5 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		17F56BF91727B31000BD93C7 /* PGAccelerometer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGAccelerometer.h; sourceTree = "<group>"; };
+		17F56BFA1727B31000BD93C7 /* PGAccelerometer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGAccelerometer.m; sourceTree = "<group>"; };
+		17F5CDC21727958300356EE5 /* liblibAccelerometer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibAccelerometer.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		17F5CDC51727958300356EE5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		17F5CDC91727958300356EE5 /* libAccelerometer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "libAccelerometer-Prefix.pch"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		17F5CDBF1727958300356EE5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				17F5CDC61727958300356EE5 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		17F5CDB91727958300356EE5 = {
+			isa = PBXGroup;
+			children = (
+				17F5CDC71727958300356EE5 /* libAccelerometer */,
+				17F5CDC41727958300356EE5 /* Frameworks */,
+				17F5CDC31727958300356EE5 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		17F5CDC31727958300356EE5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				17F5CDC21727958300356EE5 /* liblibAccelerometer.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		17F5CDC41727958300356EE5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				17F5CDC51727958300356EE5 /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		17F5CDC71727958300356EE5 /* libAccelerometer */ = {
+			isa = PBXGroup;
+			children = (
+				17F56BF91727B31000BD93C7 /* PGAccelerometer.h */,
+				17F56BFA1727B31000BD93C7 /* PGAccelerometer.m */,
+				17F5CDC81727958300356EE5 /* Supporting Files */,
+			);
+			path = libAccelerometer;
+			sourceTree = "<group>";
+		};
+		17F5CDC81727958300356EE5 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				17F5CDC91727958300356EE5 /* libAccelerometer-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		17F5CDC11727958300356EE5 /* libAccelerometer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 17F5CDD01727958300356EE5 /* Build configuration list for PBXNativeTarget "libAccelerometer" */;
+			buildPhases = (
+				17F5CDBE1727958300356EE5 /* Sources */,
+				17F5CDBF1727958300356EE5 /* Frameworks */,
+				17F5CDC01727958300356EE5 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = libAccelerometer;
+			productName = libAccelerometer;
+			productReference = 17F5CDC21727958300356EE5 /* liblibAccelerometer.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		17F5CDBA1727958300356EE5 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = DCloud;
+			};
+			buildConfigurationList = 17F5CDBD1727958300356EE5 /* Build configuration list for PBXProject "libAccelerometer" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 17F5CDB91727958300356EE5;
+			productRefGroup = 17F5CDC31727958300356EE5 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				17F5CDC11727958300356EE5 /* libAccelerometer */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		17F5CDBE1727958300356EE5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				17F56BFB1727B31000BD93C7 /* PGAccelerometer.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		17F5CDCE1727958300356EE5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		17F5CDCF1727958300356EE5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_BITCODE = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		17F5CDD11727958300356EE5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/libAccelerometer.dst;
+				ENABLE_BITCODE = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "libAccelerometer/libAccelerometer-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Tools",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		17F5CDD21727958300356EE5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/libAccelerometer.dst;
+				ENABLE_BITCODE = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "libAccelerometer/libAccelerometer-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Tools",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		17F5CDBD1727958300356EE5 /* Build configuration list for PBXProject "libAccelerometer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				17F5CDCE1727958300356EE5 /* Debug */,
+				17F5CDCF1727958300356EE5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		17F5CDD01727958300356EE5 /* Build configuration list for PBXNativeTarget "libAccelerometer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				17F5CDD11727958300356EE5 /* Debug */,
+				17F5CDD21727958300356EE5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 17F5CDBA1727958300356EE5 /* Project object */;
+}

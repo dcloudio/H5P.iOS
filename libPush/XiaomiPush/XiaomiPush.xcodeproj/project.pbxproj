@@ -1,0 +1,285 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2485FE0E1DDEDFE80068EC4C /* PGPushServerAct.m in Sources */ = {isa = PBXBuildFile; fileRef = 2485FE0B1DDEDFE80068EC4C /* PGPushServerAct.m */; };
+		2485FE0F1DDEDFE80068EC4C /* PGPushActualize.m in Sources */ = {isa = PBXBuildFile; fileRef = 2485FE0D1DDEDFE80068EC4C /* PGPushActualize.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2485FDFC1DDEDF770068EC4C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		24381EFF1DED33200040677F /* MiPushSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MiPushSDK.h; path = ../../../Pandora/inc/XiaoMiPush/MiPushSDK.h; sourceTree = "<group>"; };
+		2485FDFE1DDEDF770068EC4C /* libXiaomiPush.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libXiaomiPush.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		2485FE0B1DDEDFE80068EC4C /* PGPushServerAct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGPushServerAct.m; sourceTree = "<group>"; };
+		2485FE0C1DDEDFE80068EC4C /* PGPushActualize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGPushActualize.h; sourceTree = "<group>"; };
+		2485FE0D1DDEDFE80068EC4C /* PGPushActualize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGPushActualize.m; sourceTree = "<group>"; };
+		24BEBE151DE6E190001CBA34 /* PGPushServerAct.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGPushServerAct.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2485FDFB1DDEDF770068EC4C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2485FDF51DDEDF770068EC4C = {
+			isa = PBXGroup;
+			children = (
+				2485FE001DDEDF770068EC4C /* XiaomiPush */,
+				2485FDFF1DDEDF770068EC4C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2485FDFF1DDEDF770068EC4C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2485FDFE1DDEDF770068EC4C /* libXiaomiPush.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2485FE001DDEDF770068EC4C /* XiaomiPush */ = {
+			isa = PBXGroup;
+			children = (
+				24381EFF1DED33200040677F /* MiPushSDK.h */,
+				24BEBE151DE6E190001CBA34 /* PGPushServerAct.h */,
+				2485FE0B1DDEDFE80068EC4C /* PGPushServerAct.m */,
+				2485FE0C1DDEDFE80068EC4C /* PGPushActualize.h */,
+				2485FE0D1DDEDFE80068EC4C /* PGPushActualize.m */,
+			);
+			path = XiaomiPush;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2485FDFD1DDEDF770068EC4C /* XiaomiPush */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2485FE071DDEDF770068EC4C /* Build configuration list for PBXNativeTarget "XiaomiPush" */;
+			buildPhases = (
+				2485FDFA1DDEDF770068EC4C /* Sources */,
+				2485FDFB1DDEDF770068EC4C /* Frameworks */,
+				2485FDFC1DDEDF770068EC4C /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = XiaomiPush;
+			productName = XiaomiPush;
+			productReference = 2485FDFE1DDEDF770068EC4C /* libXiaomiPush.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2485FDF61DDEDF770068EC4C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0810;
+				ORGANIZATIONNAME = EICAPITAN;
+				TargetAttributes = {
+					2485FDFD1DDEDF770068EC4C = {
+						CreatedOnToolsVersion = 8.1;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 2485FDF91DDEDF770068EC4C /* Build configuration list for PBXProject "XiaomiPush" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 2485FDF51DDEDF770068EC4C;
+			productRefGroup = 2485FDFF1DDEDF770068EC4C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2485FDFD1DDEDF770068EC4C /* XiaomiPush */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2485FDFA1DDEDF770068EC4C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2485FE0F1DDEDFE80068EC4C /* PGPushActualize.m in Sources */,
+				2485FE0E1DDEDFE80068EC4C /* PGPushServerAct.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		2485FE051DDEDF770068EC4C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		2485FE061DDEDF770068EC4C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2485FE081DDEDF770068EC4C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../libPush\"",
+					"\"$(SRCROOT)/../../libPDRCore/libPDRCore\"/**",
+					"\"$(SRCROOT)/../../libPush/libPush\"",
+					"\"$(SRCROOT)/../../Pandora/inc/XiaoMiPush\"",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		2485FE091DDEDF770068EC4C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../libPush\"",
+					"\"$(SRCROOT)/../../libPDRCore/libPDRCore\"/**",
+					"\"$(SRCROOT)/../../libPush/libPush\"",
+					"\"$(SRCROOT)/../../Pandora/inc/XiaoMiPush\"",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2485FDF91DDEDF770068EC4C /* Build configuration list for PBXProject "XiaomiPush" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2485FE051DDEDF770068EC4C /* Debug */,
+				2485FE061DDEDF770068EC4C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2485FE071DDEDF770068EC4C /* Build configuration list for PBXNativeTarget "XiaomiPush" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2485FE081DDEDF770068EC4C /* Debug */,
+				2485FE091DDEDF770068EC4C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2485FDF61DDEDF770068EC4C /* Project object */;
+}

@@ -1,0 +1,300 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		176C092B182746F5008683DC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 176C092A182746F5008683DC /* Foundation.framework */; };
+		176C09521827487D008683DC /* PGWXShare.mm in Sources */ = {isa = PBXBuildFile; fileRef = 176C094C1827487D008683DC /* PGWXShare.mm */; };
+		176C09531827487D008683DC /* WXEngine.mm in Sources */ = {isa = PBXBuildFile; fileRef = 176C09511827487D008683DC /* WXEngine.mm */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		176C0925182746F4008683DC /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		176C0927182746F4008683DC /* libweixinShare.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libweixinShare.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		176C092A182746F5008683DC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		176C092E182746F5008683DC /* weixinShare-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "weixinShare-Prefix.pch"; sourceTree = "<group>"; };
+		176C094B1827487D008683DC /* PGWXShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGWXShare.h; sourceTree = "<group>"; };
+		176C094C1827487D008683DC /* PGWXShare.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PGWXShare.mm; sourceTree = "<group>"; };
+		176C09501827487D008683DC /* WXEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXEngine.h; sourceTree = "<group>"; };
+		176C09511827487D008683DC /* WXEngine.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WXEngine.mm; sourceTree = "<group>"; };
+		2FACF5911CEED2DC0072B954 /* WechatAuthSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WechatAuthSDK.h; sourceTree = "<group>"; };
+		2FACF5921CEED2DC0072B954 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
+		2FACF5931CEED2DC0072B954 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		176C0924182746F4008683DC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				176C092B182746F5008683DC /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		176C091E182746F4008683DC = {
+			isa = PBXGroup;
+			children = (
+				176C092C182746F5008683DC /* weixinShare */,
+				176C0929182746F4008683DC /* Frameworks */,
+				176C0928182746F4008683DC /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		176C0928182746F4008683DC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				176C0927182746F4008683DC /* libweixinShare.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		176C0929182746F4008683DC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				176C092A182746F5008683DC /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		176C092C182746F5008683DC /* weixinShare */ = {
+			isa = PBXGroup;
+			children = (
+				2FACF5901CEED2DC0072B954 /* weixin */,
+				176C094B1827487D008683DC /* PGWXShare.h */,
+				176C094C1827487D008683DC /* PGWXShare.mm */,
+				176C09501827487D008683DC /* WXEngine.h */,
+				176C09511827487D008683DC /* WXEngine.mm */,
+				176C092D182746F5008683DC /* Supporting Files */,
+			);
+			path = weixinShare;
+			sourceTree = "<group>";
+		};
+		176C092D182746F5008683DC /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				176C092E182746F5008683DC /* weixinShare-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		2FACF5901CEED2DC0072B954 /* weixin */ = {
+			isa = PBXGroup;
+			children = (
+				2FACF5911CEED2DC0072B954 /* WechatAuthSDK.h */,
+				2FACF5921CEED2DC0072B954 /* WXApi.h */,
+				2FACF5931CEED2DC0072B954 /* WXApiObject.h */,
+			);
+			name = weixin;
+			path = ../../../Pandora/inc/weixin;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		176C0926182746F4008683DC /* weixinShare */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 176C0935182746F5008683DC /* Build configuration list for PBXNativeTarget "weixinShare" */;
+			buildPhases = (
+				176C0923182746F4008683DC /* Sources */,
+				176C0924182746F4008683DC /* Frameworks */,
+				176C0925182746F4008683DC /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = weixinShare;
+			productName = weixinShare;
+			productReference = 176C0927182746F4008683DC /* libweixinShare.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		176C091F182746F4008683DC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = DCloud;
+			};
+			buildConfigurationList = 176C0922182746F4008683DC /* Build configuration list for PBXProject "weixinShare" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 176C091E182746F4008683DC;
+			productRefGroup = 176C0928182746F4008683DC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				176C0926182746F4008683DC /* weixinShare */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		176C0923182746F4008683DC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				176C09521827487D008683DC /* PGWXShare.mm in Sources */,
+				176C09531827487D008683DC /* WXEngine.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		176C0933182746F5008683DC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		176C0934182746F5008683DC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_BITCODE = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		176C0936182746F5008683DC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/weixinShare.dst;
+				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "weixinShare/weixinShare-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/Managers",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/MiniServer",
+					"$(SRCROOT)/../libShare/SBJSON",
+					"$(SRCROOT)/../libShare/SFHFKeychainUtils",
+					"$(SRCROOT)/../libShare/tool",
+					"$(SRCROOT)/../libShare",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		176C0937182746F5008683DC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/weixinShare.dst;
+				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "weixinShare/weixinShare-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/Managers",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/MiniServer",
+					"$(SRCROOT)/../libShare/SBJSON",
+					"$(SRCROOT)/../libShare/SFHFKeychainUtils",
+					"$(SRCROOT)/../libShare/tool",
+					"$(SRCROOT)/../libShare",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		176C0922182746F4008683DC /* Build configuration list for PBXProject "weixinShare" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				176C0933182746F5008683DC /* Debug */,
+				176C0934182746F5008683DC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		176C0935182746F5008683DC /* Build configuration list for PBXNativeTarget "weixinShare" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				176C0936182746F5008683DC /* Debug */,
+				176C0937182746F5008683DC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 176C091F182746F4008683DC /* Project object */;
+}

@@ -1,0 +1,292 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1713AD4E1A3AC183005D1FEE /* PGWXPay.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1713AD4D1A3AC183005D1FEE /* PGWXPay.h */; };
+		1713AD501A3AC183005D1FEE /* PGWXPay.m in Sources */ = {isa = PBXBuildFile; fileRef = 1713AD4F1A3AC183005D1FEE /* PGWXPay.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		1713AD481A3AC182005D1FEE /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+				1713AD4E1A3AC183005D1FEE /* PGWXPay.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		1713AD4A1A3AC182005D1FEE /* libwxpay.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libwxpay.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		1713AD4D1A3AC183005D1FEE /* PGWXPay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGWXPay.h; sourceTree = "<group>"; };
+		1713AD4F1A3AC183005D1FEE /* PGWXPay.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGWXPay.m; sourceTree = "<group>"; };
+		2FACF5891CEED2A70072B954 /* WechatAuthSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WechatAuthSDK.h; sourceTree = "<group>"; };
+		2FACF58A1CEED2A70072B954 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
+		2FACF58B1CEED2A70072B954 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1713AD471A3AC182005D1FEE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1713AD411A3AC182005D1FEE = {
+			isa = PBXGroup;
+			children = (
+				1713AD4C1A3AC183005D1FEE /* wxpay */,
+				1713AD4B1A3AC182005D1FEE /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1713AD4B1A3AC182005D1FEE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1713AD4A1A3AC182005D1FEE /* libwxpay.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1713AD4C1A3AC183005D1FEE /* wxpay */ = {
+			isa = PBXGroup;
+			children = (
+				2FACF5881CEED2A70072B954 /* weixin */,
+				1713AD4D1A3AC183005D1FEE /* PGWXPay.h */,
+				1713AD4F1A3AC183005D1FEE /* PGWXPay.m */,
+			);
+			path = wxpay;
+			sourceTree = "<group>";
+		};
+		2FACF5881CEED2A70072B954 /* weixin */ = {
+			isa = PBXGroup;
+			children = (
+				2FACF5891CEED2A70072B954 /* WechatAuthSDK.h */,
+				2FACF58A1CEED2A70072B954 /* WXApi.h */,
+				2FACF58B1CEED2A70072B954 /* WXApiObject.h */,
+			);
+			name = weixin;
+			path = ../../../Pandora/inc/weixin;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1713AD491A3AC182005D1FEE /* wxpay */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1713AD5E1A3AC183005D1FEE /* Build configuration list for PBXNativeTarget "wxpay" */;
+			buildPhases = (
+				1713AD461A3AC182005D1FEE /* Sources */,
+				1713AD471A3AC182005D1FEE /* Frameworks */,
+				1713AD481A3AC182005D1FEE /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = wxpay;
+			productName = wxpay;
+			productReference = 1713AD4A1A3AC182005D1FEE /* libwxpay.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1713AD421A3AC182005D1FEE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = DCloud;
+				TargetAttributes = {
+					1713AD491A3AC182005D1FEE = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+				};
+			};
+			buildConfigurationList = 1713AD451A3AC182005D1FEE /* Build configuration list for PBXProject "wxpay" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 1713AD411A3AC182005D1FEE;
+			productRefGroup = 1713AD4B1A3AC182005D1FEE /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1713AD491A3AC182005D1FEE /* wxpay */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1713AD461A3AC182005D1FEE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1713AD501A3AC183005D1FEE /* PGWXPay.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1713AD5C1A3AC183005D1FEE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		1713AD5D1A3AC183005D1FEE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_BITCODE = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		1713AD5F1A3AC183005D1FEE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				ENABLE_BITCODE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/Managers",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/MiniServer",
+					"$(SRCROOT)/../libPayment",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools/json",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		1713AD601A3AC183005D1FEE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				ENABLE_BITCODE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/Managers",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/MiniServer",
+					"$(SRCROOT)/../libPayment",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools/json",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1713AD451A3AC182005D1FEE /* Build configuration list for PBXProject "wxpay" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1713AD5C1A3AC183005D1FEE /* Debug */,
+				1713AD5D1A3AC183005D1FEE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1713AD5E1A3AC183005D1FEE /* Build configuration list for PBXNativeTarget "wxpay" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1713AD5F1A3AC183005D1FEE /* Debug */,
+				1713AD601A3AC183005D1FEE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1713AD421A3AC182005D1FEE /* Project object */;
+}

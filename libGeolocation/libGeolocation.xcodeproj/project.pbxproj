@@ -1,0 +1,291 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		178DB5D91B453229009DB0BF /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 178DB5D81B453229009DB0BF /* CoreLocation.framework */; };
+		17F56BF81727B25400BD93C7 /* PGGeolocation.mm in Sources */ = {isa = PBXBuildFile; fileRef = 17F56BF71727B25400BD93C7 /* PGGeolocation.mm */; };
+		17F5CE06172795C900356EE5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17F5CE05172795C900356EE5 /* Foundation.framework */; };
+		2FEBD02F1D337646002D862B /* BaiduMapAPI_Base.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FEBD02B1D337646002D862B /* BaiduMapAPI_Base.framework */; };
+		2FEBD0301D337646002D862B /* BaiduMapAPI_Location.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FEBD02C1D337646002D862B /* BaiduMapAPI_Location.framework */; };
+		2FEBD0311D337646002D862B /* BaiduMapAPI_Search.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FEBD02D1D337646002D862B /* BaiduMapAPI_Search.framework */; };
+		2FEBD0321D337646002D862B /* BaiduMapAPI_Utils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FEBD02E1D337646002D862B /* BaiduMapAPI_Utils.framework */; };
+		8E41ACF51B5514A700524173 /* PGLocationSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E41ACF31B5514A700524173 /* PGLocationSystem.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		17F5CE00172795C900356EE5 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		178DB5D81B453229009DB0BF /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		17915DC71B4A1F3200BC1AA5 /* PGGeolocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGGeolocation.h; sourceTree = "<group>"; };
+		17F56BF71727B25400BD93C7 /* PGGeolocation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PGGeolocation.mm; sourceTree = "<group>"; };
+		17F5CE02172795C900356EE5 /* liblibGeolocation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibGeolocation.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		17F5CE05172795C900356EE5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		17F5CE09172795C900356EE5 /* libGeolocation-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "libGeolocation-Prefix.pch"; sourceTree = "<group>"; };
+		2FEBD02B1D337646002D862B /* BaiduMapAPI_Base.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI_Base.framework; path = ../Pandora/libs/Universal/BaiduMapAPI_Base.framework; sourceTree = "<group>"; };
+		2FEBD02C1D337646002D862B /* BaiduMapAPI_Location.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI_Location.framework; path = ../Pandora/libs/Universal/BaiduMapAPI_Location.framework; sourceTree = "<group>"; };
+		2FEBD02D1D337646002D862B /* BaiduMapAPI_Search.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI_Search.framework; path = ../Pandora/libs/Universal/BaiduMapAPI_Search.framework; sourceTree = "<group>"; };
+		2FEBD02E1D337646002D862B /* BaiduMapAPI_Utils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI_Utils.framework; path = ../Pandora/libs/Universal/BaiduMapAPI_Utils.framework; sourceTree = "<group>"; };
+		8E41ACF21B5514A700524173 /* PGLocationSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGLocationSystem.h; sourceTree = "<group>"; };
+		8E41ACF31B5514A700524173 /* PGLocationSystem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGLocationSystem.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		17F5CDFF172795C900356EE5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2FEBD02F1D337646002D862B /* BaiduMapAPI_Base.framework in Frameworks */,
+				2FEBD0301D337646002D862B /* BaiduMapAPI_Location.framework in Frameworks */,
+				2FEBD0311D337646002D862B /* BaiduMapAPI_Search.framework in Frameworks */,
+				2FEBD0321D337646002D862B /* BaiduMapAPI_Utils.framework in Frameworks */,
+				178DB5D91B453229009DB0BF /* CoreLocation.framework in Frameworks */,
+				17F5CE06172795C900356EE5 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		17F5CDF9172795C900356EE5 = {
+			isa = PBXGroup;
+			children = (
+				17F5CE07172795C900356EE5 /* libGeolocation */,
+				17F5CE04172795C900356EE5 /* Frameworks */,
+				17F5CE03172795C900356EE5 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		17F5CE03172795C900356EE5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				17F5CE02172795C900356EE5 /* liblibGeolocation.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		17F5CE04172795C900356EE5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2FEBD02B1D337646002D862B /* BaiduMapAPI_Base.framework */,
+				2FEBD02C1D337646002D862B /* BaiduMapAPI_Location.framework */,
+				2FEBD02D1D337646002D862B /* BaiduMapAPI_Search.framework */,
+				2FEBD02E1D337646002D862B /* BaiduMapAPI_Utils.framework */,
+				178DB5D81B453229009DB0BF /* CoreLocation.framework */,
+				17F5CE05172795C900356EE5 /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		17F5CE07172795C900356EE5 /* libGeolocation */ = {
+			isa = PBXGroup;
+			children = (
+				8E41ACF21B5514A700524173 /* PGLocationSystem.h */,
+				8E41ACF31B5514A700524173 /* PGLocationSystem.m */,
+				17915DC71B4A1F3200BC1AA5 /* PGGeolocation.h */,
+				17F56BF71727B25400BD93C7 /* PGGeolocation.mm */,
+				17F5CE08172795C900356EE5 /* Supporting Files */,
+			);
+			path = libGeolocation;
+			sourceTree = "<group>";
+		};
+		17F5CE08172795C900356EE5 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				17F5CE09172795C900356EE5 /* libGeolocation-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		17F5CE01172795C900356EE5 /* libGeolocation */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 17F5CE10172795C900356EE5 /* Build configuration list for PBXNativeTarget "libGeolocation" */;
+			buildPhases = (
+				17F5CDFE172795C900356EE5 /* Sources */,
+				17F5CDFF172795C900356EE5 /* Frameworks */,
+				17F5CE00172795C900356EE5 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = libGeolocation;
+			productName = libGeolocation;
+			productReference = 17F5CE02172795C900356EE5 /* liblibGeolocation.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		17F5CDFA172795C900356EE5 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = DCloud;
+			};
+			buildConfigurationList = 17F5CDFD172795C900356EE5 /* Build configuration list for PBXProject "libGeolocation" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 17F5CDF9172795C900356EE5;
+			productRefGroup = 17F5CE03172795C900356EE5 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				17F5CE01172795C900356EE5 /* libGeolocation */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		17F5CDFE172795C900356EE5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				17F56BF81727B25400BD93C7 /* PGGeolocation.mm in Sources */,
+				8E41ACF51B5514A700524173 /* PGLocationSystem.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		17F5CE0E172795C900356EE5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		17F5CE0F172795C900356EE5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_BITCODE = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		17F5CE11172795C900356EE5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/libGeolocation.dst;
+				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../Pandora/libs/Universal";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "libGeolocation/libGeolocation-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Tools",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Managers",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		17F5CE12172795C900356EE5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/libGeolocation.dst;
+				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../Pandora/libs/Universal";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "libGeolocation/libGeolocation-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Tools",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Managers",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		17F5CDFD172795C900356EE5 /* Build configuration list for PBXProject "libGeolocation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				17F5CE0E172795C900356EE5 /* Debug */,
+				17F5CE0F172795C900356EE5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		17F5CE10172795C900356EE5 /* Build configuration list for PBXNativeTarget "libGeolocation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				17F5CE11172795C900356EE5 /* Debug */,
+				17F5CE12172795C900356EE5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 17F5CDFA172795C900356EE5 /* Project object */;
+}

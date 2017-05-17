@@ -1,0 +1,320 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		174416BE1B0995FD00E11882 /* SWBEngine.mm in Sources */ = {isa = PBXBuildFile; fileRef = 174416BC1B0995FD00E11882 /* SWBEngine.mm */; };
+		176C0911182746DB008683DC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 176C0910182746DB008683DC /* Foundation.framework */; };
+		176C0946182747FE008683DC /* PGSinaAuthView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 176C0939182747FE008683DC /* PGSinaAuthView.mm */; };
+		176C0947182747FE008683DC /* PGSinaShare.mm in Sources */ = {isa = PBXBuildFile; fileRef = 176C093B182747FE008683DC /* PGSinaShare.mm */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		176C090B182746DB008683DC /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		174416BB1B0995FD00E11882 /* SWBEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWBEngine.h; sourceTree = "<group>"; };
+		174416BC1B0995FD00E11882 /* SWBEngine.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SWBEngine.mm; sourceTree = "<group>"; };
+		176C090D182746DB008683DC /* libSinaShare.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSinaShare.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		176C0910182746DB008683DC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		176C0914182746DB008683DC /* SinaShare-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SinaShare-Prefix.pch"; sourceTree = "<group>"; };
+		176C0938182747FE008683DC /* PGSinaAuthView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSinaAuthView.h; sourceTree = "<group>"; };
+		176C0939182747FE008683DC /* PGSinaAuthView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PGSinaAuthView.mm; sourceTree = "<group>"; };
+		176C093A182747FE008683DC /* PGSinaShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSinaShare.h; sourceTree = "<group>"; };
+		176C093B182747FE008683DC /* PGSinaShare.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PGSinaShare.mm; sourceTree = "<group>"; };
+		2FEBD01E1D337602002D862B /* WBHttpRequest+WeiboGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WBHttpRequest+WeiboGame.h"; sourceTree = "<group>"; };
+		2FEBD01F1D337602002D862B /* WBHttpRequest+WeiboShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WBHttpRequest+WeiboShare.h"; sourceTree = "<group>"; };
+		2FEBD0201D337602002D862B /* WBHttpRequest+WeiboToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WBHttpRequest+WeiboToken.h"; sourceTree = "<group>"; };
+		2FEBD0211D337602002D862B /* WBHttpRequest+WeiboUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WBHttpRequest+WeiboUser.h"; sourceTree = "<group>"; };
+		2FEBD0221D337602002D862B /* WBHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBHttpRequest.h; sourceTree = "<group>"; };
+		2FEBD0231D337602002D862B /* WBSDKBasicButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSDKBasicButton.h; sourceTree = "<group>"; };
+		2FEBD0241D337602002D862B /* WBSDKCommentButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSDKCommentButton.h; sourceTree = "<group>"; };
+		2FEBD0251D337602002D862B /* WBSDKRelationshipButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSDKRelationshipButton.h; sourceTree = "<group>"; };
+		2FEBD0261D337602002D862B /* WeiboSDK+Statistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WeiboSDK+Statistics.h"; sourceTree = "<group>"; };
+		2FEBD0271D337602002D862B /* WeiboSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiboSDK.h; sourceTree = "<group>"; };
+		2FEBD0281D337602002D862B /* WeiboUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiboUser.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		176C090A182746DB008683DC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				176C0911182746DB008683DC /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		176C0904182746DB008683DC = {
+			isa = PBXGroup;
+			children = (
+				176C0912182746DB008683DC /* SinaShare */,
+				176C090F182746DB008683DC /* Frameworks */,
+				176C090E182746DB008683DC /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		176C090E182746DB008683DC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				176C090D182746DB008683DC /* libSinaShare.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		176C090F182746DB008683DC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				176C0910182746DB008683DC /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		176C0912182746DB008683DC /* SinaShare */ = {
+			isa = PBXGroup;
+			children = (
+				2FEBD01D1D337602002D862B /* weibo */,
+				174416BB1B0995FD00E11882 /* SWBEngine.h */,
+				174416BC1B0995FD00E11882 /* SWBEngine.mm */,
+				176C0938182747FE008683DC /* PGSinaAuthView.h */,
+				176C0939182747FE008683DC /* PGSinaAuthView.mm */,
+				176C093A182747FE008683DC /* PGSinaShare.h */,
+				176C093B182747FE008683DC /* PGSinaShare.mm */,
+				176C0913182746DB008683DC /* Supporting Files */,
+			);
+			path = SinaShare;
+			sourceTree = "<group>";
+		};
+		176C0913182746DB008683DC /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				176C0914182746DB008683DC /* SinaShare-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		2FEBD01D1D337602002D862B /* weibo */ = {
+			isa = PBXGroup;
+			children = (
+				2FEBD01E1D337602002D862B /* WBHttpRequest+WeiboGame.h */,
+				2FEBD01F1D337602002D862B /* WBHttpRequest+WeiboShare.h */,
+				2FEBD0201D337602002D862B /* WBHttpRequest+WeiboToken.h */,
+				2FEBD0211D337602002D862B /* WBHttpRequest+WeiboUser.h */,
+				2FEBD0221D337602002D862B /* WBHttpRequest.h */,
+				2FEBD0231D337602002D862B /* WBSDKBasicButton.h */,
+				2FEBD0241D337602002D862B /* WBSDKCommentButton.h */,
+				2FEBD0251D337602002D862B /* WBSDKRelationshipButton.h */,
+				2FEBD0261D337602002D862B /* WeiboSDK+Statistics.h */,
+				2FEBD0271D337602002D862B /* WeiboSDK.h */,
+				2FEBD0281D337602002D862B /* WeiboUser.h */,
+			);
+			name = weibo;
+			path = ../../../Pandora/inc/weibo;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		176C090C182746DB008683DC /* SinaShare */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 176C091B182746DB008683DC /* Build configuration list for PBXNativeTarget "SinaShare" */;
+			buildPhases = (
+				176C0909182746DB008683DC /* Sources */,
+				176C090A182746DB008683DC /* Frameworks */,
+				176C090B182746DB008683DC /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SinaShare;
+			productName = SinaShare;
+			productReference = 176C090D182746DB008683DC /* libSinaShare.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		176C0905182746DB008683DC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = DCloud;
+			};
+			buildConfigurationList = 176C0908182746DB008683DC /* Build configuration list for PBXProject "SinaShare" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 176C0904182746DB008683DC;
+			productRefGroup = 176C090E182746DB008683DC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				176C090C182746DB008683DC /* SinaShare */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		176C0909182746DB008683DC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				176C0946182747FE008683DC /* PGSinaAuthView.mm in Sources */,
+				176C0947182747FE008683DC /* PGSinaShare.mm in Sources */,
+				174416BE1B0995FD00E11882 /* SWBEngine.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		176C0919182746DB008683DC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		176C091A182746DB008683DC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_BITCODE = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		176C091C182746DB008683DC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/SinaShare.dst;
+				ENABLE_BITCODE = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SinaShare/SinaShare-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/Managers",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/MiniServer",
+					"$(SRCROOT)/../libShare/SBJSON",
+					"$(SRCROOT)/../libShare/SFHFKeychainUtils",
+					"$(SRCROOT)/../libShare/tool",
+					"$(SRCROOT)/../libShare",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools/json",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		176C091D182746DB008683DC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/SinaShare.dst;
+				ENABLE_BITCODE = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SinaShare/SinaShare-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/Managers",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/MiniServer",
+					"$(SRCROOT)/../libShare/SBJSON",
+					"$(SRCROOT)/../libShare/SFHFKeychainUtils",
+					"$(SRCROOT)/../libShare/tool",
+					"$(SRCROOT)/../libShare",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools/json",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		176C0908182746DB008683DC /* Build configuration list for PBXProject "SinaShare" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				176C0919182746DB008683DC /* Debug */,
+				176C091A182746DB008683DC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		176C091B182746DB008683DC /* Build configuration list for PBXNativeTarget "SinaShare" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				176C091C182746DB008683DC /* Debug */,
+				176C091D182746DB008683DC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 176C0905182746DB008683DC /* Project object */;
+}

@@ -1,0 +1,283 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		176C08D01827438E008683DC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 176C08CF1827438E008683DC /* Foundation.framework */; };
+		176C08E91827446F008683DC /* PGAlixPay.mm in Sources */ = {isa = PBXBuildFile; fileRef = 176C08E81827446F008683DC /* PGAlixPay.mm */; };
+		2F41D4AC1E0D19B100046E1E /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F41D4AB1E0D19B100046E1E /* AlipaySDK.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		176C08CA1827438E008683DC /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		176C08CC1827438E008683DC /* libalixpayment.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libalixpayment.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		176C08CF1827438E008683DC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		176C08D31827438E008683DC /* alixpayment-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "alixpayment-Prefix.pch"; sourceTree = "<group>"; };
+		176C08E71827446F008683DC /* PGAlixPay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGAlixPay.h; sourceTree = "<group>"; };
+		176C08E81827446F008683DC /* PGAlixPay.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PGAlixPay.mm; sourceTree = "<group>"; };
+		2F41D4AB1E0D19B100046E1E /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AlipaySDK.framework; path = ../../Pandora/libs/Universal/AlipaySDK.framework; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		176C08C91827438E008683DC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2F41D4AC1E0D19B100046E1E /* AlipaySDK.framework in Frameworks */,
+				176C08D01827438E008683DC /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		176C08C31827438E008683DC = {
+			isa = PBXGroup;
+			children = (
+				176C08D11827438E008683DC /* alixpayment */,
+				176C08CE1827438E008683DC /* Frameworks */,
+				176C08CD1827438E008683DC /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		176C08CD1827438E008683DC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				176C08CC1827438E008683DC /* libalixpayment.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		176C08CE1827438E008683DC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2F41D4AB1E0D19B100046E1E /* AlipaySDK.framework */,
+				176C08CF1827438E008683DC /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		176C08D11827438E008683DC /* alixpayment */ = {
+			isa = PBXGroup;
+			children = (
+				176C08E71827446F008683DC /* PGAlixPay.h */,
+				176C08E81827446F008683DC /* PGAlixPay.mm */,
+				176C08D21827438E008683DC /* Supporting Files */,
+			);
+			path = alixpayment;
+			sourceTree = "<group>";
+		};
+		176C08D21827438E008683DC /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				176C08D31827438E008683DC /* alixpayment-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		176C08CB1827438E008683DC /* alixpayment */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 176C08DA1827438E008683DC /* Build configuration list for PBXNativeTarget "alixpayment" */;
+			buildPhases = (
+				176C08C81827438E008683DC /* Sources */,
+				176C08C91827438E008683DC /* Frameworks */,
+				176C08CA1827438E008683DC /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = alixpayment;
+			productName = alixpayment;
+			productReference = 176C08CC1827438E008683DC /* libalixpayment.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		176C08C41827438E008683DC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = DCloud;
+			};
+			buildConfigurationList = 176C08C71827438E008683DC /* Build configuration list for PBXProject "alixpayment" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 176C08C31827438E008683DC;
+			productRefGroup = 176C08CD1827438E008683DC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				176C08CB1827438E008683DC /* alixpayment */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		176C08C81827438E008683DC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				176C08E91827446F008683DC /* PGAlixPay.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		176C08D81827438E008683DC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		176C08D91827438E008683DC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_BITCODE = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		176C08DB1827438E008683DC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/alixpayment.dst;
+				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../../Pandora/libs/Universal",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "alixpayment/alixpayment-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools/json",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/Managers",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/MiniServer",
+					"$(SRCROOT)/../libPayment",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		176C08DC1827438E008683DC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/alixpayment.dst;
+				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../../Pandora/libs/Universal",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "alixpayment/alixpayment-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools/json",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/Managers",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/MiniServer",
+					"$(SRCROOT)/../libPayment",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		176C08C71827438E008683DC /* Build configuration list for PBXProject "alixpayment" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				176C08D81827438E008683DC /* Debug */,
+				176C08D91827438E008683DC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		176C08DA1827438E008683DC /* Build configuration list for PBXNativeTarget "alixpayment" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				176C08DB1827438E008683DC /* Debug */,
+				176C08DC1827438E008683DC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 176C08C41827438E008683DC /* Project object */;
+}

@@ -1,0 +1,297 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		171899AD1A528A13003A6FDC /* amrFileCodec.m in Sources */ = {isa = PBXBuildFile; fileRef = 171899A31A528A13003A6FDC /* amrFileCodec.m */; };
+		171899AE1A528A13003A6FDC /* VoiceConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 171899AC1A528A13003A6FDC /* VoiceConverter.m */; };
+		17F56BF51727B1AB00BD93C7 /* PGMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 17F56BF41727B1AB00BD93C7 /* PGMedia.m */; };
+		17F5CE461727961B00356EE5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17F5CE451727961B00356EE5 /* Foundation.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		17F5CE401727961B00356EE5 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		171899A21A528A13003A6FDC /* amrFileCodec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amrFileCodec.h; sourceTree = "<group>"; };
+		171899A31A528A13003A6FDC /* amrFileCodec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = amrFileCodec.m; sourceTree = "<group>"; };
+		171899A61A528A13003A6FDC /* interf_dec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = interf_dec.h; sourceTree = "<group>"; };
+		171899A71A528A13003A6FDC /* interf_enc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = interf_enc.h; sourceTree = "<group>"; };
+		171899AB1A528A13003A6FDC /* VoiceConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoiceConverter.h; sourceTree = "<group>"; };
+		171899AC1A528A13003A6FDC /* VoiceConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VoiceConverter.m; sourceTree = "<group>"; };
+		17F56BF31727B1AB00BD93C7 /* PGMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGMedia.h; sourceTree = "<group>"; };
+		17F56BF41727B1AB00BD93C7 /* PGMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGMedia.m; sourceTree = "<group>"; };
+		17F5CE421727961B00356EE5 /* liblibMedia.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibMedia.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		17F5CE451727961B00356EE5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		17F5CE491727961B00356EE5 /* libMedia-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "libMedia-Prefix.pch"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		17F5CE3F1727961B00356EE5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				17F5CE461727961B00356EE5 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		171899A41A528A13003A6FDC /* include */ = {
+			isa = PBXGroup;
+			children = (
+				171899A51A528A13003A6FDC /* opencore-amrnb */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		171899A51A528A13003A6FDC /* opencore-amrnb */ = {
+			isa = PBXGroup;
+			children = (
+				171899A61A528A13003A6FDC /* interf_dec.h */,
+				171899A71A528A13003A6FDC /* interf_enc.h */,
+			);
+			path = "opencore-amrnb";
+			sourceTree = "<group>";
+		};
+		17F5CE391727961B00356EE5 = {
+			isa = PBXGroup;
+			children = (
+				17F5CE471727961B00356EE5 /* libMedia */,
+				17F5CE441727961B00356EE5 /* Frameworks */,
+				17F5CE431727961B00356EE5 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		17F5CE431727961B00356EE5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				17F5CE421727961B00356EE5 /* liblibMedia.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		17F5CE441727961B00356EE5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				17F5CE451727961B00356EE5 /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		17F5CE471727961B00356EE5 /* libMedia */ = {
+			isa = PBXGroup;
+			children = (
+				171899A21A528A13003A6FDC /* amrFileCodec.h */,
+				171899A31A528A13003A6FDC /* amrFileCodec.m */,
+				171899A41A528A13003A6FDC /* include */,
+				171899AB1A528A13003A6FDC /* VoiceConverter.h */,
+				171899AC1A528A13003A6FDC /* VoiceConverter.m */,
+				17F56BF31727B1AB00BD93C7 /* PGMedia.h */,
+				17F56BF41727B1AB00BD93C7 /* PGMedia.m */,
+				17F5CE481727961B00356EE5 /* Supporting Files */,
+			);
+			path = libMedia;
+			sourceTree = "<group>";
+		};
+		17F5CE481727961B00356EE5 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				17F5CE491727961B00356EE5 /* libMedia-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		17F5CE411727961B00356EE5 /* libMedia */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 17F5CE501727961B00356EE5 /* Build configuration list for PBXNativeTarget "libMedia" */;
+			buildPhases = (
+				17F5CE3E1727961B00356EE5 /* Sources */,
+				17F5CE3F1727961B00356EE5 /* Frameworks */,
+				17F5CE401727961B00356EE5 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = libMedia;
+			productName = libMedia;
+			productReference = 17F5CE421727961B00356EE5 /* liblibMedia.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		17F5CE3A1727961B00356EE5 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = DCloud;
+			};
+			buildConfigurationList = 17F5CE3D1727961B00356EE5 /* Build configuration list for PBXProject "libMedia" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 17F5CE391727961B00356EE5;
+			productRefGroup = 17F5CE431727961B00356EE5 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				17F5CE411727961B00356EE5 /* libMedia */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		17F5CE3E1727961B00356EE5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				171899AE1A528A13003A6FDC /* VoiceConverter.m in Sources */,
+				17F56BF51727B1AB00BD93C7 /* PGMedia.m in Sources */,
+				171899AD1A528A13003A6FDC /* amrFileCodec.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		17F5CE4E1727961B00356EE5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		17F5CE4F1727961B00356EE5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_BITCODE = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		17F5CE511727961B00356EE5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/libMedia.dst;
+				ENABLE_BITCODE = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "libMedia/libMedia-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Tools",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Managers",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/MiniServer",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		17F5CE521727961B00356EE5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/libMedia.dst;
+				ENABLE_BITCODE = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "libMedia/libMedia-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Tools",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Managers",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/MiniServer",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		17F5CE3D1727961B00356EE5 /* Build configuration list for PBXProject "libMedia" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				17F5CE4E1727961B00356EE5 /* Debug */,
+				17F5CE4F1727961B00356EE5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		17F5CE501727961B00356EE5 /* Build configuration list for PBXNativeTarget "libMedia" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				17F5CE511727961B00356EE5 /* Debug */,
+				17F5CE521727961B00356EE5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 17F5CE3A1727961B00356EE5 /* Project object */;
+}

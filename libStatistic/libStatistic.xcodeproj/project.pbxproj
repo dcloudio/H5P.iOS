@@ -1,0 +1,271 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		17E1B240172CF1B9005F17EF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17E1B23F172CF1B9005F17EF /* Foundation.framework */; };
+		17E1B259172CF5F0005F17EF /* PGStatistic.mm in Sources */ = {isa = PBXBuildFile; fileRef = 17E1B258172CF5F0005F17EF /* PGStatistic.mm */; };
+		2FEBD0361D337729002D862B /* UMMobClick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FEBD0351D337729002D862B /* UMMobClick.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		17E1B23A172CF1B9005F17EF /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		17E1B23C172CF1B9005F17EF /* liblibStatistic.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibStatistic.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		17E1B23F172CF1B9005F17EF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		17E1B243172CF1B9005F17EF /* libStatistic-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "libStatistic-Prefix.pch"; sourceTree = "<group>"; };
+		17E1B257172CF5F0005F17EF /* PGStatistic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGStatistic.h; sourceTree = "<group>"; };
+		17E1B258172CF5F0005F17EF /* PGStatistic.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PGStatistic.mm; sourceTree = "<group>"; };
+		2FEBD0351D337729002D862B /* UMMobClick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UMMobClick.framework; path = ../Pandora/libs/Universal/UMMobClick.framework; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		17E1B239172CF1B9005F17EF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2FEBD0361D337729002D862B /* UMMobClick.framework in Frameworks */,
+				17E1B240172CF1B9005F17EF /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		17E1B233172CF1B9005F17EF = {
+			isa = PBXGroup;
+			children = (
+				17E1B241172CF1B9005F17EF /* libStatistic */,
+				17E1B23E172CF1B9005F17EF /* Frameworks */,
+				17E1B23D172CF1B9005F17EF /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		17E1B23D172CF1B9005F17EF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				17E1B23C172CF1B9005F17EF /* liblibStatistic.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		17E1B23E172CF1B9005F17EF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2FEBD0351D337729002D862B /* UMMobClick.framework */,
+				17E1B23F172CF1B9005F17EF /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		17E1B241172CF1B9005F17EF /* libStatistic */ = {
+			isa = PBXGroup;
+			children = (
+				17E1B257172CF5F0005F17EF /* PGStatistic.h */,
+				17E1B258172CF5F0005F17EF /* PGStatistic.mm */,
+				17E1B242172CF1B9005F17EF /* Supporting Files */,
+			);
+			path = libStatistic;
+			sourceTree = "<group>";
+		};
+		17E1B242172CF1B9005F17EF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				17E1B243172CF1B9005F17EF /* libStatistic-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		17E1B23B172CF1B9005F17EF /* libStatistic */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 17E1B24A172CF1B9005F17EF /* Build configuration list for PBXNativeTarget "libStatistic" */;
+			buildPhases = (
+				17E1B238172CF1B9005F17EF /* Sources */,
+				17E1B239172CF1B9005F17EF /* Frameworks */,
+				17E1B23A172CF1B9005F17EF /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = libStatistic;
+			productName = libStatistic;
+			productReference = 17E1B23C172CF1B9005F17EF /* liblibStatistic.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		17E1B234172CF1B9005F17EF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = DCloud;
+			};
+			buildConfigurationList = 17E1B237172CF1B9005F17EF /* Build configuration list for PBXProject "libStatistic" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 17E1B233172CF1B9005F17EF;
+			productRefGroup = 17E1B23D172CF1B9005F17EF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				17E1B23B172CF1B9005F17EF /* libStatistic */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		17E1B238172CF1B9005F17EF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				17E1B259172CF5F0005F17EF /* PGStatistic.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		17E1B248172CF1B9005F17EF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		17E1B249172CF1B9005F17EF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_BITCODE = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		17E1B24B172CF1B9005F17EF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/libStatistic.dst;
+				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../Pandora/libs/Universal";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "libStatistic/libStatistic-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Tools",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Managers",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		17E1B24C172CF1B9005F17EF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/libStatistic.dst;
+				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../Pandora/libs/Universal";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "libStatistic/libStatistic-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Tools",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Managers",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		17E1B237172CF1B9005F17EF /* Build configuration list for PBXProject "libStatistic" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				17E1B248172CF1B9005F17EF /* Debug */,
+				17E1B249172CF1B9005F17EF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		17E1B24A172CF1B9005F17EF /* Build configuration list for PBXNativeTarget "libStatistic" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				17E1B24B172CF1B9005F17EF /* Debug */,
+				17E1B24C172CF1B9005F17EF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 17E1B234172CF1B9005F17EF /* Project object */;
+}

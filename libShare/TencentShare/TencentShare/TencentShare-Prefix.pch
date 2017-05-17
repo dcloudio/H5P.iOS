@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'TencentShare' target in the 'TencentShare' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+#endif

@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'libGeolocation' target in the 'libGeolocation' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+#endif

@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'libMap' target in the 'libMap' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+#endif
