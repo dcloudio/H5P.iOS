@@ -15,6 +15,7 @@
 #import "PGIFLYSpeech.h"
 #import "PDRCore.h"
 #import "PDRCorePrivate.h"
+#import <iflyMSC/IFlySpeechRecognizer.h>
 
 // 控件的位置
 #define H_CONTROL_ORIGIN CGPointMake(20, 70)
@@ -24,7 +25,7 @@
 #define ENGINE_URL @"http://dev.voicecloud.cn:1028/index.htm"
 
 @implementation PGIFLYSpeech
-
+static dispatch_once_t onceToken;
 //1.属性不支持
 //2.错误吗
 - (void)startRecognize:(PGMethod*)commands {
@@ -54,7 +55,7 @@
             [self.bridge toCallback:cID withReslut:[result toJSONString]];
             return;
         }
-        static dispatch_once_t onceToken;
+
         dispatch_once(&onceToken, ^{
             NSMutableString* initParam = [NSMutableString stringWithFormat:@"appid=%@", appid];
             [IFlySpeechUtility createUtility:initParam];
@@ -93,6 +94,10 @@
             PDRPluginResult *result = [PDRPluginResult resultWithStatus:PDRCommandStatusError
                                                    messageToErrorObject:PGSpeechErrorUserStop withMessage:[self.bridge errorMsgWithCode:PGSpeechErrorUserStop]];
             [self.bridge toCallback:self.callBackID withReslut:[result toJSONString]];
+            
+            if(self.delegate && [self.delegate respondsToSelector:@selector(toError:)])
+                [self.delegate toError:[result toJSONString]];
+
         }
         [_iFlyRecognizeControl cancel];
         [_iFlyRecognizeControl setDelegate:nil];
@@ -158,10 +163,15 @@
                                                      messageAsArray:recognizeResult];
         [result setKeepCallback:YES];
         [self.bridge toCallback:self.callBackID withReslut:[result toJSONString]];
+        if(self.delegate && [self.delegate respondsToSelector:@selector(toResult::)])
+            [self.delegate toResult:recognizeResult];
+
     } else  {
         PDRPluginResult *result = [PDRPluginResult resultWithStatus:PDRCommandStatusError
                                               messageToErrorObject:PGSpeechErrorOther withMessage:[self.bridge errorMsgWithCode:PGSpeechErrorOther]];
         [self.bridge toCallback:self.callBackID withReslut:[result toJSONString]];
+        if(self.delegate && [self.delegate respondsToSelector:@selector(toError:)])
+            [self.delegate toError:[result toJSONString]];
     }
 }
 
@@ -187,6 +197,8 @@
         PDRPluginResult *result = [PDRPluginResult resultWithStatus:PDRCommandStatusError
                                                messageToErrorObject:speechError withMessage:[self.bridge errorMsgWithCode:speechError]];
         [self.bridge toCallback:self.callBackID withReslut:[result toJSONString]];
+        if(self.delegate && [self.delegate respondsToSelector:@selector(toError:)])
+            [self.delegate toError:[result toJSONString]];
     }
     [self stop];
     self.hasPendingOperation = FALSE;
@@ -212,11 +224,16 @@
                                                          messageAsArray:recognizeResult];
             [result setKeepCallback:!isLast];
             [self.bridge toCallback:self.callBackID withReslut:[result toJSONString]];
+            if(self.delegate && [self.delegate respondsToSelector:@selector(toError:)])
+                [self.delegate toResult:recognizeResult];
+
         } else  {
             if (!isLast) {
                 PDRPluginResult *result = [PDRPluginResult resultWithStatus:PDRCommandStatusError
                                                        messageToErrorObject:PGSpeechErrorOther withMessage:[self.bridge errorMsgWithCode:PGSpeechErrorOther]];
                 [self.bridge toCallback:self.callBackID withReslut:[result toJSONString]];
+                if(self.delegate && [self.delegate respondsToSelector:@selector(toError:)])
+                    [self.delegate toError:[result toJSONString]];
             }
         }
     });
@@ -226,6 +243,111 @@
 - (void)onResult:(IFlyRecognizerView *)iFlyRecognizeControl theResult:(NSArray *)resultArray {
     [self performSelectorOnMainThread:@selector(toResult:) withObject:resultArray waitUntilDone:NO];
 }
+
+#pragma mark - listener without window
+- (void)startRecognizeWithOutWindow{
+    
+    if(!_iFlySpeechRecognizer)
+    {
+        NSString *appid = nil;
+        NSDictionary *dict = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"iFly"];
+        if ( [dict isKindOfClass:[NSDictionary class]] ) {
+            appid = [dict objectForKey:@"appid"];
+            
+        }
+        if ( !appid || ![appid isKindOfClass:[NSString class]]) {
+            PDRPluginResult *result = [PDRPluginResult resultWithStatus:PDRCommandStatusError
+                                                   messageToErrorObject:PGSpeechErrorNotAppid
+                                                            withMessage:[self.bridge errorMsgWithCode:PGSpeechErrorNotAppid]];
+            
+            if(self.delegate && [self.delegate respondsToSelector:@selector(toError:)])
+                [self.delegate toError:[result toJSONString]];
+            
+        }
+        
+        dispatch_once(&onceToken, ^{
+            NSMutableString* initParam = [NSMutableString stringWithFormat:@"appid=%@", appid];
+            [IFlySpeechUtility createUtility:initParam];
+        });
+        
+        _iFlySpeechRecognizer = [IFlySpeechRecognizer sharedInstance];
+        [_iFlySpeechRecognizer setParameter: @"iat" forKey:[IFlySpeechConstant IFLY_DOMAIN]];
+        [_iFlySpeechRecognizer setParameter:@"plain" forKey:[IFlySpeechConstant RESULT_TYPE]];
+        [_iFlySpeechRecognizer setParameter:self.punctuation?@"1":@"0" forKey:[IFlySpeechConstant ASR_PTT]];
+        if ([self.lang containsString:@"zh-"]) {
+            [_iFlySpeechRecognizer setParameter:@"zh_cn" forKey:[IFlySpeechConstant LANGUAGE]];
+            if ([self.lang isEqualToString:@"zh-cantonese"]) {
+                [_iFlySpeechRecognizer setParameter:@"cantonese" forKey:[IFlySpeechConstant ACCENT]];
+            }else if ([self.lang isEqualToString:@"zh-henanese" ]){
+                [_iFlySpeechRecognizer setParameter:@"henanese" forKey:[IFlySpeechConstant ACCENT]];
+            }
+        }
+        else if([self.lang containsString:@"en-us"]){
+            [_iFlySpeechRecognizer setParameter:@"en_us" forKey:[IFlySpeechConstant LANGUAGE]];
+        }
+        _iFlySpeechRecognizer.delegate = self;
+        self.hasPendingOperation = YES;
+        [_iFlySpeechRecognizer startListening];
+    }
+    
+}
+
+- (void)cancelRecognizeWithOutWindow
+{
+    if(self.hasPendingOperation)
+    {
+        [_iFlySpeechRecognizer stopListening];
+        _iFlySpeechRecognizer.delegate = nil;
+        _iFlySpeechRecognizer = nil;
+        self.hasPendingOperation = NO;
+    }
+}
+
+- (void)stopRecognizeWithoutWindow
+{
+    if(self.hasPendingOperation)
+    {
+        [_iFlySpeechRecognizer stopListening];
+    }
+}
+
+
+- (void) onResults:(NSArray *) results isLast:(BOOL)isLast{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSMutableArray *recognizeResult = [NSMutableArray array];
+        NSInteger count = [results count];
+        for ( int index = 0; index < count; index++) {
+            NSDictionary *dic = [results objectAtIndex:index];
+            NSMutableString *result = [[[NSMutableString alloc] init] autorelease];
+            for (NSString *key in dic) {
+                [result appendFormat:@"%@",key];
+            }
+            if ( result ) {
+                [recognizeResult addObject:result];
+            }
+        }
+        
+        if ( [recognizeResult count] ) {
+            if(self.delegate && [self.delegate respondsToSelector:@selector(toError:)])
+                [self.delegate toResult:recognizeResult];
+            
+        } else  {
+            if (!isLast) {
+                PDRPluginResult *result = [PDRPluginResult resultWithStatus:PDRCommandStatusError
+                                                       messageToErrorObject:PGSpeechErrorOther withMessage:[self.bridge errorMsgWithCode:PGSpeechErrorOther]];
+                if(self.delegate && [self.delegate respondsToSelector:@selector(toError:)])
+                    [self.delegate toError:[result toJSONString]];
+            }
+            else{
+                if(self.delegate && [self.delegate respondsToSelector:@selector(toError:)])
+                    [self.delegate toResult:recognizeResult];
+            }
+        }
+    });
+}
+
+
+
 
 - (void)dealloc {
     [self stop];

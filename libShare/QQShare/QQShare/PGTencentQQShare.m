@@ -119,7 +119,7 @@
 }
 
 - (BOOL)authorizeWithURL:(NSString*)url
-                delegate:(id)delegate
+                delegate:(id<NSObject>)delegate
                onSuccess:(SEL)successCallback
                onFailure:(SEL)failureCallback  {
     self.nativeClient = [TencentOAuth iphoneQQInstalled];

@@ -712,8 +712,8 @@
             //   NSDictionary *metaData = [info objectForKey:UIImagePickerControllerMediaMetadata];
             NSData *data = nil;
             PGCameraOption *cameraOptions = (PGCameraOption*)self.mOptions;
+            originalImage = [self fixPNGCaptureOrientation:originalImage];
             if (cameraOptions.encodingType == PGCameraEncodingTypePNG ){
-                originalImage = [self fixPNGCaptureOrientation:originalImage];
                 data = UIImagePNGRepresentation(originalImage);
             } else {
                 data = UIImageJPEGRepresentation(originalImage, 0.5f);

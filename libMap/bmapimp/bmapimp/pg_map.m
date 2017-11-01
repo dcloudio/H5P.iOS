@@ -65,6 +65,7 @@
     for ( PGMapView *target in allViews ) {
         if ( [target isKindOfClass:[PGMapView class]] ) {
             [target close];
+            [target removeFromSuperview];
         }
     }
     [_nativeObjectDict release];
@@ -101,6 +102,19 @@
             NSArray *args = [command.arguments objectAtIndex:1];
             if ( args )
             {
+                NSString *cmd =  [args objectAtIndex:0];
+                if ( [cmd isKindOfClass:[NSString class]] ) {
+                    if ( [@"close" isEqualToString:cmd] ) {
+                        NSString *UUID =  [args objectAtIndex:1];
+                        PGMapView *map = [_nativeObjectDict objectForKey:UUID];
+                        if ( [map isKindOfClass:[PGMapView class]] ) {
+                            [map close];
+                            [map removeFromSuperview];
+                            [_nativeObjectDict removeObjectForKey:UUID];
+                        }
+                        return;
+                    }
+                }
                 [PGMapView openSysMap:[args objectAtIndex:1]];
             }
         }

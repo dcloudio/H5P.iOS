@@ -121,7 +121,30 @@ static NSDictionary *g_support_provider =
     
     return JSObject;
 }
-    
+
+- (NSString*)fullAddress{
+    NSMutableString *retAddress = [NSMutableString string];
+    if ( self.country ) {
+       // [retAddress appendString:self.country];
+    }
+    if ( self.province ) {
+        //[retAddress appendString:self.province];
+    }
+    if ( self.city ) {
+        [retAddress appendString:self.city];
+    }
+    if ( self.district ) {
+        [retAddress appendString:self.district];
+    }
+    if ( self.street ) {
+        [retAddress appendString:self.street];
+    }
+    if ( self.addresses ) {
+        [retAddress appendString:self.addresses];
+    }
+    return retAddress;
+}
+
 - (void)dealloc {
     self.country = nil;
     self.province = nil;

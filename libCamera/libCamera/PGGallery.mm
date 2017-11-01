@@ -20,6 +20,7 @@
 #import "PDRCoreWindowManager.h"
 #import "PTPathUtil.h"
 #import "PDRCoreAppInfo.h"
+#import "PDRCorePrivate.h"
 #import "PDRCoreAppWindow.h"
 #import "PDRCommonString.h"
 #import "PGGalleryProgressHUD.h"
@@ -202,6 +203,9 @@
 }
 @end
 
+@interface PGGallery()<H5CoreImageLoaderDelegate>
+@end
+
 @implementation PGGallery
 
 @synthesize hasPendingOperation, pickerController, mOptions;
@@ -343,8 +347,17 @@
 }
 
 - (NSArray*)getDefalutSelectedAssetURLs:(NSArray*)h5URL {
+    NSMutableArray *ret = [NSMutableArray array];
+    for ( NSString *path in h5URL  ) {
+        NSURL *assetUrl = [NSURL URLWithString:path];
+        if ( [[assetUrl scheme] isEqualToString:@"assets-library"] ) {
+            if ( ![ret containsObject:assetUrl] ) {
+                [ret addObject:assetUrl];
+            }
+        }
+    }
+    
     if ( [_defalutSelectImages count]&& [h5URL count] ) {
-        NSMutableArray *ret = [NSMutableArray array];
         for ( NSString *path in h5URL  ) {
             if ( _defalutSelectImages ) {
                 NSString* ghostPath = [self shortPath:path];
@@ -353,7 +366,9 @@
                     if ( assetPath ) {
                         NSURL *assetUrl = [NSURL URLWithString:assetPath];
                         if ( assetUrl ) {
-                            [ret addObject:assetUrl];
+                            if ( ![ret containsObject:assetUrl] ) {
+                                [ret addObject:assetUrl];
+                            }
                         }
                     }
                 }
@@ -361,7 +376,7 @@
         }
         return ret;
     }
-    return nil;
+    return ret;
 }
 
 - (BOOL)userSystemPickController {
@@ -420,6 +435,35 @@
  *------------------------------------------------------------------
  */
 
+- (BOOL)isValidUrl:(NSString*)filePath
+{
+    NSString *regex =@"[a-zA-z]+://[^\\s]*";
+    NSPredicate *urlTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",regex];
+    return [urlTest evaluateWithObject:filePath];
+}
+
+
+-(void)imageLoaded:(id)image userInfo:(id)userInfo
+{
+    if(userInfo)
+    {
+        ALAssetsLibrary* assertLibrary = [userInfo objectForKey:@"alasslib"];
+        NSString* cbid = [userInfo objectForKey:@"cbid"];
+        UIImage* imgSave = (UIImage*)image;
+        [assertLibrary writeImageToSavedPhotosAlbum:imgSave.CGImage
+                                              metadata:nil completionBlock:^(NSURL *assetURL, NSError *error) {
+                                                  if ( error || !assetURL) {
+                                                      [self toErrorCallback:cbid withNSError:error];
+                                                  } else {
+                                                      [self toSucessCallback:cbid withJSON:@{@"path":[assetURL absoluteString]}];
+                                                  }
+#if !__has_feature(objc_arc)
+                                                  [assertLibrary release];
+#endif
+                                              }];
+    }
+}
+
 -(void)save:(PGMethod*)command {
     if ( !command.arguments
         && ![command.arguments isKindOfClass:[NSDictionary class]] ) {
@@ -434,71 +478,61 @@
     
     if ( [arg0 isKindOfClass:[NSString class]] ) {
         PDRCoreApp *application = self.appContext;
-        NSURL *url = [NSURL URLWithString:arg0];
-        if ( url ) {
-            imgFullPath = [url relativePath];
-        } else {
+        
+        NSURL *url = nil;
+        ALAssetsLibrary *assertLibrary = [[ALAssetsLibrary alloc] init];
+        
+        if ( ![arg0 isAbsolutePath] ) {
+            if([self isValidUrl:arg0]){
+                imgFullPath = arg0;
+                url = [NSURL URLWithString:imgFullPath];
+            }else{
+                imgFullPath = [PTPathUtil absolutePath:arg0 withContext:application];
+                url = [NSURL fileURLWithPath:imgFullPath];
+            }
+        }else{
             imgFullPath = arg0;
+            url = [NSURL fileURLWithPath:imgFullPath];
         }
         
-        if ( ![imgFullPath isAbsolutePath] ) {
-            imgFullPath = [PTPathUtil absolutePath:arg0 withContext:application];
+        if ( !url ) {
+            url = [NSURL URLWithString:imgFullPath];
         }
-        if ( UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(imgFullPath) ) {
-            UISaveVideoAtPathToSavedPhotosAlbum(imgFullPath, self, @selector(video:didFinishSavingWithError:contextInfo:), (__bridge_retained void*)callBackID );
-        } else {
-            UIImage *saveImg = [[UIImage alloc] initWithContentsOfFile:imgFullPath];
-            if ( saveImg ) {
-                UIImageWriteToSavedPhotosAlbum( saveImg, self, @selector(image:didFinishSavingWithError:contextInfo:), (__bridge_retained void*)callBackID);
+        
+        if ( url ) {
+            ALAssetsLibraryWriteVideoCompletionBlock result = ^(NSURL *assetURL, NSError *error) {
+                if ( error || !assetURL) {
+                    [self toErrorCallback:callBackID withNSError:error];
+                } else {
+                    [self toSucessCallback:callBackID withJSON:@{@"path":[assetURL absoluteString]}];
+                }
 #if !__has_feature(objc_arc)
-                [saveImg release];
+                [assertLibrary release];
 #endif
+            };
+            if ( [assertLibrary videoAtPathIsCompatibleWithSavedPhotosAlbum:url] ){
+                [assertLibrary writeVideoAtPathToSavedPhotosAlbum:url completionBlock:result];
             } else {
-                errorCode = PGPluginErrorNotSupport;
+                if( !url.isFileURL && [self isValidUrl:arg0]){
+                    [[[PDRCore Instance] imageLoader] loadImage:[url absoluteString]
+                                                   withDelegate:self
+                                                    withContext:@{@"cbid":[NSString stringWithString:callBackID],@"alasslib":assertLibrary}];
+                }else{
+                    
+                    NSData *imgdata = [NSData dataWithContentsOfURL:url];
+                    if ( imgdata ) {
+                        [assertLibrary writeImageDataToSavedPhotosAlbum:imgdata metadata:nil completionBlock:result];
+                    }
+                }
             }
+        } else {
+            errorCode = PGPluginErrorNotSupport;
         }
     }
     if ( PGPluginOK != errorCode ) {
         PDRPluginResult *result = [PDRPluginResult resultWithStatus:PDRCommandStatusError
                                                messageToErrorObject:errorCode
                                                         withMessage:[self errorMsgWithCode:errorCode]];
-        [self toCallback:callBackID  withReslut:[result toJSONString]];
-    }
-}
-
-- (void)image:(UIImage *)image
-didFinishSavingWithError:(NSError *)error
-  contextInfo:(void *)contextInfo {
-    NSString *cbID = (__bridge_transfer NSString*)contextInfo;
-    if ( [cbID isKindOfClass:[NSString class]] ) {
-        [self doError:error withCallBack:(NSString*)cbID];
-#if !__has_feature(objc_arc)
-        [cbID release];
-#endif
-    }
-}
-
-- (void)video:(NSString *)videoPath
-didFinishSavingWithError:(NSError *)error
-  contextInfo:(void *)contextInfo {
-    NSString *cbID = (__bridge NSString*)contextInfo;
-    if ( [cbID isKindOfClass:[NSString class]] ) {
-        [self doError:error withCallBack:(NSString*)cbID];
-#if !__has_feature(objc_arc)
-        [cbID release];
-#endif
-    }
-}
-
-- (void)doError:(NSError*)error withCallBack:(NSString*)callBackID {
-    PDRPluginResult *result = nil;
-    if ( error ) {
-        result = [PDRPluginResult resultWithStatus:PDRCommandStatusError
-                              messageToErrorObject:(int)[error code]
-                                       withMessage:[error localizedDescription]];
-        [self toCallback:callBackID  withReslut:[result toJSONString]];
-    } else {
-        result = [PDRPluginResult resultWithStatus:PDRCommandStatusOK messageAsInt:0];
         [self toCallback:callBackID  withReslut:[result toJSONString]];
     }
 }
@@ -549,22 +583,42 @@ didFinishSavingWithError:(NSError *)error
     }
 }
 
-- (BOOL)writeALAsset:(ALAsset*)asset toFile:(NSString*)filePath {
-    BOOL ret = YES;
+- (NSString*)writeALAsset:(ALAsset*)asset toFile:(NSString*)filePath {
+    NSString* destFilePath = filePath;
     ALAssetRepresentation *defaultRepresentation = [asset defaultRepresentation];
     NSUInteger totalSize = [defaultRepresentation size];
     NSUInteger bufSize = MIN(totalSize, PGGALLERY_DATA_READLEN);
     NSUInteger readSize = 0;
     NSUInteger canReadSize = MIN(totalSize - readSize, bufSize);
+    BOOL    bIsHeicImage = false;
     
+    if([[filePath pathExtension] caseInsensitiveCompare:@"HEIC"] == NSOrderedSame){
+        destFilePath = [destFilePath stringByDeletingPathExtension];
+        destFilePath = [destFilePath stringByAppendingPathExtension:@"jpg"];
+        bIsHeicImage = true;
+    }
     if ( totalSize ) {
         NSFileManager *fileManager = [NSFileManager defaultManager];
-        if ( [fileManager fileExistsAtPath:filePath] ) {
-            return ret;
-            [fileManager removeItemAtPath:filePath error:nil];
+        if ( [fileManager fileExistsAtPath:destFilePath] ) {
+            return destFilePath;
+            //[fileManager removeItemAtPath:filePath error:nil];
         }
-        [fileManager createFileAtPath:filePath contents:nil attributes:nil];
-        NSOutputStream *fileOut = [[NSOutputStream  alloc] initToFileAtPath:filePath append:YES];
+        
+        if(bIsHeicImage){
+            CGImageRef assetImage = defaultRepresentation.fullResolutionImage;
+            if ( assetImage ) {
+                UIImage *originalImage = [UIImage imageWithCGImage:assetImage scale:1.0 orientation:(UIImageOrientation)defaultRepresentation.orientation];
+                if ( originalImage ) {
+                    originalImage = [originalImage adjustOrientation ];
+                    NSData* mediaData = UIImageJPEGRepresentation(originalImage, 0.5f);
+                    [mediaData writeToFile:destFilePath atomically:NO];
+                }
+            }
+            return destFilePath;
+        }
+        
+        [fileManager createFileAtPath:destFilePath contents:nil attributes:nil];
+        NSOutputStream *fileOut = [[NSOutputStream  alloc] initToFileAtPath:destFilePath append:YES];
         if ( fileOut ) {
             [fileOut open];
             uint8_t *buff = (uint8_t*)malloc(bufSize);
@@ -573,12 +627,10 @@ didFinishSavingWithError:(NSError *)error
                     NSError *err = nil;
                     NSInteger byteCounts = [defaultRepresentation getBytes:buff fromOffset:readSize length:canReadSize error:&err];
                     if ( byteCounts <= 0 ) {
-                        ret = NO;
                         break;
                     }
                     NSInteger w = [fileOut write:buff maxLength:canReadSize];
                     if ( w < 0 ) {
-                        ret = NO;
                         break;
                     }
                     readSize += canReadSize;
@@ -589,7 +641,7 @@ didFinishSavingWithError:(NSError *)error
             [fileOut close];
         }
     }
-    return ret;
+    return destFilePath;
 }
 
 #pragma mark
@@ -717,7 +769,8 @@ didFinishSavingWithError:(NSError *)error
                                                  suffix:PGGALLERY_PHOTO_SUFFIX
                                           allowSameName:YES
                                                 context:self.appContext];
-                [self writeALAsset:asset toFile:outFilePath];
+                outFilePath = [self writeALAsset:asset toFile:outFilePath];
+                
 //                CGImageRef assetImage = defaultRepresentation.fullResolutionImage;
 //                if ( assetImage ) {
 //                   // NSString *fileName = defaultRepresentation.filename;
@@ -738,7 +791,7 @@ didFinishSavingWithError:(NSError *)error
                                                  suffix:PGGALLERY_VIDEO_SUFFIX
                                           allowSameName:YES
                                                 context:self.appContext];
-               [self writeALAsset:asset toFile:outFilePath];
+               outFilePath = [self writeALAsset:asset toFile:outFilePath];
             } else {
                 retCode = PGPluginErrorIO;
                 *stop = true;

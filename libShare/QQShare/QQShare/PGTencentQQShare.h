@@ -13,7 +13,7 @@
 
 @interface PGTencentQQShare : PGShare<QQApiInterfaceDelegate> {
     TencentOAuth* _tencentOAuth;
-    id temp_send_delegate;
+    NSObject* temp_send_delegate;
     SEL onSendSuccessCallback;
     SEL onSendFailureCallback;
 }
@@ -21,7 +21,7 @@
 - (NSString*)getToken;
 
 - (BOOL)authorizeWithURL:(NSString*)url
-                delegate:(id)delegate
+                delegate:(NSObject*)delegate
                onSuccess:(SEL)successCallback
                onFailure:(SEL)failureCallback;
 - (BOOL)logOut;

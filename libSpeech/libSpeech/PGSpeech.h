@@ -34,6 +34,16 @@ typedef NS_ENUM(NSInteger, PGSpeechError) {
 
 @class PGSpeech;
 
+
+
+@protocol PGSpeechImpDelegate <NSObject>
+
+- (void)toResult:(NSArray*)speechResult;
+- (void)toError:(NSString*)errorStr;
+
+@end
+
+
 @interface PGSpeechImp : NSObject {
     
 }
@@ -42,6 +52,8 @@ typedef NS_ENUM(NSInteger, PGSpeechError) {
 
 @property (readwrite, assign) BOOL hasPendingOperation;
 @property(nonatomic, copy)NSString *callBackID;
+@property(nonatomic, assign)id <PGSpeechImpDelegate>delegate;
+
 //字符串类型，可选参数，语音识别引擎标识，用于兼容多语音识别引擎的浏览器
 //，建议使用语音识别厂商的产品名称，如未设置或设置不正确则使用浏览器默认的语音识别引擎；
 @property(nonatomic, copy)NSString *engine;
@@ -79,7 +91,14 @@ typedef NS_ENUM(NSInteger, PGSpeechError) {
 - (void)parseOptions:(NSDictionary*)dict;
 - (void)resetOptions;
 
+- (void)startRecognizeWithOutWindow;
+- (void)stopRecognizeWithoutWindow;
+- (void)cancelRecognizeWithOutWindow;
+
 @end
+
+
+
 
 @interface PGSpeech : PGPlugin {
     PGSpeechImp *_speechEngine;

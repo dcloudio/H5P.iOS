@@ -363,29 +363,123 @@ BOOL bIsDeactivate = NO;
     NSString* pMessage = nil;
     NSString* pPayload = nil;
     NSString* sound = nil;
+    NSString* image = nil;
     
     pMessage = [PGPluginParamHelper getStringValue:[pMethod getArgumentAtIndex:0]];
     pPayload = [PGPluginParamHelper getStringValue:[pMethod getArgumentAtIndex:1]];
     NSDictionary *options = [pMethod getArgumentAtIndex:2];
     fDelay = [PGPluginParamHelper getFloatValueInDict:options forKey:g_pdr_string_delay defalut:0.0f];
     sound = [PGPluginParamHelper getStringValueInDict:options forKey:@"sound" defalut:g_pdr_string_system];
+    image = [PGPluginParamHelper getStringValueInDict:options forKey:@"icon"];
+    
+    
 
-    UILocalNotification* pLocalNot = [[[UILocalNotification alloc] init] autorelease];
-    if (pLocalNot)
+    if(kCFCoreFoundationVersionNumber > kCFCoreFoundationVersionNumber_iOS_9_x_Max)
     {
-        pLocalNot.fireDate = [[[NSDate alloc] initWithTimeIntervalSinceNow:fDelay] autorelease];
-        pLocalNot.alertBody = pMessage;
-        if ( [pPayload isKindOfClass:[NSString class]]
-            || [pPayload isKindOfClass:[NSDictionary class]]) {
-            pLocalNot.userInfo = [NSDictionary dictionaryWithObjectsAndKeys:pPayload ? pPayload:@"",@"payload", nil];
+        void (^sendNotificationBlock)(UNMutableNotificationContent* content ,UNTimeIntervalNotificationTrigger* trigger) = ^(UNMutableNotificationContent* content ,UNTimeIntervalNotificationTrigger* trigger){
+            
+            UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:@"DCPushID232" content:content trigger:trigger];
+            UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+            center.delegate = self;
+            [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) {
+                if (error) {
+                    NSLog(@"%@", error);
+                }
+            }];
+        };
+    
+        UNMutableNotificationContent* content = [[UNMutableNotificationContent alloc] init];
+        if(content)
+        {
+            
+            @try {
+                UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:fDelay==0?1:fDelay repeats:NO];
+                content.body = pMessage;
+                if ( [pPayload isKindOfClass:[NSString class]] || [pPayload isKindOfClass:[NSDictionary class]]){
+                    content.userInfo =  [NSDictionary dictionaryWithObjectsAndKeys:pPayload ? pPayload:@"",@"payload", nil];
+                }
+                if ( !(sound && NSOrderedSame == [sound caseInsensitiveCompare:g_pdr_string_none])){
+                    content.sound = [UNNotificationSound defaultSound];//系统的声音
+                }
+                
+                if(image && [image isKindOfClass:[NSString class]] && image.length)
+                {
+                    NSString* pFilePath = nil;
+                    NSString *localPath = nil;
+                    if([image isWebUrlString]){
+                        NSURLRequest* pRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:image]];
+                        if(pRequest)
+                        {
+                            [NSURLConnection sendAsynchronousRequest:pRequest
+                                                               queue:[NSOperationQueue currentQueue]
+                                                   completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
+                                                       NSArray* pArray = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+                                                       NSString *localPath = [[pArray firstObject] stringByAppendingPathComponent: response.suggestedFilename?response.suggestedFilename:@"localNotificationImage.png"];
+                                                       if(data && connectionError == nil && response)
+                                                       {
+                                                           [data writeToFile:localPath atomically:NO];
+                                                           if (localPath && ![localPath isEqualToString:@""]) {
+                                                               UNNotificationAttachment * attachment = [UNNotificationAttachment attachmentWithIdentifier:[NSUUID UUID].UUIDString URL:[NSURL URLWithString:[@"file://" stringByAppendingString:localPath]] options:nil error:nil];
+                                                               if (attachment) {
+                                                                   content.attachments = @[attachment];
+                                                               }
+                                                           }
+                                                       }
+                                                       sendNotificationBlock(content, trigger);
+                                                   }];
+                        }
+                        
+                    }
+                    else{
+                        if([image isAbsolutePath])
+                            localPath = image;
+                        else
+                            localPath = [PTPathUtil absolutePath:image withContext:self.appContext];
+                        
+                        if (localPath && ![localPath isEqualToString:@""])
+                        {
+                            NSString *tmpLocalPath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"localNotificationImage.jpg"];
+                            [[NSFileManager defaultManager] copyItemAtPath:localPath toPath:tmpLocalPath error:nil];
+                            localPath = tmpLocalPath;
+                            if(localPath && [localPath isAbsolutePath])
+                            {
+                                UNNotificationAttachment * attachment = [UNNotificationAttachment attachmentWithIdentifier:[NSUUID UUID].UUIDString URL:[NSURL URLWithString:[@"file://" stringByAppendingString:localPath]] options:nil error:nil];
+                                if (attachment) {
+                                    content.attachments = @[attachment];
+                                }
+                            }
+                        }
+                        sendNotificationBlock(content, trigger);
+                    }
+                }
+                else{
+                    sendNotificationBlock(content, trigger);
+                }
+ 
+            } @catch (NSException *exception) {
+                
+            }
         }
-        if ( !(sound && NSOrderedSame == [sound caseInsensitiveCompare:g_pdr_string_none]) ) {
-            pLocalNot.soundName = UILocalNotificationDefaultSoundName;
+        
+    }else{
+        UILocalNotification* pLocalNot = [[[UILocalNotification alloc] init] autorelease];
+        if (pLocalNot)
+        {
+            pLocalNot.fireDate = [[[NSDate alloc] initWithTimeIntervalSinceNow:fDelay] autorelease];
+            pLocalNot.alertBody = pMessage;
+            if ( [pPayload isKindOfClass:[NSString class]]
+                || [pPayload isKindOfClass:[NSDictionary class]]) {
+                pLocalNot.userInfo = [NSDictionary dictionaryWithObjectsAndKeys:pPayload ? pPayload:@"",@"payload", nil];
+            }
+            if ( !(sound && NSOrderedSame == [sound caseInsensitiveCompare:g_pdr_string_none]) ) {
+                pLocalNot.soundName = UILocalNotificationDefaultSoundName;
+            }
+            // pLocalNot.alertAction = pPayload;
+            //pLocalNot.hasAction = YES;
+            [[UIApplication sharedApplication] scheduleLocalNotification:pLocalNot];
         }
-       // pLocalNot.alertAction = pPayload;
-        //pLocalNot.hasAction = YES;
-        [[UIApplication sharedApplication] scheduleLocalNotification:pLocalNot];
     }
+    
 }
 
 #pragma mark - 消息保存接口

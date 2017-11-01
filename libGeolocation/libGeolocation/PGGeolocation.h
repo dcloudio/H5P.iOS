@@ -98,6 +98,7 @@ enum {
 @property(nonatomic, copy)NSString *cityCode;
 @property(nonatomic, copy)NSString *addresses;
 - (NSDictionary*)toJSObject:(BOOL)isNull;
+- (NSString*)fullAddress;
 @end
 
 @interface PGLocationReqest : NSObject

@@ -56,8 +56,16 @@
 }
 
 - (void)stopRecognize:(PGMethod*)commands {
-
 }
+
+- (void)startRecognizeWithOutWindow{
+}
+- (void)stopRecognizeWithoutWindow{
+}
+- (void)cancelRecognizeWithOutWindow{
+}
+
+
 
 - (void)parseOptions:(NSDictionary*)dict {
     if ( [dict isKindOfClass:[NSDictionary class]] ) {

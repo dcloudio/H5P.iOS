@@ -325,7 +325,10 @@ Error :
         NSString *jsInput = [dict objectForKey:@"src"];
         if ( [jsInput isKindOfClass:[NSString class]] ) {
            // self.inputPath = [PTPathUtil absolutePath:jsInput withContext:context];
-            self.inputPath = [PTPathUtil h5Path2SysPath:jsInput basePath:baseUrl context:context];
+            if([jsInput isAbsolutePath])
+                self.inputPath = jsInput;
+            else
+                self.inputPath = [PTPathUtil h5Path2SysPath:jsInput basePath:baseUrl context:context];
         }
         if ( self.inputPath ) {
             [self parseFormat:[dict objectForKey:@"format"]];

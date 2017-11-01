@@ -32,6 +32,7 @@
 - (void)create:(PGMethod*)command;
 - (void)load:(PGMethod*)command;
 - (void)setVisible:(PGMethod*)command;
+- (void)sendWithSystem:(PGMethod*)command;
 - (PGShare*)getShareObjectByType:(NSString*)aType;
 - (void) onAppFrameWillClose:(PDRCoreAppFrame*)theAppframe;
 

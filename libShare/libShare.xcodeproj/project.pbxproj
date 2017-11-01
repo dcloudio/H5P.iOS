@@ -235,14 +235,7 @@
 					PDR_PLUS_SINAWEIBO,
 					PDR_PLUS_TENCENTWEIBO,
 				);
-				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../libPDRCore/libPDRCore/tools",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Managers",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/MiniServer",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/stream",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/WebviewEngine",
-				);
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../libPDRCore/libPDRCore/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -265,14 +258,7 @@
 					PDR_PLUS_SINAWEIBO,
 					PDR_PLUS_TENCENTWEIBO,
 				);
-				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../libPDRCore/libPDRCore/tools",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Managers",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/MiniServer",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/stream",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/WebviewEngine",
-				);
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../libPDRCore/libPDRCore/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

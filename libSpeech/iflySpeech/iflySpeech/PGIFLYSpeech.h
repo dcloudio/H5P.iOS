@@ -17,7 +17,8 @@
 #import <iflyMSC/IFlyMSC.h>
 #import "PGSpeech.h"
 
-@interface PGIFLYSpeech : PGSpeechImp <IFlyRecognizerViewDelegate> {
+@interface PGIFLYSpeech : PGSpeechImp <IFlyRecognizerViewDelegate,IFlySpeechRecognizerDelegate> {
     IFlyRecognizerView *_iFlyRecognizeControl;
+    IFlySpeechRecognizer *_iFlySpeechRecognizer;
 }
 @end

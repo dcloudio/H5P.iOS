@@ -328,6 +328,17 @@
     
 }
 
+
+- (void)listenMessage:(PGMethod*)command
+{
+    if(command && [command.arguments isKindOfClass:[NSArray class]]){
+        NSString* callbackID = [command.arguments firstObject];
+        if(callbackID){
+            [self result:PDRCommandStatusError message:@"not support" callBackId:callbackID];
+        }
+    }
+}
+
 -(void)result:(PDRCommandStatus)resultCode message:(NSString*)message callBackId:(NSString*)callbackId
 {
     PDRPluginResult *result = nil;
