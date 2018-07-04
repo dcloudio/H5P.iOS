@@ -8,18 +8,24 @@
 
 /* Begin PBXBuildFile section */
 		170B203A1A807F7000A2E316 /* PGGalleryProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 170B20391A807F7000A2E316 /* PGGalleryProgressHUD.m */; };
-		17155C601A75EF4A00F6D706 /* QBAssetsCollectionCheckmarkView.m in Sources */ = {isa = PBXBuildFile; fileRef = 17155C4B1A75EF4A00F6D706 /* QBAssetsCollectionCheckmarkView.m */; };
-		17155C611A75EF4A00F6D706 /* QBAssetsCollectionFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 17155C4D1A75EF4A00F6D706 /* QBAssetsCollectionFooterView.m */; };
-		17155C621A75EF4A00F6D706 /* QBAssetsCollectionOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 17155C4F1A75EF4A00F6D706 /* QBAssetsCollectionOverlayView.m */; };
-		17155C631A75EF4A00F6D706 /* QBAssetsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 17155C511A75EF4A00F6D706 /* QBAssetsCollectionViewCell.m */; };
-		17155C641A75EF4A00F6D706 /* QBAssetsCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17155C531A75EF4A00F6D706 /* QBAssetsCollectionViewController.m */; };
-		17155C651A75EF4A00F6D706 /* QBAssetsCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 17155C551A75EF4A00F6D706 /* QBAssetsCollectionViewLayout.m */; };
-		17155C661A75EF4A00F6D706 /* QBImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17155C571A75EF4A00F6D706 /* QBImagePickerController.m */; };
-		17155C671A75EF4A00F6D706 /* QBImagePickerGroupCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 17155C591A75EF4A00F6D706 /* QBImagePickerGroupCell.m */; };
-		17155C681A75EF4A00F6D706 /* QBImagePickerThumbnailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 17155C5B1A75EF4A00F6D706 /* QBImagePickerThumbnailView.m */; };
 		173A98361727BF6600A17DC4 /* PGCamera.mm in Sources */ = {isa = PBXBuildFile; fileRef = 173A98331727BF6600A17DC4 /* PGCamera.mm */; };
 		173A98371727BF6600A17DC4 /* PGGallery.mm in Sources */ = {isa = PBXBuildFile; fileRef = 173A98351727BF6600A17DC4 /* PGGallery.mm */; };
 		17F5CDA01727938B00356EE5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17F5CD9F1727938B00356EE5 /* Foundation.framework */; };
+		7A22BA4820DD116E000396F1 /* DCUIViewControllerHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A22BA2A20DD116D000396F1 /* DCUIViewControllerHUD.m */; };
+		7A22BA4920DD116E000396F1 /* NSBundle+TZImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A22BA2C20DD116D000396F1 /* NSBundle+TZImagePicker.m */; };
+		7A22BA4A20DD116E000396F1 /* TZAssetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A22BA2E20DD116D000396F1 /* TZAssetCell.m */; };
+		7A22BA4B20DD116E000396F1 /* TZAssetModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A22BA3020DD116D000396F1 /* TZAssetModel.m */; };
+		7A22BA4C20DD116E000396F1 /* TZGifPhotoPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A22BA3220DD116D000396F1 /* TZGifPhotoPreviewController.m */; };
+		7A22BA4D20DD116E000396F1 /* TZImageCropManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A22BA3420DD116D000396F1 /* TZImageCropManager.m */; };
+		7A22BA4E20DD116E000396F1 /* TZImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A22BA3620DD116D000396F1 /* TZImageManager.m */; };
+		7A22BA4F20DD116E000396F1 /* TZImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A22BA3920DD116D000396F1 /* TZImagePickerController.m */; };
+		7A22BA5020DD116E000396F1 /* TZLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A22BA3B20DD116D000396F1 /* TZLocationManager.m */; };
+		7A22BA5120DD116E000396F1 /* TZPhotoPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A22BA3D20DD116D000396F1 /* TZPhotoPickerController.m */; };
+		7A22BA5220DD116E000396F1 /* TZPhotoPreviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A22BA3F20DD116D000396F1 /* TZPhotoPreviewCell.m */; };
+		7A22BA5320DD116E000396F1 /* TZPhotoPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A22BA4120DD116D000396F1 /* TZPhotoPreviewController.m */; };
+		7A22BA5420DD116E000396F1 /* TZProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A22BA4320DD116D000396F1 /* TZProgressView.m */; };
+		7A22BA5520DD116E000396F1 /* TZVideoPlayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A22BA4520DD116D000396F1 /* TZVideoPlayerController.m */; };
+		7A22BA5620DD116E000396F1 /* UIView+Layout.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A22BA4720DD116D000396F1 /* UIView+Layout.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -37,24 +43,6 @@
 /* Begin PBXFileReference section */
 		170B20381A807F7000A2E316 /* PGGalleryProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGGalleryProgressHUD.h; sourceTree = "<group>"; };
 		170B20391A807F7000A2E316 /* PGGalleryProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGGalleryProgressHUD.m; sourceTree = "<group>"; };
-		17155C4A1A75EF4A00F6D706 /* QBAssetsCollectionCheckmarkView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QBAssetsCollectionCheckmarkView.h; sourceTree = "<group>"; };
-		17155C4B1A75EF4A00F6D706 /* QBAssetsCollectionCheckmarkView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QBAssetsCollectionCheckmarkView.m; sourceTree = "<group>"; };
-		17155C4C1A75EF4A00F6D706 /* QBAssetsCollectionFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QBAssetsCollectionFooterView.h; sourceTree = "<group>"; };
-		17155C4D1A75EF4A00F6D706 /* QBAssetsCollectionFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QBAssetsCollectionFooterView.m; sourceTree = "<group>"; };
-		17155C4E1A75EF4A00F6D706 /* QBAssetsCollectionOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QBAssetsCollectionOverlayView.h; sourceTree = "<group>"; };
-		17155C4F1A75EF4A00F6D706 /* QBAssetsCollectionOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QBAssetsCollectionOverlayView.m; sourceTree = "<group>"; };
-		17155C501A75EF4A00F6D706 /* QBAssetsCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QBAssetsCollectionViewCell.h; sourceTree = "<group>"; };
-		17155C511A75EF4A00F6D706 /* QBAssetsCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QBAssetsCollectionViewCell.m; sourceTree = "<group>"; };
-		17155C521A75EF4A00F6D706 /* QBAssetsCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QBAssetsCollectionViewController.h; sourceTree = "<group>"; };
-		17155C531A75EF4A00F6D706 /* QBAssetsCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QBAssetsCollectionViewController.m; sourceTree = "<group>"; };
-		17155C541A75EF4A00F6D706 /* QBAssetsCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QBAssetsCollectionViewLayout.h; sourceTree = "<group>"; };
-		17155C551A75EF4A00F6D706 /* QBAssetsCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QBAssetsCollectionViewLayout.m; sourceTree = "<group>"; };
-		17155C561A75EF4A00F6D706 /* QBImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QBImagePickerController.h; sourceTree = "<group>"; };
-		17155C571A75EF4A00F6D706 /* QBImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QBImagePickerController.m; sourceTree = "<group>"; };
-		17155C581A75EF4A00F6D706 /* QBImagePickerGroupCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QBImagePickerGroupCell.h; sourceTree = "<group>"; };
-		17155C591A75EF4A00F6D706 /* QBImagePickerGroupCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QBImagePickerGroupCell.m; sourceTree = "<group>"; };
-		17155C5A1A75EF4A00F6D706 /* QBImagePickerThumbnailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QBImagePickerThumbnailView.h; sourceTree = "<group>"; };
-		17155C5B1A75EF4A00F6D706 /* QBImagePickerThumbnailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QBImagePickerThumbnailView.m; sourceTree = "<group>"; };
 		173A98321727BF6600A17DC4 /* PGCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGCamera.h; sourceTree = "<group>"; };
 		173A98331727BF6600A17DC4 /* PGCamera.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PGCamera.mm; sourceTree = "<group>"; };
 		173A98341727BF6600A17DC4 /* PGGallery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGGallery.h; sourceTree = "<group>"; };
@@ -62,6 +50,37 @@
 		17F5CD9C1727938B00356EE5 /* liblibCamera.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibCamera.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		17F5CD9F1727938B00356EE5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		17F5CDA31727938B00356EE5 /* libCamera-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "libCamera-Prefix.pch"; sourceTree = "<group>"; };
+		7A22BA2920DD116D000396F1 /* DCUIViewControllerHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCUIViewControllerHUD.h; sourceTree = "<group>"; };
+		7A22BA2A20DD116D000396F1 /* DCUIViewControllerHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCUIViewControllerHUD.m; sourceTree = "<group>"; };
+		7A22BA2B20DD116D000396F1 /* NSBundle+TZImagePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBundle+TZImagePicker.h"; sourceTree = "<group>"; };
+		7A22BA2C20DD116D000396F1 /* NSBundle+TZImagePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+TZImagePicker.m"; sourceTree = "<group>"; };
+		7A22BA2D20DD116D000396F1 /* TZAssetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TZAssetCell.h; sourceTree = "<group>"; };
+		7A22BA2E20DD116D000396F1 /* TZAssetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TZAssetCell.m; sourceTree = "<group>"; };
+		7A22BA2F20DD116D000396F1 /* TZAssetModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TZAssetModel.h; sourceTree = "<group>"; };
+		7A22BA3020DD116D000396F1 /* TZAssetModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TZAssetModel.m; sourceTree = "<group>"; };
+		7A22BA3120DD116D000396F1 /* TZGifPhotoPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TZGifPhotoPreviewController.h; sourceTree = "<group>"; };
+		7A22BA3220DD116D000396F1 /* TZGifPhotoPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TZGifPhotoPreviewController.m; sourceTree = "<group>"; };
+		7A22BA3320DD116D000396F1 /* TZImageCropManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TZImageCropManager.h; sourceTree = "<group>"; };
+		7A22BA3420DD116D000396F1 /* TZImageCropManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TZImageCropManager.m; sourceTree = "<group>"; };
+		7A22BA3520DD116D000396F1 /* TZImageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TZImageManager.h; sourceTree = "<group>"; };
+		7A22BA3620DD116D000396F1 /* TZImageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TZImageManager.m; sourceTree = "<group>"; };
+		7A22BA3720DD116D000396F1 /* TZImagePickerController.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TZImagePickerController.bundle; sourceTree = "<group>"; };
+		7A22BA3820DD116D000396F1 /* TZImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TZImagePickerController.h; sourceTree = "<group>"; };
+		7A22BA3920DD116D000396F1 /* TZImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TZImagePickerController.m; sourceTree = "<group>"; };
+		7A22BA3A20DD116D000396F1 /* TZLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TZLocationManager.h; sourceTree = "<group>"; };
+		7A22BA3B20DD116D000396F1 /* TZLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TZLocationManager.m; sourceTree = "<group>"; };
+		7A22BA3C20DD116D000396F1 /* TZPhotoPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TZPhotoPickerController.h; sourceTree = "<group>"; };
+		7A22BA3D20DD116D000396F1 /* TZPhotoPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TZPhotoPickerController.m; sourceTree = "<group>"; };
+		7A22BA3E20DD116D000396F1 /* TZPhotoPreviewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TZPhotoPreviewCell.h; sourceTree = "<group>"; };
+		7A22BA3F20DD116D000396F1 /* TZPhotoPreviewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TZPhotoPreviewCell.m; sourceTree = "<group>"; };
+		7A22BA4020DD116D000396F1 /* TZPhotoPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TZPhotoPreviewController.h; sourceTree = "<group>"; };
+		7A22BA4120DD116D000396F1 /* TZPhotoPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TZPhotoPreviewController.m; sourceTree = "<group>"; };
+		7A22BA4220DD116D000396F1 /* TZProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TZProgressView.h; sourceTree = "<group>"; };
+		7A22BA4320DD116D000396F1 /* TZProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TZProgressView.m; sourceTree = "<group>"; };
+		7A22BA4420DD116D000396F1 /* TZVideoPlayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TZVideoPlayerController.h; sourceTree = "<group>"; };
+		7A22BA4520DD116D000396F1 /* TZVideoPlayerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TZVideoPlayerController.m; sourceTree = "<group>"; };
+		7A22BA4620DD116D000396F1 /* UIView+Layout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Layout.h"; sourceTree = "<group>"; };
+		7A22BA4720DD116D000396F1 /* UIView+Layout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Layout.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,31 +95,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		17155C491A75EF4A00F6D706 /* H5MutilGallery */ = {
-			isa = PBXGroup;
-			children = (
-				17155C4A1A75EF4A00F6D706 /* QBAssetsCollectionCheckmarkView.h */,
-				17155C4B1A75EF4A00F6D706 /* QBAssetsCollectionCheckmarkView.m */,
-				17155C4C1A75EF4A00F6D706 /* QBAssetsCollectionFooterView.h */,
-				17155C4D1A75EF4A00F6D706 /* QBAssetsCollectionFooterView.m */,
-				17155C4E1A75EF4A00F6D706 /* QBAssetsCollectionOverlayView.h */,
-				17155C4F1A75EF4A00F6D706 /* QBAssetsCollectionOverlayView.m */,
-				17155C501A75EF4A00F6D706 /* QBAssetsCollectionViewCell.h */,
-				17155C511A75EF4A00F6D706 /* QBAssetsCollectionViewCell.m */,
-				17155C521A75EF4A00F6D706 /* QBAssetsCollectionViewController.h */,
-				17155C531A75EF4A00F6D706 /* QBAssetsCollectionViewController.m */,
-				17155C541A75EF4A00F6D706 /* QBAssetsCollectionViewLayout.h */,
-				17155C551A75EF4A00F6D706 /* QBAssetsCollectionViewLayout.m */,
-				17155C561A75EF4A00F6D706 /* QBImagePickerController.h */,
-				17155C571A75EF4A00F6D706 /* QBImagePickerController.m */,
-				17155C581A75EF4A00F6D706 /* QBImagePickerGroupCell.h */,
-				17155C591A75EF4A00F6D706 /* QBImagePickerGroupCell.m */,
-				17155C5A1A75EF4A00F6D706 /* QBImagePickerThumbnailView.h */,
-				17155C5B1A75EF4A00F6D706 /* QBImagePickerThumbnailView.m */,
-			);
-			path = H5MutilGallery;
-			sourceTree = "<group>";
-		};
 		17F5CD931727938B00356EE5 = {
 			isa = PBXGroup;
 			children = (
@@ -129,7 +123,7 @@
 		17F5CDA11727938B00356EE5 /* libCamera */ = {
 			isa = PBXGroup;
 			children = (
-				17155C491A75EF4A00F6D706 /* H5MutilGallery */,
+				7A22BA2820DD116D000396F1 /* TZImagePickerController */,
 				173A98321727BF6600A17DC4 /* PGCamera.h */,
 				173A98331727BF6600A17DC4 /* PGCamera.mm */,
 				173A98341727BF6600A17DC4 /* PGGallery.h */,
@@ -147,6 +141,44 @@
 				17F5CDA31727938B00356EE5 /* libCamera-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		7A22BA2820DD116D000396F1 /* TZImagePickerController */ = {
+			isa = PBXGroup;
+			children = (
+				7A22BA2920DD116D000396F1 /* DCUIViewControllerHUD.h */,
+				7A22BA2A20DD116D000396F1 /* DCUIViewControllerHUD.m */,
+				7A22BA2B20DD116D000396F1 /* NSBundle+TZImagePicker.h */,
+				7A22BA2C20DD116D000396F1 /* NSBundle+TZImagePicker.m */,
+				7A22BA2D20DD116D000396F1 /* TZAssetCell.h */,
+				7A22BA2E20DD116D000396F1 /* TZAssetCell.m */,
+				7A22BA2F20DD116D000396F1 /* TZAssetModel.h */,
+				7A22BA3020DD116D000396F1 /* TZAssetModel.m */,
+				7A22BA3120DD116D000396F1 /* TZGifPhotoPreviewController.h */,
+				7A22BA3220DD116D000396F1 /* TZGifPhotoPreviewController.m */,
+				7A22BA3320DD116D000396F1 /* TZImageCropManager.h */,
+				7A22BA3420DD116D000396F1 /* TZImageCropManager.m */,
+				7A22BA3520DD116D000396F1 /* TZImageManager.h */,
+				7A22BA3620DD116D000396F1 /* TZImageManager.m */,
+				7A22BA3720DD116D000396F1 /* TZImagePickerController.bundle */,
+				7A22BA3820DD116D000396F1 /* TZImagePickerController.h */,
+				7A22BA3920DD116D000396F1 /* TZImagePickerController.m */,
+				7A22BA3A20DD116D000396F1 /* TZLocationManager.h */,
+				7A22BA3B20DD116D000396F1 /* TZLocationManager.m */,
+				7A22BA3C20DD116D000396F1 /* TZPhotoPickerController.h */,
+				7A22BA3D20DD116D000396F1 /* TZPhotoPickerController.m */,
+				7A22BA3E20DD116D000396F1 /* TZPhotoPreviewCell.h */,
+				7A22BA3F20DD116D000396F1 /* TZPhotoPreviewCell.m */,
+				7A22BA4020DD116D000396F1 /* TZPhotoPreviewController.h */,
+				7A22BA4120DD116D000396F1 /* TZPhotoPreviewController.m */,
+				7A22BA4220DD116D000396F1 /* TZProgressView.h */,
+				7A22BA4320DD116D000396F1 /* TZProgressView.m */,
+				7A22BA4420DD116D000396F1 /* TZVideoPlayerController.h */,
+				7A22BA4520DD116D000396F1 /* TZVideoPlayerController.m */,
+				7A22BA4620DD116D000396F1 /* UIView+Layout.h */,
+				7A22BA4720DD116D000396F1 /* UIView+Layout.m */,
+			);
+			path = TZImagePickerController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -175,7 +207,7 @@
 		17F5CD941727938B00356EE5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = DCloud;
 			};
 			buildConfigurationList = 17F5CD971727938B00356EE5 /* Build configuration list for PBXProject "libCamera" */;
@@ -201,18 +233,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				17155C601A75EF4A00F6D706 /* QBAssetsCollectionCheckmarkView.m in Sources */,
-				17155C611A75EF4A00F6D706 /* QBAssetsCollectionFooterView.m in Sources */,
 				170B203A1A807F7000A2E316 /* PGGalleryProgressHUD.m in Sources */,
-				17155C661A75EF4A00F6D706 /* QBImagePickerController.m in Sources */,
-				17155C631A75EF4A00F6D706 /* QBAssetsCollectionViewCell.m in Sources */,
-				17155C671A75EF4A00F6D706 /* QBImagePickerGroupCell.m in Sources */,
-				17155C681A75EF4A00F6D706 /* QBImagePickerThumbnailView.m in Sources */,
-				17155C621A75EF4A00F6D706 /* QBAssetsCollectionOverlayView.m in Sources */,
-				17155C651A75EF4A00F6D706 /* QBAssetsCollectionViewLayout.m in Sources */,
+				7A22BA5520DD116E000396F1 /* TZVideoPlayerController.m in Sources */,
 				173A98361727BF6600A17DC4 /* PGCamera.mm in Sources */,
+				7A22BA4A20DD116E000396F1 /* TZAssetCell.m in Sources */,
+				7A22BA4E20DD116E000396F1 /* TZImageManager.m in Sources */,
+				7A22BA4B20DD116E000396F1 /* TZAssetModel.m in Sources */,
+				7A22BA4F20DD116E000396F1 /* TZImagePickerController.m in Sources */,
+				7A22BA4C20DD116E000396F1 /* TZGifPhotoPreviewController.m in Sources */,
+				7A22BA5220DD116E000396F1 /* TZPhotoPreviewCell.m in Sources */,
 				173A98371727BF6600A17DC4 /* PGGallery.mm in Sources */,
-				17155C641A75EF4A00F6D706 /* QBAssetsCollectionViewController.m in Sources */,
+				7A22BA5420DD116E000396F1 /* TZProgressView.m in Sources */,
+				7A22BA5020DD116E000396F1 /* TZLocationManager.m in Sources */,
+				7A22BA4D20DD116E000396F1 /* TZImageCropManager.m in Sources */,
+				7A22BA5120DD116E000396F1 /* TZPhotoPickerController.m in Sources */,
+				7A22BA5620DD116E000396F1 /* UIView+Layout.m in Sources */,
+				7A22BA4820DD116E000396F1 /* DCUIViewControllerHUD.m in Sources */,
+				7A22BA5320DD116E000396F1 /* TZPhotoPreviewController.m in Sources */,
+				7A22BA4920DD116E000396F1 /* NSBundle+TZImagePicker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -223,28 +261,46 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				ENABLE_BITCODE = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -254,20 +310,38 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
 				ENABLE_BITCODE = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -287,7 +361,7 @@
 					"$(SRCROOT)/../libPDRCore/libPDRCore/MiniServer",
 					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -308,7 +382,7 @@
 					"$(SRCROOT)/../libPDRCore/libPDRCore/MiniServer",
 					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

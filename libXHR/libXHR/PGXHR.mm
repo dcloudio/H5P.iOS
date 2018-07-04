@@ -14,6 +14,8 @@
  *------------------------------------------------------------------
 */
 #import "PGXHR.h"
+#import "PDRCoreAppPrivate.h"
+#import "PDRCoreAppInfo.h"
 #import "PDRCoreWindowManager.h"
 #import "PDRCommonString.h"
 
@@ -259,6 +261,9 @@
     if ( !connection ) {
         connection = [[[PGXHRConnection alloc] init] autorelease];
         connection.UUID = UUID;
+        if(self.appContext && self.appContext.appInfo)
+            connection.eSslActive = self.appContext.appInfo.defSSLActive;
+        
         [_XHRConnections  setObject:connection forKey:UUID];
         connection.bridge = self;
     }

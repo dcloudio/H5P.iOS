@@ -327,7 +327,8 @@ NSString* pStrTransactionState      = @"transactionState";
     if (receiptURL) {
         NSData *receipt = [NSData dataWithContentsOfURL:receiptURL];
         if (receipt) {
-            return [self resultWithString:[[NSString alloc] initWithData:receipt encoding:NSUTF8StringEncoding]];
+            NSString *receiptString = [receipt base64EncodedStringWithOptions:0];
+            return [self resultWithString:receiptString?receiptString:@""];
         }
     }
     return pRetData;
@@ -359,6 +360,9 @@ NSString* pStrTransactionState      = @"transactionState";
     [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
 }
 
+- (void)paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error {
+    [self toErrorCallback:pRestorecbID withNSError:error];
+}
 
 // 恢复已购项目结束的回调
 -(void) paymentQueueRestoreCompletedTransactionsFinished: (SKPaymentQueue *)queue

@@ -1262,7 +1262,7 @@ static int MapToolFitZoom(int zoom)
 - (void)mapView:(MAMapView *)mapView didSingleTappedAtCoordinate:(CLLocationCoordinate2D)coordinate {
     NSString *jsObjectF =
     @"{var plus = %@;var args = new plus.maps.Point(%f,%f);\
-    plus.maps.__bridge__.execCallback('%@', args);}";
+    plus.maps.__bridge__.execCallback('%@', {callbackType:'click',payload:args});}";
     NSString *javaScript = [NSString stringWithFormat:jsObjectF, [H5CoreJavaScriptText plusObject], coordinate.longitude, coordinate.latitude, self.UUID];
     [jsBridge asyncWriteJavascript:javaScript];
 }

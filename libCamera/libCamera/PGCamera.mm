@@ -1,4 +1,4 @@
-﻿/*
+/*
  *------------------------------------------------------------------
  *  pandora/feature/camera/pg_camera.mm
  *  Description:
@@ -37,7 +37,7 @@
     if ( self = [super init] ) {
         self.encodingType = PGCameraEncodingTypeJPEG;
         self.cameraDevice = UIImagePickerControllerCameraDeviceRear;
-        self.resolution = UIImagePickerControllerQualityTypeLow;
+        self.resolution = UIImagePickerControllerQualityType640x480;
         self.rect = CGRectZero;
         self.rectValid = FALSE;
     }
@@ -726,7 +726,7 @@
         }
         
         [self result:PDRCommandStatusOK
-             message:[PTPathUtil relativePath:photoPicker.saveFileName] //[[NSURL fileURLWithPath:photoPicker.saveFileName] absoluteString]
+             message:[PTPathUtil relativePath:photoPicker.saveFileName withContext:self.appContext] //[[NSURL fileURLWithPath:photoPicker.saveFileName] absoluteString]
           callBackId:self.pickerController.callbackId];
         self.hasPendingOperation = NO;
         self.pickerController = nil;

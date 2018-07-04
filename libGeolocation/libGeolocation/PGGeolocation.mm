@@ -34,51 +34,6 @@ static NSDictionary *g_support_provider =
   @"amap"   : @""*/
 };
 
-@implementation PGLocationServer
-@synthesize  providerName;
-@synthesize delegate;
-@synthesize allowsBackgroundLocationUpdates;
-
-- (BOOL)isLocationServicesEnabled
-{
-    return [CLLocationManager locationServicesEnabled];
-}
-- (NSString*)getDefalutCoorType{return @"wgs84";}
-- (NSString*)getSupportCoorType:(NSString*)coorType {return nil;}
-
-- (void)startLocation:(BOOL)enableHighAccuracy {}
-- (void)stopLocation {}
-- (void)reverseGeocodeLocation:(CLLocation*)location {}
-
-- (void)addLocations:(NSArray*)locations {
-    if ( !_reverseLocations ) {
-        _reverseLocations = [[NSMutableArray alloc] init];
-    }
-    [_reverseLocations addObjectsFromArray:locations];
-}
-
-- (id)getFirstLocation {
-    if ( [_reverseLocations count]) {
-        return [_reverseLocations objectAtIndex:0];
-    }
-    return nil;
-}
-
-- (void)removeFirstLocation {
-    if ( [_reverseLocations count]) {
-        [_reverseLocations removeObjectAtIndex:0];
-    }
-}
-
-- (void)removeAllLocation{
-    [_reverseLocations removeAllObjects];
-}
-
-- (void)dealloc {
-    [_reverseLocations release];
-    [super dealloc];
-}
-@end
 
 @implementation PGLocationAddress : NSObject
 @synthesize country;
@@ -463,6 +418,16 @@ static NSDictionary *g_support_provider =
     // LXZ 保存到 UserDefaults里
     NSUserDefaults* pStandUserDef = [NSUserDefaults standardUserDefaults];
     if (pStandUserDef) {
+        
+        NSMutableDictionary *adPos = [NSMutableDictionary dictionary];
+        [adPos setObject:request.coordType?:@"" forKey:@"type"];
+        [adPos setObject:@(coords.longitude) forKey:@"lon"];
+        [adPos setObject:@(coords.latitude) forKey:@"lat"];
+        CLLocationAccuracy Accuracy = MAX(lInfo.verticalAccuracy, lInfo.horizontalAccuracy);
+        [adPos setObject:@(Accuracy) forKey:@"accuracy"];
+        [adPos setObject:timestamp forKey:@"ts"];
+        [pStandUserDef setObject:adPos forKey:@"DCADPosition"];
+        
         [pStandUserDef setObject:[result toJSONString] forKey:@"PDRPlusLastPosInfomation"];
         [pStandUserDef synchronize];
     }
@@ -590,6 +555,16 @@ static NSDictionary *g_support_provider =
         return PGPluginAuthorizeStatusAuthorized;
     }
     return PGPluginAuthorizeStatusAuthorized;
+}
+
++ (BOOL)authorizeSystemStatus{
+    CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
+    if(status == kCLAuthorizationStatusAuthorizedAlways ||
+       status == kCLAuthorizationStatusAuthorizedWhenInUse ||
+       status == kCLAuthorizationStatusDenied){
+        return YES;
+    }    
+    return NO;
 }
 
 - (void)dealloc

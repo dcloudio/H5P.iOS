@@ -14,7 +14,7 @@
  *------------------------------------------------------------------
  */
 
-#import "PGPay.h"
+#import "PGPlatby.h"
 #import "WXApi.h"
 
 enum {

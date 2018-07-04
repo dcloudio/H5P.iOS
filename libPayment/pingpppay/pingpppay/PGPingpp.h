@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 Pingplusplus. All rights reserved.
 //
 
-#import "PGPay.h"
+#import "PGPlatby.h"
 
 @interface PGPingpp : PGPlatby {
 }

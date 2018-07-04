@@ -24,6 +24,7 @@
 
 @interface PGPush : PGPlugin
 @property (assign, nonatomic) BOOL handleOfflineMsg;
++ (instancetype)instance;
 - (void)clear:(PGMethod*)pMethod;
 - (void)addEventListener:(PGMethod*)pMethod;
 - (void)createMessage:(PGMethod*)pMethod;

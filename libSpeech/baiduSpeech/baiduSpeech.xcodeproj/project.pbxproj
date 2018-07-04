@@ -1,0 +1,350 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2492ABA81FC2B2360034E90C /* PGBaiduSpeech.m in Sources */ = {isa = PBXBuildFile; fileRef = 2492ABA71FC2B2360034E90C /* PGBaiduSpeech.m */; };
+		2492ABA91FC2B2360034E90C /* PGBaiduSpeech.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2492ABA61FC2B2360034E90C /* PGBaiduSpeech.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2492ABA11FC2B2360034E90C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+				2492ABA91FC2B2360034E90C /* PGBaiduSpeech.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		2492ABA31FC2B2360034E90C /* libbaiduSpeech.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libbaiduSpeech.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		2492ABA61FC2B2360034E90C /* PGBaiduSpeech.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGBaiduSpeech.h; sourceTree = "<group>"; };
+		2492ABA71FC2B2360034E90C /* PGBaiduSpeech.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGBaiduSpeech.m; sourceTree = "<group>"; };
+		2492ABD31FC2B6C20034E90C /* BDSASRDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDSASRDefines.h; sourceTree = "<group>"; };
+		2492ABD41FC2B6C20034E90C /* BDSASRParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDSASRParameters.h; sourceTree = "<group>"; };
+		2492ABD51FC2B6C20034E90C /* BDSEventManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDSEventManager.h; sourceTree = "<group>"; };
+		2492ABD61FC2B6C20034E90C /* BDSUploaderDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDSUploaderDefines.h; sourceTree = "<group>"; };
+		2492ABD71FC2B6C20034E90C /* BDSUploaderParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDSUploaderParameters.h; sourceTree = "<group>"; };
+		2492ABD81FC2B6C20034E90C /* BDSWakeupDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDSWakeupDefines.h; sourceTree = "<group>"; };
+		2492ABD91FC2B6C20034E90C /* BDSWakeupParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDSWakeupParameters.h; sourceTree = "<group>"; };
+		2492ABDB1FC2B6C20034E90C /* BDRecognizerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDRecognizerViewController.h; sourceTree = "<group>"; };
+		2492ABDC1FC2B6C20034E90C /* BDRecognizerViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDRecognizerViewDelegate.h; sourceTree = "<group>"; };
+		2492ABDD1FC2B6C20034E90C /* BDRecognizerViewParamsObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDRecognizerViewParamsObject.h; sourceTree = "<group>"; };
+		2492ABDE1FC2B6C20034E90C /* BDTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDTheme.h; sourceTree = "<group>"; };
+		2492ABE01FC2B6C20034E90C /* BDS_EttsModelManagerInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDS_EttsModelManagerInterface.h; sourceTree = "<group>"; };
+		2492ABE11FC2B6C20034E90C /* BDSBuiltInPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDSBuiltInPlayer.h; sourceTree = "<group>"; };
+		2492ABE21FC2B6C20034E90C /* BDSMixedModeSynthesizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDSMixedModeSynthesizer.h; sourceTree = "<group>"; };
+		2492ABE31FC2B6C20034E90C /* BDSSpeechSynthesizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDSSpeechSynthesizer.h; sourceTree = "<group>"; };
+		2492ABE41FC2B6C20034E90C /* BDSSpeechSynthesizerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDSSpeechSynthesizerDelegate.h; sourceTree = "<group>"; };
+		2492ABE51FC2B6C20034E90C /* BDSSpeechSynthesizerErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDSSpeechSynthesizerErrors.h; sourceTree = "<group>"; };
+		2492ABE61FC2B6C20034E90C /* BDSSpeechSynthesizerParams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDSSpeechSynthesizerParams.h; sourceTree = "<group>"; };
+		2492ABE71FC2B6C20034E90C /* BDSSynthesizerLogLevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDSSynthesizerLogLevel.h; sourceTree = "<group>"; };
+		2492ABE81FC2B6C20034E90C /* BDSTTSEventManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDSTTSEventManager.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2492ABA01FC2B2360034E90C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2492AB9A1FC2B2360034E90C = {
+			isa = PBXGroup;
+			children = (
+				2492ABD11FC2B6C20034E90C /* BDSClientHeaders */,
+				2492ABA51FC2B2360034E90C /* baiduSpeech */,
+				2492ABA41FC2B2360034E90C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2492ABA41FC2B2360034E90C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2492ABA31FC2B2360034E90C /* libbaiduSpeech.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2492ABA51FC2B2360034E90C /* baiduSpeech */ = {
+			isa = PBXGroup;
+			children = (
+				2492ABA61FC2B2360034E90C /* PGBaiduSpeech.h */,
+				2492ABA71FC2B2360034E90C /* PGBaiduSpeech.m */,
+			);
+			path = baiduSpeech;
+			sourceTree = "<group>";
+		};
+		2492ABD11FC2B6C20034E90C /* BDSClientHeaders */ = {
+			isa = PBXGroup;
+			children = (
+				2492ABD21FC2B6C20034E90C /* ASR */,
+				2492ABDF1FC2B6C20034E90C /* TTS */,
+			);
+			name = BDSClientHeaders;
+			path = baiduSpeech/BDSClientHeaders;
+			sourceTree = "<group>";
+		};
+		2492ABD21FC2B6C20034E90C /* ASR */ = {
+			isa = PBXGroup;
+			children = (
+				2492ABD31FC2B6C20034E90C /* BDSASRDefines.h */,
+				2492ABD41FC2B6C20034E90C /* BDSASRParameters.h */,
+				2492ABD51FC2B6C20034E90C /* BDSEventManager.h */,
+				2492ABD61FC2B6C20034E90C /* BDSUploaderDefines.h */,
+				2492ABD71FC2B6C20034E90C /* BDSUploaderParameters.h */,
+				2492ABD81FC2B6C20034E90C /* BDSWakeupDefines.h */,
+				2492ABD91FC2B6C20034E90C /* BDSWakeupParameters.h */,
+				2492ABDA1FC2B6C20034E90C /* UIHeaders */,
+			);
+			path = ASR;
+			sourceTree = "<group>";
+		};
+		2492ABDA1FC2B6C20034E90C /* UIHeaders */ = {
+			isa = PBXGroup;
+			children = (
+				2492ABDB1FC2B6C20034E90C /* BDRecognizerViewController.h */,
+				2492ABDC1FC2B6C20034E90C /* BDRecognizerViewDelegate.h */,
+				2492ABDD1FC2B6C20034E90C /* BDRecognizerViewParamsObject.h */,
+				2492ABDE1FC2B6C20034E90C /* BDTheme.h */,
+			);
+			path = UIHeaders;
+			sourceTree = "<group>";
+		};
+		2492ABDF1FC2B6C20034E90C /* TTS */ = {
+			isa = PBXGroup;
+			children = (
+				2492ABE01FC2B6C20034E90C /* BDS_EttsModelManagerInterface.h */,
+				2492ABE11FC2B6C20034E90C /* BDSBuiltInPlayer.h */,
+				2492ABE21FC2B6C20034E90C /* BDSMixedModeSynthesizer.h */,
+				2492ABE31FC2B6C20034E90C /* BDSSpeechSynthesizer.h */,
+				2492ABE41FC2B6C20034E90C /* BDSSpeechSynthesizerDelegate.h */,
+				2492ABE51FC2B6C20034E90C /* BDSSpeechSynthesizerErrors.h */,
+				2492ABE61FC2B6C20034E90C /* BDSSpeechSynthesizerParams.h */,
+				2492ABE71FC2B6C20034E90C /* BDSSynthesizerLogLevel.h */,
+				2492ABE81FC2B6C20034E90C /* BDSTTSEventManager.h */,
+			);
+			path = TTS;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2492ABA21FC2B2360034E90C /* baiduSpeech */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2492ABAC1FC2B2360034E90C /* Build configuration list for PBXNativeTarget "baiduSpeech" */;
+			buildPhases = (
+				2492AB9F1FC2B2360034E90C /* Sources */,
+				2492ABA01FC2B2360034E90C /* Frameworks */,
+				2492ABA11FC2B2360034E90C /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = baiduSpeech;
+			productName = baiduSpeech;
+			productReference = 2492ABA31FC2B2360034E90C /* libbaiduSpeech.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2492AB9B1FC2B2360034E90C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = EICAPITAN;
+				TargetAttributes = {
+					2492ABA21FC2B2360034E90C = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 2492AB9E1FC2B2360034E90C /* Build configuration list for PBXProject "baiduSpeech" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 2492AB9A1FC2B2360034E90C;
+			productRefGroup = 2492ABA41FC2B2360034E90C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2492ABA21FC2B2360034E90C /* baiduSpeech */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2492AB9F1FC2B2360034E90C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2492ABA81FC2B2360034E90C /* PGBaiduSpeech.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		2492ABAA1FC2B2360034E90C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		2492ABAB1FC2B2360034E90C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2492ABAD1FC2B2360034E90C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = NO;
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../libSpeech\"",
+					"\"$(SRCROOT)/../../libPDRCore\"/**",
+					"\"$(SRCROOT)/baiduSpeech/BDSClientHeaders\"/**",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		2492ABAE1FC2B2360034E90C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = NO;
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../libSpeech\"",
+					"\"$(SRCROOT)/../../libPDRCore\"/**",
+					"\"$(SRCROOT)/baiduSpeech/BDSClientHeaders\"/**",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2492AB9E1FC2B2360034E90C /* Build configuration list for PBXProject "baiduSpeech" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2492ABAA1FC2B2360034E90C /* Debug */,
+				2492ABAB1FC2B2360034E90C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2492ABAC1FC2B2360034E90C /* Build configuration list for PBXNativeTarget "baiduSpeech" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2492ABAD1FC2B2360034E90C /* Debug */,
+				2492ABAE1FC2B2360034E90C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2492AB9B1FC2B2360034E90C /* Project object */;
+}

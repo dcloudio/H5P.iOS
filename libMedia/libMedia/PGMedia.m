@@ -15,6 +15,7 @@
 #import "PDRCommonString.h"
 #import "VoiceConverter.h"
 #import "PGObject.h"
+#import "lame.h"
 
 typedef enum
 {
@@ -28,12 +29,13 @@ static NSString* const kPGAudioRecorderKey = @"Recorder";
 
 static NSString* const kPGAudioRecorderParams_aac = @"aac";
 static NSString* const kPGAudioRecorderParams_amr = @"amr";
+static NSString* const kPGAudioRecorderParams_mp3 = @"mp3";
 static NSString* const kPGAudioRecorderParams_wav = @"wav";
 static NSString* const kPGAudioRecorderKey_cbid   = @"a";
 static NSString* const kPGAudioRecorderKey_outFile   = @"b";
 static NSString* const kPGAudioRecorderKey_recordFile   = @"c";
 static NSString* const kPGAudioRecorderKey_isamr   = @"d";
-
+static NSString* const kPGAudioRecorderKeyUUID   = @"e";
 @interface PGPlayerContext : PGObject
 @property(nonatomic,assign)BOOL ready;
 @property(nonatomic, assign)BOOL isDiscard;
@@ -53,7 +55,6 @@ static NSString* const kPGAudioRecorderKey_isamr   = @"d";
     self.player = nil;
     self.jsCallbackId = nil;
     self.playPath = nil;
-    [super dealloc];
 }
 @end
 
@@ -174,6 +175,9 @@ static NSString* const kPGAudioRecorderKey_isamr   = @"d";
             } else if (  NSOrderedSame == [kPGAudioRecorderParams_amr caseInsensitiveCompare:fileTypeJSP] ) {
                 eRecFormat = EDHA_SUPPORT_AMR;
                 fileType = kPGAudioRecorderParams_amr;
+            } else if (  NSOrderedSame == [kPGAudioRecorderParams_mp3 caseInsensitiveCompare:fileTypeJSP] ) {
+                eRecFormat = EDHA_SUPPORT_MP3;
+                fileType = kPGAudioRecorderParams_mp3;
             }
         }
     }
@@ -183,15 +187,19 @@ static NSString* const kPGAudioRecorderKey_isamr   = @"d";
                                suggestedFilename:nil
                                           prefix:@"Recorder_"
                                           suffix:fileType];
+    
     if ( [PTPathUtil allowsWritePath:pOutFileName withContext:self.appContext] ) {
         NSMutableDictionary* FormatDic = [NSMutableDictionary dictionary];
         
-        if ( EDHA_SUPPORT_AMR == eRecFormat ) {
+        if ( EDHA_SUPPORT_AMR == eRecFormat  ) {
             pRecorderFileName = [pOutFileName stringByAppendingPathExtension:@"wav"];
+        } else if ( EDHA_SUPPORT_MP3 == eRecFormat ) {
+            pRecorderFileName = [pOutFileName stringByAppendingPathExtension:@"caf"];
         } else {
             pRecorderFileName = pOutFileName;
         }
-        
+        [FormatDic setObject:[NSNumber numberWithFloat:nSamplateRate] forKey: AVSampleRateKey];
+        [FormatDic setObject:[NSNumber numberWithInt:1] forKey:AVNumberOfChannelsKey];
         switch (eRecFormat){
             case EDHA_SUPPORT_AAC: {
                 [FormatDic setObject:[NSNumber numberWithInt: kAudioFormatMPEG4AAC] forKey: AVFormatIDKey];
@@ -200,6 +208,8 @@ static NSString* const kPGAudioRecorderKey_isamr   = @"d";
             }
                 break;
             case EDHA_SUPPORT_WAV:
+            case EDHA_SUPPORT_MP3:
+                [FormatDic setObject:[NSNumber numberWithInt:2] forKey:AVNumberOfChannelsKey];
             case EDHA_SUPPORT_AMR: {
                 [FormatDic setObject:[NSNumber numberWithInt: kAudioFormatLinearPCM] forKey: AVFormatIDKey];
                 [FormatDic setObject:[NSNumber numberWithBool:NO] forKey:AVLinearPCMIsBigEndianKey];
@@ -211,12 +221,8 @@ static NSString* const kPGAudioRecorderKey_isamr   = @"d";
             default:
                 break;
         }
-        
-        [FormatDic setObject:[NSNumber numberWithFloat:nSamplateRate] forKey: AVSampleRateKey];
-        [FormatDic setObject:[NSNumber numberWithInt:1] forKey:AVNumberOfChannelsKey];
-        
         [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
-        
+        [[AVAudioSession sharedInstance] overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:nil];
         NSURL* pURL = [NSURL fileURLWithPath:pRecorderFileName];
         NSError *error = nil;
         AVAudioRecorder* pAURecorder = [[AVAudioRecorder alloc] initWithURL:pURL settings:FormatDic error:&error];
@@ -228,24 +234,26 @@ static NSString* const kPGAudioRecorderKey_isamr   = @"d";
                 [FormatDic setObject:pAURecorder forKey:kPGAudioRecorderKey];
                 [FormatDic setObject:pCallBackID forKey:kPGAudioRecorderKey_cbid];
                 [FormatDic setObject:pRecorderFileName forKey:kPGAudioRecorderKey_recordFile];
+                [FormatDic setObject:@(nSamplateRate) forKey:AVSampleRateKey];
                 [FormatDic setObject:pOutFileName forKey:kPGAudioRecorderKey_outFile];
+                [FormatDic setObject:pRecorderUdid forKey:kPGAudioRecorderKeyUUID];
                 if ( eRecFormat == EDHA_SUPPORT_AMR  ) {
                    // [VoiceConverter changeStu];
                     [FormatDic setObject:[NSNumber numberWithBool:true] forKey:kPGAudioRecorderKey_isamr];
-//                    //启动计时器
-//                    NSInvocationOperation *operation = [[NSInvocationOperation alloc] initWithTarget:self
-//                                                                                            selector:@selector(wavToAmrBtnPressed:)
-//                                                                                              object:[NSArray arrayWithObjects:pRecorderFileName,pOutFileName, nil]];
-//                    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
-//                    [queue addOperation:operation];
                 } else {
                     [FormatDic setObject:[NSNumber numberWithBool:false] forKey:kPGAudioRecorderKey_isamr];
                 }
                 [m_pRecorderDic setObject:FormatDic forKey:pRecorderUdid];
-                [pAURecorder release];
+                
+                if ( eRecFormat == EDHA_SUPPORT_MP3 ) {
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                        [self conventToMp3:FormatDic];
+                    });
+                }
+                
                 return;
             }
-            [pAURecorder release];
+            
         }
         [FormatDic removeAllObjects];
     }
@@ -253,6 +261,81 @@ static NSString* const kPGAudioRecorderKey_isamr   = @"d";
     PDRPluginResult *result = [PDRPluginResult resultWithStatus:PDRCommandStatusError messageToErrorObject:1 withMessage:@"参数错误"];
     [self toCallback:pCallBackID withReslut:[result toJSONString]];
 }
+- (void)conventToMp3:(NSDictionary*)dict {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        @try {
+            NSString *recordFilePath = [dict objectForKey:kPGAudioRecorderKey_recordFile];
+            NSString *mp3FilePath = [dict objectForKey:kPGAudioRecorderKey_outFile];
+            NSNumber *sampleRate = [dict objectForKey:AVSampleRateKey];
+            NSString *UUID = [dict objectForKey:kPGAudioRecorderKeyUUID];
+            int read, write;
+            
+            FILE *pcm = fopen([recordFilePath cStringUsingEncoding:NSASCIIStringEncoding], "rb");
+            FILE *mp3 = fopen([mp3FilePath cStringUsingEncoding:NSASCIIStringEncoding], "wb+");
+            
+            const int PCM_SIZE = 8192;
+            const int MP3_SIZE = 8192;
+            short int pcm_buffer[PCM_SIZE * 2];
+            unsigned char mp3_buffer[MP3_SIZE];
+            
+            lame_t lame = lame_init();
+            lame_set_in_samplerate(lame, [sampleRate integerValue]);
+            lame_set_VBR(lame, vbr_default);
+            lame_init_params(lame);
+            
+            long curpos;
+            BOOL isSkipPCMHeader = NO;
+            
+            NSString *record = nil;
+            do {
+                curpos = ftell(pcm);
+                long startPos = ftell(pcm);
+                fseek(pcm, 0, SEEK_END);
+                long endPos = ftell(pcm);
+                long length = endPos - startPos;
+                fseek(pcm, curpos, SEEK_SET);
+                
+                if (length > PCM_SIZE * 2 * sizeof(short int)) {
+                    
+                    if (!isSkipPCMHeader) {
+                        //Uump audio file header, If you do not skip file header
+                        //you will heard some noise at the beginning!!!
+                        fseek(pcm, 4 * 1024, SEEK_CUR);
+                        isSkipPCMHeader = YES;
+                        //NSLog(@"skip pcm file header !!!!!!!!!!");
+                    }
+                    
+                    read = (int)fread(pcm_buffer, 2 * sizeof(short int), PCM_SIZE, pcm);
+                    write = lame_encode_buffer_interleaved(lame, pcm_buffer, read, mp3_buffer, MP3_SIZE);
+                    fwrite(mp3_buffer, write, 1, mp3);
+                    //NSLog(@"read %d bytes", write);
+                } else {
+                    [NSThread sleepForTimeInterval:0.05];
+                  //  NSLog(@"sleep");
+                }//
+                record = [m_pRecorderDic objectForKey:UUID];
+            } while (record);
+            
+            read = (int)fread(pcm_buffer, 2 * sizeof(short int), PCM_SIZE, pcm);
+            write = lame_encode_flush(lame, mp3_buffer, MP3_SIZE);
+            
+          //  NSLog(@"read %d bytes and flush to mp3 file", write);
+            lame_mp3_tags_fid(lame, mp3);
+            
+            lame_close(lame);
+            fclose(mp3);
+            fclose(pcm);
+             [[NSFileManager defaultManager] removeItemAtPath:recordFilePath error:nil];
+        }
+        @catch (NSException *exception) {
+           // NSLog(@"%@", [exception description]);
+        }
+        @finally {
+           
+        }
+    });
+}
+
 //
 //- (void)wavToAmrBtnPressed:(NSArray*)originWav{
 //    if ([originWav count] == 2){
@@ -326,7 +409,7 @@ static NSString* const kPGAudioRecorderKey_isamr   = @"d";
 
     // 录音列表空了就释放
     if ([m_pRecorderDic count] == 0) {
-        [m_pRecorderDic release];
+      //  [m_pRecorderDic release];
         m_pRecorderDic = nil;
     }
 }
@@ -342,7 +425,7 @@ static NSString* const kPGAudioRecorderKey_isamr   = @"d";
         }
     }
     [m_pRecorderDic removeAllObjects];
-    [m_pRecorderDic release];
+   // [m_pRecorderDic release];
     m_pRecorderDic = nil;
 }
 
@@ -386,7 +469,7 @@ static NSString* const kPGAudioRecorderKey_isamr   = @"d";
         pPlayerUUID = [pMethod objectAtIndex:0];
         pMusicPath = [pMethod objectAtIndex:1];
         
-        PGPlayerContext *pPlayerContext = [[[PGPlayerContext alloc] init] autorelease];
+        PGPlayerContext *pPlayerContext = [[PGPlayerContext alloc] init];
         pPlayerContext.ready = false;
         pPlayerContext.isNeedPlay = false;
         pPlayerContext.loadError = PGPluginOK;
@@ -426,7 +509,7 @@ static NSString* const kPGAudioRecorderKey_isamr   = @"d";
                     }
                 }
                 pPlayerContext.player = pPlayer;
-                [pPlayer release];
+               // [pPlayer release];
             } else {
                 pPlayerContext.loadError = PGPluginErrorNotSupport;
             }
@@ -471,7 +554,7 @@ static NSString* const kPGAudioRecorderKey_isamr   = @"d";
         context.isDiscard = true;
     }];
     [m_pPlayerDic removeAllObjects];
-    [m_pPlayerDic release];
+    //[m_pPlayerDic release];
     m_pPlayerDic = nil;
 }
 
@@ -518,6 +601,33 @@ static NSString* const kPGAudioRecorderKey_isamr   = @"d";
                 pPlayerContext.isNeedPlay = true;
             }
         }
+    }
+}
+
+/*
+ * Ambient      不中止其他声音播放，不能后台播放，静音后无声音
+ * SoloAmbient  中止其他声音播放，不能后台播放，静音后无声音
+ * Playback     中止其他声音，可以后台播放，静音后无声音
+ */
+- (void)Player_setSessionCategory:(NSArray*)pMethod
+{
+    NSString* catType = AVAudioSessionCategoryPlayback;
+    NSString* pCategory = [pMethod firstObject];
+    if(pCategory && [pCategory isKindOfClass:[NSString class]]){
+        if([[pCategory lowercaseString] isEqualToString:@"ambient"]){
+            catType = AVAudioSessionCategoryAmbient;
+        }else if([[pCategory lowercaseString] isEqualToString:@"soloambient"]){
+            catType = AVAudioSessionCategorySoloAmbient;
+        }
+    }
+
+    @try {
+        AVAudioSession* session = [AVAudioSession sharedInstance];
+        if(session){
+            [session setCategory:catType error:nil];
+        }
+    } @catch (NSException *exception) {
+        
     }
 }
 
@@ -711,7 +821,8 @@ static NSString* const kPGAudioRecorderKey_isamr   = @"d";
 - (void)dealloc {
     [self closeRecorder];
     [self closePlayer];
-    [super dealloc];
+    //[super dealloc];
 }
 
 @end
+

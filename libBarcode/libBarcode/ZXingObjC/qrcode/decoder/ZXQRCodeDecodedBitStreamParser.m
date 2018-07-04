@@ -197,7 +197,7 @@ const int ZX_GB2312_SUBSET = 1;
     count--;
   }
 
-  NSString *string = [[NSString alloc] initWithData:buffer encoding:NSShiftJISStringEncoding];
+  NSString *string = [[NSString alloc] initWithData:buffer encoding:NSUTF8StringEncoding];
   if (string) {
     [result appendString:string];
   }

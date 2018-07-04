@@ -321,6 +321,22 @@ static DCSAppShareView* g_sappShareView = nil;
 
 }
 
+- (void)showSystemShare:(UIView*)pParentView AppName:(NSString*)appname
+                 AppID:(NSString*)pAppid IconPath:(NSString*)iconPath
+                  Href:(NSString*)href content:(NSString*)description
+{
+    if (pShareManager == nil) {
+        pShareManager = [[DCSAPPShareManager alloc] init];
+    }
+    
+    m_pAppid = [[NSString stringWithString:pAppid] retain];
+    m_pName = [[NSString stringWithString:appname] retain];
+    m_pIconPath = [[NSString stringWithString:iconPath] retain];
+    
+    eCurShareType = ESHARE_SHARETYPE_APP;
+    [self makeShareByType:ESHARE_TYPE_SYSTEM];
+}
+
 
 - (void)showSharePanel:(UIView*)pParentView AppName:(NSString*)appname
                  AppID:(NSString*)pAppid IconPath:(NSString*)iconPath
@@ -362,7 +378,6 @@ static DCSAppShareView* g_sappShareView = nil;
                         @"wap":href,
                         @"stream":pStrPostBody}
               success:^(DCAFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-                  int i = 0;
                   if(responseObject && [responseObject isKindOfClass:[NSDictionary class]])
                   {
                       NSString* psURL = [responseObject objectForKey:@"surl"];

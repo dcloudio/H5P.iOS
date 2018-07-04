@@ -1,5 +1,5 @@
 ﻿
-#import "PGPay.h"
+#import "PGPlatby.h"
 //#import "AlixLibService.h"
 //#import "AlixPayResult.h"
 //#import "DataVerifier.h"

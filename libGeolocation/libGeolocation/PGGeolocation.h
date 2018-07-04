@@ -1,4 +1,4 @@
-﻿/*
+/*
  *------------------------------------------------------------------
  *  pandora/feature/PGGeolocation.h
  *  Description:
@@ -29,6 +29,8 @@
 
 #import "PGPlugin.h"
 #import "PGMethod.h"
+#import "PGLocationServer.h"
+#import "PGLocationServerManager.h"
 
 //typedef NSInteger PGHeadingStatus;
 
@@ -38,12 +40,6 @@ typedef NS_ENUM(NSInteger, PGLocationCoorType) {
     PGLocationCoorTypeBD09, //表示百度墨卡托坐标系
     PGLocationCoorTypeBD09LL //表示百度经纬度坐标系
 };
-//NSLocationWhenInUseUsageDescription 允许在前台使用时获取GPS的描述
-//NSLocationAlwaysUsageDescription 允许永远可获取GPS的描述
-typedef NS_ENUM(NSInteger, PGLocationDescription) {
-    PGLocationDescriptionWhenInUse,
-    PGLocationDescriptionAlwaysUsage
-};
 
 enum {
     PGLocationErrorLocationNoEnabled = PGPluginErrorNext,
@@ -52,39 +48,7 @@ enum {
     PGLocationErrorNotSupportCoordType,
     PGLocationErrorUnableGetLocation
 };
-@class PGLocationAddress;
-@class PGLocationServer;
-@protocol PGLocationServerDelegete <NSObject>
-- (void)locationServer:(PGLocationServer*)manager
-    didUpdateLocations:(NSArray *)locations;
-- (void)locationServer:(PGLocationServer*)manager didFailWithError:(NSError*)error;
-- (void)locationServer:(PGLocationServer*)manager geocodeCompletion:(PGLocationAddress *) placemark;
-@end
 
-@protocol PGLocationServer <NSObject>
-@property(nonatomic, copy)NSString *providerName;
-@property (nonatomic, assign) id<PGLocationServerDelegete> delegate;
-
-- (BOOL)isLocationServicesEnabled;
-- (NSString*)getDefalutCoorType;
-- (NSString*)getSupportCoorType:(NSString*)coorType;
-- (void)startLocation:(BOOL)enableHighAccuracy;
-- (void)stopLocation;
-- (void)reverseGeocodeLocation:(CLLocation*)location;
-@end
-
-
-@interface PGLocationServer :NSObject <PGLocationServer>{
-    NSMutableArray *_reverseLocations;
-}
-@property(nonatomic, assign) PGLocationDescription locationDescription;
-@property(nonatomic, assign) BOOL allowsBackgroundLocationUpdates;
-@property(nonatomic, assign)BOOL isReversing;
-- (void)addLocations:(NSArray*)locations;
-- (id)getFirstLocation;
-- (void)removeFirstLocation;
-- (void)removeAllLocation;
-@end
 
 @interface PGLocationAddress : NSObject
 @property(nonatomic, copy)NSString *country;

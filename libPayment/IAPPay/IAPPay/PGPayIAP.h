@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 DCloud. All rights reserved.
 //
 
-#import "PGPay.h"
+#import "PGPlatby.h"
 #import <UIKit/UIKit.h>
 #import <StoreKit/StoreKit.h>
 

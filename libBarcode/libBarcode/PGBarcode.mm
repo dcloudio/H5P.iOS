@@ -270,7 +270,7 @@
     if ( self.decodeImgWToFile ) {
         NSString *decodeImgFilePath = self.decodeImgPath;// [PTPathUtil uniqueNameInAppDocHasPrefix:@"barcode" suffix:@"png"];
         if ( decodeImgFilePath ) {
-            relativeDecodeFilePath = [PTPathUtil relativePath:decodeImgFilePath];
+            relativeDecodeFilePath = [PTPathUtil relativePath:decodeImgFilePath withContext:self.appContext];
         }
     }
     self.scaning = FALSE;

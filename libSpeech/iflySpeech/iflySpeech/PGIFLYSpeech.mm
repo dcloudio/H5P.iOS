@@ -65,7 +65,10 @@ static dispatch_once_t onceToken;
         [_iFlyRecognizeControl setParameter: @"iat" forKey:[IFlySpeechConstant IFLY_DOMAIN]];
         [_iFlyRecognizeControl setParameter:@"plain" forKey:[IFlySpeechConstant RESULT_TYPE]];
         [_iFlyRecognizeControl setParameter:self.punctuation?@"1":@"0" forKey:[IFlySpeechConstant ASR_PTT]];
-        if ([self.lang containsString:@"zh-"]) {
+        
+        NSRange rangeZH = [self.lang rangeOfString:@"zh-"];
+        NSRange rangeEN = [self.lang rangeOfString:@"en-us"];
+        if (rangeZH.length > 0) {
             [_iFlyRecognizeControl setParameter:@"zh_cn" forKey:[IFlySpeechConstant LANGUAGE]];
             if ([self.lang isEqualToString:@"zh-cantonese"]) {
                 [_iFlyRecognizeControl setParameter:@"cantonese" forKey:[IFlySpeechConstant ACCENT]];
@@ -73,7 +76,7 @@ static dispatch_once_t onceToken;
                 [_iFlyRecognizeControl setParameter:@"henanese" forKey:[IFlySpeechConstant ACCENT]];
             }
         }
-        else if([self.lang containsString:@"en-us"]){
+        else if(rangeEN.length > 0){
             [_iFlyRecognizeControl setParameter:@"en_us" forKey:[IFlySpeechConstant LANGUAGE]];
         }
     }
@@ -163,7 +166,7 @@ static dispatch_once_t onceToken;
                                                      messageAsArray:recognizeResult];
         [result setKeepCallback:YES];
         [self.bridge toCallback:self.callBackID withReslut:[result toJSONString]];
-        if(self.delegate && [self.delegate respondsToSelector:@selector(toResult::)])
+        if(self.delegate && [self.delegate respondsToSelector:@selector(toResult:)])
             [self.delegate toResult:recognizeResult];
 
     } else  {

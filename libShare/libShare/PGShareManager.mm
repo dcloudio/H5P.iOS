@@ -216,7 +216,7 @@
                 if(msg.pictures)
                 {
                     for (NSString* imgPath in msg.pictures) {
-                        NSString* path = [PTPathUtil absolutePath:imgPath];
+                        NSString* path = [PTPathUtil absolutePath:imgPath withContext:self.appContext];
                         if(path)
                         {
                             UIImage* pImage = [UIImage imageWithContentsOfFile:path];

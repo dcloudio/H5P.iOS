@@ -167,7 +167,9 @@
 - (void)handleOpenURL:(NSNotification*)notification {
     [QQApiInterface handleOpenURL:[notification object] delegate:self];
 }
-
+/**
+    处理来至QQ的响应
+    */
 -(void)onResp:(QQBaseResp *)resp {
     if ( [resp isKindOfClass:[SendMessageToQQResp class]] ) {
         SendMessageToQQResp *sendMessageResp = (SendMessageToQQResp*)resp;
@@ -184,6 +186,17 @@
         }
     }
 }
+
+/**
+ 处理来至QQ的请求
+ */
+- (void)onReq:(QQBaseReq *)req{}
+
+/**
+ 处理QQ在线状态的回调
+ */
+- (void)isOnlineResponse:(NSDictionary *)response {}
+
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PDRCoreOpenUrlNotification object:nil];

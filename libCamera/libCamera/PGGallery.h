@@ -1,4 +1,4 @@
-﻿/*
+/*
  *------------------------------------------------------------------
  *  pandora/feature/cache/pg_gallery.h
  *  Description:
@@ -16,7 +16,13 @@
 
 #import "PGPlugin.h"
 #import "PGMethod.h"
-#import "QBImagePickerController.h"
+#import "TZAssetCell.h"
+#import "TZImageManager.h"
+#import "TZLocationManager.h"
+#import "TZVideoPlayerController.h"
+#import "TZImagePickerController.h"
+#import "TZPhotoPreviewController.h"
+#import "TZGifPhotoPreviewController.h"
 
 typedef NS_ENUM(NSInteger, PGGalleryStatus) {
     PGGalleryStatusReady,
@@ -49,6 +55,12 @@ typedef NS_ENUM(NSInteger, PGGalleryError) {
 @property(nonatomic, assign)NSInteger maximum;
 @property(nonatomic, copy)NSString *onmaxedCBId;
 @property(nonatomic, copy)NSArray<NSURL*> *selected;
+
+@property(nonatomic, assign)BOOL allowPerview;
+@property(nonatomic, assign)BOOL allowTakePicture;
+@property(nonatomic, assign)BOOL allowTakeVideo;
+@property(nonatomic, assign)NSTimeInterval videoMaximumDuration;
+
 - (void)parse:(NSDictionary*)params withStaffRect:(CGRect)staffRect;
 +(PGGalleryOption*)optionWithJSON:(NSDictionary*)json
                     withStaffRect:(CGRect)staffRect;
@@ -59,10 +71,13 @@ typedef NS_ENUM(NSInteger, PGGalleryError) {
 @interface PGGallery :PGPlugin
                     <UIImagePickerControllerDelegate,
                     UINavigationControllerDelegate,
-                    UIPopoverControllerDelegate,QBImagePickerControllerDelegate>
+                    UIPopoverControllerDelegate,DCTZImagePickerControllerDelegate>
 {
     UIStatusBarStyle _statusBarStyle;
     NSMutableDictionary *_defalutSelectImages;
+    NSMutableArray *_selectedPhotos;
+    NSMutableArray *_selectedAssets;
+    BOOL _isSelectOriginalPhoto;
 }
 @property (readwrite, assign) BOOL hasPendingOperation;
 @property(nonatomic, retain)PGGalleryOption *mOptions;

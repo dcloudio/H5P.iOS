@@ -18,7 +18,10 @@
 #import "PDRCoreAppFrame.h"
 #import "PDRCoreAppFramePrivate.h"
 #import "PDRToolSystemEx.h"
+#import "DCH5ScreenAdvertisingBrowser.h"
 
+#define kIndentifiPushAction @"DCPushAction"
+BOOL g_bStartFromePushNotification = false;
 @implementation PGPushServer
 @synthesize multiDelegate = _multiDelegate;
 
@@ -115,17 +118,23 @@
 
 @end
 
-@interface PGPush() {
+@interface PGPush()<DCH5ScreenAdvertisingBrowserDelegate> {
     NSMutableArray *m_pApsListenerList;
     NSMutableDictionary *_apsCache;
     NSMutableDictionary *_localNotiCache;
 }
+@property(nonatomic, retain)UINavigationController *navigationController;
 @end
 
 BOOL bIsDeactivate = NO;
-
+static PGPush * g_pushInstanceHandle = nil;
 @implementation PGPush
+
 @synthesize handleOfflineMsg;
+
++ (instancetype)instance{
+    return g_pushInstanceHandle;
+}
 
 - (void)onCreate {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
@@ -142,6 +151,10 @@ BOOL bIsDeactivate = NO;
     UILocalNotification *localNotif = [options objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
     if ( localNotif ) {
         [self saveLocalMessage:localNotif isReceive:NO];
+    }
+    
+    if(nil == g_pushInstanceHandle){
+        g_pushInstanceHandle = self;
     }
 }
 
@@ -404,7 +417,6 @@ BOOL bIsDeactivate = NO;
                 
                 if(image && [image isKindOfClass:[NSString class]] && image.length)
                 {
-                    NSString* pFilePath = nil;
                     NSString *localPath = nil;
                     if([image isWebUrlString]){
                         NSURLRequest* pRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:image]];
@@ -438,7 +450,7 @@ BOOL bIsDeactivate = NO;
                         
                         if (localPath && ![localPath isEqualToString:@""])
                         {
-                            NSString *tmpLocalPath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"localNotificationImage.jpg"];
+                            NSString *tmpLocalPath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"localNotificationImage.png"];
                             [[NSFileManager defaultManager] copyItemAtPath:localPath toPath:tmpLocalPath error:nil];
                             localPath = tmpLocalPath;
                             if(localPath && [localPath isAbsolutePath])
@@ -479,7 +491,125 @@ BOOL bIsDeactivate = NO;
             [[UIApplication sharedApplication] scheduleLocalNotification:pLocalNot];
         }
     }
+}
+#pragma mark - 创建本地消息
+
+- (void)createLocalActionMessage:(NSDictionary*)pMessageDic
+{
+    // 如果当前是从推送启动不再发送启动
+    if(g_bStartFromePushNotification)
+        return;
     
+    CGFloat fDelay = 1.0f;
+    NSString* pMessage = nil;
+    NSString* image = nil;
+    NSString* pUrl = nil;
+    NSString* pAppid = nil;
+    NSMutableDictionary* pPayload = nil;
+    
+    pMessage = [pMessageDic objectForKey:@"content"];
+    image = [pMessageDic objectForKey:@"icon"];
+    pUrl = [pMessageDic objectForKey:@"url"];
+    pAppid = [pMessageDic objectForKey:@"appid"];
+    fDelay = [[pMessageDic objectForKey:@"delay"] floatValue] / 1000.0f;
+    pPayload = [NSMutableDictionary dictionaryWithDictionary:pMessageDic];
+    [pPayload setObject:kIndentifiPushAction forKey:@"pushAction"];
+    
+    if(kCFCoreFoundationVersionNumber > kCFCoreFoundationVersionNumber_iOS_9_x_Max)
+    {
+        
+        void (^sendNotificationBlock)(UNMutableNotificationContent* content ,UNTimeIntervalNotificationTrigger* trigger) = ^(UNMutableNotificationContent* content ,UNTimeIntervalNotificationTrigger* trigger){
+            
+            UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:[[NSUUID UUID] UUIDString] content:content trigger:trigger];
+            UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+            center.delegate = self;
+            [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) {
+                if (error) {
+                    NSLog(@"%@", error);
+                }
+            }];
+        };
+        
+        UNMutableNotificationContent* content = [[UNMutableNotificationContent alloc] init];
+        if(content){
+            @try {
+                UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:fDelay==0?1:fDelay repeats:NO];
+                content.body = pMessage;
+                content.categoryIdentifier = kIndentifiPushAction;
+                if ( [pMessageDic isKindOfClass:[NSString class]] || [pMessageDic isKindOfClass:[NSDictionary class]]){
+                    content.userInfo =  [NSDictionary dictionaryWithObjectsAndKeys:pMessageDic ? pMessageDic:@"",@"payload", nil];
+                }
+                
+                if(image && [image isKindOfClass:[NSString class]] && image.length)
+                {
+                    NSString* pFilePath = nil;
+                    NSString *localPath = nil;
+                    if([image isWebUrlString]){
+                        NSURLRequest* pRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:image]];
+                        if(pRequest)
+                        {
+                            [NSURLConnection sendAsynchronousRequest:pRequest
+                                                               queue:[NSOperationQueue currentQueue]
+                                                   completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
+                                                       //NSArray* pArray = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+                                                       NSString *localPath = [NSTemporaryDirectory() stringByAppendingPathComponent: response.suggestedFilename?response.suggestedFilename:@"localNotificationImage.png"];
+                                                       if(data && connectionError == nil && response)
+                                                       {
+                                                           [data writeToFile:localPath atomically:NO];
+                                                           if (localPath && ![localPath isEqualToString:@""]) {
+                                                               UNNotificationAttachment * attachment = [UNNotificationAttachment attachmentWithIdentifier:[NSUUID UUID].UUIDString URL:[NSURL URLWithString:[@"file://" stringByAppendingString:localPath]] options:nil error:nil];
+                                                               if (attachment) {
+                                                                   content.attachments = @[attachment];
+                                                               }
+                                                           }
+                                                       }
+                                                       sendNotificationBlock(content, trigger);
+                                                   }];
+                        }
+                        
+                    }
+                    else{
+                        if([image isAbsolutePath])
+                            localPath = image;
+                        
+                        if (localPath && ![localPath isEqualToString:@""]){
+                            NSString *tmpLocalPath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"localNotificationImage.png"];
+                            [[NSFileManager defaultManager] copyItemAtPath:localPath toPath:tmpLocalPath error:nil];
+                            localPath = tmpLocalPath;
+                            if(localPath && [localPath isAbsolutePath]){
+                                UNNotificationAttachment * attachment = [UNNotificationAttachment attachmentWithIdentifier:[NSUUID UUID].UUIDString URL:[NSURL URLWithString:[@"file://" stringByAppendingString:localPath]] options:nil error:nil];
+                                if (attachment) {
+                                    content.attachments = @[attachment];
+                                }
+                            }
+                        }
+                        sendNotificationBlock(content, trigger);
+                    }
+                }
+                else{
+                    sendNotificationBlock(content, trigger);
+                }
+                
+            } @catch (NSException *exception) {
+                
+            }
+        }
+        
+    }else
+    {
+        UILocalNotification* pLocalNot = [[[UILocalNotification alloc] init] autorelease];
+        if (pLocalNot)
+        {
+            pLocalNot.fireDate = [[[NSDate alloc] initWithTimeIntervalSinceNow:fDelay] autorelease];
+            pLocalNot.alertBody = pMessage;
+            if ( [pPayload isKindOfClass:[NSString class]]
+                || [pPayload isKindOfClass:[NSDictionary class]]) {
+                pLocalNot.userInfo = [NSDictionary dictionaryWithObjectsAndKeys:pPayload ? pPayload:@"",@"payload", nil];
+            }
+            
+            [[UIApplication sharedApplication] scheduleLocalNotification:pLocalNot];
+        }
+    }
 }
 
 #pragma mark - 消息保存接口
@@ -487,6 +617,35 @@ BOOL bIsDeactivate = NO;
     if ( nil == _localNotiCache ) {
         _localNotiCache = [[NSMutableDictionary alloc] initWithCapacity:2];
     }
+    
+    if(!receive && !g_bStartFromePushNotification)
+    {
+        if ([localMessage respondsToSelector:@selector(category)] && [[localMessage category] isEqualToString:kIndentifiPushAction]){
+            NSDictionary* pInfoObj = localMessage.userInfo;
+            if(pInfoObj && [pInfoObj isKindOfClass:[NSDictionary class]]){
+                NSDictionary* pPayloadDic = [pInfoObj objectForKey:@"payload"];
+                if(pPayloadDic){
+                    g_bStartFromePushNotification = YES;
+                    [self procressPushActions:pPayloadDic];
+                    return ;
+                }
+            }
+        }else{
+            NSDictionary* pInfoObj = localMessage.userInfo;
+            if(pInfoObj && [pInfoObj isKindOfClass:[NSDictionary class]]){
+                NSDictionary* pPayloadDic = [pInfoObj objectForKey:@"payload"];
+                if(pPayloadDic && [pPayloadDic isKindOfClass:[NSDictionary class]]){
+                    NSString* pUshAction = [pPayloadDic objectForKey:@"pushAction"];
+                    if(pPayloadDic && [pUshAction isEqualToString:kIndentifiPushAction]){
+                        g_bStartFromePushNotification = YES;
+                        [self procressPushActions:pPayloadDic];
+                        return ;
+                    }
+                }
+            }
+        }
+    }
+    
     if ( !receive ) {
         [_localNotiCache setObject:[NSArray arrayWithObject:localMessage] forKey:g_pdr_string_click];
     } else {
@@ -595,7 +754,92 @@ BOOL bIsDeactivate = NO;
         }
     }
     [m_pApsListenerList removeObjectsInArray:removeItems];
+    [self webviewWillClosed:nil];
     [super onAppFrameWillClose:theAppframe];
+}
+
+- (void)procressPushActions:(NSDictionary*)pPayloadObj{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if(pPayloadObj){
+            if(pPayloadObj){
+                NSString* pTid = [NSString stringWithFormat:@"%d",[[pPayloadObj objectForKey:@"tid"] intValue]];
+                if(pTid != nil){
+                    [self performSelectorOnMainThread:@selector(reportPushActionOnMainThread:) withObject:pTid waitUntilDone:NO];
+                }
+                NSString *deepLink = [pPayloadObj objectForKey:@"dplk"];
+                if ( deepLink ) {
+                    NSURL *url = [NSURL URLWithString:deepLink];
+                    if ( url ) {
+                        if ( [[UIApplication sharedApplication] canOpenURL:url] ){
+                            [[UIApplication sharedApplication] openURL:url];
+                            return;
+                        }
+                    }
+                }
+                NSString *click_action = [pPayloadObj objectForKey:@"click_action"];
+                if ( click_action ) {
+                    if ( NSOrderedSame ==  [click_action caseInsensitiveCompare:@"browser"] ) {
+                        NSString* purl = [pPayloadObj objectForKey:g_pdr_string_url];
+                        if(purl){
+                            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:purl]];
+                        }
+                        return;
+                    } else if ( NSOrderedSame ==  [click_action caseInsensitiveCompare:@"url"] ) {
+                        NSString* purl = [pPayloadObj objectForKey:g_pdr_string_url];
+                        DCH5ScreenAdvertisingBrowser *advBrowser = [[[DCH5ScreenAdvertisingBrowser alloc] init] autorelease];
+                        if(advBrowser){
+                            advBrowser.delegate = self;
+                            [advBrowser loadURL:[NSURL URLWithString:purl]];
+                            UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:advBrowser] autorelease];
+                            [self presentViewController:navigationController animated:NO completion:nil];
+                            self.navigationController = navigationController;
+                        }
+                        return;
+                    } else if ( NSOrderedSame ==  [click_action caseInsensitiveCompare:@"streamapp"] ) {
+                        NSString* pActAppid = [pPayloadObj objectForKey:g_pdr_string_appid];
+                        if(pActAppid){
+                            NSMutableDictionary* pParameters = [NSMutableDictionary dictionaryWithDictionary:[pPayloadObj objectForKey:@"parameters"]];
+                            if(pParameters){
+                                // 发送一个消息处理
+                                [pParameters setObject:pActAppid forKey:g_pdr_string_appid];
+                                [self performSelectorOnMainThread:@selector(procressPushCmdOnMainThread:) withObject:pParameters waitUntilDone:NO];
+                            }
+                        }
+                        return;
+                    }
+                }
+                
+                NSString* pActAppid = [pPayloadObj objectForKey:g_pdr_string_appid];
+                if(pActAppid){
+                    NSMutableDictionary* pParameters = [NSMutableDictionary dictionaryWithDictionary:[pPayloadObj objectForKey:@"parameters"]];
+                    if(pParameters){
+                        // 发送一个消息处理
+                        [pParameters setObject:pActAppid forKey:g_pdr_string_appid];
+                        [self performSelectorOnMainThread:@selector(procressPushCmdOnMainThread:) withObject:pParameters waitUntilDone:NO];
+                    }
+                }
+                else{
+                    NSString* purl = [pPayloadObj objectForKey:g_pdr_string_url];
+                    if(purl){
+                        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:purl]];
+                    }
+                }
+            }
+        }
+    });
+}
+
+- (void)webviewWillClosed:(DCH5ScreenAdvertisingBrowser*)browserHandle {
+    [self dismissViewControllerAnimated:NO completion:nil];
+    self.navigationController = nil;
+}
+
+- (void)reportPushActionOnMainThread:(NSString*)pTid{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"PDRCoreAppPushActionClicked" object:pTid];
+}
+
+- (void)procressPushCmdOnMainThread:(NSDictionary* )dicObj{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"PDRCoreAppPushActionStartAppKey" object:dicObj];
 }
 
 - (BOOL)processLocalMessage:(UILocalNotification *)pUserInfo type:(NSString*)pType {
@@ -603,6 +847,28 @@ BOOL bIsDeactivate = NO;
     BOOL isNotificationContent = NO;
     if ( [pUserInfo isKindOfClass:[UNNotificationContent class]] ) {
         isNotificationContent = YES;
+    }
+    
+    if(isNotificationContent && [((UNNotificationContent*)pUserInfo).categoryIdentifier isEqualToString:kIndentifiPushAction]){
+        if([pType isEqualToString:g_pdr_string_click]){
+            [self procressPushActions:[pUserInfo.userInfo objectForKey:@"payload"]];
+            return YES;
+        }
+        else if([pType isEqualToString:g_pdr_string_receive]){
+            return YES;
+        }
+    }else{
+        NSDictionary* pInfoObj = pUserInfo.userInfo;
+        if(pInfoObj && [pInfoObj isKindOfClass:[NSDictionary class]] && [pType isEqualToString:g_pdr_string_click]){
+            NSDictionary* pPayloadDic = [pInfoObj objectForKey:@"payload"];
+            if(pPayloadDic && [pPayloadDic isKindOfClass:[NSDictionary class]]){
+                NSString* pAction = [pPayloadDic objectForKey:@"pushAction"];
+                if(pAction && [pAction isKindOfClass:[NSString class]] && [pAction isEqualToString:kIndentifiPushAction]){
+                    [self procressPushActions:pPayloadDic];
+                    return YES;
+                }
+            }
+        }
     }
     
     NSString *title = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"];
