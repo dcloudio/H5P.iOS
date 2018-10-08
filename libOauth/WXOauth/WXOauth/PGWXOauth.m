@@ -12,11 +12,6 @@
 #import "PDRCoreAppInfo.h"
 #import "PDRToolSystemEx.h"
 
-#define PGWXAPI_ServiceURL @"https://api.weixin.qq.com/"
-#define PGWXAPI_AccessTokenURL @"sns/oauth2/access_token"
-#define PGWXAPI_RefreshTokenURL @"sns/oauth2/refresh_token"
-#define PGWXAPI_UserinfoURL @"sns/userinfo"
-
 NSString *kPGWXApiKeyCode = @"code";
 NSString *kPGWXApiKeyOpenid = @"openid";
 NSString *kPGWXApiKeyAccessToken = @"access_token";
@@ -26,125 +21,9 @@ NSString *kPGWXApiKeyUserInfo = @"userInfo";
 NSString *kPGWXApiKeyExtra = @"extra";
 NSString *kPGWXApiKeyScope = @"scope";
 
-@implementation PGWXAPI
-@synthesize appId;
-@synthesize appSecret;
-- (void)cancelPreConn {
-    if ( _connection ) {
-        [_connection cancel];
-        [_connection release];
-        _connection = nil;
-        [_responseData release];
-        _responseData = nil;
-        Block_release(_resultBlock);
-        _resultBlock = nil;
-    }
-}
-- (void)newConnWithURL:(NSString*)url {
-    NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
-    _connection = [NSURLConnection connectionWithRequest:req delegate:self];
-    [_connection retain];
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
-    if ( !_responseData ) {
-        _responseData = [[NSMutableData alloc] initWithData:data];
-    } else {
-        [_responseData appendData:data];
-    }
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    if ( _resultBlock ) {
-        NSError *error = nil;
-        NSDictionary *resultDic = nil;
-        if ( _responseData ) {
-            resultDic = [NSJSONSerialization JSONObjectWithData:_responseData options:NSJSONReadingMutableLeaves error:&error];
-        }
-        if ( error ) {
-            _resultBlock(nil, error);
-        } else {
-            NSNumber *errCode = [resultDic objectForKey:@"errcode"];
-            if ( errCode || !resultDic ) {
-                error = [NSError errorWithDomain:@"PGWXAPI" code:-1 userInfo:nil];
-                _resultBlock(nil, error );
-            } else {
-                _resultBlock(resultDic, nil);
-            }
-        }
-        [self cancelPreConn];
-    }
-}
-
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    if ( _resultBlock ) {
-        _resultBlock(nil, error);
-        [self cancelPreConn];
-    }
-}
-
-- (void)reqWithURL:(NSString*)url result:(PGWXAPIResult)result {
-    [self cancelPreConn];
-    [self newConnWithURL:url];
-    [_connection start];
-    _resultBlock = Block_copy(result);
-}
-
-- (void)reqAccessTokenWithCode:(NSString*)code result:(PGWXAPIResult)result {
-    [self reqWithURL:[self getAccessTokenURLWithCode:code]
-              result:^(NSDictionary *response, NSError *error) {
-                  result(response, error);
-    }];
-}
-
-- (void)reqAccessTokenWithRefreshToken:(NSString*)refreshToken result:(PGWXAPIResult)result {
-    [self reqWithURL:[self getRefreshTokenURLWithRefreshToken:refreshToken]
-              result:^(NSDictionary *response, NSError *error) {
-                  result(response, error);
-              }];
-}
-
-- (void)reqUserInfoWithAccessToken:(NSString*)accessToken withOpenId:(NSString*)openId result:(PGWXAPIResult)result {
-    [self reqWithURL:[self getUseinfoURLWithAccessToken:accessToken withOpenid:openId]
-              result:^(NSDictionary *response, NSError *error) {
-                  result(response, error);
-              }];
-}
-
-- (NSString*)getAccessTokenURLWithCode:(NSString*)code {
-    return [NSString stringWithFormat:
-            @"%@%@?appid=%@&secret=%@&code=%@&grant_type=authorization_code",
-            PGWXAPI_ServiceURL,
-            PGWXAPI_AccessTokenURL,
-            self.appId,
-            self.appSecret,
-            code];
-}
-
-- (NSString*)getRefreshTokenURLWithRefreshToken:(NSString*)refreshToken {
-    return [NSString stringWithFormat:
-            @"%@%@?appid=%@&refresh_token=%@&grant_type=refresh_token",
-            PGWXAPI_ServiceURL,
-            PGWXAPI_RefreshTokenURL,
-            self.appId,
-            refreshToken];
-}
-
-- (NSString*)getUseinfoURLWithAccessToken:(NSString*)accessToken withOpenid:(NSString*)openid {
-    return [NSString stringWithFormat:
-            @"%@%@?access_token=%@&openid=%@&lang=zh-CN",
-            PGWXAPI_ServiceURL,
-            PGWXAPI_UserinfoURL,
-            accessToken,
-            openid];
-}
-
-- (void)dealloc {
-    self.appId = nil;
-    self.appSecret = nil;
-    [self cancelPreConn];
-    [super dealloc];
-}
+@interface PGWXOauth()
+@property(nonatomic,assign)BOOL authorize;
+@property(nonatomic, assign)BOOL login;
 @end
 
 @implementation PGWXOauth
@@ -190,6 +69,49 @@ NSString *kPGWXApiKeyScope = @"scope";
     return _openApi;
 }
 
+- (BOOL)authorize:(NSString*)cbId withParams:(NSDictionary*)params {
+    NSString *scope = [params objectForKey:kPGWXApiKeyScope];
+    NSString *state = [params objectForKey:@"state"];
+    NSString *userAppid = [params objectForKey:@"appid"];
+  //  NSString *optAppSecret = [params objectForKey:@"appsecret"];
+    if ( ![scope isKindOfClass:[NSString class]]
+        || 0 == scope.length ) {
+        scope = @"snsapi_userinfo";
+    }
+    
+    self.mscope = scope;
+    if ( ![state isKindOfClass:[NSString class]] ) {
+        state = nil;
+    }
+//    if (optAppSecret != nil && [optAppSecret isKindOfClass:[NSString class]] && optAppSecret.length > 0) {
+//        self.appSecret = [optAppSecret retain];
+//        _openApi.appSecret = [optAppSecret retain];
+//    }
+    if ( !userAppid ) {
+        userAppid = self.appId;
+    }
+    if ( !userAppid ) {
+        [self toErrorCallback:cbId withCode:PGPluginErrorInvalidArgument];
+        return YES;
+    }
+
+    if ( ![WXApi isWXAppInstalled] ){
+        [self toErrorCallback:cbId withCode:PGOauthErrorNotInstall];
+        return YES;
+    }
+    if ( [userAppid isKindOfClass:[NSString class]] ) {
+        [WXApi registerApp:userAppid];
+    }
+    self.extra = state;
+    BOOL ret = [self loginWithScope:scope state:state];
+    if ( !ret ) {
+        [self toErrorCallback:cbId withCode:PGPluginErrorInvalidArgument];
+    } else {
+        self.authorizeCallbackId = cbId;
+    }
+    return YES;
+}
+
 - (void)login:(NSString*)cbId withParams:(NSDictionary*)params{
     NSString *scope = [params objectForKey:kPGWXApiKeyScope];
     NSString *state = [params objectForKey:@"state"];
@@ -214,6 +136,7 @@ NSString *kPGWXApiKeyScope = @"scope";
         [self executeJSErrorCallback:PGPluginErrorInvalidArgument];
         return;
     }
+    [WXApi registerApp:self.appId];
    // if ( ![WXApi isWXAppInstalled] ){
        // [self executeJSErrorCallback:PGOauthErrorNotInstall];
        // return;
@@ -392,21 +315,42 @@ NSString *kPGWXApiKeyScope = @"scope";
 
         if ( WXSuccess == authresp.errCode ) {
             self.code = authresp.code;
-            [[self getWXAPI] reqAccessTokenWithCode:self.code result:^(NSDictionary *result, NSError *error) {
-                if ( !error ) {
-                    self.accessToken = [result objectForKey:kPGWXApiKeyAccessToken];
-                    self.expireTime = [[result objectForKey:kPGWXApiKeyExpriesin] integerValue]+[[NSDate date] timeIntervalSince1970];
-                    self.openid = [result objectForKey:kPGWXApiKeyOpenid];
-                    self.refreshToken = [result objectForKey:kPGWXApiKeyRrefreshToken];
-                    self.authResult = result;
-                    [self executeJSSucessCallback];
-                    self.needToSaveFile = YES;
-                } else {
-                    [self toErrorCallback:self.callbackId withNSError:error];
-                }
-            }];
+            if ( self.authorizeCallbackId ) {
+                NSMutableDictionary *infos = [NSMutableDictionary dictionary];
+                [infos setObject:authresp.country?:@"" forKey:@"country"];
+                [infos setObject:authresp.lang?:@"" forKey:@"lang"];
+                [infos setObject:authresp.code?:@"" forKey:@"code"];
+                [infos setObject:authresp.state?:@"" forKey:@"state"];
+                [infos setObject:self.mscope?:@"" forKey:@"scope"];
+                [self toSucessCallback:self.authorizeCallbackId withJSON:infos];
+                self.authorizeCallbackId = nil;
+            }
+            if ( self.callbackId ) {
+                [[self getWXAPI] reqAccessTokenWithCode:self.code result:^(NSDictionary *result, NSError *error) {
+                    if ( !error ) {
+                        self.accessToken = [result objectForKey:kPGWXApiKeyAccessToken];
+                        self.expireTime = [[result objectForKey:kPGWXApiKeyExpriesin] integerValue]+[[NSDate date] timeIntervalSince1970];
+                        self.openid = [result objectForKey:kPGWXApiKeyOpenid];
+                        self.refreshToken = [result objectForKey:kPGWXApiKeyRrefreshToken];
+                        self.authResult = result;
+                        [self executeJSSucessCallback];
+                        self.needToSaveFile = YES;
+                    } else {
+                        [self toErrorCallback:self.callbackId withNSError:error];
+                    }
+                    self.callbackId = nil;
+                }];
+            }
+            
         } else {
-            [self toErrorCallback:self.callbackId withInnerCode:(int)authresp.errCode withMessage:authresp.errStr];
+            if ( self.authorizeCallbackId ) {
+                [self toErrorCallback:self.authorizeCallbackId withInnerCode:(int)authresp.errCode withMessage:authresp.errStr];
+                self.authorizeCallbackId = nil;
+            }
+            if ( self.callbackId ){
+                [self toErrorCallback:self.callbackId withInnerCode:(int)authresp.errCode withMessage:authresp.errStr];
+                self.callbackId = nil;
+            }
            // [self executeJSErrorCallback:authresp.errCode withMessage:authresp.errStr];
         }
     }

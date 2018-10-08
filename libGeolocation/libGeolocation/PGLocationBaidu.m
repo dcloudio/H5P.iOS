@@ -105,8 +105,8 @@
     if ( !_geoSearch && E_PERMISSION_OK == [PGBaiduKeyVerify Verify].errorCode){
         _geoSearch = [[BMKGeoCodeSearch alloc] init];
         _geoSearch.delegate = self;
-        BMKReverseGeoCodeOption *geoOption = [[[BMKReverseGeoCodeOption alloc] init] autorelease];
-        geoOption.reverseGeoPoint = location.coordinate;
+        BMKReverseGeoCodeSearchOption *geoOption = [[[BMKReverseGeoCodeSearchOption alloc] init] autorelease];
+        geoOption.location = location.coordinate;
         [_geoSearch reverseGeoCode:geoOption];
     } else {
         [self onGetReverseGeoCodeResult:_geoSearch result:nil errorCode:BMK_SEARCH_RESULT_NOT_FOUND];
@@ -120,7 +120,7 @@
  *@param error 错误号，@see BMKSearchErrorCode
  */
 - (void)onGetReverseGeoCodeResult:(BMKGeoCodeSearch *)searcher
-                           result:(BMKReverseGeoCodeResult *)result
+                           result:(BMKReverseGeoCodeSearchResult *)result
                         errorCode:(BMKSearchErrorCode)error{
     _geoSearch.delegate = nil;
     [_geoSearch release];
@@ -152,12 +152,12 @@
 @end
 
 @implementation PGBaiduAddress
-+ (id)addressWithGeoCodeResult:(BMKReverseGeoCodeResult*)geoCodeResult {
++ (id)addressWithGeoCodeResult:(BMKReverseGeoCodeSearchResult*)geoCodeResult {
     PGBaiduAddress *address = [[[PGBaiduAddress alloc] initWithGeoCodeResult:geoCodeResult] autorelease];
     return address;
 }
 
-- (id)initWithGeoCodeResult:(BMKReverseGeoCodeResult*)geoCodeResult {
+- (id)initWithGeoCodeResult:(BMKReverseGeoCodeSearchResult*)geoCodeResult {
     if ( self = [super init] ) {
         
         self.country = nil;

@@ -100,9 +100,12 @@ typedef NS_ENUM(NSInteger, PGSpeechError) {
 
 
 
-@interface PGSpeech : PGPlugin {
-    PGSpeechImp *_speechEngine;
-}
+@interface PGSpeech : PGPlugin
+
+@property (nonatomic, copy) void (^frameWillCloseBlock)(PDRCoreAppFrame *frame);
 - (void)startRecognize:(PGMethod*)commands;
 - (void)stopRecognize:(PGMethod*)commands;
+- (void)addEventListener:(PGMethod*)commands;
+- (void)sendEvent:(NSString*)type
+       withParams:(NSDictionary*)params;
 @end

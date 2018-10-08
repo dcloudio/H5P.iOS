@@ -1,6 +1,8 @@
 
 #import "WXEngine.h"
 #import "PDRCore.h"
+#import "PDRCommonString.h"
+#import "PDRToolSystemEx.h"
 
 #define kWXURLSchemePrefix              @"WX_"
 
@@ -117,9 +119,12 @@
                                href:(NSString*)href
                                 pic:(NSData *)picture
                               thumb:(NSData*)thumb
+                              media:(NSString*)mediaURL
                           longitude:(NSString *)longitude
                         andLatitude:(NSString *)latitude
                               scene:(int)sence
+                        miniProgram:(NSDictionary*)programContent
+                               type:(NSString*)messageType
                            delegate:(id)requestDelegate
                           onSuccess:(SEL)successCallback
                           onFailure:(SEL)failuerCallback {
@@ -134,10 +139,12 @@
     if ( ![WXApi isWXAppInstalled] ) {
         if ( [requestDelegate respondsToSelector:failuerCallback] ) {
             NSError *error = [self getErrorWithCode:WXEngineErrorNotInstall withMessage:nil];
+            
             [requestDelegate performSelector:failuerCallback withObject:error];
         }
         return;
     }
+    
     if ( ![WXApi isWXAppSupportApi] ) {
         if ( [requestDelegate respondsToSelector:failuerCallback] ) {
             NSError *error = [self getErrorWithCode:WXErrCodeUnsupport withMessage:nil];
@@ -146,81 +153,99 @@
         return;
     }
     
-    //发送内容给微信
-   // if ( content || picture || href ) {
+    if (messageType && [messageType isKindOfClass:[NSString class]]) {
+        SendMessageToWXReq* req = [[[SendMessageToWXReq alloc] init]autorelease];
+        req.bText = NO;
+        req.scene = sence;
+        req.text = title?title:content;
+        
+        // 如果没设置默认的分享类型，
+        // 如果有URL则默认为web
+        // 如果有图片默认为image
+        // 否则默认为text
+        if ([messageType isEqualToString:@"none"]) {
+            if (href != nil) {
+                messageType = @"web";
+            }else if(picture != nil){
+                messageType = @"image";
+            }else{
+                messageType = @"text";
+            }
+        }
+        
+        if ([messageType isEqualToString:@"text"]) {
+            req.bText = YES;
+            
+        }else{
+            WXMediaMessage* message = [WXMediaMessage message];
+            message.title = title?title:@"";
+            message.description = content?content:@"";
+            
+            if ( thumb ){
+                if ( [thumb length] > 32*1024 ) {
+                    if (![messageType isEqualToString:@"miniProgram"]) {
+                        thumb = [UIImage compressImageData:thumb toMaxSize:32*1024];
+                    }
+                }else{
+                    message.thumbData = thumb;
+                }
+            }
+            
+            if ([messageType isEqualToString:@"image"]) {
+                WXImageObject* imageObj = [WXImageObject object];
+                imageObj.imageData = picture;
+                message.mediaObject = imageObj;
+                message.description = content;
+            }else if ([messageType isEqualToString:@"music"]) {
+                WXMusicObject* music = [WXMusicObject object];
+                music.musicUrl = mediaURL;
+                music.musicLowBandUrl = mediaURL;
+                music.musicDataUrl = mediaURL;
+                music.musicLowBandDataUrl = mediaURL;
+                message.mediaObject = music;
+            }else if ([messageType isEqualToString:@"video"]) {
+                WXVideoObject* video = [WXVideoObject object];
+                video.videoUrl = mediaURL;
+                video.videoLowBandUrl = mediaURL;
+                message.mediaObject = video;
+            }else if ([messageType isEqualToString:@"web"]) {
+                WXWebpageObject* webpage = [WXWebpageObject object];
+                webpage.webpageUrl = href;
+                message.mediaObject = webpage;
+            }else if ([messageType isEqualToString:@"miniProgram"]) {
+                // 微信小程序不能分享到微信的朋友圈，用户分享小程序是ShareMessageExtra必须设置。
+                NSString* userID  = [programContent objectForKey:g_pdr_string_id];
+                NSString* path = [programContent objectForKey:@"path"];
+                int type = [[programContent objectForKey:@"type"] intValue];
+                NSString* webURL = [programContent objectForKey:@"webUrl"];
+                if (webURL && userID) {
+                    WXMiniProgramObject* program = [WXMiniProgramObject object];
+                    program.userName = userID;
+                    program.path = path;
+                    program.webpageUrl = webURL;
+                    program.miniProgramType = (WXMiniProgramType)type;
+                    if (thumb.length >= 128*1024) {
+                        thumb = [UIImage compressImageData:thumb toMaxSize:128*1024];;
+                    }
+                    program.hdImageData = thumb;
+                    message.mediaObject = program;
+                }
+            }
+            req.message = message;
+        }
+        ret = [WXApi sendReq:req];
+    }
+
+    if ( !ret ) {
+        if ( [requestDelegate respondsToSelector:failuerCallback] ) {
+            NSError *error = [self getErrorWithCode:WXEngineErrorUnknow withMessage:@"未知错误"];
+            [requestDelegate performSelector:failuerCallback withObject:error];
+        }
+    } else {
         temp_send_delegate = requestDelegate;
         onSendSuccessCallback = successCallback;
         onSendFailureCallback = failuerCallback;
-        if ( href || picture ) {
-            WXMediaMessage *message = [WXMediaMessage message];
-            if ( WXSceneTimeline == sence ) {
-                message.title = title?title:content;
-            } else {
-                message.title = title;
-            }
-          //  message.title = title;
-            message.thumbData = thumb;
-            message.description = content;
-            if ( thumb && [thumb length] > 32*1024 ){
-                if ( [requestDelegate respondsToSelector:failuerCallback] ) {
-                    NSError *error = [self getErrorWithCode:WXEngineErrorLargeThumb withMessage:nil];
-                    [requestDelegate performSelector:failuerCallback withObject:error];
-                    return;
-                }
-            }
-                
-            if ( href ) {
-                WXWebpageObject *ext = [WXWebpageObject object];
-                ext.webpageUrl = href;
-                message.mediaObject = ext;
-            } else {
-                WXImageObject *ext = [WXImageObject object];
-                ext.imageData = picture;
-                if ( picture && [picture length] > 1024*10240 ){
-                    if ( [requestDelegate respondsToSelector:failuerCallback] ) {
-                        NSError *error = [self getErrorWithCode:WXEngineErrorLargeImage withMessage:nil];
-                        [requestDelegate performSelector:failuerCallback withObject:error];
-                        return;
-                    }
-                }
-                message.mediaObject = ext;
-            }
-            SendMessageToWXReq* req = [[[SendMessageToWXReq alloc] init]autorelease];
-            req.bText = NO;
-            req.message = message;
-            req.scene = sence;
-            ret = [WXApi sendReq:req];
-        } else {
-             SendMessageToWXReq* req1 = [[[SendMessageToWXReq alloc] init]autorelease];
-             req1.bText = YES;
-             req1.text = title? title:content;
-             req1.scene = sence;
-             ret = [WXApi sendReq:req1];
-        }
-//            else {
-//            WXMediaMessage *message = [WXMediaMessage message];
-//            message.title = content;
-//            //message.thumbData = picture;
-//            //message.description = content;
-//            {
-//                WXImageObject *ext = [WXImageObject object];
-//                ext.imageData = picture;
-//                message.mediaObject = ext;
-//            }
-//            SendMessageToWXReq* req = [[[SendMessageToWXReq alloc] init]autorelease];
-//            req.bText = NO;
-//            req.message = message;
-//            req.scene = sence;
-//            ret = [WXApi sendReq:req];
-//        }
-        
-        if ( !ret ) {
-            if ( [requestDelegate respondsToSelector:failuerCallback] ) {
-                NSError *error = [self getErrorWithCode:WXEngineErrorUnknow withMessage:@"未知错误"];
-                [requestDelegate performSelector:failuerCallback withObject:error];
-            }
-        }
-  //  }
+    }
 }
 
 

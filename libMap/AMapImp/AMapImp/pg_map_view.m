@@ -24,8 +24,6 @@
 #import <MapKit/MapKit.h>
 #import "H5CoreJavaScriptText.h"
 
-//缩放控件距离地图边界值
-#define PG_MAP_ZOOMCONTROL_GAP 3
 //默认经纬度和缩放值
 #define PG_MAP_DEFALUT_ZOOM 12
 #define PG_MAP_DEFALUT_CENTER_LONGITUDE 116.403865
@@ -54,20 +52,8 @@
 
 @end
 
-static int MapToolFitZoom(int zoom)
-{
-    if ( zoom < 3 )
-        return 3;
-    else if( zoom > 19 )
-        return 19;
-    return zoom;
-}
 
-@implementation PGMapZoomControlView
-
-@end
-
-@implementation PGMapView
+@implementation PGMAMapView
 
 @synthesize jsBridge;
 @synthesize UUID;
@@ -75,7 +61,8 @@ static int MapToolFitZoom(int zoom)
 -(void)dealloc
 {
     self.jsBridge = nil;
-    self.delegate = nil;
+    _mapView.showsUserLocation = NO;
+    _mapView.delegate = nil;
 //    if ( _localService ) {
 //        [_localService stopUserLocationService];
 //        _localService.delegate = nil;
@@ -86,40 +73,13 @@ static int MapToolFitZoom(int zoom)
     [_overlaysDict release];
     [_gisOverlaysDict release];
     [_jsCallbackDict release];
-    
-    [_zoomControlView release];
-    [UUID release];
-    [super dealloc];
-}
 
-/*
- *------------------------------------------------
- *@summay: 创建一个地图控件
- *@param frame CGRect
- *@return PGMapView*
- *------------------------------------------------
- */
-+ (PGMapView*)viewWithFrame:(CGRect)frame params:(NSDictionary*)setInfo
-{
-    [PGAMapKey verify];
-    PGMapView *mapView = [[[PGMapView alloc] initWithFrame:frame params:setInfo] autorelease];
-    if ( mapView )
-    {
-       // mapView.touchPOIEnabled = true;
-//        mapView.mapType = MAMapTypeStandard;
-//        mapView.showsScale = TRUE;
-//        mapView.clipsToBounds = YES;
-//        CLLocationCoordinate2D center = {PG_MAP_DEFALUT_CENTER_LATITUDE,PG_MAP_DEFALUT_CENTER_LONGITUDE};
-//        [mapView setCenterCoordinate:center animated:YES];
-//        mapView.zoomLevel = PG_MAP_DEFALUT_ZOOM;
-        return mapView;
-    }
-    return nil;
+    [super dealloc];
 }
 
 - (void)close {
    [self removeFromSuperview];
-    self.delegate = nil;
+    _mapView.delegate = nil;
 }
 
 /*
@@ -129,34 +89,21 @@ static int MapToolFitZoom(int zoom)
  *@return PGMapView*
  *------------------------------------------------
  */
-+ (PGMapView*)viewWithArray:(NSArray*)args
-{
-    if ( args )
-    {
-        CGFloat left   = [[args objectAtIndex:0] floatValue];
-        CGFloat top    = [[args objectAtIndex:1] floatValue];
-        CGFloat width  = [[args objectAtIndex:2] floatValue];
-        CGFloat height = [[args objectAtIndex:3] floatValue];
-        return [PGMapView viewWithFrame:CGRectMake(left, top, width, height) params:[args objectAtIndex:4]];
-    }
-    return nil;
-}
-
-/*
- *------------------------------------------------
- *@summay: 创建一个地图控件
- *@param frame CGRect
- *@return PGMapView*
- *------------------------------------------------
- */
-- (id)initWithFrame:(CGRect)frame params:(NSDictionary*)setInfo;
-{
-    if ( self = [super initWithFrame:frame] )
-    {
-        self.delegate = self;
-        self.mapType = MAMapTypeStandard;
-        self.showsScale = TRUE;
+- (id)initWithFrame:(CGRect)frame params:(NSDictionary*)setInfo {
+    if ( self = [super initWithFrame:frame params:setInfo] ) {
+        [PGAMapKey verify];
+        _mapView = [[MAMapView alloc] initWithFrame:frame];
+        _mapView.delegate = self;
+        _mapView.mapType = MAMapTypeStandard;
+        _mapView.showsScale = TRUE;
+        _mapView.rotateEnabled = NO;
+        _mapView.rotateCameraEnabled = NO;
+        _mapView.showsCompass = NO;
+        _mapView.touchPOIEnabled = NO;
+        _mapView.rotationDegree = 0;
+        _mapView.runLoopMode = NSDefaultRunLoopMode;
         self.clipsToBounds = YES;
+        [self addSubview:_mapView];
         
         CLLocationCoordinate2D center = {PG_MAP_DEFALUT_CENTER_LATITUDE,PG_MAP_DEFALUT_CENTER_LONGITUDE};
         [self setCenterCoordinate:center animated:YES];
@@ -164,10 +111,10 @@ static int MapToolFitZoom(int zoom)
         PGMapCoordinate *centerCoordinate = [PGMapCoordinate pointWithJSON:[setInfo objectForKey:@"center"]];
         if ( centerCoordinate ) {
             [self setCenterCoordinate:[centerCoordinate point2CLCoordinate]
-                                    animated:YES];
+                             animated:YES];
         }
-        self.zoomLevel = MapToolFitZoom([[setInfo objectForKey:@"zoom"] intValue]);
-        self.showTraffic = [[setInfo objectForKey:@"traffic"] boolValue];
+        _mapView.zoomLevel = [self MapToolFitZoom:[[setInfo objectForKey:@"zoom"] intValue]];
+        _mapView.showTraffic = [[setInfo objectForKey:@"traffic"] boolValue];
         BOOL zoomControls = [[setInfo objectForKey:@"zoomControls"] boolValue];
         if ( zoomControls ) {
             [self showZoomControl];
@@ -180,17 +127,53 @@ static int MapToolFitZoom(int zoom)
             self.positionType = PGMapViewPositionAbsolute;
         }
         
-//        UITapGestureRecognizer *taprecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapCallback:)];
-//        taprecognizer.numberOfTouchesRequired = 1; 
-//        taprecognizer.numberOfTapsRequired = 1;
-//        taprecognizer.cancelsTouchesInView = NO;
-//       // taprecognizer.delaysTouchesBegan = YES;
-//       // taprecognizer.delaysTouchesEnded = YES;
-//        [self addGestureRecognizer:taprecognizer];
-//        [taprecognizer release];
+        //        UITapGestureRecognizer *taprecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapCallback:)];
+        //        taprecognizer.numberOfTouchesRequired = 1;
+        //        taprecognizer.numberOfTapsRequired = 1;
+        //        taprecognizer.cancelsTouchesInView = NO;
+        //       // taprecognizer.delaysTouchesBegan = YES;
+        //       // taprecognizer.delaysTouchesEnded = YES;
+        //        [self addGestureRecognizer:taprecognizer];
+        //        [taprecognizer release];
         return self;
     }
     return nil;
+}
+
+- (id)forwardingTargetForSelector:(SEL)aSelector {
+    return _mapView;
+}
+
+- (void)layoutSubviews {
+    _mapView.frame = self.bounds;
+    [super layoutSubviews];
+}
+#pragma mark - PGMapViewDelegate
+- (int)zoomLevel {
+    return _mapView.zoomLevel;
+}
+
+- (void)setZoomLevel:(int)zl {
+    _mapView.zoomLevel = zl;
+}
+
+- (CLLocationCoordinate2D)centerCoordinate {
+    return _mapView.centerCoordinate;
+}
+
+- (void)setCenterCoordinate:(CLLocationCoordinate2D)coordinate animated:(BOOL)animated {
+    [_mapView setCenterCoordinate:coordinate animated:animated];
+}
+
+- (void)setShowsUserLocation:(BOOL)showsUserLocation {
+    _mapView.showsUserLocation = YES;
+}
+- (BOOL)showsUserLocation {
+    return _mapView.showsUserLocation;
+}
+
+- (CLLocationCoordinate2D)convertPoint:(CGPoint)point toCoordinateFromView:(UIView *)view {
+    return [_mapView convertPoint:point toCoordinateFromView:view];
 }
 
 /*
@@ -202,202 +185,32 @@ static int MapToolFitZoom(int zoom)
  *    该函数没有排除覆盖物区域
  *------------------------------------------------
  */
+//
+//-(void)tapCallback:(UITapGestureRecognizer*)sender
+//{
+//    CGPoint point = [sender locationInView:self];
+//
+//    //排除缩放控件区域
+//    if ( _zoomControlView
+//        && CGRectContainsPoint(_zoomControlView.frame, point))
+//        return;
+//
+//    //排除覆盖物区域
+//
+//    CLLocationCoordinate2D coordiante = [_mapView convertPoint:point toCoordinateFromView:self];
+//    NSString *jsObjectF =
+//    @"{\
+//        var plus = %@; \
+//        var args = new plus.maps.Point(%f,%f);\
+//        plus.maps.__bridge__.execCallback('%@', args);\
+//      }";
+//    NSString *javaScript = [NSString stringWithFormat:jsObjectF, [H5CoreJavaScriptText plusObject], coordiante.longitude, coordiante.latitude, self.UUID];
+//    [jsBridge asyncWriteJavascript:javaScript];
+//}
 
--(void)tapCallback:(UITapGestureRecognizer*)sender
-{
-    CGPoint point = [sender locationInView:self];
-    
-    //排除缩放控件区域
-    if ( _zoomControlView
-        && CGRectContainsPoint(_zoomControlView.frame, point))
-        return;
-    
-    //排除覆盖物区域
-
-    CLLocationCoordinate2D coordiante = [self convertPoint:point toCoordinateFromView:self];
-    NSString *jsObjectF =
-    @"{\
-        var plus = %@; \
-        var args = new plus.maps.Point(%f,%f);\
-        plus.maps.__bridge__.execCallback('%@', args);\
-      }";
-    NSString *javaScript = [NSString stringWithFormat:jsObjectF, [H5CoreJavaScriptText plusObject], coordiante.longitude, coordiante.latitude, self.UUID];
-    [jsBridge asyncWriteJavascript:javaScript];
-}
-
-/*
- *------------------------------------------------
- *@summay: 调整地图缩放控件
- *@param 
- *@return
- *@remark
- *    
- *------------------------------------------------
- */
-- (void)resizeZoomControl
-{
-    if ( _zoomControlView )
-    {
-        CGRect mapRect = self.bounds;
-        CGSize zoomControlSize = _zoomControlView.bounds.size;
-        CGPoint center;
-        center.x = mapRect.size.width - zoomControlSize.width/2 - PG_MAP_ZOOMCONTROL_GAP;
-        center.y = mapRect.size.height - zoomControlSize.height/2 - PG_MAP_ZOOMCONTROL_GAP;
-        _zoomControlView.center = center;
-    }
-}
-
-/*
- *------------------------------------------------
- *@summay: 显示地图缩放控件
- *@param
- *@return
- *@remark
- *------------------------------------------------
- */
-- (void)showZoomControl
-{
-    if ( !_zoomControlView )
-    {
-        PGMapZoomControlView *zoomControlView = [[PGMapZoomControlView alloc] init];
-        zoomControlView.alpha = 0.5f;
-        zoomControlView.minimumValue= 3;
-        zoomControlView.maximumValue= 19;
-        zoomControlView.stepValue= 1;
-        zoomControlView.value= self.zoomLevel;
-        zoomControlView.center= self.center;
-        [zoomControlView addTarget:self action:@selector(zoomControlCallback:) forControlEvents:UIControlEventValueChanged];
-        _zoomControlView = zoomControlView;
-        [self resizeZoomControl];
-        [self addSubview:_zoomControlView];
-    }
-    if ( _zoomControlView.hidden )
-    { _zoomControlView.hidden = NO; }
-}
-
-/*
- *------------------------------------------------
- *@summay: 隐藏地图缩放控件
- *@param
- *@return
- *@remark
- *------------------------------------------------
- */
-- (void)hideZoomControl
-{
-    if ( _zoomControlView && !_zoomControlView.hidden)
-    { _zoomControlView.hidden = YES; }
-}
-
-/*
- *------------------------------------------------
- *@summay: 地图缩放控件事件处理
- *@param sender PGMapZoomControlView*
- *@return
- *@remark
- *------------------------------------------------
- */
--(void)zoomControlCallback:(PGMapZoomControlView*)sender
-{/*
-    CGFloat value = _zoomControlView.value;
-    CGFloat currentZoom = self.zoomLevel;
-    if ( value >= currentZoom ) {
-        [self zoomIn];
-    } else {
-        [self zoomOut];
-    }*/
-    self.zoomLevel = _zoomControlView.value; //MapToolFitZoom(_zoomControlView.value);
-}
 
 #pragma mark invoke js method
 #pragma mark -----------------------------
-/*
- *------------------------------------------------
- *@summay: 设置是否显示地图
- *@param sender js pass
- *@return
- *@remark
- *------------------------------------------------
- */
-- (void)showJS:(NSArray*)args
-{
-    NSNumber *value = [args objectAtIndex:0];
-    if ( value && [value isKindOfClass:[NSNumber class]] )
-    {
-        self.hidden = NO;
-        if ( !self.hidden )
-        {
-            CGFloat left   = [[args objectAtIndex:0] floatValue];
-            CGFloat top    = [[args objectAtIndex:1] floatValue];
-            CGFloat width  = [[args objectAtIndex:2] floatValue];
-            CGFloat height = [[args objectAtIndex:3] floatValue];
-            self.frame = CGRectMake(left, top, width, height);
-            [self resizeZoomControl];
-        }
-    }
-}
-
-/*
- *------------------------------------------------
- *@summay: 设置是否显示地图
- *@param sender js pass
- *@return
- *@remark
- *------------------------------------------------
-*/
-- (void)hideJS:(NSArray*)args
-{
-  //  NSNumber *value = [args objectAtIndex:0];
-   // if ( value && [value isKindOfClass:[NSNumber class]] )
-    {
-        self.hidden = YES;
-    }
-}
-
-/*
- *------------------------------------------------
- *@summay: 调整地图的大小
- *@param sender js pass
- *@return
- *@remark
- *------------------------------------------------
- */
-- (void)resizeJS:(NSArray*)args
-{
-    if ( args && [args isKindOfClass:[NSArray class]] )
-    {
-        CGFloat left   = [[args objectAtIndex:0] floatValue];
-        CGFloat top    = [[args objectAtIndex:1] floatValue];
-        CGFloat width  = [[args objectAtIndex:2] floatValue];
-        CGFloat height = [[args objectAtIndex:3] floatValue];
-        self.frame = CGRectMake(left, top, width, height);
-        [self resizeZoomControl];
-    }
-}
-
-/*
- *------------------------------------------------
- *@summay: 设置地图中心缩放级别
- *@param sender js pass
- *@return
- *@remark
- *------------------------------------------------
- */
-- (void)setZoomJS:(NSArray*)args
-{
-    if ( args && [args isKindOfClass:[NSArray class]] )
-    {
-        NSNumber *innerZoom = [args objectAtIndex:0];
-        if ( innerZoom && [innerZoom isKindOfClass:[NSNumber class]])
-        {
-            int nZoom = MapToolFitZoom([innerZoom intValue]);
-            self.zoomLevel = nZoom;
-            if ( _zoomControlView )
-            { _zoomControlView.value = self.zoomLevel; }
-        }
-    }
-}
-
 /*
  *------------------------------------------------
  *@summay: 设置地图中心缩放级别
@@ -415,61 +228,14 @@ static int MapToolFitZoom(int zoom)
         {
             if ( [mapType isEqualToString:@"MAPTYPE_SATELLITE"] )
             {
-                if ( MAMapTypeSatellite!= self.mapType )
-                    self.mapType = MAMapTypeSatellite;
+                if ( MAMapTypeSatellite!= _mapView.mapType )
+                    _mapView.mapType = MAMapTypeSatellite;
             }
             else if( [mapType isEqualToString:@"MAPTYPE_NORMAL"] )
             {
-                if ( MAMapTypeStandard!= self.mapType )
-                    self.mapType = MAMapTypeStandard;
+                if ( MAMapTypeStandard!= _mapView.mapType )
+                    _mapView.mapType = MAMapTypeStandard;
             }
-        }
-    }
-}
-
-/*
- *------------------------------------------------
- *@summay: 设置地图中心区域
- *@param sender js pass
- *@return
- *@remark
- *------------------------------------------------
- */
-- (void)setCenterJS:(NSArray*)args
-{
-    if ( args && [args isKindOfClass:[NSArray class]] )
-    {
-        PGMapCoordinate *center = [PGMapCoordinate pointWithJSON:[args objectAtIndex:0]];
-        if ( center )
-        {
-            [self setCenterCoordinate:[center point2CLCoordinate] animated:YES];
-        }
-    }
-}
-
-/*
- *------------------------------------------------
- *@summay: 设置地图显示区域
- *@param sender js pass
- *@return
- *@remark
- *------------------------------------------------
- */
-- (void)centerAndZoomJS:(NSArray*)args
-{
-    if ( args && [args isKindOfClass:[NSArray class]] )
-    {
-        PGMapCoordinate *center = [PGMapCoordinate pointWithJSON:[args objectAtIndex:0]];
-        NSNumber *innerZoom = [args objectAtIndex:1];
-        if ( center
-            && innerZoom
-            && [innerZoom isKindOfClass:[NSNumber class]])
-        {
-            int nZoom = MapToolFitZoom([innerZoom intValue]);
-            self.zoomLevel = nZoom;
-            if ( _zoomControlView )
-            { _zoomControlView.value = self.zoomLevel; }
-            [self setCenterCoordinate:[center point2CLCoordinate] animated:YES];
         }
     }
 }
@@ -492,7 +258,7 @@ static int MapToolFitZoom(int zoom)
 //            _localService.delegate = self;
 //            [_localService startUserLocationService];
 //        }
-        self.showsUserLocation = [visable boolValue];
+        _mapView.showsUserLocation = [visable boolValue];
       //  self.userLocation.title = nil;
     }
 }
@@ -513,35 +279,12 @@ static int MapToolFitZoom(int zoom)
         if ( value && [value isKindOfClass:[NSNumber class]] )
         {
             if ( [value boolValue] )
-            { self.showTraffic = true; }
-            else { self.showTraffic = false; }
+            { _mapView.showTraffic = true; }
+            else { _mapView.showTraffic = false; }
         }
     }
 }
 
-/*
- *------------------------------------------------
- *@summay: 设置是否显示缩放控件
- *@param sender js pass
- *@return
- *@remark
- *------------------------------------------------
- */
-- (void)showZoomControlsJS:(NSArray*)args
-{
-    NSNumber *value = [args objectAtIndex:0];
-    if ( value && [value isKindOfClass:[NSNumber class]] )
-    {
-        if ( [value boolValue] )
-        {
-            [self showZoomControl];
-        }
-        else
-        {
-            [self hideZoomControl];
-        }
-    }
-}
 /*
  *------------------------------------------------
  *@summay: 添加覆盖物
@@ -632,82 +375,16 @@ static int MapToolFitZoom(int zoom)
 - (void)resetJS:(NSArray*)args
 {
     CLLocationCoordinate2D center = {PG_MAP_DEFALUT_CENTER_LATITUDE,PG_MAP_DEFALUT_CENTER_LONGITUDE};
-    self.zoomLevel = PG_MAP_DEFALUT_ZOOM;
+    _mapView.zoomLevel = PG_MAP_DEFALUT_ZOOM;
     if ( _zoomControlView )
-    { _zoomControlView.value = self.zoomLevel; }
-    [self setCenterCoordinate:center animated:NO];
+    { _zoomControlView.value = _mapView.zoomLevel; }
+    [_mapView setCenterCoordinate:center animated:NO];
    // self.rotationDegree = 0;
 }
 
-/*
- *------------------------------------------------
- *@summay: 获取当前中心点的经纬度
- *@param sender js pass
- *@return
- *@remark
- *     该接口和getCenterCoordinate的区别为该接口会通知js
- *------------------------------------------------
- */
-- (void)getCurrentCenterJS:(NSArray*)args
-{
-    if ( args && [args isKindOfClass:[NSArray class]] )
-    {
-        NSString *uuid = [args objectAtIndex:0];
-        CLLocationCoordinate2D coordinate = self.centerCoordinate;
-        NSString *jsObjectF =
-        @"{\
-        var plus = %@;\
-        var point = new plus.maps.Point(%f,%f);\
-        var args = {'state':0, 'point':point};\
-        plus.maps.__bridge__.execCallback('%@', args);}";
-        NSMutableString *javascript = [NSMutableString stringWithFormat:jsObjectF, [H5CoreJavaScriptText plusObject],coordinate.longitude, coordinate.latitude, uuid];
-        [self.jsBridge asyncWriteJavascript:javascript];
-    }
-}
-
-/*
- *------------------------------------------------
- *@summay: 获取用户当前的位置
- *@param sender js pass
- *@return
- *@remark
- *   该接口会通知js
- *------------------------------------------------
- */
-- (void)getUserLocationJS:(NSArray*)args
-{
-    if ( args && [args isKindOfClass:[NSArray class]] )
-    {
-        NSString *uuid = [args objectAtIndex:0];
-        
-        if ( NO == self.showsUserLocation ) {
-            self.showsUserLocation = true;
-        }
-//
-        MAUserLocation *userLocation = self.userLocation;
-        if ( userLocation.location )
-        {
-            CLLocation *location = userLocation.location;
-            CLLocationCoordinate2D coordinate = location.coordinate;
-            NSString *jsObjectF =
-            @"{ var plus = %@;\
-            var point = new plus.maps.Point(%f,%f);\
-            var args = {'state':0, 'point':point};\
-            plus.maps.__bridge__.execCallback('%@', args);}";
-            NSMutableString *javascript = [NSMutableString stringWithFormat:jsObjectF, [H5CoreJavaScriptText plusObject], coordinate.longitude, coordinate.latitude, uuid];
-            [self.jsBridge asyncWriteJavascript:javascript];
-        }
-        else
-        {
-            if ( !_jsCallbackDict )
-                _jsCallbackDict = [[NSMutableArray alloc] initWithCapacity:10];
-            [_jsCallbackDict addObject:uuid];
-        }
-    }
-}
 - (NSData*)getBoundsJS:(NSArray*)args {
-    CLLocationCoordinate2D tl = [self convertPoint:CGPointMake(self.bounds.size.width, 0) toCoordinateFromView:self];
-    CLLocationCoordinate2D rb = [self convertPoint:CGPointMake(0, self.bounds.size.height) toCoordinateFromView:self];
+    CLLocationCoordinate2D tl = [_mapView convertPoint:CGPointMake(self.bounds.size.width, 0) toCoordinateFromView:self];
+    CLLocationCoordinate2D rb = [_mapView convertPoint:CGPointMake(0, self.bounds.size.height) toCoordinateFromView:self];
     PGMapBounds *bounds = [PGMapBounds boundsWithNorthEase:tl southWest:rb];
     
     return [jsBridge resultWithJSON:[bounds toJSON]];
@@ -735,8 +412,8 @@ static int MapToolFitZoom(int zoom)
     overlay.belongMapview = self;
    // [_overlaysDict setObject:overlay forKey:overlay.UUID ];
     [_gisOverlaysDict addObject:overlay];
-    [self addAnnotations:overlay.markers];
-    [self addOverlay:overlay.polyline];
+    [_mapView addAnnotations:overlay.markers];
+    [_mapView addOverlay:overlay.polyline];
 }
 
 /*
@@ -758,8 +435,8 @@ static int MapToolFitZoom(int zoom)
     overlay.belongMapview = nil;
     [_gisOverlaysDict removeObject:overlay];
     // [_overlaysDict setObject:overlay forKey:overlay.UUID ];
-    [self removeAnnotations:overlay.markers];
-    [self removeOverlay:overlay.polyline];
+    [_mapView removeAnnotations:overlay.markers];
+    [_mapView removeOverlay:overlay.polyline];
 }
 
 /*
@@ -783,7 +460,7 @@ static int MapToolFitZoom(int zoom)
         _markersDict = [[NSMutableArray alloc] initWithCapacity:10];
     marker.belongMapview = self;
     [_markersDict addObject:marker];
-    [self addAnnotation:(id<MAAnnotation>)marker];
+    [_mapView addAnnotation:(id<MAAnnotation>)marker];
 }
 
 /*
@@ -804,7 +481,7 @@ static int MapToolFitZoom(int zoom)
     
     marker.belongMapview = nil;
     [_markersDict removeObject:marker];
-    [self removeAnnotation:(id<MAAnnotation>)marker];
+    [_mapView removeAnnotation:(id<MAAnnotation>)marker];
 }
 
 /*
@@ -832,15 +509,15 @@ static int MapToolFitZoom(int zoom)
     overlay.belongMapview = self;
     [_overlaysDict addObject:overlay];
     if ( !overlay.hidden ) {
-        [self addOverlay:overlay.overlay];
+        [_mapView addOverlay:overlay.overlay];
     }
 }
 
 - (void)setMapOverlay:(PGMapOverlay*)overlay isVisable:(BOOL)visable {
     if ( visable ) {
-        [self addOverlay:overlay.overlay];
+        [_mapView addOverlay:overlay.overlay];
     } else {
-        [self removeOverlay:overlay.overlay];
+        [_mapView removeOverlay:overlay.overlay];
     }
 }
 
@@ -860,9 +537,17 @@ static int MapToolFitZoom(int zoom)
         return;
     if ( !overlay.belongMapview )
         return;
-    [self removeOverlay:overlay.overlay];
+    [_mapView removeOverlay:overlay.overlay];
     [_overlaysDict removeObject:overlay];
     overlay.belongMapview = nil;
+}
+
+- (MAOverlayRenderer *)viewForOverlay:(PGMapOverlay*)overlay {
+    if ( !overlay || !overlay.overlay  )
+        return nil;
+    if ( !overlay.belongMapview )
+        return nil;
+    return [_mapView rendererForOverlay:overlay.overlay];
 }
 
 /*------------------------------------------------
@@ -874,11 +559,11 @@ static int MapToolFitZoom(int zoom)
  *
  *------------------------------------------------
  */
-- (void)removeAllOverlay;
+- (void)removeAllOverlay
 {
     for (PGMapMarker *marker in _markersDict )
     {
-        [self removeAnnotation:marker];
+        [_mapView removeAnnotation:marker];
     }
     
     for ( PGMapOverlay *pdlOvlery in _overlaysDict)
@@ -886,15 +571,15 @@ static int MapToolFitZoom(int zoom)
         if ( pdlOvlery && pdlOvlery.overlay  )
         {
             pdlOvlery.belongMapview = nil;
-            [self removeOverlay:pdlOvlery.overlay];
+            [_mapView removeOverlay:pdlOvlery.overlay];
         }
     }
     
     for ( PGGISOverlay *gisOverlay in _gisOverlaysDict )
     {
         gisOverlay.belongMapview = nil;
-        [self removeAnnotations:gisOverlay.markers];
-        [self removeOverlay:gisOverlay.polyline];
+        [_mapView removeAnnotations:gisOverlay.markers];
+        [_mapView removeOverlay:gisOverlay.polyline];
     }
     
     [_markersDict removeAllObjects];
@@ -1066,7 +751,7 @@ static int MapToolFitZoom(int zoom)
  *@return 生成的覆盖物View
  *------------------------------------------------
  */
-- (MAOverlayView *)mapView:(MAMapView *)mapView viewForOverlay:(id <MAOverlay>)overlay
+- (MAOverlayRenderer *)mapView:(MAMapView *)mapView rendererForOverlay:(id <MAOverlay>)overlay
 {
     //if ( [overlay isKindOfClass:[PGMapOverlay class]] )
     {
@@ -1074,13 +759,13 @@ static int MapToolFitZoom(int zoom)
         {
             if ( pdlOverlay.overlay == overlay ){
                 //return pdlOverlay.overlayView;
-                MAOverlayPathView *pathView = nil;
+                MAOverlayPathRenderer *pathView = nil;
                 if ( [pdlOverlay isKindOfClass:[PGMapCircle class]] ) {
-                    pathView = [[[MACircleView alloc]initWithCircle:overlay] autorelease];
+                    pathView = [[[MACircleRenderer alloc]initWithCircle:overlay] autorelease];
                 } else if ( [pdlOverlay isKindOfClass:[PGMapPolyline class]]){
-                    pathView = [[[MAPolylineView alloc] initWithPolyline:overlay] autorelease];
+                    pathView = [[[MAPolylineRenderer alloc] initWithPolyline:overlay] autorelease];
                 } else if ( [pdlOverlay isKindOfClass:[PGMapPolygon class]]){
-                    pathView = [[[MAPolygonView alloc] initWithPolygon:overlay] autorelease];
+                    pathView = [[[MAPolygonRenderer alloc] initWithPolygon:overlay] autorelease];
                 }
                 pathView.fillColor = pdlOverlay.fillColor;
                 pathView.strokeColor = pdlOverlay.strokeColor;
@@ -1094,7 +779,7 @@ static int MapToolFitZoom(int zoom)
     
     if ([overlay isKindOfClass:[MAPolyline class]])
     {
-        MAPolylineView* polylineView = [[[MAPolylineView alloc] initWithPolyline:overlay] autorelease];
+        MAPolylineRenderer* polylineView = [[[MAPolylineRenderer alloc] initWithPolyline:overlay] autorelease];
         polylineView.fillColor = [[UIColor blueColor] colorWithAlphaComponent:1];
         polylineView.strokeColor = [[UIColor blueColor] colorWithAlphaComponent:1];
         polylineView.lineWidth = 4.0;
@@ -1144,24 +829,9 @@ static int MapToolFitZoom(int zoom)
  */
 - (void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation updatingLocation:(BOOL)updatingLocation
 {
-    if ( userLocation && userLocation.location && [_jsCallbackDict count])
-    {
-        CLLocation *location = userLocation.location;
-        CLLocationCoordinate2D coordinate = location.coordinate;
-        
-        NSArray *callbackDict = [NSArray arrayWithArray:_jsCallbackDict];
-        [_jsCallbackDict removeAllObjects];
-        for ( NSString *aUUID in callbackDict )
-        {
-            NSString *jsObjectF =
-            @"{ var plus = %@;\
-            var point = new plus.maps.Point(%f,%f);\
-            var args = {'state':0, 'point':point};\
-            plus.maps.__bridge__.execCallback('%@', args);}";
-            NSMutableString *javascript = [NSMutableString stringWithFormat:jsObjectF, [H5CoreJavaScriptText plusObject],coordinate.longitude, coordinate.latitude, aUUID];
-            [self.jsBridge asyncWriteJavascript:javascript];
-        }
-    }
+    PGMapUserLocation *mkUserLocation = [[[PGMapUserLocation alloc] init] autorelease];
+    mkUserLocation.location = userLocation.location;
+    [super mapView:self didUpdateUserLocation:mkUserLocation updatingLocation:updatingLocation];
 }
 /*
  *------------------------------------------------
@@ -1172,21 +842,7 @@ static int MapToolFitZoom(int zoom)
  */
 - (void)mapView:(MAMapView *)mapView didFailToLocateUserWithError:(NSError *)error;
 {
-    if ( [_jsCallbackDict count] )
-    {
-        NSArray *callbackDict = [NSArray arrayWithArray:_jsCallbackDict];
-        [_jsCallbackDict removeAllObjects];
-        for ( NSString *aUUID in callbackDict )
-        {
-            NSString *jsObjectF =
-            @"{ var plus = %@;\
-            var point = new plus.maps.Point(%f,%f);\
-            var args = {'state':-1, 'point':point};\
-            plus.maps.__bridge__.execCallback('%@', args);}";
-            NSMutableString *javascript = [NSMutableString stringWithFormat:jsObjectF, [H5CoreJavaScriptText plusObject], 0.0f, 0.0f, aUUID];
-            [self.jsBridge asyncWriteJavascript:javascript];
-        }
-    }
+    [super mapView:self didFailToLocateUserWithError:error];
 }
 
 /*
@@ -1198,73 +854,18 @@ static int MapToolFitZoom(int zoom)
  */
 - (void)mapView:(MAMapView *)mapView regionDidChangeAnimated:(BOOL)animated
 {
-    if ( _zoomControlView ){
-        _zoomControlView.value = self.zoomLevel;
-    }
-    CLLocationCoordinate2D tl = [self convertPoint:CGPointMake(self.bounds.size.width, 0) toCoordinateFromView:self];
-    CLLocationCoordinate2D rb = [self convertPoint:CGPointMake(0, self.bounds.size.height) toCoordinateFromView:self];
-    
-    NSString *jsObjectF =
-    @"window.setTimeout(function(){ %@.maps.__bridge__.execCallback('%@', {callbackType:'change',zoom:%f,center:{long:%f,lat:%f},northease:{long:%f,lat:%f},southwest:{long:%f,lat:%f}});},0)";
-    NSString *javaScript = [NSString stringWithFormat:jsObjectF,
-                            [H5CoreJavaScriptText plusObject],
-                            self.UUID,
-                            self.zoomLevel,
-                            self.centerCoordinate.longitude, self.centerCoordinate.latitude,
-                            tl.longitude, tl.latitude, rb.longitude, rb.latitude];
-    [jsBridge asyncWriteJavascript:javaScript];
+    [self mapViewRegionDidChange:self];
 }
 
 #pragma mark static method
 #pragma mark -----------------------------
-/*
- *------------------------------------------------
- *invake js openSysMap
- *@param command PDLMethod*
- *@return 无
- *------------------------------------------------
- */
-+ (void)openSysMap:(NSArray*)command
-{
-    NSMutableDictionary *dstDict = [command objectAtIndex:0];
-    NSString *dstAddr = [PGPluginParamHelper getStringValue:[command objectAtIndex:1]];
-    NSMutableDictionary *srcDict = [command objectAtIndex:2];
-    
-    if ( srcDict && [srcDict isKindOfClass:[NSMutableDictionary class]]
-        && dstDict && [dstDict isKindOfClass:[NSMutableDictionary class]])
-    {
-        PGMapCoordinate *srcPoi = [PGMapCoordinate pointWithJSON:srcDict];
-        PGMapCoordinate *dstPoi = [PGMapCoordinate pointWithJSON:dstDict];
-        if ( srcPoi && dstPoi ) {
-            if ( [PTDeviceOSInfo systemVersion] > PTSystemVersion7Series ) {
-                NSString *mapURL = [NSString stringWithFormat:@"http://maps.apple.com/?saddr=%f,%f&daddr=%f,%f",
-                                    srcPoi.latitude, srcPoi.longitude,
-                                    dstPoi.latitude, dstPoi.longitude ];
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:mapURL]];
-            } else if ([PTDeviceOSInfo systemVersion] > PTSystemVersion5Series){
-                MKPlacemark *srcPlaceMark = [[[MKPlacemark alloc] initWithCoordinate:[srcPoi point2CLCoordinate] addressDictionary:nil] autorelease];
-                MKPlacemark *dstPlaceMark = [[[MKPlacemark alloc] initWithCoordinate:[dstPoi point2CLCoordinate] addressDictionary:dstAddr?@{@"Name":dstAddr}:nil] autorelease];
-                MKMapItem *srcLocation = [[[MKMapItem alloc] initWithPlacemark:srcPlaceMark] autorelease];
-                MKMapItem *dstLocation = [[[MKMapItem alloc] initWithPlacemark:dstPlaceMark] autorelease];
-                [MKMapItem openMapsWithItems:[NSArray arrayWithObjects:srcLocation, dstLocation, nil]
-                               launchOptions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:MKLaunchOptionsDirectionsModeDriving, [NSNumber numberWithBool:YES], nil]
-                                                                         forKeys:[NSArray arrayWithObjects:MKLaunchOptionsDirectionsModeKey, MKLaunchOptionsShowsTrafficKey, nil]]];
-            } else {
-                NSString *urlF  = @"http://maps.google.com/maps?daddr=%f,%f&saddr=%f,%f";
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:urlF,
-                                                                                 srcPoi.latitude, srcPoi.longitude,
-                                                                                 dstPoi.latitude, dstPoi.longitude ]]];
-            }
-        }
-    }
-}
-
 - (void)mapView:(MAMapView *)mapView didSingleTappedAtCoordinate:(CLLocationCoordinate2D)coordinate {
-    NSString *jsObjectF =
-    @"{var plus = %@;var args = new plus.maps.Point(%f,%f);\
-    plus.maps.__bridge__.execCallback('%@', {callbackType:'click',payload:args});}";
-    NSString *javaScript = [NSString stringWithFormat:jsObjectF, [H5CoreJavaScriptText plusObject], coordinate.longitude, coordinate.latitude, self.UUID];
-    [jsBridge asyncWriteJavascript:javaScript];
+    [self mapView:self onClicked:coordinate];
+//    NSString *jsObjectF =
+//    @"{var plus = %@;var args = new plus.maps.Point(%f,%f);\
+//    plus.maps.__bridge__.execCallback('%@', {callbackType:'click',payload:args});}";
+//    NSString *javaScript = [NSString stringWithFormat:jsObjectF, [H5CoreJavaScriptText plusObject], coordinate.longitude, coordinate.latitude, self.UUID];
+//    [jsBridge asyncWriteJavascript:javaScript];
 }
 
 //- (void)mapView:(MAMapView *)mapView didTouchPois:(NSArray *)pois{
@@ -1281,54 +882,4 @@ static int MapToolFitZoom(int zoom)
 //    [jsBridge asyncWriteJavascript:javaScript];
 //}
 
-@end
-
-
-/*
- *------------------------------------------------
- *@ UIImage(InternalMethod)
- * 添加旋转图片的功能
- ------------------------------------------------
- */
-#pragma mark ------------------------
-@implementation UIImage(InternalMethod)
-
-/*
- *------------------------------------------------
- *@summay: 自动获取高清图片接口
- *@param filepath NSString*文件按路径
- *@return
- *    UIImage*
- *@remark
- *------------------------------------------------
- */
-+ (UIImage*)getRetainImage:(NSString *)filepath
-{
-    if ( filepath ){
-        NSURL *loadUrl = nil;
-        if ( [filepath hasPrefix:@"http://"]
-            ||[filepath hasPrefix:@"file://"]) {
-            loadUrl = [NSURL URLWithString:filepath];
-        } else {
-            loadUrl = [NSURL fileURLWithPath:filepath];
-        }
-        if ( loadUrl ) {
-            if ( [[filepath lastPathComponent ] rangeOfString:@"@2x"].length
-                ||  [[filepath lastPathComponent ] rangeOfString:@"@3x"].length)
-            {
-                if ([UIImage instancesRespondToSelector:@selector(initWithData:scale:)])
-                {
-                    return [UIImage imageWithData:[NSData dataWithContentsOfURL:loadUrl] scale:[UIScreen mainScreen].scale];
-                }
-                else
-                {
-                    UIImage *img = [UIImage imageWithData:[NSData dataWithContentsOfURL:loadUrl]];
-                    return [UIImage imageWithCGImage:img.CGImage scale:[UIScreen mainScreen].scale orientation:img.imageOrientation];
-                }
-            }
-            return [UIImage imageWithData:[NSData dataWithContentsOfURL:loadUrl]];
-        }
-    }
-    return nil;
-}
 @end

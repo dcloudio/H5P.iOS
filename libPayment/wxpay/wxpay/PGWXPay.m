@@ -127,6 +127,15 @@
     }
 }
 
+- (NSDictionary*)JSDict {
+    // 重新检查当前service可用性
+    if ( self.urlScheme ) {
+        [WXApi registerApp:self.urlScheme];
+        self.serviceReady = [WXApi isWXAppInstalled];
+    }
+    return [super JSDict];
+}
+
 -(void) onResp:(BaseResp*)resp {
    // int errorCode = PGPayErrorOther;
     if([resp isKindOfClass:[PayResp class]]) {

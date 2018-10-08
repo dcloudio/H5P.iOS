@@ -386,6 +386,7 @@
 					"$(SRCROOT)/../../libPDRCore/libPDRCore/Tools",
 					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
 					"$(SRCROOT)/../../libPDRCore/libPDRCore/WebviewEngine",
+					"$(SRCROOT)/../libMap/",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "-ObjC";
@@ -412,6 +413,7 @@
 					"$(SRCROOT)/../../libPDRCore/libPDRCore/Tools",
 					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
 					"$(SRCROOT)/../../libPDRCore/libPDRCore/WebviewEngine",
+					"$(SRCROOT)/../libMap/",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "-ObjC";

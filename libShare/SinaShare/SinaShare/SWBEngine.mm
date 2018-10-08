@@ -2,11 +2,16 @@
 #import "SWBEngine.h"
 #import "PDRCore.h"
 #import "PDRToolSystemEx.h"
-
+#import "WeiboSDK.h"
 static NSString *kWBAuthorizeURL = @"https://api.weibo.com/oauth2/authorize";
 static NSString *kPGWBApiKeyAccessToken = @"access_token";
 static NSString *kPGWBApiKeyRrefreshToken = @"refresh_token";
 static NSString *kPGWBApiKeyExpriesin = @"expires_in";
+#define kRedirectURI    @"https://www.sina.com"
+
+@interface SWBEngine()
+@property(nonatomic, retain) WBSendMessageToWeiboRequest* sendMsgRequest;
+@end
 
 @implementation SWBEngine
 
@@ -17,7 +22,6 @@ static NSString *kPGWBApiKeyExpriesin = @"expires_in";
 @synthesize redirectURI;
 @synthesize saveRootpath;
 @synthesize isMeSend;
-@synthesize refreshToken;
 
 - (id)initWithAppKey:(NSString *)theAppKey
            andSecret:(NSString *)theAppSecret
@@ -43,7 +47,6 @@ static NSString *kPGWBApiKeyExpriesin = @"expires_in";
     NSDictionary *dict = [self decodeSaveDict];
     if ( [dict isKindOfClass:[NSDictionary class]] ) {
         self.accessToken = [dict objectForKey:kPGWBApiKeyAccessToken];
-        self.refreshToken = [dict objectForKey:kPGWBApiKeyRrefreshToken];
         self.expireTime = [[dict objectForKey:kPGWBApiKeyExpriesin] doubleValue];
     }
 }
@@ -52,9 +55,6 @@ static NSString *kPGWBApiKeyExpriesin = @"expires_in";
     NSMutableDictionary *output = [NSMutableDictionary dictionary];
     if ( self.accessToken ) {
         [output setObject:self.accessToken forKey:kPGWBApiKeyAccessToken];
-    }
-    if ( self.refreshToken ) {
-        [output setObject:self.refreshToken forKey:kPGWBApiKeyRrefreshToken];
     }
     [output setObject:[NSNumber numberWithDouble:self.expireTime] forKey:kPGWBApiKeyExpriesin];
     return output;
@@ -102,7 +102,6 @@ static NSString *kPGWBApiKeyExpriesin = @"expires_in";
     [WeiboSDK logOutWithToken:self.accessToken delegate:nil withTag:nil];
     [[NSFileManager defaultManager] removeItemAtPath:[self getSaveFilePath] error:nil];
     self.accessToken = nil;
-    self.refreshToken = nil;
     self.expireTime = 0;
     return true;
 }
@@ -147,45 +146,14 @@ static NSString *kPGWBApiKeyExpriesin = @"expires_in";
             [self clearAuthCallback];
             return;
         } else {
-            if ( self.refreshToken ) {
-                NSOperationQueue *newQueue = [[[NSOperationQueue alloc] init] autorelease];
-                [WBHttpRequest requestForRenewAccessTokenWithRefreshToken:self.refreshToken
-                                                                    queue:newQueue
-                                                    withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
-                                                        if ( error ) {
-                                                            if ([temp_delegate respondsToSelector:onFailureCallback]) {
-                                                                [temp_delegate performSelector:onFailureCallback withObject:error];
-                                                            }
-                                                        }else {
-                                                            NSDictionary *retInfo = (NSDictionary*)result;
-                                                            if ( [result isKindOfClass:NSDictionary.class] )  {
-                                                                self.accessToken = [retInfo objectForKey:kPGWBApiKeyAccessToken];
-                                                                self.refreshToken = [retInfo objectForKey:kPGWBApiKeyRrefreshToken];
-                                                                self.expireTime = [[retInfo objectForKey:kPGWBApiKeyExpriesin] floatValue]+[[NSDate date] timeIntervalSince1970];
-                                                                [self saveOauthInfo];
-                                                                if ([temp_delegate respondsToSelector:successCallback]) {
-                                                                    [temp_delegate performSelector:successCallback withObject:nil];
-                                                                }
-                                                            }
-                                                        };
-                                                        [self clearAuthCallback];
-                                                    }];
-                return;
-            }
+           
         }
     }
     UIViewController *viewController = [UIApplication sharedApplication].keyWindow.rootViewController ;
     if ( nil == viewController ) {
         [UIApplication sharedApplication].keyWindow.rootViewController = [PDRCore Instance].persentViewController;
     }
-//    if ( PTSystemVersion7Series == [PTDeviceOSInfo systemVersion]
-//        && ![WeiboSDK isWeiboAppInstalled] ) {
-//        if ([temp_delegate respondsToSelector:onFailureCallback]) {
-//            NSError *error = [NSError errorWithDomain:@"" code:1 userInfo:@{NSLocalizedDescriptionKey:@"未安装客户端"}];
-//            [temp_delegate performSelector:onFailureCallback withObject:error];
-//        }
-//        return;
-//    }
+
     WBAuthorizeRequest *request = [WBAuthorizeRequest request];
     request.redirectURI = self.redirectURI;
     request.scope = @"email,direct_messages_write";
@@ -240,7 +208,9 @@ static NSString *kPGWBApiKeyExpriesin = @"expires_in";
                              thumb:(NSData *)thumb
                          longitude:(NSString *)longitude
                        andLatitude:(NSString *)latitude
+                       messageType:(NSString*)msgType
                          interface:(PGShareMessageInterface)interface
+                             media:(NSString*)media
                           delegate:(id)requestDelegate
                          onSuccess:(SEL)successCallback
                          onFailure:(SEL)failuerCallback {
@@ -250,20 +220,51 @@ static NSString *kPGWBApiKeyExpriesin = @"expires_in";
     if (  PGShareMessageInterfaceSlient != interface
         && [WeiboSDK isWeiboAppInstalled] ) {
         WBMessageObject *message = [WBMessageObject message];
-        message.text = content;
-        if ( href ) {
-            WBWebpageObject *imagObejct = [WBWebpageObject object];
-            imagObejct.title = title;
-            imagObejct.thumbnailData = thumb;
-            imagObejct.webpageUrl = href;
-        } else if ( picture ) {
-            WBImageObject *imagObejct = [WBImageObject object];
-            imagObejct.imageData = picture;
-            message.imageObject = imagObejct;
+        
+        if (msgType && [msgType isKindOfClass:[NSString class]] && [msgType isEqualToString:@"none"]) {
+            if (picture != nil) {
+                msgType = @"image";
+            }else{
+                msgType = @"text";
+            }
         }
-        WBSendMessageToWeiboRequest *request = [WBSendMessageToWeiboRequest requestWithMessage:message];
-        request.shouldOpenWeiboAppInstallPageIfNotInstalled = NO;
-        [WeiboSDK sendRequest:request];
+        
+        
+        if (msgType && [msgType isKindOfClass:[NSString class]]) {
+            
+            if (href == nil) {
+                message.text = content;
+            }else{
+                message.text = [NSString stringWithFormat:@"%@ %@", content, href];
+            }
+            
+            if([msgType isEqualToString:@"image"]){
+                WBImageObject *imagObejct = [WBImageObject object];
+                imagObejct.imageData = picture;
+                message.imageObject = imagObejct;
+            }else if([msgType isEqualToString:@"music"]){
+                
+            }else if([msgType isEqualToString:@"video"]){
+                WBNewVideoObject* videoObject = [WBNewVideoObject object];
+                videoObject.delegate = self;
+                videoObject.isShareToStory = YES;
+                [videoObject addVideo:[NSURL URLWithString:media]];
+                message.videoObject = videoObject;
+            }
+        }
+        
+        WBAuthorizeRequest *authRequest = [WBAuthorizeRequest request];
+        authRequest.redirectURI = kRedirectURI;
+        authRequest.scope = @"all";
+        _sendMsgRequest = [[WBSendMessageToWeiboRequest requestWithMessage:message authInfo:authRequest access_token:self.accessToken] retain];
+
+        if (![msgType isEqualToString:@"video"]) {
+            [WeiboSDK sendRequest:_sendMsgRequest];
+        }
+        
+//        WBSendMessageToWeiboRequest *request = [WBSendMessageToWeiboRequest requestWithMessage:message];
+//        request.shouldOpenWeiboAppInstallPageIfNotInstalled = NO;
+//        [WeiboSDK sendRequest:request];
         self.isMeSend = true;
     } else {
         if ( PGShareMessageInterfaceEditable == interface ) {
@@ -281,50 +282,17 @@ static NSString *kPGWBApiKeyExpriesin = @"expires_in";
         }
         if ( content ) {
             [sendContent appendString:content];
+            [WeiboSDK shareToWeibo:content];
+            if ([_temp_send_delegate respondsToSelector:_onSendSuccessCallback]) {
+                    [_temp_send_delegate performSelector:_onSendSuccessCallback withObject:nil];
+            }
+        }else{
+            if ([_temp_send_delegate respondsToSelector:_onSendFailureCallback]) {
+                // 用户未安装微博客户端时只能发送文字，如果文字不存在则提示用户安装微博客户端
+                [_temp_send_delegate performSelector:_onSendFailureCallback withObject:[self getErrorWithCode:-102]];
+            }
         }
-        if ( href ) {
-            [sendContent appendString:href];
-        }
-        if (sendContent != nil) {
-            [dic setObject:sendContent forKey:@"status"];
-        }
-        if (picture != nil) {
-            [dic setObject:picture forKey:@"pic"];
-        }
-        if (longitude != nil) {
-            [dic setObject:longitude forKey:@"long"];
-        }
-        if (latitude != nil) {
-            [dic setObject:latitude forKey:@"lat"];
-        }
-        if (self.accessToken){
-            [dic setObject:self.accessToken forKey:@"access_token"];
-        }
-            
-//        [self initRequestWithMethodName:picture?@"statuses/upload.json":@"statuses/update.json"
-//                             httpMethod:@"POST"
-//                                 params:dic
-//                           postDataType:picture?kWBRequestPostDataTypeMultipart:kWBRequestPostDataTypeNormal
-//                    andHttpHeaderFields:nil
-//                               delegate:requestDelegate
-//                              onSuccess:successCallback
-//                              onFailure:failuerCallback];
-        [WBHttpRequest requestWithURL:picture?@"https://api.weibo.com/2/statuses/upload.json":@"https://api.weibo.com/2/statuses/update.json"
-                           httpMethod:@"POST"
-                               params:dic
-                                queue:nil
-                withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
-                    if ( error ) {
-                        if ([_temp_send_delegate respondsToSelector:_onSendFailureCallback]) {
-                            [_temp_send_delegate performSelector:_onSendFailureCallback withObject:error];
-                        }
-                    } else {
-                        if ([_temp_send_delegate respondsToSelector:_onSendSuccessCallback]) {
-                            [_temp_send_delegate performSelector:_onSendSuccessCallback withObject:nil];
-                        }
-                    }
-                    
-        }];
+               
         [dic release];
     }
 }
@@ -339,7 +307,6 @@ static NSString *kPGWBApiKeyExpriesin = @"expires_in";
 #pragma mark - SWBAuthorizeViewController delegate
 - (void)authorizeView:(PGSINAAuthorizeView *)webView didSucceedWithAccessToken:(NSDictionary *)code {
     self.accessToken = [code objectForKey:@"access_token"];
-    self.refreshToken = [code objectForKey:@"refresh_token"];
     self.expireTime = [[NSDate date] timeIntervalSince1970]+ [[code objectForKey:@"expires_in"] intValue];
     [self saveOauthInfo];
 }
@@ -365,7 +332,6 @@ static NSString *kPGWBApiKeyExpriesin = @"expires_in";
         WBAuthorizeResponse *authResponse = (WBAuthorizeResponse*)response;
         if ( WeiboSDKResponseStatusCodeSuccess == response.statusCode ) {
             self.accessToken = authResponse.accessToken;
-            self.refreshToken = authResponse.refreshToken;
             self.expireTime = [authResponse.expirationDate timeIntervalSince1970];
             [self saveOauthInfo];
             if ([temp_delegate respondsToSelector:onSuccessCallback]) {
@@ -402,6 +368,9 @@ static NSString *kPGWBApiKeyExpriesin = @"expires_in";
         case -101:
             errorMessage = @"编辑需要安装微博客户端";
             break;
+        case -102:
+            errorMessage = @"发送失败，用户需要安装微博客户端";
+            break;
         default:
             break;
     }
@@ -422,6 +391,21 @@ static NSString *kPGWBApiKeyExpriesin = @"expires_in";
         [WeiboSDK handleOpenURL:url delegate:self];
         self.isMeSend = false;
     }
+}
+
+#pragma mark video delegate
+/**
+ 数据准备成功回调
+ */
+-(void)wbsdk_TransferDidReceiveObject:(id)object{
+    [WeiboSDK sendRequest:_sendMsgRequest];
+}
+
+/**
+ 数据准备失败回调
+ */
+-(void)wbsdk_TransferDidFailWithErrorCode:(WBSDKMediaTransferErrorCode)errorCode andError:(NSError*)error{
+    
 }
 
 

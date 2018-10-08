@@ -28,5 +28,5 @@
 @end
 
 @interface PGBaiduAddress : PGLocationAddress
-+ (id)addressWithGeoCodeResult:(BMKReverseGeoCodeResult*)geoCodeResult;
++ (id)addressWithGeoCodeResult:(BMKReverseGeoCodeSearchResult*)geoCodeResult;
 @end

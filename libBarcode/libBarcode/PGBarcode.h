@@ -1,4 +1,4 @@
-﻿//
+//
 //  PGBarcode.h
 //  libBarcode
 //
@@ -10,14 +10,12 @@
 #import "PGBarcodeDef.h"
 #import "PGBarcodeScanView.h"
 
-@interface  PGBarcode : PGPlugin{
-    PGBarcodeScanView *_widget;
-}
+@interface  PGBarcode : PGPlugin
 
-@property(nonatomic, strong)NSString *callBackID;
-@property(nonatomic, assign)BOOL scaning;
+
 @property(nonatomic, assign)BOOL decodeImgWToFile;
 @property(nonatomic, strong)NSString *decodeImgPath;
+- (UIView*)getBarcodeViewByID:(NSString*)barcodeUUID;
 - (void)Barcode:(PGMethod*)command;
 - (void)start:(PGMethod*)command;
 - (void)cancel:(PGMethod*)command;

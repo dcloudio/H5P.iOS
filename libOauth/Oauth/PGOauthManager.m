@@ -75,6 +75,27 @@
     [self toErrorCallback:cbID withCode:PGPluginErrorNotSupport];
 }
 
+#pragma mark -- authorize
+- (void)authorize:(PGMethod *)command
+{
+    NSString *type = [command.arguments objectAtIndex:0];
+    NSString *cbID = [command.arguments objectAtIndex:1];
+    NSDictionary *params = [command.arguments objectAtIndex:2];
+    
+    PGOauth *Oauth = [self getOauthObjectByType:type];
+    if ( Oauth ) {
+        if ( ![params isKindOfClass:[NSDictionary class]] ) {
+            params = nil;
+        }
+        Oauth.JSFrameContext = self.JSFrameContext;
+        if ( [Oauth authorize:cbID withParams:params] ) {
+            return;
+        }
+    }
+    [self toErrorCallback:cbID withCode:PGPluginErrorNotSupport];
+}
+
+
 #pragma mark -- forbid
 - (void)logout:(PGMethod *)command
 {

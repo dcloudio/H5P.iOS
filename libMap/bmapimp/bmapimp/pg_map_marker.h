@@ -18,38 +18,11 @@
 #import <BaiduMapAPI_Map/BMKAnnotation.h>
 #import <BaiduMapAPI_Map/BMKPointAnnotation.h>
 #import <BaiduMapAPI_Map/BMKPinAnnotationView.h>
-@class PGMapView;
+#import "PGMapDefs.h"
+@class PGBaiduMapView;
 
-@interface PGMapCoordinate : NSObject
-@property(nonatomic, assign)CLLocationDegrees latitude;//标点的文本标注
-@property(nonatomic, assign)CLLocationDegrees longitude; //标点的图标;
-
--(NSString*)JSObject;
-+(PGMapCoordinate*)pointWithJSON:(NSDictionary*)jsonObj;
-+(NSArray*)arrayWithJSON:(NSArray*)jsonObj;
-//工具类封装
--(CLLocationCoordinate2D)point2CLCoordinate;
-+(CLLocationCoordinate2D*)array2CLCoordinatesAlloc:(NSArray*)coordinates;
-+(PGMapCoordinate*)pointWithLongitude:(CLLocationDegrees)longitude latitude:(CLLocationDegrees)latitude;
-+(NSArray*)coordinateListString2Array:(NSString*)coordinateList;
+@interface PGMapCoordinate(BaiduMap)
 +(NSArray*)coordinateListWithPoints:(BMKMapPoint *)points count:(NSUInteger)count;
-
-@end
-
-@interface PGMapBounds : NSObject
-@property(nonatomic, retain)PGMapCoordinate *northease;
-@property(nonatomic, retain)PGMapCoordinate *southwest;
-
-+(PGMapBounds*)boundsWithJSON:(NSMutableDictionary*)jsonObj;
-+(PGMapBounds*)boundsWithNorthEase:(CLLocationCoordinate2D)northease southWest:(CLLocationCoordinate2D)southwest;
-- (NSDictionary*)toJSON;
-@end
-
-@interface PGMapBubble : NSObject
-@property(nonatomic, copy)NSString *label;//标点的文本标注
-@property(nonatomic, copy)NSString *icon; //标点的图标
-@property(nonatomic, retain)UIImage *contentImage;
-+(PGMapBubble*)bubbleWithJSON:(NSMutableDictionary*)jsonObj;
 @end
 
 //气泡视图
@@ -82,7 +55,7 @@
 }
 @property(nonatomic, assign)BOOL selected;
 @property(nonatomic, assign)BOOL hidden;
-@property(nonatomic, assign)PGMapView *belongMapview;
+@property(nonatomic, assign)PGBaiduMapView *belongMapview;
 @property(nonatomic, retain)NSString *baseURL;
 @property(nonatomic, retain)NSString *UUID;
 @property(nonatomic, copy)NSString *label;//标点的文本标注

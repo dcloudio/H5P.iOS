@@ -93,7 +93,7 @@ typedef enum {
 }
 
 - (void)setProperty:(PGMapOverlayPropertyType)property newValue:(id)value {
-    MAOverlayPathView *overlayView = (MAOverlayPathView*)[self.belongMapview viewForOverlay:self.overlay];
+    MAOverlayPathRenderer *overlayView = (MAOverlayPathRenderer*)[self.belongMapview viewForOverlay:self];
     if ( overlayView ) {
         switch (property) {
             case PGMapOverlayPropertyFillColor:
@@ -114,7 +114,7 @@ typedef enum {
             default:
                 break;
         }
-        [overlayView setNeedsDisplay];
+        [overlayView setNeedsUpdate];
     }
    
 }

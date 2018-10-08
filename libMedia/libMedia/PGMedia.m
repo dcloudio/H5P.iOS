@@ -139,7 +139,7 @@ static NSString* const kPGAudioRecorderKeyUUID   = @"e";
     
     NSString* pRecorderFileName = nil;
     NSString* pOutFileName = nil;
-    
+    int       numberofChannels = 1;
     NSString* pOptionFileName = @"_doc/";
     CGFloat nSamplateRate = 8000.0f;
     ESUPPORTFORMAT eRecFormat = EDHA_SUPPORT_WAV;
@@ -180,6 +180,12 @@ static NSString* const kPGAudioRecorderKeyUUID   = @"e";
                 fileType = kPGAudioRecorderParams_mp3;
             }
         }
+        
+        // 声道数，默认是1 mp3格式的必须是2
+        NSString* channels = [pRecOption objectForKey:@"channels"];
+        if([channels isKindOfClass:[NSString class]] && [channels isEqualToString:@"stereo"]){
+            numberofChannels = 2;
+        }
     }
     
     pOutFileName = [PTPathUtil absolutePath:pOptionFileName
@@ -199,7 +205,7 @@ static NSString* const kPGAudioRecorderKeyUUID   = @"e";
             pRecorderFileName = pOutFileName;
         }
         [FormatDic setObject:[NSNumber numberWithFloat:nSamplateRate] forKey: AVSampleRateKey];
-        [FormatDic setObject:[NSNumber numberWithInt:1] forKey:AVNumberOfChannelsKey];
+        [FormatDic setObject:[NSNumber numberWithInt:numberofChannels] forKey:AVNumberOfChannelsKey];
         switch (eRecFormat){
             case EDHA_SUPPORT_AAC: {
                 [FormatDic setObject:[NSNumber numberWithInt: kAudioFormatMPEG4AAC] forKey: AVFormatIDKey];
@@ -208,6 +214,7 @@ static NSString* const kPGAudioRecorderKeyUUID   = @"e";
             }
                 break;
             case EDHA_SUPPORT_WAV:
+                break;
             case EDHA_SUPPORT_MP3:
                 [FormatDic setObject:[NSNumber numberWithInt:2] forKey:AVNumberOfChannelsKey];
             case EDHA_SUPPORT_AMR: {

@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		178E51981B4D0F24000F285E /* PGBaiduKeyVerify.m in Sources */ = {isa = PBXBuildFile; fileRef = 178E51971B4D0F24000F285E /* PGBaiduKeyVerify.m */; };
+		2F196AAF20FEE3B30018AF77 /* PGBaiduKeyVerify.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F196AAE20FEE3B20018AF77 /* PGBaiduKeyVerify.m */; };
 		2FEBD00D1D33757E002D862B /* BaiduMapAPI_Base.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FEBD00C1D33757E002D862B /* BaiduMapAPI_Base.framework */; };
 /* End PBXBuildFile section */
 
@@ -24,9 +24,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		178E51961B4D0F24000F285E /* PGBaiduKeyVerify.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGBaiduKeyVerify.h; sourceTree = "<group>"; };
-		178E51971B4D0F24000F285E /* PGBaiduKeyVerify.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGBaiduKeyVerify.m; sourceTree = "<group>"; };
 		17915DD11B4A30E600BC1AA5 /* libBaiduKeyVerify.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libBaiduKeyVerify.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		2F196AAD20FEE3B20018AF77 /* PGBaiduKeyVerify.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGBaiduKeyVerify.h; sourceTree = "<group>"; };
+		2F196AAE20FEE3B20018AF77 /* PGBaiduKeyVerify.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGBaiduKeyVerify.m; sourceTree = "<group>"; };
 		2FEBD00C1D33757E002D862B /* BaiduMapAPI_Base.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI_Base.framework; path = ../../Pandora/libs/Universal/BaiduMapAPI_Base.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -42,20 +42,11 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		178E51951B4D0F24000F285E /* BaiduKeyVerify */ = {
-			isa = PBXGroup;
-			children = (
-				178E51961B4D0F24000F285E /* PGBaiduKeyVerify.h */,
-				178E51971B4D0F24000F285E /* PGBaiduKeyVerify.m */,
-			);
-			path = BaiduKeyVerify;
-			sourceTree = SOURCE_ROOT;
-		};
 		17915DC81B4A30E600BC1AA5 = {
 			isa = PBXGroup;
 			children = (
+				2F196AAC20FEE3B20018AF77 /* BaiduKeyVerify */,
 				2FEBD00C1D33757E002D862B /* BaiduMapAPI_Base.framework */,
-				17915DD31B4A30E600BC1AA5 /* PGBaiduKeyVerify */,
 				17915DD21B4A30E600BC1AA5 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -68,12 +59,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		17915DD31B4A30E600BC1AA5 /* PGBaiduKeyVerify */ = {
+		2F196AAC20FEE3B20018AF77 /* BaiduKeyVerify */ = {
 			isa = PBXGroup;
 			children = (
-				178E51951B4D0F24000F285E /* BaiduKeyVerify */,
+				2F196AAD20FEE3B20018AF77 /* PGBaiduKeyVerify.h */,
+				2F196AAE20FEE3B20018AF77 /* PGBaiduKeyVerify.m */,
 			);
-			path = PGBaiduKeyVerify;
+			path = BaiduKeyVerify;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -132,7 +124,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				178E51981B4D0F24000F285E /* PGBaiduKeyVerify.m in Sources */,
+				2F196AAF20FEE3B30018AF77 /* PGBaiduKeyVerify.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,6 +245,7 @@
 					"$(SRCROOT)/../../libPDRCore/libPDRCore/Managers",
 					"$(SRCROOT)/../../libPDRCore/libPDRCore/MiniServer",
 					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "-ObjC";
@@ -274,6 +267,7 @@
 					"$(SRCROOT)/../../libPDRCore/libPDRCore/Managers",
 					"$(SRCROOT)/../../libPDRCore/libPDRCore/MiniServer",
 					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "-ObjC";

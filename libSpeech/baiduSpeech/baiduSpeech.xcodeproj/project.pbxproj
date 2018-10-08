@@ -8,18 +8,21 @@
 
 /* Begin PBXBuildFile section */
 		2492ABA81FC2B2360034E90C /* PGBaiduSpeech.m in Sources */ = {isa = PBXBuildFile; fileRef = 2492ABA71FC2B2360034E90C /* PGBaiduSpeech.m */; };
-		2492ABA91FC2B2360034E90C /* PGBaiduSpeech.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2492ABA61FC2B2360034E90C /* PGBaiduSpeech.h */; };
+		2492ABA91FC2B2360034E90C /* PGBaiduSpeech.h in Copy Files */ = {isa = PBXBuildFile; fileRef = 2492ABA61FC2B2360034E90C /* PGBaiduSpeech.h */; };
+		DE5E5A032149069A00DCA389 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE5E5A022149069A00DCA389 /* Foundation.framework */; };
+		DEACA2FF215498FB00EEC05D /* PGBaiduSplash.m in Sources */ = {isa = PBXBuildFile; fileRef = DEACA2FE215498FB00EEC05D /* PGBaiduSplash.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		2492ABA11FC2B2360034E90C /* CopyFiles */ = {
+		2492ABA11FC2B2360034E90C /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
-				2492ABA91FC2B2360034E90C /* PGBaiduSpeech.h in CopyFiles */,
+				2492ABA91FC2B2360034E90C /* PGBaiduSpeech.h in Copy Files */,
 			);
+			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -48,6 +51,10 @@
 		2492ABE61FC2B6C20034E90C /* BDSSpeechSynthesizerParams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDSSpeechSynthesizerParams.h; sourceTree = "<group>"; };
 		2492ABE71FC2B6C20034E90C /* BDSSynthesizerLogLevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDSSynthesizerLogLevel.h; sourceTree = "<group>"; };
 		2492ABE81FC2B6C20034E90C /* BDSTTSEventManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDSTTSEventManager.h; sourceTree = "<group>"; };
+		DE5E5A002149066C00DCA389 /* libBaiduSpeechSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBaiduSpeechSDK.a; path = ../../Pandora/libs/Universal/libBaiduSpeechSDK.a; sourceTree = "<group>"; };
+		DE5E5A022149069A00DCA389 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		DEACA2FD215498FB00EEC05D /* PGBaiduSplash.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGBaiduSplash.h; sourceTree = "<group>"; };
+		DEACA2FE215498FB00EEC05D /* PGBaiduSplash.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGBaiduSplash.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE5E5A032149069A00DCA389 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,6 +75,7 @@
 				2492ABD11FC2B6C20034E90C /* BDSClientHeaders */,
 				2492ABA51FC2B2360034E90C /* baiduSpeech */,
 				2492ABA41FC2B2360034E90C /* Products */,
+				DE5E59FF2149066C00DCA389 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -83,6 +92,8 @@
 			children = (
 				2492ABA61FC2B2360034E90C /* PGBaiduSpeech.h */,
 				2492ABA71FC2B2360034E90C /* PGBaiduSpeech.m */,
+				DEACA2FD215498FB00EEC05D /* PGBaiduSplash.h */,
+				DEACA2FE215498FB00EEC05D /* PGBaiduSplash.m */,
 			);
 			path = baiduSpeech;
 			sourceTree = "<group>";
@@ -139,6 +150,15 @@
 			path = TTS;
 			sourceTree = "<group>";
 		};
+		DE5E59FF2149066C00DCA389 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DE5E5A022149069A00DCA389 /* Foundation.framework */,
+				DE5E5A002149066C00DCA389 /* libBaiduSpeechSDK.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -148,7 +168,7 @@
 			buildPhases = (
 				2492AB9F1FC2B2360034E90C /* Sources */,
 				2492ABA01FC2B2360034E90C /* Frameworks */,
-				2492ABA11FC2B2360034E90C /* CopyFiles */,
+				2492ABA11FC2B2360034E90C /* Copy Files */,
 			);
 			buildRules = (
 			);
@@ -197,6 +217,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2492ABA81FC2B2360034E90C /* PGBaiduSpeech.m in Sources */,
+				DEACA2FF215498FB00EEC05D /* PGBaiduSplash.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,7 +315,7 @@
 		2492ABAD1FC2B2360034E90C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = NO;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../libSpeech\"",
@@ -310,7 +331,7 @@
 		2492ABAE1FC2B2360034E90C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = NO;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../libSpeech\"",

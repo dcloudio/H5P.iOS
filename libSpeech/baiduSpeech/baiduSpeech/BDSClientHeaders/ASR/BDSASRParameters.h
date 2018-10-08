@@ -261,13 +261,20 @@ extern NSString* BDS_ASR_OFFLINE_ENGINE_DAT_FILE_PATH;
  * Default value:       @""
  */
 extern NSString* BDS_ASR_OFFLINE_ENGINE_GRAMMER_FILE_PATH;
-
+/*
+ * BDS_ASR_OFFLINE_ENGINE_GRAMMER_SLOT
+ * Value explanation:   语法模式离线语法槽，使用该参数更新离线语法文件
+ * Value type:          NSString (@"{\"name\":[\"张三\",\"李四\"],\"appname\":[\"手白\",\"度秘\"]}")
+ * Default value:       @""
+ */
+extern NSString* BDS_ASR_OFFLINE_ENGINE_GRAMMER_SLOT;
 /*
  * BDS_ASR_OFFLINE_ENGINE_WAKEUP_WORDS_FILE_PATH
  * Value explanation:   唤醒词文件路径，使用了唤醒并使用离线语法识别的情况下需要设置，其他情况请忽略该参数
  * Value type:          NSString
  * Default value:       @""
  */
+
 extern NSString* BDS_ASR_OFFLINE_ENGINE_WAKEUP_WORDS_FILE_PATH;
 
 #pragma mark - VR from Wakeup

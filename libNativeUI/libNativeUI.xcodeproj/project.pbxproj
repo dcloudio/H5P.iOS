@@ -1,0 +1,303 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		178E51AE1B4D19D6000F285E /* PGNativeUi.mm in Sources */ = {isa = PBXBuildFile; fileRef = 178E51AD1B4D19D6000F285E /* PGNativeUi.mm */; };
+		17E7AFEC173A2E5E00E91886 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17E7AFEB173A2E5E00E91886 /* Foundation.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		17E7AFE6173A2E5E00E91886 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		178E51AB1B4D19D6000F285E /* libNativeUI-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "libNativeUI-Prefix.pch"; sourceTree = "<group>"; };
+		178E51AC1B4D19D6000F285E /* PGNativeUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGNativeUI.h; sourceTree = "<group>"; };
+		178E51AD1B4D19D6000F285E /* PGNativeUi.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PGNativeUi.mm; sourceTree = "<group>"; };
+		17E7AFE8173A2E5E00E91886 /* liblibNativeUI.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibNativeUI.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		17E7AFEB173A2E5E00E91886 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		17E7AFE5173A2E5E00E91886 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				17E7AFEC173A2E5E00E91886 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		178E51AA1B4D19D6000F285E /* libNativeUI */ = {
+			isa = PBXGroup;
+			children = (
+				178E51AB1B4D19D6000F285E /* libNativeUI-Prefix.pch */,
+				178E51AC1B4D19D6000F285E /* PGNativeUI.h */,
+				178E51AD1B4D19D6000F285E /* PGNativeUi.mm */,
+			);
+			path = libNativeUI;
+			sourceTree = "<group>";
+		};
+		17E7AFDF173A2E5D00E91886 = {
+			isa = PBXGroup;
+			children = (
+				178E51AA1B4D19D6000F285E /* libNativeUI */,
+				17E7AFEA173A2E5E00E91886 /* Frameworks */,
+				17E7AFE9173A2E5E00E91886 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		17E7AFE9173A2E5E00E91886 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				17E7AFE8173A2E5E00E91886 /* liblibNativeUI.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		17E7AFEA173A2E5E00E91886 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				17E7AFEB173A2E5E00E91886 /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		17E7AFE7173A2E5E00E91886 /* libNativeUI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 17E7AFF6173A2E5E00E91886 /* Build configuration list for PBXNativeTarget "libNativeUI" */;
+			buildPhases = (
+				17E7AFE4173A2E5E00E91886 /* Sources */,
+				17E7AFE5173A2E5E00E91886 /* Frameworks */,
+				17E7AFE6173A2E5E00E91886 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = libNativeUI;
+			productName = libUI;
+			productReference = 17E7AFE8173A2E5E00E91886 /* liblibNativeUI.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		17E7AFE0173A2E5D00E91886 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0940;
+				ORGANIZATIONNAME = DCloud;
+			};
+			buildConfigurationList = 17E7AFE3173A2E5D00E91886 /* Build configuration list for PBXProject "libNativeUI" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 17E7AFDF173A2E5D00E91886;
+			productRefGroup = 17E7AFE9173A2E5E00E91886 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				17E7AFE7173A2E5E00E91886 /* libNativeUI */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		17E7AFE4173A2E5E00E91886 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				178E51AE1B4D19D6000F285E /* PGNativeUi.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		17E7AFF4173A2E5E00E91886 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		17E7AFF5173A2E5E00E91886 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_BITCODE = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		17E7AFF7173A2E5E00E91886 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				DSTROOT = /tmp/libUI.dst;
+				ENABLE_BITCODE = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "libNativeUI/libNativeUI-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Managers",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Tools",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/MiniServer",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Tools/JSON",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/stream",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/WebviewEngine",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/UI",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/nativeview",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = libNativeUI;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		17E7AFF8173A2E5E00E91886 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				DSTROOT = /tmp/libUI.dst;
+				ENABLE_BITCODE = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "libNativeUI/libNativeUI-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Managers",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Tools",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/MiniServer",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Tools/JSON",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/stream",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/WebviewEngine",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/UI",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/nativeview",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = libNativeUI;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		17E7AFE3173A2E5D00E91886 /* Build configuration list for PBXProject "libNativeUI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				17E7AFF4173A2E5E00E91886 /* Debug */,
+				17E7AFF5173A2E5E00E91886 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		17E7AFF6173A2E5E00E91886 /* Build configuration list for PBXNativeTarget "libNativeUI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				17E7AFF7173A2E5E00E91886 /* Debug */,
+				17E7AFF8173A2E5E00E91886 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 17E7AFE0173A2E5D00E91886 /* Project object */;
+}

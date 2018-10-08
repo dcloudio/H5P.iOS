@@ -49,6 +49,9 @@ static NSString *kString_accesstoken = @"accessToken";
 @synthesize latitude;
 @synthesize longitude;
 @synthesize title;
+@synthesize media;
+@synthesize miniProgram;
+@synthesize msgType;
 
 - (id)initWithDict:(NSDictionary*)dict
 {
@@ -73,6 +76,22 @@ static NSString *kString_accesstoken = @"accessToken";
         if ( [thumbsV isKindOfClass:NSArray.class]  && [thumbsV count]) {
             self.thumbs = [NSArray arrayWithArray:thumbsV];
         }
+        NSString* mediaHref = [dict objectForKey:@"media"];
+        if ([mediaHref isKindOfClass:[NSString class]]) {
+            self.media = mediaHref;
+        }
+        NSString* msgType = [dict objectForKey:g_pdr_string_type];
+        if ([msgType isKindOfClass:NSString.class]) {
+            self.msgType = msgType;
+        }else{
+            self.msgType =@"none";
+        }
+        
+        NSDictionary* miniProgram = [dict objectForKey:@"miniProgram"];
+        if ([miniProgram isKindOfClass:NSDictionary.class]) {
+            self.miniProgram = [NSDictionary dictionaryWithDictionary:miniProgram];
+        }
+        
         NSDictionary *geo = [dict objectForKey:@"geo"];
         if ( [geo isKindOfClass:NSDictionary.class] ) {
             NSString *lat = [geo objectForKey:@"latitude"];
@@ -131,6 +150,9 @@ static NSString *kString_accesstoken = @"accessToken";
     self.href =nil;
     self.sendThumb = nil;
     self.title = nil;
+    self.msgType = nil;
+    self.media = nil;
+    self.miniProgram = nil;
     [super dealloc];
 }
 

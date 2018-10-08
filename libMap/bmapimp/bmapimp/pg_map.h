@@ -18,40 +18,18 @@
 #import <CoreLocation/CoreLocation.h>
 #import <BaiduMapAPI_Base/BMKMapManager.h>
 #import <BaiduMapAPI_Search/BMKGeocodeSearch.h>
-
+#import "PGMap.h"
 #import "PGPlugin.h"
 #import "PGMethod.h"
 
-typedef enum {
-    PGMapReqTypeGeocode,
-    PGMapReqTypeReverseGeocode
-}PGMapGeoReqType;
-
-@interface PGMapGeoReq : NSObject
-@property(nonatomic, assign)PGMapGeoReqType reqType;
-@property(nonatomic, copy)NSString *city;
-@property(nonatomic, copy)NSString *address;
-@property(nonatomic, assign)CLLocationCoordinate2D coordinate2D;
-@property(nonatomic, copy)NSString *callbackId;
-@end
-
-@interface PGMap : PGPlugin<BMKGeoCodeSearchDelegate>
+@interface PGMap : PGMapPlugin<BMKGeoCodeSearchDelegate>
 {
     //js中创建的地图字典
-    NSMutableDictionary *_nativeObjectDict;
     BMKGeoCodeSearch *_codeSearch;
     NSMutableArray *_geocodeReqs;
     BOOL _codeSearchRuning;
 }
 
-@property(nonatomic, readonly)NSDictionary *nativeOjbectDict;
-
-//创建js native层对象
-- (void)createObject:(PGMethod*)command;
-// js属性更改同步更新native对象
-- (void)updateObject:(PGMethod*)command;
-- (void)execMethod:(PGMethod*)command;
-//native
 - (void)insertGisOverlay:(id)object withKey:(NSString*)key;
 
 - (void)calculateDistance:(PGMethod*)command;

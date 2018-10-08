@@ -70,7 +70,7 @@
 - (void)parseOptions:(NSDictionary*)dict {
     if ( [dict isKindOfClass:[NSDictionary class]] ) {
         NSString *value = [dict objectForKey:@"engine"];
-        if ( [value isKindOfClass:[NSString class]] ) {
+        if ([value isKindOfClass:[NSString class]] ) {
             self.engine = value;
         }
         value = nil;
@@ -126,20 +126,24 @@
     self.userInterface = TRUE;
     self.nbest = 1;
     self.recognizeContinue = FALSE;
-    self.lang = nil;
+    self.lang = @"zh-cn";
     self.timeout = 10*1000;
     self.service = nil;
-    self.engine = nil;
+    self.engine = @"iFly";
     self.punctuation = YES;
 }
 
 - (void)dealloc {
     self.service = nil;
-    self.engine = nil;
+    self.engine = @"iFly";
     self.callBackID = nil;
-    [super dealloc];
 }
 
+@end
+
+@interface PGSpeech ()
+@property (nonatomic, strong) PGSpeechImp *speechEngine;
+@property (nonatomic, strong) NSMutableDictionary *recognizerEvtObservers;
 @end
 
 @implementation PGSpeech
@@ -148,11 +152,22 @@
     return [self.appContext.featureList getPuginExtend:@"Speech"];
 }
 
+//- (PGSpeechImp*)getEngine:(NSString*)aEngine {
+//    if (!self.speechEngine) {
+//        NSDictionary *dict = [self getSupportEngines];
+//        NSString *className = [dict objectForKey:aEngine];
+//        if ( className ) {
+//            id imp = [[NSClassFromString(className) alloc] init];
+//            self.speechEngine = imp;
+//        }
+//    }
+//    return self.speechEngine;
+//}
 - (PGSpeechImp*)getEngine:(NSString*)aEngine {
     NSDictionary *dict = [self getSupportEngines];
     NSString *className = [dict objectForKey:aEngine];
     if ( className ) {
-        id imp = [[[NSClassFromString(className) alloc] init] autorelease];
+        id imp = [[NSClassFromString(className) alloc] init];
         return imp;
     }
     return nil;
@@ -163,23 +178,25 @@
     NSString *cID = [args objectAtIndex:0];
     NSString *curEngine = nil;
    
-    if ( _speechEngine ) {
+    NSDictionary *dict = [args objectAtIndex:1];
+    if ( [dict isKindOfClass:[NSDictionary class]] ) {
+        NSString *value = [dict objectForKey:@"engine"];
+        if (value && [value isKindOfClass:[NSString class]]) {
+            curEngine = [value lowercaseString];
+        }else {
+            curEngine = @"ifly";
+        }
+    }
+    if ( curEngine ) {
+        PGSpeechImp *speechImp = [self getEngine:curEngine];
+        if (speechImp) {
+            _speechEngine = speechImp;
+        }else {
+            _speechEngine = [self getEngine:@"ifly"];
+        }
+        _speechEngine.bridge = self;
         [_speechEngine startRecognize:command];
         return;
-    } else {
-        NSDictionary *dict = [args objectAtIndex:1];
-        if ( [dict isKindOfClass:[NSDictionary class]] ) {
-            NSString *value = [dict objectForKey:@"engine"];
-            if ( [value isKindOfClass:[NSString class]] ) {
-                curEngine = [value lowercaseString];
-            }
-        }
-        if ( curEngine ) {
-            _speechEngine = [[self getEngine:curEngine] retain];
-            _speechEngine.bridge = self;
-            [_speechEngine startRecognize:command];
-            return;
-        }
     }
     
     PDRPluginResult *result = [PDRPluginResult resultWithStatus:PDRCommandStatusError
@@ -189,6 +206,54 @@
 
 - (void)stopRecognize:(PGMethod*)command {
     [_speechEngine stopRecognize:command];
+}
+
+- (void)addEventListener:(PGMethod *)commands {
+    NSString *type = [commands getArgumentAtIndex:0];
+    NSString *cbId = [commands getArgumentAtIndex:1];
+    NSString *adFrameId = [commands getArgumentAtIndex:2];
+    if ( [type isKindOfClass:[NSString class]] && [type length] ) {
+        type = [type lowercaseString];
+        [self addEvtType:type onCallBackId:cbId onRecognition:adFrameId];
+    }
+}
+
+- (void)addEvtType:(NSString*)typeName onCallBackId:(NSString *)cbId onRecognition:(NSString*)adFrameId {
+    
+    NSMutableDictionary *reconizerCBInfo = [self.recognizerEvtObservers objectForKey:adFrameId];
+    if ( !reconizerCBInfo ) {
+        reconizerCBInfo = [NSMutableDictionary dictionary];
+        [self.recognizerEvtObservers setObject:reconizerCBInfo forKey:adFrameId];
+    }
+    NSMutableArray *evtType = [reconizerCBInfo objectForKey:typeName];
+    if ( !evtType ) {
+        evtType = [NSMutableArray array];
+        [reconizerCBInfo setObject:evtType forKey:typeName];
+    }
+    [evtType addObject:cbId];
+}
+
+- (void)sendEvent:(NSString*)type withParams:(NSDictionary *)params {
+    for (NSString *adFrameId in _recognizerEvtObservers) {
+        NSMutableDictionary *cbInfos = [_recognizerEvtObservers objectForKey:adFrameId];
+        if ( cbInfos ) {
+            type = [type lowercaseString];
+            NSMutableArray *evtCbIds = [cbInfos objectForKey:type];
+            for ( NSString *cbId in evtCbIds ) {
+                [self toSucessCallback:cbId inWebview:adFrameId withJSON:params keepCallback:YES];
+            }
+        }
+    }
+}
+
+- (void) onAppFrameWillClose:(PDRCoreAppFrame*)theAppframe {
+    [super onAppFrameWillClose:theAppframe];
+    if (self.frameWillCloseBlock) {
+        self.frameWillCloseBlock(theAppframe);
+    }
+    if ([self.recognizerEvtObservers objectForKey:theAppframe.viewUUID]) {
+        [self.recognizerEvtObservers removeObjectForKey:theAppframe.viewUUID];
+    }
 }
 
 - (NSString*)errorMsgWithCode:(int)errorCode {
@@ -204,9 +269,14 @@
 }
 
 - (void)dealloc {
-    [_speechEngine release];
     _speechEngine = nil;
-    [super dealloc];
+}
+
+- (NSMutableDictionary *)recognizerEvtObservers {
+    if (!_recognizerEvtObservers) {
+        _recognizerEvtObservers = [NSMutableDictionary dictionary];
+    }
+    return _recognizerEvtObservers;
 }
 
 @end    

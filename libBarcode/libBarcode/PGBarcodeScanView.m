@@ -10,15 +10,20 @@
 #import "PGBarcodeOverlayView.h"
 #import "ZXCaptureDelegate.h"
 #import "ZXResult.h"
+#import "PDRCommonString.h"
+#import "PDRCoreAppFrame.h"
+#import "NWindowOptionsParse.h"
+#import "PDRCoreAppFramePrivate.h"
 
 @interface PGBarcodeScanView () <ZXCaptureDelegate>{
       SystemSoundID beepSound;
 }
-
+@property(nonatomic, assign)BOOL needStartScan;
 @property(nonatomic, assign)BOOL useVibrate;
 @end
 
 @implementation PGBarcodeScanView
+@synthesize scaning;
 
 - (id) initWithFrame:(CGRect)theFrame {
     if ( self = [super initWithFrame:theFrame] ) {
@@ -66,10 +71,15 @@
         [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
     } else {
         [_overlayView startScanline];
+        self.needStartScan = YES;
         self.capture.delegate = self;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChange) name:UIDeviceOrientationDidChangeNotification object:nil];
     }
     [super willMoveToSuperview:newSuperview];
+}
+
+- (void)onLayout_ {
+    self.needStartScan = YES;
 }
 
 - (void) orientationChange {
@@ -96,6 +106,10 @@
     CGRect humanRect = _overlayView.cropRect;
    // self.capture.scanRect = humanRect;//CGRectInset(humanRect, -5, -5);
     self.capture.scanRect = CGRectInset(humanRect, -5, -5);
+    if ( self.needStartScan ) {
+        [_overlayView startScanline];
+        self.needStartScan = NO;
+    }
 }
 
 - (void)captureResult:(PGBarcodeCapture *)capture result:(PGBarcodeResult *)result {
@@ -112,14 +126,22 @@
 }
 
 - (void)pauseScan {
+    self.needStartScan = NO;
     [self.overlayView stopScanline];
     [self.capture stop];
 }
 
 - (void)resumeScan {
+    self.needStartScan = YES;
     [self.overlayView startScanline];
     [self.capture start];
 }
+
+- (void)clearListener{
+    [self.callbackStack removeAllObjects];
+}
+
+
 
 /*
 // Only override drawRect: if you perform custom drawing.

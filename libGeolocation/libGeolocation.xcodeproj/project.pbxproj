@@ -10,8 +10,9 @@
 		178DB5D91B453229009DB0BF /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 178DB5D81B453229009DB0BF /* CoreLocation.framework */; };
 		17F56BF81727B25400BD93C7 /* PGGeolocation.mm in Sources */ = {isa = PBXBuildFile; fileRef = 17F56BF71727B25400BD93C7 /* PGGeolocation.mm */; };
 		17F5CE06172795C900356EE5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17F5CE05172795C900356EE5 /* Foundation.framework */; };
-		242897FD1F8CD3CB004320D9 /* PGLocationBaidu.m in Sources */ = {isa = PBXBuildFile; fileRef = 242897FC1F8CD3CB004320D9 /* PGLocationBaidu.m */; };
 		24293050205F9D540073B8F1 /* PGLocationServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2429304F205F9D540073B8F1 /* PGLocationServer.m */; };
+		2FDC6C522151015500EDA865 /* PGLocationServerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FDC6C4E2151015300EDA865 /* PGLocationServerManager.m */; };
+		2FDC6C532151015500EDA865 /* PGLocationBaidu.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FDC6C502151015400EDA865 /* PGLocationBaidu.m */; };
 		2FEBD02F1D337646002D862B /* BaiduMapAPI_Base.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FEBD02B1D337646002D862B /* BaiduMapAPI_Base.framework */; };
 		2FEBD0301D337646002D862B /* BaiduMapAPI_Location.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FEBD02C1D337646002D862B /* BaiduMapAPI_Location.framework */; };
 		2FEBD0311D337646002D862B /* BaiduMapAPI_Search.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FEBD02D1D337646002D862B /* BaiduMapAPI_Search.framework */; };
@@ -38,11 +39,12 @@
 		17F5CE02172795C900356EE5 /* liblibGeolocation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibGeolocation.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		17F5CE05172795C900356EE5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		17F5CE09172795C900356EE5 /* libGeolocation-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "libGeolocation-Prefix.pch"; sourceTree = "<group>"; };
-		242897FB1F8CD3CB004320D9 /* PGLocationBaidu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGLocationBaidu.h; sourceTree = "<group>"; };
-		242897FC1F8CD3CB004320D9 /* PGLocationBaidu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGLocationBaidu.m; sourceTree = "<group>"; };
 		2429304E205F9D540073B8F1 /* PGLocationServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGLocationServer.h; sourceTree = "<group>"; };
 		2429304F205F9D540073B8F1 /* PGLocationServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGLocationServer.m; sourceTree = "<group>"; };
-		24F0D21C1F8CC4AC006ED71C /* PGBaiduKeyVerify.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PGBaiduKeyVerify.h; path = ../../libMap/BaiduKeyVerify/BaiduKeyVerify/PGBaiduKeyVerify.h; sourceTree = "<group>"; };
+		2FDC6C4E2151015300EDA865 /* PGLocationServerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGLocationServerManager.m; sourceTree = "<group>"; };
+		2FDC6C4F2151015400EDA865 /* PGLocationBaidu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGLocationBaidu.h; sourceTree = "<group>"; };
+		2FDC6C502151015400EDA865 /* PGLocationBaidu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGLocationBaidu.m; sourceTree = "<group>"; };
+		2FDC6C512151015500EDA865 /* PGLocationServerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGLocationServerManager.h; sourceTree = "<group>"; };
 		2FEBD02B1D337646002D862B /* BaiduMapAPI_Base.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI_Base.framework; path = ../Pandora/libs/Universal/BaiduMapAPI_Base.framework; sourceTree = "<group>"; };
 		2FEBD02C1D337646002D862B /* BaiduMapAPI_Location.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI_Location.framework; path = ../Pandora/libs/Universal/BaiduMapAPI_Location.framework; sourceTree = "<group>"; };
 		2FEBD02D1D337646002D862B /* BaiduMapAPI_Search.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI_Search.framework; path = ../Pandora/libs/Universal/BaiduMapAPI_Search.framework; sourceTree = "<group>"; };
@@ -101,11 +103,12 @@
 		17F5CE07172795C900356EE5 /* libGeolocation */ = {
 			isa = PBXGroup;
 			children = (
+				2FDC6C4F2151015400EDA865 /* PGLocationBaidu.h */,
+				2FDC6C502151015400EDA865 /* PGLocationBaidu.m */,
+				2FDC6C512151015500EDA865 /* PGLocationServerManager.h */,
+				2FDC6C4E2151015300EDA865 /* PGLocationServerManager.m */,
 				2429304E205F9D540073B8F1 /* PGLocationServer.h */,
 				2429304F205F9D540073B8F1 /* PGLocationServer.m */,
-				24F0D21C1F8CC4AC006ED71C /* PGBaiduKeyVerify.h */,
-				242897FB1F8CD3CB004320D9 /* PGLocationBaidu.h */,
-				242897FC1F8CD3CB004320D9 /* PGLocationBaidu.m */,
 				8E41ACF21B5514A700524173 /* PGLocationSystem.h */,
 				8E41ACF31B5514A700524173 /* PGLocationSystem.m */,
 				17915DC71B4A1F3200BC1AA5 /* PGGeolocation.h */,
@@ -174,9 +177,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2FDC6C532151015500EDA865 /* PGLocationBaidu.m in Sources */,
 				24293050205F9D540073B8F1 /* PGLocationServer.m in Sources */,
 				17F56BF81727B25400BD93C7 /* PGGeolocation.mm in Sources */,
-				242897FD1F8CD3CB004320D9 /* PGLocationBaidu.m in Sources */,
+				2FDC6C522151015500EDA865 /* PGLocationServerManager.m in Sources */,
 				8E41ACF51B5514A700524173 /* PGLocationSystem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -285,6 +289,7 @@
 					"$(SRCROOT)/../libPDRCore/libPDRCore/Tools",
 					"$(SRCROOT)/../libPDRCore/libPDRCore/Managers",
 					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../libMap/BaiduKeyVerify/BaiduKeyVerify",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "-ObjC";
@@ -306,6 +311,7 @@
 					"$(SRCROOT)/../libPDRCore/libPDRCore/Tools",
 					"$(SRCROOT)/../libPDRCore/libPDRCore/Managers",
 					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../libMap/BaiduKeyVerify/BaiduKeyVerify",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "-ObjC";

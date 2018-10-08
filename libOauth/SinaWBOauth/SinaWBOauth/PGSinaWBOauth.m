@@ -52,34 +52,7 @@ static NSString *kPGWBApiKeyExtra = @"extra";
         if ([[NSDate date] timeIntervalSince1970] < self.expireTime) {
             [self executeJSSucessCallback];
             return;
-        } else {
-            if ( self.refreshToken ) {
-                NSOperationQueue *newQueue = [[[NSOperationQueue alloc] init] autorelease];
-                [WBHttpRequest requestForRenewAccessTokenWithRefreshToken:self.refreshToken
-                                                                    queue:newQueue
-                                                    withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
-                                                        NSDictionary *retInfo = (NSDictionary*)result;
-                                                        if ( [result isKindOfClass:NSDictionary.class] )  {
-                                                            self.accessToken = [retInfo objectForKey:kPGWBApiKeyAccessToken];
-                                                            self.refreshToken = [retInfo objectForKey:kPGWBApiKeyRrefreshToken];
-                                                            NSString *newId = [retInfo objectForKey:kPGWBApiKeyuid];
-                                                            if ( newId && NSOrderedSame != [newId caseInsensitiveCompare:self.uid]) {
-                                                                self.uid = newId;
-                                                                self.userInfo = nil;
-                                                            }
-                                                            self.needToSaveFile = true;
-                                                            self.expireTime = [[retInfo objectForKey:kPGWBApiKeyExpriesin] floatValue]+[[NSDate date] timeIntervalSince1970];
-                                                            [self executeJSSucessCallback];
-                                                        } else if ( error ) {
-                                                            [self toErrorCallback:self.callbackId withInnerCode:(int)error.code withMessage:error.domain];
-                                                         //   [self toErrorCallback:self.callbackId withCode:(int)error.code withMessage:error.domain];
-                                                        }
-                                                        self.callbackId = nil;
-                                                    }];
-                return;
-            }
         }
-        
     }
     
     BOOL ret = [self loginWithScope:scope state:state];
@@ -101,25 +74,25 @@ static NSString *kPGWBApiKeyExtra = @"extra";
 - (void)getUserInfo:(NSString*)cbId {
     self.callbackId = cbId;
     if ([[NSDate date] timeIntervalSince1970] < self.expireTime) {
-        NSOperationQueue *newQueue = [[[NSOperationQueue alloc] init] autorelease];
-        [WBHttpRequest requestForUserProfile:self.uid
-                             withAccessToken:self.accessToken
-                          andOtherProperties:nil
-                                       queue:newQueue
-                       withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
-                           WeiboUser *wbUser = (WeiboUser*)result;
-                           if ( [wbUser isKindOfClass:[WeiboUser class]] ) {
-                               self.userInfo = wbUser.originParaDict;
-                               self.needToSaveFile = TRUE;
-                               [self executeJSSucessCallback];
-                           } else if ( error ) {
-                               [self toErrorCallback:self.callbackId withInnerCode:(int)error.code withMessage:error.domain];
-                               //[self toErrorCallback:self.callbackId withCode:(int)error.code withMessage:error.domain];
-                           } else {
-                               [self toErrorCallback:self.callbackId withCode:PGPluginErrorUnknown];
-                           }
-                           self.callbackId = nil;
-                       }];
+        NSString *url =[NSString stringWithFormat:
+                        @"https://api.weibo.com/2/users/show.json?access_token=%@&uid=%@",self.accessToken,self.uid];
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (data){
+                    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data
+                                                                        options:NSJSONReadingMutableContainers error:nil];
+                    self.userInfo = dic;
+                    self.needToSaveFile = YES;
+                     [self executeJSSucessCallback];
+                }else{
+                    [self toErrorCallback:self.callbackId withInnerCode:(int)10014 withMessage:@""];
+                }
+            });
+            
+        });
+        
         return;
     }
     [self toErrorCallback:self.callbackId withCode:PGOauthErrorNeedLogin];
@@ -155,7 +128,6 @@ static NSString *kPGWBApiKeyExtra = @"extra";
 
 - (void)clear {
     self.uid = nil;
-    self.refreshToken = nil;
     self.accessToken = nil;
     self.userInfo = nil;
     self.extra = nil;
@@ -213,7 +185,6 @@ static NSString *kPGWBApiKeyExtra = @"extra";
     if ( [dict isKindOfClass:[NSDictionary class]] ) {
         self.uid = [dict objectForKey:kPGWBApiKeyuid];
         self.accessToken = [dict objectForKey:kPGWBApiKeyAccessToken];
-        self.refreshToken = [dict objectForKey:kPGWBApiKeyRrefreshToken];
         self.userInfo = [dict objectForKey:kPGWBApiKeyUserInfo];
         self.extra = [dict objectForKey:kPGWBApiKeyExtra];
         self.expireTime = [[dict objectForKey:kPGWBApiKeyExpriesin] doubleValue];
@@ -236,10 +207,6 @@ static NSString *kPGWBApiKeyExtra = @"extra";
     }
     if ( self.accessToken ) {
         [output setObject:self.accessToken forKey:kPGWBApiKeyAccessToken];
-    }
-    
-    if ( self.refreshToken ) {
-        [output setObject:self.refreshToken forKey:kPGWBApiKeyRrefreshToken];
     }
     
     if ( self.userInfo ) {
@@ -271,7 +238,6 @@ static NSString *kPGWBApiKeyExtra = @"extra";
         WBAuthorizeResponse *authResponse = (WBAuthorizeResponse*)response;
         if ( WeiboSDKResponseStatusCodeSuccess == authResponse.statusCode ) {
             self.accessToken = authResponse.accessToken;
-            self.refreshToken = authResponse.refreshToken;
             self.expireTime = [authResponse.expirationDate timeIntervalSince1970];
            // self.uid = authResponse.userID;
             NSString *newId = authResponse.userID;

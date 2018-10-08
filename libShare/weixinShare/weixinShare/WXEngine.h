@@ -1,4 +1,4 @@
-﻿
+
 #import <Foundation/Foundation.h>
 #import "WXApi.h"
 #import "WXApiObject.h"
@@ -41,9 +41,12 @@ typedef enum {
                                href:(NSString*)href
                                 pic:(NSData *)picture
                               thumb:(NSData*)thumb
+                              media:(NSString*)mediaURL
                          longitude:(NSString *)longitude
                         andLatitude:(NSString *)latitude
                               scene:(int)sence
+                        miniProgram:(NSDictionary*)programContent
+                               type:(NSString*)messageType
                           delegate:(id)requestDelegate
                          onSuccess:(SEL)successCallback
                          onFailure:(SEL)failuerCallback;

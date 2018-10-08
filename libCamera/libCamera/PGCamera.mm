@@ -87,6 +87,8 @@
             }
         }
         
+        option.videoMaximumDuration = [PGPluginParamHelper getFloatValueInDict:json forKey:@"videoMaximumDuration" defalut:0];
+        
         //获取弹出位置
         CGRect rect = CGRectZero;
         NSDictionary *popover = [json objectForKey:g_pdr_string_popover];
@@ -425,6 +427,7 @@
                                                                prefix:@"video_"
                                                                suffix:@"mov"
                                                               context:self.appContext];
+        self.pickerController.videoMaximumDuration = option.videoMaximumDuration;
     } else {
         if ( PGCameraEncodingTypeJPEG ==  option.encodingType ) {
             self.pickerController.saveFileName = [PTPathUtil absolutePath:option.savePath

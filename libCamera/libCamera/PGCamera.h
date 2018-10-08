@@ -1,4 +1,4 @@
-﻿/*
+/*
  *------------------------------------------------------------------
  *  pandora/feature/camera/pg_camera.h
  *  Description:
@@ -41,6 +41,7 @@ typedef NS_ENUM(NSInteger, PGCameraEncodingType) {
 @property(nonatomic, assign)PGCameraEncodingType encodingType;
 @property(nonatomic, assign)CGRect rect;
 @property(nonatomic, assign)BOOL rectValid;
+@property(nonatomic, assign)float videoMaximumDuration;
 @property(nonatomic, copy)NSString *callbackId;
 
 @end

@@ -2,14 +2,14 @@
  *------------------------------------------------------------------
  *  pandora/feature/cache/pg_gallery.mm
  *  Description:
- *    打开相册实现文件    
+ *    打开相册实现文件
  *      负责和js层代码交互，js native层对象维护
  *  DCloud Confidential Proprietary
  *  Copyright (c) Department of Research and Development/Beijing/DCloud.
  *  All Rights Reserved.
  *
  *  Changelog:
- *	number	author	modify date modify record
+ *    number    author    modify date modify record
  *   0       xty     2013-02-17 创建文件
  *------------------------------------------------------------------
  */
@@ -180,14 +180,14 @@
             }
             self.selected = s;
         }
-    
+        
         NSString *fTValue = [params objectForKey:g_pdr_string_filter];
         if ( [fTValue isKindOfClass:[NSString class]] ) {
             if ( NSOrderedSame == [g_pdr_string_none caseInsensitiveCompare:fTValue] ) {
                 self.filters = PGGalleryFiltersNone;
-              //  filters = [NSArray arrayWithObjects:(NSString*)kUTTypeMovie, (NSString*)kUTTypeImage, nil];
+                //  filters = [NSArray arrayWithObjects:(NSString*)kUTTypeMovie, (NSString*)kUTTypeImage, nil];
             } else if ( NSOrderedSame == [g_pdr_string_video caseInsensitiveCompare:fTValue] ) {
-              //  filters = [NSArray arrayWithObjects:(NSString*)kUTTypeMovie, nil];
+                //  filters = [NSArray arrayWithObjects:(NSString*)kUTTypeMovie, nil];
                 self.filters = PGGalleryFiltersVideo;
             } else {
             }
@@ -197,7 +197,7 @@
 
 - (void)dealloc {
     self.onmaxedCBId = nil;
-  //  self.filters = nil;
+    //  self.filters = nil;
 #if !__has_feature(objc_arc)
     [super dealloc];
 #endif
@@ -234,7 +234,7 @@
  * @Summary:
  *     调用系统相册
  * @Parameters:
- *  command [callbackId, option] 
+ *  command [callbackId, option]
  *     option [filename, animation, popover]
  * @Returns:
  *    无
@@ -250,7 +250,7 @@
     {
         return;
     }
-
+    
     if (_defalutSelectImages == NULL) {
         _defalutSelectImages = [[NSMutableDictionary alloc] initWithCapacity:0];
     }
@@ -264,10 +264,12 @@
     
     PDRPluginResult *result = nil;
     int retCode = PGPluginOK;
+    // 如果当前有任务没完成（icloud下载文件耗时较长）则返回错误码通知页面
     if ( self.hasPendingOperation ) {
         retCode = PGPluginErrorBusy;
     }
-
+    
+    // 返回未授权错误
     if (![self isAuthorizationStatusAuthorized]) {
         retCode = PGPluginErrorNotPermission;
     }
@@ -299,33 +301,40 @@
         }
         [self popImgaeControllerWithOptions:pickOptions];
     } else {
+        
         DCTZImagePickerController* imagePickerController = [[DCTZImagePickerController alloc]
-                                                          initWithMaxImagesCount:self.mOptions.maximum
-                                                          columnNumber:4
-                                                          delegate:self];
+                                                            initWithMaxImagesCount:self.mOptions.maximum
+                                                            columnNumber:4
+                                                            delegate:self];
         
         if ( PGGalleryFiltersPhoto == self.mOptions.filters ) {
+            // 只读取图片
             imagePickerController.allowPickingVideo = NO;
             imagePickerController.allowPickingImage = YES;
         } else if (PGGalleryFiltersVideo == self.mOptions.filters){
+            // 只读取视频
             imagePickerController.allowPickingVideo = YES;
             imagePickerController.allowPickingImage = NO;
         } else  {
+            // 图片和视频都支持读取
             imagePickerController.allowPickingVideo = YES;
             imagePickerController.allowPickingImage = YES;
         }
         
+        // 允许预览，点击图片后可打开一个新的VC预览图片或视频
         imagePickerController.allowPreview = YES;
+        // 自动显示关闭按钮
         imagePickerController.autoDismiss = NO;
+        // 打开相机拍摄视频按钮
         imagePickerController.allowTakeVideo = NO;
+        // 打开相机拍摄图片按钮
         imagePickerController.allowTakePicture = NO;
+        
         if (self.mOptions.multiple) {
             imagePickerController.maxImagesCount = self.mOptions.maximum;
         }else{
             imagePickerController.maxImagesCount = 1;
         }
-        
-        
         
         if (self.mOptions.multiple && self.mOptions.maximum > 1 && (PGGalleryFiltersPhoto != self.mOptions.filters)) {
             imagePickerController.allowPickingMultipleVideo = YES;
@@ -465,16 +474,16 @@
         NSString* cbid = [userInfo objectForKey:@"cbid"];
         UIImage* imgSave = (UIImage*)image;
         [assertLibrary writeImageToSavedPhotosAlbum:imgSave.CGImage
-                                              metadata:nil completionBlock:^(NSURL *assetURL, NSError *error) {
-                                                  if ( error || !assetURL) {
-                                                      [self toErrorCallback:cbid withNSError:error];
-                                                  } else {
-                                                      [self toSucessCallback:cbid withJSON:@{@"path":[assetURL absoluteString]}];
-                                                  }
+                                           metadata:nil completionBlock:^(NSURL *assetURL, NSError *error) {
+                                               if ( error || !assetURL) {
+                                                   [self toErrorCallback:cbid withNSError:error];
+                                               } else {
+                                                   [self toSucessCallback:cbid withJSON:@{@"path":[assetURL absoluteString]}];
+                                               }
 #if !__has_feature(objc_arc)
-                                                  [assertLibrary release];
+                                               [assertLibrary release];
 #endif
-                                              }];
+                                           }];
     }
 }
 
@@ -584,46 +593,50 @@
     [self saveMapTable];
 }
 
-- (NSString*)saveImageAsset:(UIImage*)saveImg Asset:(PHAsset*)asset{
-    __block NSData *imagedata = nil;
+- (NSString*)saveImageAsset:(NSData*)imagedata Asset:(PHAsset*)asset{
     NSString* outFilePath = nil;
-    if (saveImg) {
-        outFilePath =  [PTPathUtil absolutePath:self.mOptions.savePath
-                              suggestedFilename:[asset valueForKey:@"filename"]
-                                         prefix:PGGALLERY_PHOTO_PREFIX
-                                         suffix:PGGALLERY_PHOTO_SUFFIX
-                                  allowSameName:YES
-                                        context:self.appContext];
-        
-        if ([[outFilePath lowercaseString] hasSuffix:@"jpg"] || [[outFilePath lowercaseString] hasSuffix:@"jpeg"]) {
-            imagedata = UIImageJPEGRepresentation(saveImg, 1.0f);
-        }else if([[outFilePath lowercaseString] hasSuffix:@"png"]){
-            imagedata = UIImagePNGRepresentation(saveImg);
-        }else {
-            outFilePath = [outFilePath stringByDeletingPathExtension];
-            outFilePath = [outFilePath stringByAppendingPathExtension:@"jpg"];
-            imagedata = UIImageJPEGRepresentation(saveImg, 0.5f);
-        }
-        if (imagedata) {
-            if (outFilePath && ![[NSFileManager defaultManager] fileExistsAtPath:outFilePath]) {
-                [imagedata writeToFile:outFilePath atomically:NO];
-            }
-            
-            [self saveShortPath:outFilePath withAsset:asset];
+    NSString *UTI = [asset valueForKey:@"uniformTypeIdentifier"];
+    BOOL isHEIF = [UTI isEqualToString:@"public.heif"] || [UTI isEqualToString:@"public.heic"];
+    NSString *suggestedFileName = [asset valueForKey:@"filename"];
+    if ( isHEIF ) {
+        CIImage *ciImage = [CIImage imageWithData:imagedata];
+        CIContext *context = [CIContext context];
+        imagedata = [context JPEGRepresentationOfImage:ciImage colorSpace:ciImage.colorSpace options:@{}];
+        if ( [suggestedFileName length] ) {
+            suggestedFileName = [[suggestedFileName stringByDeletingPathExtension] stringByAppendingString:@".jpg"];
         }
     }
+    outFilePath =  [PTPathUtil absolutePath:self.mOptions.savePath
+                          suggestedFilename:suggestedFileName
+                                     prefix:PGGALLERY_PHOTO_PREFIX
+                                     suffix:PGGALLERY_PHOTO_SUFFIX
+                              allowSameName:YES
+                                    context:self.appContext];
+    
+    if (imagedata) {
+        if (outFilePath && ![[NSFileManager defaultManager] fileExistsAtPath:outFilePath]) {
+            [imagedata writeToFile:outFilePath atomically:NO];
+        }
+        // 文件名保存到配置中，供下次选择使用
+        [self saveShortPath:outFilePath withAsset:asset];
+    }
+    
     return outFilePath;
 }
 
 - (NSString*)saveVideoAsset:(NSString*)videoPath Asset:(PHAsset*)asset{
     NSString* outFilePath = nil;
     if (videoPath) {
-        outFilePath =  [PTPathUtil absolutePath:self.mOptions.savePath
-                              suggestedFilename:[asset valueForKey:@"filename"]
-                                         prefix:PGGALLERY_VIDEO_PREFIX
-                                         suffix:PGGALLERY_VIDEO_SUFFIX
-                                  allowSameName:YES
-                                        context:self.appContext];
+        if (self.mOptions.savePath) {
+            outFilePath =  [PTPathUtil absolutePath:self.mOptions.savePath
+                                  suggestedFilename:[asset valueForKey:@"filename"]
+                                             prefix:PGGALLERY_VIDEO_PREFIX
+                                             suffix:PGGALLERY_VIDEO_SUFFIX
+                                      allowSameName:YES
+                                            context:self.appContext];
+        }else{
+            outFilePath = [[videoPath stringByDeletingLastPathComponent] stringByAppendingPathComponent:[asset valueForKey:@"filename"]];
+        }
         
         [[NSFileManager defaultManager] moveItemAtPath:videoPath toPath:outFilePath error:nil];
         [self saveShortPath:outFilePath withAsset:asset];
@@ -679,7 +692,7 @@
         //self.popoverController = nil;
     } else {
         [self dismissViewControllerAnimated:self.mOptions.animation completion:nil];
-      //  self.pickerController = nil;
+        //  self.pickerController = nil;
     }
     if ( [PTDeviceOSInfo systemVersion] < PTSystemVersion7Series) {
         [[UIApplication sharedApplication] setStatusBarStyle:_statusBarStyle];
@@ -746,6 +759,7 @@
 }
 
 #pragma mark - TZImagePickerControllerDelegate
+// 单选图片时触发这个方法回调，如果当前图片是在icloud上则暂时不关闭选择图片的VC，同时显示一个waitting框，
 - (void)imagePickerController:(DCTZImagePickerController *)picker
        didFinishPickingPhotos:(NSArray<UIImage *> *)photos
                  sourceAssets:(NSArray *)assets
@@ -756,7 +770,7 @@
     _selectedPhotos = [NSMutableArray arrayWithArray:photos];
     _selectedAssets = [NSMutableArray arrayWithArray:assets];
     _isSelectOriginalPhoto = isSelectOriginalPhoto;
-
+    
     if(_defalutSelectImages == nil){
         _defalutSelectImages = [[NSMutableDictionary alloc] initWithCapacity:0];
     }
@@ -768,18 +782,19 @@
         [self toCallback:self.mOptions.callbackId withReslut:[result toJSONString]];
     }
     
-
+    
     
     PHAsset* asset = [_selectedAssets firstObject];
     if (asset) {
         [self scheduleDownLoadAssets:asset atIndex:0];
     }
-
+    
     // 当用户选择的图片下载完成之后关闭当前的pickerController
     _dismissPickerSemaphore = dispatch_semaphore_create(0);
     __block typeof (self)weakself = self;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-       dispatch_semaphore_wait(weakself.dismissPickerSemaphore, DISPATCH_TIME_FOREVER);
+        // 同步等待下载完成的信号，否则一直显示waitting框和选择图片VC
+        dispatch_semaphore_wait(weakself.dismissPickerSemaphore, DISPATCH_TIME_FOREVER);
         dispatch_async(dispatch_get_main_queue(), ^{
             //semaphore
             [picker hideProgressHUD];
@@ -794,23 +809,24 @@
     });
 }
 
-
+// 处理GIF图片和livePhoto图片
 - (void)scheduleDownLoadAssets:(PHAsset*)assets atIndex:(int)index{
     TZAssetModelMediaType type = [[TZImageManager manager] getAssetType:assets];
-    if (type == TZAssetModelMediaTypeVideo) {
+    if (type == TZAssetModelMediaTypeVideo || type == TZAssetCellTypeAudio || type == TZAssetCellTypeLivePhoto) {
         [self downloadVideo:assets AtIndex:index];
-    }else if(type == TZAssetCellTypePhoto){
+    }else if(type == TZAssetCellTypePhoto || type == TZAssetCellTypePhotoGif ){
         [self downloadImage:assets AtIndex:index];
     }
 }
 
-
+// 消息事件，用来检查当前下载任务是否完成，如果完成则触发页面回调通知文件路径，如果下载未完成则调度下一个任务进行下载
 - (void)postNotification:(id)obj
 {
     if (nil == _threadLock) {
         _threadLock = [[NSLock alloc] init];
     }
-    
+    // 给线程上锁防止多个线程同时操作数据导致的数据混乱和异常
+    // 这个锁是之前多个任务同时调度时加上的，现在任务改成顺序调度这个锁暂时用不上了，暂时保留
     [_threadLock lock];
     NSMutableArray *fileS = nil;
     if (_tempResultMap == nil) {
@@ -834,15 +850,18 @@
         // TODO: 某个文件下载失败的处理
     }
     
+    // 获取当前下载完成item的index，计数+1
     int Index = [ptaskInfo[@"index"] intValue];
     Index++;
     
     [_threadLock unlock];
     
+    // 当前下载的item的index小于文件数量时开始下一次调度，下载后一张图片或者视频
     if (Index < _selectedAssets.count) {
         PHAsset* asset = [_selectedAssets objectAtIndex:Index];
         [self scheduleDownLoadAssets:asset atIndex:Index];
     }else{
+        // 当前全部文件下载完成则回调通知页面当前选择已经完成。并将当前正在执行的标记置为false
         self.hasPendingOperation = NO;
         dispatch_semaphore_signal(self.dismissPickerSemaphore);
         if (fileS && fileS.count) {
@@ -852,24 +871,40 @@
             PDRPluginResult* result = [PDRPluginResult resultWithStatus:PDRCommandStatusError messageAsInt:PGPluginErrorIO];
             [self toCallback:self.mOptions.callbackId  withReslut:[result toJSONString]];
         }
+        _tempResultMap = nil;
         [fileS removeAllObjects];
     }
 }
 
+// 下载图片方法，下载完成后发送一个消息通知下载下一个或者触发页面回调事件，处理过程在消息回调里
 - (void)downloadImage:(PHAsset*) assets AtIndex:(NSInteger)index{
     __block typeof(self) weakself = self;
     __block typeof (PHAsset*)weakassets = assets;
-    [[TZImageManager manager] getPhotoWithAsset:assets completion:^(UIImage *photo, NSDictionary *info, BOOL isDegraded) {
-        if (!isDegraded && photo) {
-            NSString* outFileName = [weakself saveImageAsset:photo Asset:weakassets];
-            if (outFileName) {
-                NSDictionary* destDic = @{@"index":@(index),@"state":@(true),@"type":@"photo",@"fileObj":outFileName};
-                [weakself performSelectorOnMainThread:@selector(postNotification:) withObject:destDic waitUntilDone:NO];
-            }
+    
+    [[TZImageManager manager] requestImageDataForAsset:assets completion:^(NSData *imageData, NSString *dataUTI, UIImageOrientation orientation, NSDictionary *info) {
+        NSString* outFileName = [weakself saveImageAsset:imageData Asset:weakassets];
+        if (outFileName) {
+            NSDictionary* destDic = @{@"index":@(index),@"state":@(true),@"type":@"photo",@"fileObj":outFileName};
+            [weakself performSelectorOnMainThread:@selector(postNotification:) withObject:destDic waitUntilDone:NO];
         }
+    } progressHandler:^(double progress, NSError *error, BOOL *stop, NSDictionary *info) {
+        
     }];
+    
+    
+    //    [[TZImageManager manager] getPhotoWithAsset:assets completion:^(UIImage *photo, NSDictionary *info, BOOL isDegraded) {
+    //        if (!isDegraded && photo) {
+    //            NSString* outFileName = [weakself saveImageAsset:photo Asset:weakassets];
+    //            if (outFileName) {
+    //                NSDictionary* destDic = @{@"index":@(index),@"state":@(true),@"type":@"photo",@"fileObj":outFileName};
+    //                [weakself performSelectorOnMainThread:@selector(postNotification:) withObject:destDic waitUntilDone:NO];
+    //            }
+    //        }
+    //    }];
 }
 
+// 视频文件默认下载到tmp目录下，防止用户因为不调用代码删除导致的应用使用空间越来越大的问题，放到tmp目录下系统会自动清理，
+// 用户可通过指定filename属性的方式指定当前选择的视频下载到doc目录下，
 - (void)downloadVideo:(PHAsset*)assets AtIndex:(NSInteger)index{
     __block typeof(self) weakself = self;
     __block typeof (PHAsset*)weakassets = assets;
@@ -891,6 +926,7 @@
                 UIAlertView* pFailedAlert = [[UIAlertView alloc] initWithTitle:@"下载失败" message:@"文件下载失败是否尝试重新下载？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"重试", nil];
                 [pFailedAlert show];
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+                    // 等待icloudfailedsemaphore标记设置成1后可继续执行
                     dispatch_semaphore_wait(weakself.icloudfailedsemaphore, DISPATCH_TIME_FOREVER);
                     dispatch_async(dispatch_get_main_queue(), ^{
                         if(weakself.bReturyDownload){
@@ -913,10 +949,10 @@
     switch (buttonIndex) {
         case 0:
             _bReturyDownload = false;
-        break;
+            break;
         case 1:
             _bReturyDownload = true;
-        break;
+            break;
         default:
             break;
     }
@@ -941,26 +977,31 @@
     [[TZImageManager manager] getVideoOutputPathWithAsset:asset
                                                presetName:AVAssetExportPreset640x480
                                                   success:^(NSString *outputPath) {
-        //NSLog(@"视频导出到本地完成,沙盒路径为:%@",outputPath);
-        NSString *newOutFilePath = [[NSURL fileURLWithPath:outputPath] absoluteString];
-        [fileS addObject:newOutFilePath];
-        PDRPluginResult* reslult = [PDRPluginResult resultWithStatus:PDRCommandStatusOK messageAsDictionary:retObject];
-        [picker hideProgressHUD];
-        if (picker.navigationController) {
-            [picker.navigationController dismissViewControllerAnimated:YES completion:nil];
-        }else{
-            [picker dismissViewControllerAnimated:YES completion:nil];
-        }
-        [self toCallback:self.mOptions.callbackId withReslut:[reslult toJSONString]];
-    } failure:^(NSString *errorMessage, NSError *error) {
-        NSLog(@"视频导出失败:%@,error:%@",errorMessage, error);
-        [self toErrorCallback:self.mOptions.callbackId withCode:1];
-        if (picker.navigationController) {
-            [picker.navigationController dismissViewControllerAnimated:YES completion:nil];
-        }else{
-            [picker dismissViewControllerAnimated:YES completion:nil];
-        }
-    }];
+                                                      //NSLog(@"视频导出到本地完成,沙盒路径为:%@",outputPath);
+                                                      if (outputPath) {
+                                                          NSString* destputPath = [self saveVideoAsset:outputPath Asset:asset];
+                                                          if (destputPath) {
+                                                              NSString *newOutFilePath = [[NSURL fileURLWithPath:destputPath] absoluteString];
+                                                              [fileS addObject:newOutFilePath];
+                                                              PDRPluginResult* reslult = [PDRPluginResult resultWithStatus:PDRCommandStatusOK messageAsDictionary:retObject];
+                                                              [picker hideProgressHUD];
+                                                              if (picker.navigationController) {
+                                                                  [picker.navigationController dismissViewControllerAnimated:YES completion:nil];
+                                                              }else{
+                                                                  [picker dismissViewControllerAnimated:YES completion:nil];
+                                                              }
+                                                              [self toCallback:self.mOptions.callbackId withReslut:[reslult toJSONString]];
+                                                          }
+                                                      }
+                                                  } failure:^(NSString *errorMessage, NSError *error) {
+                                                      NSLog(@"视频导出失败:%@,error:%@",errorMessage, error);
+                                                      [self toErrorCallback:self.mOptions.callbackId withCode:1];
+                                                      if (picker.navigationController) {
+                                                          [picker.navigationController dismissViewControllerAnimated:YES completion:nil];
+                                                      }else{
+                                                          [picker dismissViewControllerAnimated:YES completion:nil];
+                                                      }
+                                                  }];
 }
 
 // 用户取消选择触发取消的错误回调
@@ -975,7 +1016,7 @@
     [self toErrorCallback:self.mOptions.callbackId withCode:[self isAuthorizationStatusAuthorized]?PGPluginErrorUserCancel:PGPluginErrorNotPermission];
 }
 
-// 用户选择图片超过了最大数量限制
+// 用户选择图片超过了最大数量限制，最大的数量限制在初始化时已经设置
 - (void)tz_imagePickerControllerPickOverMaxCount:(DCTZImagePickerController*)picker{
     [self toSucessCallback:self.mOptions.onmaxedCBId withInt:0 keepCallback:YES];
 }
@@ -1043,3 +1084,4 @@
 }
 
 @end
+

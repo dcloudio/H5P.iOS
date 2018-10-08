@@ -179,6 +179,7 @@
             [self callDelegateMethod];
         }];
     }
+    [_doneButton setEnabled:NO];
 }
 
 - (void)callDelegateMethod {

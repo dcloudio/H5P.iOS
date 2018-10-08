@@ -148,10 +148,10 @@ BMKPlanNode* object2PlanNode(NSObject* obj, NSString*cityname)
                 pageIndex = [index intValue];
             }
         }
-        BMKBoundSearchOption *searchOption = [[[BMKBoundSearchOption alloc] init] autorelease];
+        BMKPOIBoundSearchOption *searchOption = [[[BMKPOIBoundSearchOption alloc] init] autorelease];
         searchOption.pageIndex = pageIndex;
-        searchOption.pageCapacity = self.pageCapacity;
-        searchOption.keyword = key;
+        searchOption.pageSize = self.pageCapacity;
+        searchOption.keywords = @[key];
         searchOption.leftBottom = [ptLB point2CLCoordinate];
         searchOption.rightTop = [ptRT point2CLCoordinate];
 
@@ -201,10 +201,10 @@ BMKPlanNode* object2PlanNode(NSObject* obj, NSString*cityname)
         center.latitude = pt.latitude;
         center.longitude = pt.longitude;
         
-        BMKNearbySearchOption *searchOption = [[[BMKNearbySearchOption alloc] init] autorelease];
+        BMKPOINearbySearchOption *searchOption = [[[BMKPOINearbySearchOption alloc] init] autorelease];
         searchOption.pageIndex = pageIndex;
-        searchOption.pageCapacity = self.pageCapacity;
-        searchOption.keyword = key;
+        searchOption.pageSize = self.pageCapacity;
+        searchOption.keywords = @[key];
         searchOption.radius = [radius intValue];
         searchOption.location = center;
         
@@ -249,11 +249,11 @@ BMKPlanNode* object2PlanNode(NSObject* obj, NSString*cityname)
                 pageIndex = [index intValue];
         }
 
-        BMKCitySearchOption *searchOption = [[[BMKCitySearchOption alloc] init] autorelease];
+        BMKPOICitySearchOption *searchOption = [[[BMKPOICitySearchOption alloc] init] autorelease];
         searchOption.keyword = key;
         searchOption.city = city;
         searchOption.pageIndex = pageIndex;
-        searchOption.pageCapacity = self.pageCapacity;
+        searchOption.pageSize = self.pageCapacity;
         if ( [_search poiSearchInCity:searchOption] )
         { return 0; }
     }
@@ -515,7 +515,7 @@ BMKPlanNode* object2PlanNode(NSObject* obj, NSString*cityname)
  * @Changelog:
  *------------------------------------------------------------------
  */
-- (void)onGetPoiResult:(BMKPoiSearch*)searcher result:(BMKPoiResult*)result errorCode:(BMKSearchErrorCode)errorCode
+- (void)onGetPoiResult:(BMKPoiSearch*)searcher result:(BMKPOISearchResult*)result errorCode:(BMKSearchErrorCode)errorCode
 {
     if ( BMK_SEARCH_NO_ERROR == errorCode )
     {
@@ -535,10 +535,10 @@ BMKPlanNode* object2PlanNode(NSObject* obj, NSString*cityname)
             plus.maps.__bridge__.execCallback('%@', result);}";
             NSMutableString *jsResult = [NSMutableString stringWithFormat:jsonResultF,
                                          [H5CoreJavaScriptText plusObject],
-                                         result.totalPoiNum, //totalNumber
-                                         result.currPoiNum, //currentNumber
-                                         result.pageNum,//pageNumber
-                                         result.pageIndex, //pageIndex
+                                         result.totalPOINum, //totalNumber
+                                         result.curPOINum, //currentNumber
+                                         result.totalPageNum,//pageNumber
+                                         result.curPageIndex, //pageIndex
                                          [BMKPoiInfo JSArray:result.poiInfoList],
                                          _UUID];//poiList
             [jsBridge asyncWriteJavascript:jsResult];

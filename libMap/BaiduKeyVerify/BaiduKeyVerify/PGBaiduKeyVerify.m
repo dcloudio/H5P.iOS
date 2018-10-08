@@ -8,6 +8,9 @@
 
 #import "PGBaiduKeyVerify.h"
 #import "PDRCorePrivate.h"
+#import "PDRCoreAppManager.h"
+#import "PDRCoreAppInfo.h"
+#import "PGPlugin.h"
 
 @implementation PGBaiduKeyVerify
 @synthesize errorCode;
@@ -33,7 +36,14 @@
 
 - (BOOL)start{
     if ( !_mapManager ) {
+        PDRCoreAppInfo *mainAppInfo = [[PDRCore Instance].appManager getMainAppInfo];
+        NSDictionary *permission = [mainAppInfo.permission objectForKey:@"Maps"];
+        BMK_COORD_TYPE coordType = [PGPluginParamHelper getEnumValue:[permission objectForKey:@"coordType"]
+                                                               inMap:@{@"gcj02":@(BMK_COORDTYPE_COMMON)}
+                                                         defautValue:BMK_COORDTYPE_BD09LL];
+        
         _mapManager = [[BMKMapManager alloc]init];
+        [BMKMapManager setCoordinateTypeUsedInBaiduMapSDK:coordType];
         return [_mapManager start:self.appKey generalDelegate:self];
     }
     return TRUE;

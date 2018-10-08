@@ -10,17 +10,7 @@
 #import "PGOauth.h"
 #import "WXApi.h"
 #import "WXApiObject.h"
-
-typedef void (^PGWXAPIResult)(NSDictionary*, NSError *);
-
-@interface PGWXAPI : NSObject<NSURLConnectionDelegate>{
-    NSURLConnection *_connection;
-    NSMutableData *_responseData;
-    PGWXAPIResult _resultBlock;
-}
-@property(nonatomic, retain)NSString *appId;
-@property(nonatomic, retain)NSString *appSecret;
-@end
+#import "PGWXOpenApi.h"
 
 @interface PGWXOauth : PGOauth<WXApiDelegate> {
     PGWXAPI *_openApi;
@@ -38,6 +28,7 @@ typedef void (^PGWXAPIResult)(NSDictionary*, NSError *);
 
 @property(nonatomic, retain)NSString *extra;
 @property(nonatomic, retain)NSString *callbackId;
+@property(nonatomic, retain)NSString *authorizeCallbackId;
 - (void)login:(NSString*)cbId withParams:(NSDictionary*)params;
 - (void)logout:(NSString*)cbId;
 - (void)getUserInfo:(NSString*)cbId;

@@ -160,8 +160,9 @@
             view.hidden = !visable;
             marker.hidden = !visable;
         }
-        MAOverlayView *polylinewView = [innerMapView viewForOverlay:(id <MAOverlay>)self.polyline];
-        polylinewView.hidden = !visable;
+        [innerMapView setMapOverlay:self.polyline isVisable:!visable];
+        // MAOverlayPathRenderer *polylinewView = [innerMapView viewForOverlay:(id <MAOverlay>)self.polyline];
+        //polylinewView.hidden = !visable;
     }
     self.hidden = !visable;
 }

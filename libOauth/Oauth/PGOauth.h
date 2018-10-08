@@ -41,6 +41,7 @@ typedef NS_ENUM(NSInteger, PGOauthError) {
 @property(nonatomic, retain)NSString *mscope;
 
 - (void)login:(NSString*)cbId withParams:(NSDictionary*)params;
+- (BOOL)authorize:(NSString*)cbId withParams:(NSDictionary*)params;
 - (void)logout:(NSString*)cbId;
 - (void)getUserInfo:(NSString*)cbId;
 - (void)addPhoneNumber:(NSString*)cbId;

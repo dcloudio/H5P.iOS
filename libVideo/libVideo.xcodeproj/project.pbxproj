@@ -1,0 +1,531 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2F8168DA20B69125000DDC21 /* H5DanmuSwitchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8168A820B69121000DDC21 /* H5DanmuSwitchView.m */; };
+		2F8168DB20B69125000DDC21 /* H5VideoPlaySetting.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8168AC20B69122000DDC21 /* H5VideoPlaySetting.m */; };
+		2F8168DC20B69125000DDC21 /* H5VideoPlayOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8168AD20B69122000DDC21 /* H5VideoPlayOverlayView.m */; };
+		2F8168DD20B69125000DDC21 /* HJDanmakuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8168B120B69122000DDC21 /* HJDanmakuCell.m */; };
+		2F8168DE20B69125000DDC21 /* HJDanmakuConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8168B320B69122000DDC21 /* HJDanmakuConfiguration.m */; };
+		2F8168DF20B69125000DDC21 /* HJDanmakuModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8168B620B69122000DDC21 /* HJDanmakuModel.m */; };
+		2F8168E020B69125000DDC21 /* HJDanmakuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8168B820B69122000DDC21 /* HJDanmakuView.m */; };
+		2F8168E120B69125000DDC21 /* H5DanmakuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8168BA20B69123000DDC21 /* H5DanmakuManager.m */; };
+		2F8168E220B69125000DDC21 /* MASCompositeConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8168BD20B69123000DDC21 /* MASCompositeConstraint.m */; };
+		2F8168E320B69125000DDC21 /* MASConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8168C020B69123000DDC21 /* MASConstraint.m */; };
+		2F8168E420B69125000DDC21 /* MASConstraintMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8168C220B69123000DDC21 /* MASConstraintMaker.m */; };
+		2F8168E520B69125000DDC21 /* MASLayoutConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8168C420B69123000DDC21 /* MASLayoutConstraint.m */; };
+		2F8168E620B69125000DDC21 /* MASViewAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8168C820B69123000DDC21 /* MASViewAttribute.m */; };
+		2F8168E720B69125000DDC21 /* MASViewConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8168CA20B69123000DDC21 /* MASViewConstraint.m */; };
+		2F8168E820B69125000DDC21 /* NSArray+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8168CC20B69123000DDC21 /* NSArray+MASAdditions.m */; };
+		2F8168E920B69125000DDC21 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8168CF20B69123000DDC21 /* NSLayoutConstraint+MASDebugAdditions.m */; };
+		2F8168EA20B69125000DDC21 /* View+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8168D120B69123000DDC21 /* View+MASAdditions.m */; };
+		2F8168EB20B69125000DDC21 /* ViewController+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8168D420B69123000DDC21 /* ViewController+MASAdditions.m */; };
+		2F8168EC20B69125000DDC21 /* H5VideoBrightnessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8168D720B69124000DDC21 /* H5VideoBrightnessView.m */; };
+		2F8168ED20B69125000DDC21 /* H5DirectionGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8168D820B69124000DDC21 /* H5DirectionGestureRecognizer.m */; };
+		2F8168EE20B69125000DDC21 /* H5VideoPlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8168D920B69125000DDC21 /* H5VideoPlayView.m */; };
+		2F81693320B69502000DDC21 /* UPLiveSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F81693220B69501000DDC21 /* UPLiveSDK.framework */; };
+		2F81694120B6961F000DDC21 /* PGVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F81694020B6961F000DDC21 /* PGVideo.m */; };
+		2FD70FCD20BD2D9C000DC7A4 /* UIImageView+Video.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD70FCC20BD2D9C000DC7A4 /* UIImageView+Video.m */; };
+		2FE07A18213D49090096CA07 /* SVIndefiniteAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FE07A11213D49080096CA07 /* SVIndefiniteAnimatedView.m */; };
+		2FE07A19213D49090096CA07 /* SVProgressAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FE07A13213D49080096CA07 /* SVProgressAnimatedView.m */; };
+		2FE07A1A213D49090096CA07 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FE07A15213D49080096CA07 /* SVProgressHUD.m */; };
+		2FE07A1B213D49090096CA07 /* SVRadialGradientLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FE07A17213D49080096CA07 /* SVRadialGradientLayer.m */; };
+		2FF2D00C20B6A98C00937059 /* H5VideoContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FF2D00B20B6A98C00937059 /* H5VideoContext.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2F81688F20B690DD000DDC21 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		2F81689120B690DD000DDC21 /* liblibVideo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibVideo.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		2F8168A720B69121000DDC21 /* H5DanmuSwitchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = H5DanmuSwitchView.h; sourceTree = "<group>"; };
+		2F8168A820B69121000DDC21 /* H5DanmuSwitchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = H5DanmuSwitchView.m; sourceTree = "<group>"; };
+		2F8168A920B69121000DDC21 /* H5VideoPlayOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = H5VideoPlayOverlayView.h; sourceTree = "<group>"; };
+		2F8168AA20B69121000DDC21 /* H5VideoPlaySetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = H5VideoPlaySetting.h; sourceTree = "<group>"; };
+		2F8168AB20B69121000DDC21 /* H5DanmakuManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = H5DanmakuManager.h; sourceTree = "<group>"; };
+		2F8168AC20B69122000DDC21 /* H5VideoPlaySetting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = H5VideoPlaySetting.m; sourceTree = "<group>"; };
+		2F8168AD20B69122000DDC21 /* H5VideoPlayOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = H5VideoPlayOverlayView.m; sourceTree = "<group>"; };
+		2F8168AF20B69122000DDC21 /* HJDanmaku.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HJDanmaku.h; sourceTree = "<group>"; };
+		2F8168B020B69122000DDC21 /* HJDanmakuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HJDanmakuCell.h; sourceTree = "<group>"; };
+		2F8168B120B69122000DDC21 /* HJDanmakuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HJDanmakuCell.m; sourceTree = "<group>"; };
+		2F8168B220B69122000DDC21 /* HJDanmakuConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HJDanmakuConfiguration.h; sourceTree = "<group>"; };
+		2F8168B320B69122000DDC21 /* HJDanmakuConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HJDanmakuConfiguration.m; sourceTree = "<group>"; };
+		2F8168B420B69122000DDC21 /* HJDanmakuDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HJDanmakuDefines.h; sourceTree = "<group>"; };
+		2F8168B520B69122000DDC21 /* HJDanmakuModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HJDanmakuModel.h; sourceTree = "<group>"; };
+		2F8168B620B69122000DDC21 /* HJDanmakuModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HJDanmakuModel.m; sourceTree = "<group>"; };
+		2F8168B720B69122000DDC21 /* HJDanmakuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HJDanmakuView.h; sourceTree = "<group>"; };
+		2F8168B820B69122000DDC21 /* HJDanmakuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HJDanmakuView.m; sourceTree = "<group>"; };
+		2F8168B920B69123000DDC21 /* H5VideoPlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = H5VideoPlayView.h; sourceTree = "<group>"; };
+		2F8168BA20B69123000DDC21 /* H5DanmakuManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = H5DanmakuManager.m; sourceTree = "<group>"; };
+		2F8168BC20B69123000DDC21 /* MASCompositeConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASCompositeConstraint.h; sourceTree = "<group>"; };
+		2F8168BD20B69123000DDC21 /* MASCompositeConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASCompositeConstraint.m; sourceTree = "<group>"; };
+		2F8168BE20B69123000DDC21 /* MASConstraint+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MASConstraint+Private.h"; sourceTree = "<group>"; };
+		2F8168BF20B69123000DDC21 /* MASConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASConstraint.h; sourceTree = "<group>"; };
+		2F8168C020B69123000DDC21 /* MASConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASConstraint.m; sourceTree = "<group>"; };
+		2F8168C120B69123000DDC21 /* MASConstraintMaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASConstraintMaker.h; sourceTree = "<group>"; };
+		2F8168C220B69123000DDC21 /* MASConstraintMaker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASConstraintMaker.m; sourceTree = "<group>"; };
+		2F8168C320B69123000DDC21 /* MASLayoutConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASLayoutConstraint.h; sourceTree = "<group>"; };
+		2F8168C420B69123000DDC21 /* MASLayoutConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASLayoutConstraint.m; sourceTree = "<group>"; };
+		2F8168C520B69123000DDC21 /* Masonry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Masonry.h; sourceTree = "<group>"; };
+		2F8168C620B69123000DDC21 /* MASUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASUtilities.h; sourceTree = "<group>"; };
+		2F8168C720B69123000DDC21 /* MASViewAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASViewAttribute.h; sourceTree = "<group>"; };
+		2F8168C820B69123000DDC21 /* MASViewAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASViewAttribute.m; sourceTree = "<group>"; };
+		2F8168C920B69123000DDC21 /* MASViewConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASViewConstraint.h; sourceTree = "<group>"; };
+		2F8168CA20B69123000DDC21 /* MASViewConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASViewConstraint.m; sourceTree = "<group>"; };
+		2F8168CB20B69123000DDC21 /* NSArray+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MASAdditions.h"; sourceTree = "<group>"; };
+		2F8168CC20B69123000DDC21 /* NSArray+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+MASAdditions.m"; sourceTree = "<group>"; };
+		2F8168CD20B69123000DDC21 /* NSArray+MASShorthandAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MASShorthandAdditions.h"; sourceTree = "<group>"; };
+		2F8168CE20B69123000DDC21 /* NSLayoutConstraint+MASDebugAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSLayoutConstraint+MASDebugAdditions.h"; sourceTree = "<group>"; };
+		2F8168CF20B69123000DDC21 /* NSLayoutConstraint+MASDebugAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSLayoutConstraint+MASDebugAdditions.m"; sourceTree = "<group>"; };
+		2F8168D020B69123000DDC21 /* View+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "View+MASAdditions.h"; sourceTree = "<group>"; };
+		2F8168D120B69123000DDC21 /* View+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "View+MASAdditions.m"; sourceTree = "<group>"; };
+		2F8168D220B69123000DDC21 /* View+MASShorthandAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "View+MASShorthandAdditions.h"; sourceTree = "<group>"; };
+		2F8168D320B69123000DDC21 /* ViewController+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ViewController+MASAdditions.h"; sourceTree = "<group>"; };
+		2F8168D420B69123000DDC21 /* ViewController+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ViewController+MASAdditions.m"; sourceTree = "<group>"; };
+		2F8168D520B69123000DDC21 /* H5VideoBrightnessView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = H5VideoBrightnessView.h; sourceTree = "<group>"; };
+		2F8168D620B69124000DDC21 /* H5DirectionGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = H5DirectionGestureRecognizer.h; sourceTree = "<group>"; };
+		2F8168D720B69124000DDC21 /* H5VideoBrightnessView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = H5VideoBrightnessView.m; sourceTree = "<group>"; };
+		2F8168D820B69124000DDC21 /* H5DirectionGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = H5DirectionGestureRecognizer.m; sourceTree = "<group>"; };
+		2F8168D920B69125000DDC21 /* H5VideoPlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = H5VideoPlayView.m; sourceTree = "<group>"; };
+		2F81693220B69501000DDC21 /* UPLiveSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UPLiveSDK.framework; path = libVideo/UPLiveSDK.framework; sourceTree = "<group>"; };
+		2F81693F20B6961F000DDC21 /* PGVideo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGVideo.h; sourceTree = "<group>"; };
+		2F81694020B6961F000DDC21 /* PGVideo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGVideo.m; sourceTree = "<group>"; };
+		2FD70FCB20BD2D9C000DC7A4 /* UIImageView+Video.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImageView+Video.h"; sourceTree = "<group>"; };
+		2FD70FCC20BD2D9C000DC7A4 /* UIImageView+Video.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+Video.m"; sourceTree = "<group>"; };
+		2FE07A10213D49080096CA07 /* SVIndefiniteAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIndefiniteAnimatedView.h; sourceTree = "<group>"; };
+		2FE07A11213D49080096CA07 /* SVIndefiniteAnimatedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVIndefiniteAnimatedView.m; sourceTree = "<group>"; };
+		2FE07A12213D49080096CA07 /* SVProgressAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressAnimatedView.h; sourceTree = "<group>"; };
+		2FE07A13213D49080096CA07 /* SVProgressAnimatedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressAnimatedView.m; sourceTree = "<group>"; };
+		2FE07A14213D49080096CA07 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
+		2FE07A15213D49080096CA07 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
+		2FE07A16213D49080096CA07 /* SVRadialGradientLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRadialGradientLayer.h; sourceTree = "<group>"; };
+		2FE07A17213D49080096CA07 /* SVRadialGradientLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVRadialGradientLayer.m; sourceTree = "<group>"; };
+		2FF2D00A20B6A98C00937059 /* H5VideoContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = H5VideoContext.h; sourceTree = "<group>"; };
+		2FF2D00B20B6A98C00937059 /* H5VideoContext.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = H5VideoContext.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2F81688E20B690DD000DDC21 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2F81693320B69502000DDC21 /* UPLiveSDK.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2F81688820B690DD000DDC21 = {
+			isa = PBXGroup;
+			children = (
+				2F81689320B690DD000DDC21 /* libVideo */,
+				2F81689220B690DD000DDC21 /* Products */,
+				2F8168F420B692C9000DDC21 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		2F81689220B690DD000DDC21 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2F81689120B690DD000DDC21 /* liblibVideo.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2F81689320B690DD000DDC21 /* libVideo */ = {
+			isa = PBXGroup;
+			children = (
+				2FE07A0F213D49080096CA07 /* SVProgressHUD */,
+				2F8168AB20B69121000DDC21 /* H5DanmakuManager.h */,
+				2F8168BA20B69123000DDC21 /* H5DanmakuManager.m */,
+				2F8168A720B69121000DDC21 /* H5DanmuSwitchView.h */,
+				2F8168A820B69121000DDC21 /* H5DanmuSwitchView.m */,
+				2F8168D620B69124000DDC21 /* H5DirectionGestureRecognizer.h */,
+				2F8168D820B69124000DDC21 /* H5DirectionGestureRecognizer.m */,
+				2F8168D520B69123000DDC21 /* H5VideoBrightnessView.h */,
+				2F8168D720B69124000DDC21 /* H5VideoBrightnessView.m */,
+				2F8168A920B69121000DDC21 /* H5VideoPlayOverlayView.h */,
+				2F8168AD20B69122000DDC21 /* H5VideoPlayOverlayView.m */,
+				2F8168AA20B69121000DDC21 /* H5VideoPlaySetting.h */,
+				2F8168AC20B69122000DDC21 /* H5VideoPlaySetting.m */,
+				2F8168B920B69123000DDC21 /* H5VideoPlayView.h */,
+				2F8168D920B69125000DDC21 /* H5VideoPlayView.m */,
+				2FD70FCB20BD2D9C000DC7A4 /* UIImageView+Video.h */,
+				2FD70FCC20BD2D9C000DC7A4 /* UIImageView+Video.m */,
+				2F8168AE20B69122000DDC21 /* HJDanmaku */,
+				2F8168BB20B69123000DDC21 /* Masonry */,
+				2F81693F20B6961F000DDC21 /* PGVideo.h */,
+				2F81694020B6961F000DDC21 /* PGVideo.m */,
+				2FF2D00A20B6A98C00937059 /* H5VideoContext.h */,
+				2FF2D00B20B6A98C00937059 /* H5VideoContext.m */,
+			);
+			path = libVideo;
+			sourceTree = "<group>";
+		};
+		2F8168AE20B69122000DDC21 /* HJDanmaku */ = {
+			isa = PBXGroup;
+			children = (
+				2F8168AF20B69122000DDC21 /* HJDanmaku.h */,
+				2F8168B020B69122000DDC21 /* HJDanmakuCell.h */,
+				2F8168B120B69122000DDC21 /* HJDanmakuCell.m */,
+				2F8168B220B69122000DDC21 /* HJDanmakuConfiguration.h */,
+				2F8168B320B69122000DDC21 /* HJDanmakuConfiguration.m */,
+				2F8168B420B69122000DDC21 /* HJDanmakuDefines.h */,
+				2F8168B520B69122000DDC21 /* HJDanmakuModel.h */,
+				2F8168B620B69122000DDC21 /* HJDanmakuModel.m */,
+				2F8168B720B69122000DDC21 /* HJDanmakuView.h */,
+				2F8168B820B69122000DDC21 /* HJDanmakuView.m */,
+			);
+			path = HJDanmaku;
+			sourceTree = "<group>";
+		};
+		2F8168BB20B69123000DDC21 /* Masonry */ = {
+			isa = PBXGroup;
+			children = (
+				2F8168BC20B69123000DDC21 /* MASCompositeConstraint.h */,
+				2F8168BD20B69123000DDC21 /* MASCompositeConstraint.m */,
+				2F8168BE20B69123000DDC21 /* MASConstraint+Private.h */,
+				2F8168BF20B69123000DDC21 /* MASConstraint.h */,
+				2F8168C020B69123000DDC21 /* MASConstraint.m */,
+				2F8168C120B69123000DDC21 /* MASConstraintMaker.h */,
+				2F8168C220B69123000DDC21 /* MASConstraintMaker.m */,
+				2F8168C320B69123000DDC21 /* MASLayoutConstraint.h */,
+				2F8168C420B69123000DDC21 /* MASLayoutConstraint.m */,
+				2F8168C520B69123000DDC21 /* Masonry.h */,
+				2F8168C620B69123000DDC21 /* MASUtilities.h */,
+				2F8168C720B69123000DDC21 /* MASViewAttribute.h */,
+				2F8168C820B69123000DDC21 /* MASViewAttribute.m */,
+				2F8168C920B69123000DDC21 /* MASViewConstraint.h */,
+				2F8168CA20B69123000DDC21 /* MASViewConstraint.m */,
+				2F8168CB20B69123000DDC21 /* NSArray+MASAdditions.h */,
+				2F8168CC20B69123000DDC21 /* NSArray+MASAdditions.m */,
+				2F8168CD20B69123000DDC21 /* NSArray+MASShorthandAdditions.h */,
+				2F8168CE20B69123000DDC21 /* NSLayoutConstraint+MASDebugAdditions.h */,
+				2F8168CF20B69123000DDC21 /* NSLayoutConstraint+MASDebugAdditions.m */,
+				2F8168D020B69123000DDC21 /* View+MASAdditions.h */,
+				2F8168D120B69123000DDC21 /* View+MASAdditions.m */,
+				2F8168D220B69123000DDC21 /* View+MASShorthandAdditions.h */,
+				2F8168D320B69123000DDC21 /* ViewController+MASAdditions.h */,
+				2F8168D420B69123000DDC21 /* ViewController+MASAdditions.m */,
+			);
+			path = Masonry;
+			sourceTree = "<group>";
+		};
+		2F8168F420B692C9000DDC21 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2F81693220B69501000DDC21 /* UPLiveSDK.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2FE07A0F213D49080096CA07 /* SVProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				2FE07A10213D49080096CA07 /* SVIndefiniteAnimatedView.h */,
+				2FE07A11213D49080096CA07 /* SVIndefiniteAnimatedView.m */,
+				2FE07A12213D49080096CA07 /* SVProgressAnimatedView.h */,
+				2FE07A13213D49080096CA07 /* SVProgressAnimatedView.m */,
+				2FE07A14213D49080096CA07 /* SVProgressHUD.h */,
+				2FE07A15213D49080096CA07 /* SVProgressHUD.m */,
+				2FE07A16213D49080096CA07 /* SVRadialGradientLayer.h */,
+				2FE07A17213D49080096CA07 /* SVRadialGradientLayer.m */,
+			);
+			path = SVProgressHUD;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2F81689020B690DD000DDC21 /* libVideo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2F81689A20B690DD000DDC21 /* Build configuration list for PBXNativeTarget "libVideo" */;
+			buildPhases = (
+				2F81688D20B690DD000DDC21 /* Sources */,
+				2F81688E20B690DD000DDC21 /* Frameworks */,
+				2F81688F20B690DD000DDC21 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = libVideo;
+			productName = libVideo;
+			productReference = 2F81689120B690DD000DDC21 /* liblibVideo.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2F81688920B690DD000DDC21 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0930;
+				ORGANIZATIONNAME = DCloud;
+				TargetAttributes = {
+					2F81689020B690DD000DDC21 = {
+						CreatedOnToolsVersion = 9.3.1;
+					};
+				};
+			};
+			buildConfigurationList = 2F81688C20B690DD000DDC21 /* Build configuration list for PBXProject "libVideo" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 2F81688820B690DD000DDC21;
+			productRefGroup = 2F81689220B690DD000DDC21 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2F81689020B690DD000DDC21 /* libVideo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2F81688D20B690DD000DDC21 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2FE07A18213D49090096CA07 /* SVIndefiniteAnimatedView.m in Sources */,
+				2F8168E720B69125000DDC21 /* MASViewConstraint.m in Sources */,
+				2F8168E020B69125000DDC21 /* HJDanmakuView.m in Sources */,
+				2F8168ED20B69125000DDC21 /* H5DirectionGestureRecognizer.m in Sources */,
+				2F8168EE20B69125000DDC21 /* H5VideoPlayView.m in Sources */,
+				2FE07A1A213D49090096CA07 /* SVProgressHUD.m in Sources */,
+				2FD70FCD20BD2D9C000DC7A4 /* UIImageView+Video.m in Sources */,
+				2FE07A1B213D49090096CA07 /* SVRadialGradientLayer.m in Sources */,
+				2F8168E620B69125000DDC21 /* MASViewAttribute.m in Sources */,
+				2F8168E120B69125000DDC21 /* H5DanmakuManager.m in Sources */,
+				2F8168DA20B69125000DDC21 /* H5DanmuSwitchView.m in Sources */,
+				2F8168E220B69125000DDC21 /* MASCompositeConstraint.m in Sources */,
+				2F8168E420B69125000DDC21 /* MASConstraintMaker.m in Sources */,
+				2F8168EA20B69125000DDC21 /* View+MASAdditions.m in Sources */,
+				2F8168E520B69125000DDC21 /* MASLayoutConstraint.m in Sources */,
+				2F8168EC20B69125000DDC21 /* H5VideoBrightnessView.m in Sources */,
+				2F8168EB20B69125000DDC21 /* ViewController+MASAdditions.m in Sources */,
+				2F8168E320B69125000DDC21 /* MASConstraint.m in Sources */,
+				2F8168DE20B69125000DDC21 /* HJDanmakuConfiguration.m in Sources */,
+				2F8168DC20B69125000DDC21 /* H5VideoPlayOverlayView.m in Sources */,
+				2F8168E820B69125000DDC21 /* NSArray+MASAdditions.m in Sources */,
+				2FE07A19213D49090096CA07 /* SVProgressAnimatedView.m in Sources */,
+				2F8168E920B69125000DDC21 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
+				2F8168DB20B69125000DDC21 /* H5VideoPlaySetting.m in Sources */,
+				2F8168DD20B69125000DDC21 /* HJDanmakuCell.m in Sources */,
+				2F81694120B6961F000DDC21 /* PGVideo.m in Sources */,
+				2FF2D00C20B6A98C00937059 /* H5VideoContext.m in Sources */,
+				2F8168DF20B69125000DDC21 /* HJDanmakuModel.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		2F81689820B690DD000DDC21 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		2F81689920B690DD000DDC21 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2F81689B20B690DD000DDC21 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/libVideo",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					MAS_SHORTHAND_GLOBALS,
+					"DEBUG=1",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/tools",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Managers",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/MiniServer",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/WebviewEngine",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/stream",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/ui",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/nativeview",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2F81689C20B690DD000DDC21 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/libVideo",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = MAS_SHORTHAND_GLOBALS;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/tools",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Managers",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/MiniServer",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/WebviewEngine",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/stream",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/ui",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/nativeview",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2F81688C20B690DD000DDC21 /* Build configuration list for PBXProject "libVideo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2F81689820B690DD000DDC21 /* Debug */,
+				2F81689920B690DD000DDC21 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2F81689A20B690DD000DDC21 /* Build configuration list for PBXNativeTarget "libVideo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2F81689B20B690DD000DDC21 /* Debug */,
+				2F81689C20B690DD000DDC21 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2F81688920B690DD000DDC21 /* Project object */;
+}

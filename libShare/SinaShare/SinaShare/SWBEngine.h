@@ -1,10 +1,10 @@
-﻿
+
 #import <Foundation/Foundation.h>
 #import "WeiboSDK.h"
 #import "WBHttpRequest.h"
 #import "PGSinaAuthView.h"
 
-@interface SWBEngine : NSObject <WeiboSDKDelegate,PGSINAAuthorizeViewDelegate>{
+@interface SWBEngine : NSObject <WeiboSDKDelegate,PGSINAAuthorizeViewDelegate,WBMediaTransferProtocol>{
     
     id                  temp_delegate;
 	SEL                 onSuccessCallback;
@@ -22,7 +22,6 @@
 @property (nonatomic, retain) NSString          *redirectURI;
 @property (nonatomic, assign) NSTimeInterval    expireTime;
 @property (nonatomic, retain) NSString          *saveRootpath;
-@property(nonatomic, retain)NSString *refreshToken;
 @property(nonatomic, assign)BOOL isMeSend;
 - (id)initWithAppKey:(NSString *)theAppKey
            andSecret:(NSString *)theAppSecret
@@ -48,8 +47,10 @@
                                pic:(NSData *)picture
                              thumb:(NSData *)thumb
                          longitude:(NSString *)longitude
-                       andLatitude:(NSString *)latitude
+                       andLatitude:(NSString *)latitudez
+                       messageType:(NSString*)msgType
                          interface:(PGShareMessageInterface)i
+                             media:(NSString*)media
                           delegate:(id)requestDelegate
                          onSuccess:(SEL)successCallback
                          onFailure:(SEL)failuerCallback;

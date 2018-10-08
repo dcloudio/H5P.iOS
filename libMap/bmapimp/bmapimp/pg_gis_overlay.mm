@@ -55,7 +55,7 @@
     
     return [NSString stringWithFormat:jsonObjectFormat,
             self.pt.longitude, self.pt.latitude,
-            self.address, self.city, self.name, self.phone, self.postcode];
+            self.address, self.city, self.name, self.phone, @""/*self.postcode*//*new Version not support*/];
 }
 
 @end
@@ -146,7 +146,7 @@
  */
 - (void)setVisable:(BOOL)visable
 {
-    PGMapView *innerMapView = self.belongMapview;
+    PGBaiduMapView *innerMapView = self.belongMapview;
     if ( innerMapView )
     {
         for ( PGGISMarker *marker in self.markers )

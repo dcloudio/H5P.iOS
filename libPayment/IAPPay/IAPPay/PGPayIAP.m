@@ -52,9 +52,19 @@ NSString* pStrTransactionState      = @"transactionState";
         self.type = @"appleiap";
         self.description = @"In-App Purchase";
         pRequestcbID = nil;
+        
+        // 如果支付被关闭就返回空
+        self.serviceReady = [SKPaymentQueue canMakePayments];
     }
     return self;
 }
+
+- (NSDictionary*)JSDict {
+    // 如果支付被关闭就返回空
+    self.serviceReady = [SKPaymentQueue canMakePayments];
+    return [super JSDict];
+}
+
 
 #pragma mark SKRequest & delegates
 /*

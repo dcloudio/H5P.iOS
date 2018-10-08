@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "PGSpeech.h"
 #import "PGMethod.h"
-#import "BDSEventManager.h"
 
 @interface PGBaiduSpeech : PGSpeechImp
 

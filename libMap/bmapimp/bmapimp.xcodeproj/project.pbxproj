@@ -295,6 +295,7 @@
 					"$(SRCROOT)/../../libPDRCore/libPDRCore/MiniServer",
 					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
 					"$(SRCROOT)/../../libPDRCore/libPDRCore/WebviewEngine",
+					"$(SRCROOT)/../libMap/",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -328,6 +329,7 @@
 					"$(SRCROOT)/../../libPDRCore/libPDRCore/MiniServer",
 					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
 					"$(SRCROOT)/../../libPDRCore/libPDRCore/WebviewEngine",
+					"$(SRCROOT)/../libMap/",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = (

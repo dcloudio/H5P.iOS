@@ -15,7 +15,7 @@
  */
 #import "PTPathUtil.h"
 #import "PGSinaShare.h"
-#import "PGSinaAuthView.h"
+//#import "PGSinaAuthView.h"
 #import "PDRCoreApp.h"
 #import "PDRCoreAppInfo.h"
 
@@ -54,6 +54,7 @@
     return TRUE;
 }
 
+// 使用新浪微博的web页面登录，在发送分享时还需再授权一次
 - (BOOL)authorizeWithURL:(NSString*)url
                 delegate:(id)delegate
                onSuccess:(SEL)successCallback
@@ -72,6 +73,8 @@
    onSuccess:(SEL)successCallback
    onFailure:(SEL)failureCallback{
     NSURL *url = nil;//
+
+    
     if ( msg.sendPict ) {
         url = [PTPathUtil urlWithPath:msg.sendPict];//[NSURL fileURLWithPath:msg.sendPict];
     }
@@ -84,6 +87,7 @@
         }
         thumbData = [NSData dataWithContentsOfURL:url];
     }
+    
     if ( imageData || msg.content || msg.title ) {
         [_sinaEngine postPictureTweetWithFormat:@"json"
                                            href:msg.href
@@ -93,7 +97,9 @@
                                           thumb:thumbData
                                       longitude:msg.longitude
                                     andLatitude:msg.latitude
+                                    messageType:msg.msgType
                                       interface:msg.interface
+                                          media:msg.media
                                        delegate:delegate
                                       onSuccess:successCallback
                                       onFailure:failureCallback];
@@ -109,14 +115,15 @@
 #pragma mark ShareControl
 
 - (PGAuthorizeView*)getAuthorizeControl {
-    PGSINAAuthorizeView *authorView = [[PGSINAAuthorizeView alloc] initWithFrame:CGRectZero];
-    authorView.authorizeViewDeleagte = _sinaEngine;
-    authorView.requestURLString = [_sinaEngine authorizeURL];
-    authorView.appKey = _sinaEngine.appKey;
-    authorView.appSecret = _sinaEngine.appSecret;
-    authorView.redirectURI = _sinaEngine.redirectURI;
-    [authorView autorelease];
-    return authorView;
+//    PGSINAAuthorizeView *authorView = [[PGSINAAuthorizeView alloc] initWithFrame:CGRectZero];
+//    authorView.authorizeViewDeleagte = _sinaEngine;
+//    authorView.requestURLString = [_sinaEngine authorizeURL];
+//    authorView.appKey = _sinaEngine.appKey;
+//    authorView.appSecret = _sinaEngine.appSecret;
+//    authorView.redirectURI = _sinaEngine.redirectURI;
+//    [authorView autorelease];
+//    return authorView;
+    return nil;
 }
 
 - (void)dealloc {

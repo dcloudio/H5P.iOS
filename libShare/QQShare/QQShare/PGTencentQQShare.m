@@ -55,6 +55,9 @@
     return @"";
 }
 
+
+
+
 - (BOOL)send:(PGShareMessage*)msg
     delegate:(id)delegate
    onSuccess:(SEL)successCallback
@@ -67,43 +70,54 @@
     onSendSuccessCallback = successCallback;
     onSendFailureCallback = failureCallback;
     
+    // 最大可设置5M图片
     if ( msg.sendPict ) {
         NSURL *url = [PTPathUtil urlWithPath:msg.sendPict];//[NSURL fileURLWithPath:msg.sendPict];
         imageData = [NSData dataWithContentsOfURL:url];
+        imageData = [UIImage compressImageData:imageData toMaxSize:5*1024*1024];
     }
+    
+    // 最大可设置1M图片
     if ( msg.sendThumb ) {
         NSURL *url = [PTPathUtil urlWithPath:msg.sendThumb];//[NSURL fileURLWithPath:msg.sendPict];
         thumbData = [NSData dataWithContentsOfURL:url];
+        thumbData = [UIImage compressImageData:thumbData toMaxSize:1024*1024];
     }
     
-    SendMessageToQQReq *req = nil;
-    if ( msg.href ) {
-        if ( !thumbData ) {
-            if ( self.appContext.isStreamApp
-                && self.appContext.iconPath ) {
-                thumbData = [NSData dataWithContentsOfFile:self.appContext.iconPath];
-            }
+    QQBaseReq *req = nil;
+    // 如果没设置分享类型或者分享类型设置为text如果有url则分享web如果没有url则分享text
+    if ([[msg.msgType lowercaseString] isEqualToString:@"text"] || [[msg.msgType lowercaseString] isEqualToString:@"none"]) {
+        if (msg.href && [msg.href isKindOfClass:NSString.class]) {
+            QQApiNewsObject* newsObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:msg.href]
+                                                                title:msg.title
+                                                          description:msg.content
+                                                      previewImageURL:nil];
+            
+            req = [SendMessageToQQReq reqWithContent:newsObj];
+            
+        }else{
+            QQApiTextObject* textobj = [QQApiTextObject objectWithText:(msg.content?msg.content:(msg.title?msg.title:@""))];
+            req = [SendMessageToQQReq reqWithContent:textobj];
         }
-        QQApiNewsObject *newsObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:msg.href]
-                                                            title:msg.title?msg.title:@" "
-                                                      description:msg.content
-                                                 previewImageData:thumbData];
-        req = [SendMessageToQQReq reqWithContent:newsObj];
-    } else if ( msg.sendPict ) {
-        QQApiImageObject *imageObject = [[QQApiImageObject alloc] initWithData:imageData
-                                                              previewImageData:thumbData
-                                                                         title:msg.title?msg.title:@" "
-                                                                   description:msg.content];
-        req = [SendMessageToQQReq reqWithContent:imageObject];
-    } else {
-        NSMutableString *textContent = [NSMutableString string];
-        if ( msg.title ) {
-            [textContent appendFormat:@"[%@]", msg.title];
-        }
-        [textContent appendString:msg.content? msg.content:@""];
-        QQApiTextObject *txtObj = [QQApiTextObject objectWithText:textContent];
-        req = [SendMessageToQQReq reqWithContent:txtObj];
+        
+    }else if([msg.msgType isEqualToString:@"image"]){
+        QQApiImageObject *imgObj = [QQApiImageObject objectWithData:imageData?imageData:thumbData
+                                                   previewImageData:thumbData
+                                                              title:msg.title
+                                                        description:msg.content];
+        req = [SendMessageToQQReq reqWithContent:imgObj];
+    }else if([msg.msgType isEqualToString:@"music"]){
+        QQApiAudioObject* audioObj = [QQApiAudioObject objectWithURL:[NSURL URLWithString:msg.media]
+                                                               title:msg.title
+                                                         description:msg.content
+                                                     previewImageURL:[NSURL URLWithString:msg.href]];
+        req = [SendMessageToQQReq reqWithContent:audioObj];
+    }else{
+        QQApiTextObject* textobj = [QQApiTextObject objectWithText:(msg.content?msg.content:(msg.title?msg.title:@""))];
+        req = [SendMessageToQQReq reqWithContent:textobj];
     }
+
+    
     //将内容分享到qq
     QQApiSendResultCode sent = [QQApiInterface sendReq:req];
     if ( EQQAPISENDSUCESS != sent ) {

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1713CBB01AA59F5300CC0024 /* PGWXOauth.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1713CBAF1AA59F5300CC0024 /* PGWXOauth.h */; };
 		1713CBB21AA59F5300CC0024 /* PGWXOauth.m in Sources */ = {isa = PBXBuildFile; fileRef = 1713CBB11AA59F5300CC0024 /* PGWXOauth.m */; };
+		2FB0465E21365A1800000FBF /* PGWXOpenApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FB0465D21365A1800000FBF /* PGWXOpenApi.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,6 +32,8 @@
 		2FACF58D1CEED2C40072B954 /* WechatAuthSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WechatAuthSDK.h; sourceTree = "<group>"; };
 		2FACF58E1CEED2C40072B954 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
 		2FACF58F1CEED2C40072B954 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
+		2FB0465C21365A1800000FBF /* PGWXOpenApi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGWXOpenApi.h; sourceTree = "<group>"; };
+		2FB0465D21365A1800000FBF /* PGWXOpenApi.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGWXOpenApi.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +69,8 @@
 				2FACF58C1CEED2C40072B954 /* weixin */,
 				1713CBAF1AA59F5300CC0024 /* PGWXOauth.h */,
 				1713CBB11AA59F5300CC0024 /* PGWXOauth.m */,
+				2FB0465C21365A1800000FBF /* PGWXOpenApi.h */,
+				2FB0465D21365A1800000FBF /* PGWXOpenApi.m */,
 			);
 			path = WXOauth;
 			sourceTree = "<group>";
@@ -137,6 +142,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2FB0465E21365A1800000FBF /* PGWXOpenApi.m in Sources */,
 				1713CBB21AA59F5300CC0024 /* PGWXOauth.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

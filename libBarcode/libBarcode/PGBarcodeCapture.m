@@ -50,12 +50,14 @@
     if ( [filters isKindOfClass:[NSArray class]]
         && [filters count] > 0 ) {
         for ( NSNumber *filter in filters ) {
-            PGBarcodeFormat type = (PGBarcodeFormat)[filter intValue];
-            ZXBarcodeFormat zxbarcode = [ZXResult H5PForamt2ZX:type];
-            if ( zxbarcode > kBarcodeFormatUPCEANExtension ) {
-                continue;
+            if ([filter isKindOfClass:NSNumber.class]) {
+                PGBarcodeFormat type = (PGBarcodeFormat)[filter intValue];
+                ZXBarcodeFormat zxbarcode = [ZXResult H5PForamt2ZX:type];
+                if ( zxbarcode > kBarcodeFormatUPCEANExtension ) {
+                    continue;
+                }
+                [hints addPossibleFormat:zxbarcode];
             }
-            [hints addPossibleFormat:zxbarcode];
         }
         if ( [hints numberOfPossibleFormats] ) {
             return hints;

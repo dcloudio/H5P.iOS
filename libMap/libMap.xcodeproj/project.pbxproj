@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		1712F9CB19209FC7003C1290 /* PGMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 1712F9CA19209FC7003C1290 /* PGMap.m */; };
 		17F5CF66172797A800356EE5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17F5CF65172797A800356EE5 /* Foundation.framework */; };
+		2F3280E320F89CF6008C59D0 /* PGMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F3280E220F89CF6008C59D0 /* PGMapView.m */; };
+		2F3280EC20F8B5A1008C59D0 /* PGMapDefs.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F3280EB20F8B5A1008C59D0 /* PGMapDefs.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -29,6 +31,10 @@
 		17F5CF62172797A800356EE5 /* liblibMap.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibMap.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		17F5CF65172797A800356EE5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		17F5CF69172797A800356EE5 /* libMap-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "libMap-Prefix.pch"; sourceTree = "<group>"; };
+		2F3280E120F89CF6008C59D0 /* PGMapView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGMapView.h; sourceTree = "<group>"; };
+		2F3280E220F89CF6008C59D0 /* PGMapView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGMapView.m; sourceTree = "<group>"; };
+		2F3280EA20F8B5A1008C59D0 /* PGMapDefs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGMapDefs.h; sourceTree = "<group>"; };
+		2F3280EB20F8B5A1008C59D0 /* PGMapDefs.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGMapDefs.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,9 +77,13 @@
 		17F5CF67172797A800356EE5 /* libMap */ = {
 			isa = PBXGroup;
 			children = (
-				17F5CF68172797A800356EE5 /* Supporting Files */,
 				1712F9C919209FC7003C1290 /* PGMap.h */,
 				1712F9CA19209FC7003C1290 /* PGMap.m */,
+				2F3280EA20F8B5A1008C59D0 /* PGMapDefs.h */,
+				2F3280EB20F8B5A1008C59D0 /* PGMapDefs.m */,
+				2F3280E120F89CF6008C59D0 /* PGMapView.h */,
+				2F3280E220F89CF6008C59D0 /* PGMapView.m */,
+				17F5CF68172797A800356EE5 /* Supporting Files */,
 			);
 			path = libMap;
 			sourceTree = "<group>";
@@ -137,6 +147,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F3280E320F89CF6008C59D0 /* PGMapView.m in Sources */,
+				2F3280EC20F8B5A1008C59D0 /* PGMapDefs.m in Sources */,
 				1712F9CB19209FC7003C1290 /* PGMap.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -245,6 +257,7 @@
 					"$(SRCROOT)/../libPDRCore/libPDRCore/Managers",
 					"$(SRCROOT)/../libPDRCore/libPDRCore/MiniServer",
 					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/WebviewEngine",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = "";
@@ -267,6 +280,7 @@
 					"$(SRCROOT)/../libPDRCore/libPDRCore/Managers",
 					"$(SRCROOT)/../libPDRCore/libPDRCore/MiniServer",
 					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/WebviewEngine",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = "";

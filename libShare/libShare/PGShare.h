@@ -1,4 +1,4 @@
-﻿/*
+/*
  *------------------------------------------------------------------
  *  pandora/PGShare.h
  *  Description:
@@ -46,16 +46,18 @@ typedef NS_ENUM(NSInteger, PGShareMessageInterface) {
 @class PGJSRequest;
 
 @interface PGShareMessage : NSObject
-
+@property(nonatomic, copy)NSString *msgType;
 @property(nonatomic, copy)NSString *title;
 @property(nonatomic, copy)NSString *content;
 @property(nonatomic, copy)NSArray *thumbs;
 @property(nonatomic, copy)NSArray *pictures;
+@property(nonatomic, copy)NSString* media;
 @property(nonatomic, copy)NSString *sendPict;
 @property(nonatomic, copy)NSString *sendThumb;
 @property(nonatomic, copy)NSString *latitude;
 @property(nonatomic, copy)NSString *longitude;
 @property(nonatomic, copy)NSString *href;
+@property(nonatomic, copy)NSDictionary* miniProgram;
 @property(nonatomic, assign)PGShareMessageScene scene;
 @property(nonatomic, assign)PGShareMessageInterface interface;
 + (PGShareMessage*)msgWithDict:(NSDictionary*)dict;

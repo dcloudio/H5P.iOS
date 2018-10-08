@@ -73,6 +73,7 @@
         NSURL *url = [PTPathUtil urlWithPath:msg.sendThumb];//[NSURL fileURLWithPath:msg.sendPict];
         thumbData = [NSData dataWithContentsOfURL:url];
     }
+    
     int shareScene = WXSceneTimeline;
     switch (msg.scene) {
         case PGShareMessageSceneSession:
@@ -89,9 +90,12 @@
                                     href:msg.href
                                     pic:imageData
                                    thumb:thumbData
+                                   media:msg.media
                               longitude:msg.longitude
                             andLatitude:msg.latitude
                                    scene:shareScene
+                             miniProgram:msg.miniProgram
+                                    type:msg.msgType
                                 delegate:delegate
                               onSuccess:successCallback
                               onFailure:failureCallback];

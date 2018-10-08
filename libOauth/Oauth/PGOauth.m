@@ -36,6 +36,11 @@
 - (void)login:(NSString*)cbId withParams:(NSDictionary*)params {
 
 }
+
+- (BOOL)authorize:(NSString*)cbId withParams:(NSDictionary*)params {
+    return NO;
+}
+
 - (void)logout:(NSString*)cbId {
 
 }
