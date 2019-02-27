@@ -37,6 +37,9 @@
 - (void)exitFullScreen;
 - (void)sendDanmaku:(NSString*)sender withColor:(UIColor*)color;
 - (void)sendDanmaku:(NSDictionary*)danmaku ;
+- (void)clearDanmaku;
 - (void)setControlValue:(id)value forKey:(NSString*)key;
 - (void)destroy;
+- (void)updateLayout;
+- (void)dc_setHidden:(BOOL)isHidden;
 @end

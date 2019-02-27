@@ -12,6 +12,9 @@
 #import <TencentOpenAPI/TencentOAuth.h>
 #import "PDRCoreAppPrivate.h"
 
+#define kQQShareImageMaxSize 5*1024*1024
+#define kQQSharethumbImageMaxSize 1024*1024
+
 @implementation PGTencentQQShare
 - (id) init {
     if ( self = [super init] ) {
@@ -55,44 +58,59 @@
     return @"";
 }
 
-
-
+-(NSData*)imageDataWithUrl:(NSURL*)imageUrl maxSize:(long)size{
+    if ( imageUrl ) {
+        NSData *imageData = [NSData dataWithContentsOfURL:imageUrl];
+        imageData = [UIImage compressImageData:imageData toMaxSize:size];
+        return imageData;
+    }
+    return nil;
+}
 
 - (BOOL)send:(PGShareMessage*)msg
     delegate:(id)delegate
    onSuccess:(SEL)successCallback
    onFailure:(SEL)failureCallback{
     
-    NSData *imageData = nil;
-    NSData *thumbData = nil;
-    
     temp_send_delegate = delegate;
     onSendSuccessCallback = successCallback;
     onSendFailureCallback = failureCallback;
     
     // 最大可设置5M图片
-    if ( msg.sendPict ) {
-        NSURL *url = [PTPathUtil urlWithPath:msg.sendPict];//[NSURL fileURLWithPath:msg.sendPict];
-        imageData = [NSData dataWithContentsOfURL:url];
-        imageData = [UIImage compressImageData:imageData toMaxSize:5*1024*1024];
-    }
-    
+    NSURL *imageUrl = [PTPathUtil urlWithPath:msg.sendPict];//[NSURL fileURLWithPath:msg.sendPict];
     // 最大可设置1M图片
-    if ( msg.sendThumb ) {
-        NSURL *url = [PTPathUtil urlWithPath:msg.sendThumb];//[NSURL fileURLWithPath:msg.sendPict];
-        thumbData = [NSData dataWithContentsOfURL:url];
-        thumbData = [UIImage compressImageData:thumbData toMaxSize:1024*1024];
-    }
-    
+    NSURL *thumbUrl = [PTPathUtil urlWithPath:msg.sendThumb];//[NSURL fileURLWithPath:msg.sendPict];
     QQBaseReq *req = nil;
     // 如果没设置分享类型或者分享类型设置为text如果有url则分享web如果没有url则分享text
-    if ([[msg.msgType lowercaseString] isEqualToString:@"text"] || [[msg.msgType lowercaseString] isEqualToString:@"none"]) {
+    if ([[msg.msgType lowercaseString] isEqualToString:@"text"]
+        || [[msg.msgType lowercaseString] isEqualToString:@"none"]
+        || [[msg.msgType lowercaseString] isEqualToString:@"web"]) {
         if (msg.href && [msg.href isKindOfClass:NSString.class]) {
-            QQApiNewsObject* newsObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:msg.href]
-                                                                title:msg.title
-                                                          description:msg.content
-                                                      previewImageURL:nil];
+            QQApiNewsObject* newsObj = nil;
+            NSURL *previewUrl = nil;
+            NSData *previewData = nil;
+            if ( ![thumbUrl isFileURL] ) {
+                previewUrl = thumbUrl;
+            } else if ( ![imageUrl isFileURL] ){
+                previewUrl = imageUrl;
+            } else {
+                previewData = [self imageDataWithUrl:thumbUrl maxSize:kQQSharethumbImageMaxSize];
+                if ( !previewData ) {
+                    previewData = [self imageDataWithUrl:imageUrl maxSize:kQQShareImageMaxSize];
+                }
+            }
             
+            if ( previewUrl ) {
+                newsObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:msg.href]
+                                                   title:msg.title
+                                             description:msg.content
+                                         previewImageURL:previewUrl];
+            } else {
+                newsObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:msg.href]
+                                                   title:msg.title
+                                             description:msg.content
+                                        previewImageData:previewData];
+            }
             req = [SendMessageToQQReq reqWithContent:newsObj];
             
         }else{
@@ -101,6 +119,9 @@
         }
         
     }else if([msg.msgType isEqualToString:@"image"]){
+        NSData *imageData = [self imageDataWithUrl:imageUrl maxSize:kQQShareImageMaxSize];
+        NSData *thumbData = [self imageDataWithUrl:thumbUrl maxSize:kQQSharethumbImageMaxSize];
+
         QQApiImageObject *imgObj = [QQApiImageObject objectWithData:imageData?imageData:thumbData
                                                    previewImageData:thumbData
                                                               title:msg.title

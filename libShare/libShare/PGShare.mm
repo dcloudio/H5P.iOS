@@ -482,6 +482,10 @@ static NSString *kString_accesstoken = @"accessToken";
     }
 }
 
+- (BOOL)launchMiniProgram:(PGMethod*)command {
+    return NO;
+}
+
 - (NSString*)errorMsgWithCode:(int)errorCode {
     switch (errorCode) {
         case PGShareErrorRepeateAuthReq: return @"重复的验证请求";

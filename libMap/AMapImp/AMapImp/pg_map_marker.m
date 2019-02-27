@@ -20,9 +20,9 @@
 #import "PTPathUtil.h"
 #import "NSData+Base64.h"
 #import "H5CoreJavaScriptText.h"
+#import "PDRToolSystemEx.h"
 // 标记排版时图片和文字之间的间隙
-#define PG_MAP_MARKERVIEW_GAP 2.0f
-// 标记使用文字的尺寸
+#define PG_MAP_MARKERVIEW_GAP 2.0f// 标记使用文字的尺寸
 #define PG_MAP_MARKERVIEW_TEXTFONTSIZE 12.0f
 #define PG_MAP_BUBBLE_ARRORHEIGHT 10
 
@@ -318,12 +318,14 @@
 @synthesize selected;
 - (void)dealloc
 {
-    [_animationImages release];
-    [_baseURL release];
-    [UUID release];
-    [label release];
-    [icon release];
-    [bubble release];
+    self.belongWebview = nil;
+    self.belongMapview = nil;
+    self.animationImages = nil;
+    self.baseURL = nil;
+    self.label = nil;
+    self.UUID = nil;
+    self.icon = nil;
+    self.bubble = nil;
     [super dealloc];
 }
 
@@ -845,11 +847,11 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
-    if ( true ==  selected ) {
-        dispatch_async(dispatch_get_main_queue(), ^(void) {
-            [self tapCallback];
-        });
-    }
+//    if ( true ==  selected ) {
+////        dispatch_async(dispatch_get_main_queue(), ^(void) {
+////            [self tapCallback];
+////        });
+//    }
     if ( self.selected == selected ) {
         return;
     }
@@ -971,7 +973,10 @@
 //            icon = [UIImage getRetainImage:marker.icon];
 //        }
         if ( marker.icon )
-        { icon = [UIImage imageWithContentsOfFile:marker.icon]; }
+        {
+            icon = [UIImage dcloud_imageWithContentsOfFile:marker.icon];
+            
+        }
         if ( !icon ) {
             icon = [UIImage imageNamed:@"AMap.bundle/images/pin_red"];
         }
@@ -993,6 +998,7 @@
         [self deactiveAnnotationImageView];
         [self reloadLabel:true loadIcon:true];
     }
+    [self setNeedsLayout];
 }
 - (void)reloadBubble {
     [self reloadBubbleLabel:YES loadIcon:YES];
@@ -1081,6 +1087,7 @@
         heightOffset += PG_MAP_MARKERVIEW_GAP;
         self.bounds = CGRectMake(0, 0, maxSize.width, heightOffset);
     }
+   // self.centerOffset = CGPointMake(0, -CGRectGetMidY(self.bounds));
     if ( self.calloutView ) {
         self.calloutView.center = CGPointMake(CGRectGetWidth(self.bounds) / 2.f + self.calloutOffset.x,
                                               -CGRectGetHeight(self.calloutView.bounds) / 2.f + self.calloutOffset.y);
@@ -1109,12 +1116,11 @@
             NSString *jsObjectF =
             @"%@.maps.__bridge__.execCallback('%@', {type:'bubbleclick'});";
             NSString *javaScript = [NSString stringWithFormat:jsObjectF, [H5CoreJavaScriptText plusObject],marker.UUID];
-            [marker.belongMapview.jsBridge asyncWriteJavascript:javaScript];
+            [marker.belongMapview.jsBridge asyncWriteJavascript:javaScript inWebview:marker.belongWebview];
         }
     }
 }
--(void)tapCallback
-//-(void)tapCallback:(UITapGestureRecognizer*)sender
+-(void)doClickForEvt
 {
     id<MAAnnotation> annotation = self.annotation;
     if ( annotation && [annotation isKindOfClass:[PGMapMarker class]] )
@@ -1123,7 +1129,7 @@
         NSString * jsObjectF = @"var args = {type:'markerclick'};\
         %@.maps.__bridge__.execCallback('%@', args);";
         NSString *javaScript = [NSString stringWithFormat:jsObjectF, [H5CoreJavaScriptText plusObject], marker.UUID];
-        [marker.belongMapview.jsBridge asyncWriteJavascript:javaScript];
+        [marker.belongMapview.jsBridge asyncWriteJavascript:javaScript inWebview:marker.belongWebview];
     }
 }
 

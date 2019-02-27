@@ -105,11 +105,11 @@
     if ( !_geoSearch && E_PERMISSION_OK == [PGBaiduKeyVerify Verify].errorCode){
         _geoSearch = [[BMKGeoCodeSearch alloc] init];
         _geoSearch.delegate = self;
-        BMKReverseGeoCodeSearchOption *geoOption = [[[BMKReverseGeoCodeSearchOption alloc] init] autorelease];
+        BMKReverseGeoCodeSearchOption *geoOption = [[BMKReverseGeoCodeSearchOption alloc] init];
         geoOption.location = location.coordinate;
         [_geoSearch reverseGeoCode:geoOption];
     } else {
-        [self onGetReverseGeoCodeResult:_geoSearch result:nil errorCode:BMK_SEARCH_RESULT_NOT_FOUND];
+        [self onGetReverseGeoCodeResult:_geoSearch result:nil errorCode:[PGBaiduKeyVerify Verify].errorCode];
     }
 }
 
@@ -123,37 +123,35 @@
                            result:(BMKReverseGeoCodeSearchResult *)result
                         errorCode:(BMKSearchErrorCode)error{
     _geoSearch.delegate = nil;
-    [_geoSearch release];
     _geoSearch = nil;
-    if ( [self.delegate respondsToSelector:@selector(locationServer:geocodeCompletion:)] ) {
+    if ( [self.delegate respondsToSelector:@selector(locationServer:geocodeCompletion:error:)] ) {
         PGBaiduAddress *address = [PGBaiduAddress addressWithGeoCodeResult:result];
         NSError *errorObj = nil;
         if ( BMK_SEARCH_NO_ERROR == error ) {
             
         } else {
-            errorObj = [NSError errorWithDomain:@"" code:error userInfo:nil];
+            errorObj = [NSError errorWithDomain:@"PGLocation"
+                                           code:error
+                                       userInfo:@{NSLocalizedDescriptionKey:[PGBaiduKeyVerify Verify].errorMessage}];
         }
-        [self.delegate locationServer:self geocodeCompletion:errorObj?nil:address];
+        [self.delegate locationServer:self geocodeCompletion:errorObj?nil:address error:errorObj];
     }
 }
-
 
 - (void)dealloc
 {
     _geoSearch.delegate = nil;
-    [_geoSearch release];
   //  [self.locationManager stopUserLocationService];
   //  self.locationManager.delegate = nil;
  //   self.locationManager = nil;
     [[BMKLocationServiceWrap sharedLocationServer] removeObserver:self];
-    [super dealloc];
 }
 
 @end
 
 @implementation PGBaiduAddress
 + (id)addressWithGeoCodeResult:(BMKReverseGeoCodeSearchResult*)geoCodeResult {
-    PGBaiduAddress *address = [[[PGBaiduAddress alloc] initWithGeoCodeResult:geoCodeResult] autorelease];
+    PGBaiduAddress *address = [[PGBaiduAddress alloc] initWithGeoCodeResult:geoCodeResult];
     return address;
 }
 

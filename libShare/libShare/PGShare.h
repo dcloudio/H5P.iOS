@@ -100,5 +100,6 @@ typedef NS_ENUM(NSInteger, PGShareMessageInterface) {
 - (void)authorize:(PGMethod*)command;
 - (void)forbid:(PGMethod*)command;
 - (void)send:(PGMethod*)command;
+- (BOOL)launchMiniProgram:(PGMethod*)command;
 - (NSDictionary*)JSDict;
 @end

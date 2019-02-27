@@ -820,6 +820,13 @@
     }
 }
 
+- (void)mapView:(MAMapView *)mapView didAnnotationViewTapped:(MAAnnotationView *)view {
+    if ( [view isKindOfClass:[PGMapMarkerView class]] ) {
+        PGMapMarkerView *markerView = (PGMapMarkerView*)view;
+        [markerView doClickForEvt];
+    }
+}
+
 /*
  *------------------------------------------------
  *用户位置更新后，会调用此函数

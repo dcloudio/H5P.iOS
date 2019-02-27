@@ -17,7 +17,6 @@
 #import "PDRCoreWindowManager.h"
 #import "PTLog.h"
 #import "PDRCommonString.h"
-#import <BaiduMapAPI_Utils/BMKGeometry.h>
 #import <CoreLocation/CoreLocation.h>
 #pragma mark Constants
 
@@ -518,14 +517,18 @@ static NSDictionary *g_support_provider =
     }
 }
 
-- (void)locationServer:(PGLocationServer*)manager geocodeCompletion:(PGLocationAddress *) placemark {
+- (void)locationServer:(PGLocationServer*)manager geocodeCompletion:(PGLocationAddress *) placemark error:(NSError*)error{
     CLLocation *geoLocation = [manager getFirstLocation];
     if ( geoLocation ) {
         NSArray *reqs = [_locationReqSet getLocationReq:manager.providerName];
         if ( [reqs count] ) {
             [reqs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                 PGLocationReqest *req = (PGLocationReqest*)obj;
-                [self returnResponseWithReq:req withLocation:geoLocation withReveredPlacemark:placemark isPlacemakrNull:NO];
+                if ( error ) {
+                    [self toErrorCallback:req.JSResponseId withNSError:error];
+                } else {
+                    [self returnResponseWithReq:req withLocation:geoLocation withReveredPlacemark:placemark isPlacemakrNull:NO];
+                }
                 if ( !req.isWatchReq ) {
                     [_locationReqSet removeLocationRequest:req];
                 }

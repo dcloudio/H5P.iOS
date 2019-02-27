@@ -57,6 +57,12 @@
     [UIApplication sharedApplication].statusBarStyle = _originStatusBarStyle;
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    DCTZImagePickerController *imagePickerVc = (DCTZImagePickerController *)self.navigationController;
+    [imagePickerVc hideProgressHUD];
+}
+
 - (void)configMoviePlayer {
     [[TZImageManager manager] getPhotoWithAsset:_model.asset completion:^(UIImage *photo, NSDictionary *info, BOOL isDegraded) {
         if (!isDegraded && photo) {
@@ -166,7 +172,7 @@
 - (void)doneButtonClick {
     if (self.navigationController) {
         DCTZImagePickerController *imagePickerVc = (DCTZImagePickerController *)self.navigationController;
-        [imagePickerVc showProgressHUD];
+        [imagePickerVc showProgressHUD:NO];
         if (imagePickerVc.autoDismiss) {
             [self.navigationController dismissViewControllerAnimated:YES completion:^{
                 [self callDelegateMethod];
@@ -179,6 +185,7 @@
             [self callDelegateMethod];
         }];
     }
+    _playButton.hidden = YES;
     [_doneButton setEnabled:NO];
 }
 

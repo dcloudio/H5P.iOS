@@ -28,4 +28,5 @@
 - (void)setListener:(NSString*)cbId forEvt:(NSString*)evt forWebviewId:(NSString*)webviewId;
 - (void)setFrame:(CGRect)frame;
 - (void)destroy;
+- (void)setHidden:(BOOL)isHidden;
 @end

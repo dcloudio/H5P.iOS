@@ -1,4 +1,4 @@
-﻿/*
+/*
  *------------------------------------------------------------------
  *  pandora/PGShare.h
  *  Description:
@@ -23,7 +23,7 @@
     NSMutableDictionary *_shareControlServices;
     NSMutableArray *_shareServices;
 }
-
+@property(nonatomic, assign)BOOL shareLoaded;
 - (void)getServices:(PGMethod*)command;
 - (void)authorize:(PGMethod*)command;
 - (void)forbid:(PGMethod*)command;

@@ -15,7 +15,6 @@
 
 @property(nonatomic, assign)BOOL decodeImgWToFile;
 @property(nonatomic, strong)NSString *decodeImgPath;
-- (UIView*)getBarcodeViewByID:(NSString*)barcodeUUID;
 - (void)Barcode:(PGMethod*)command;
 - (void)start:(PGMethod*)command;
 - (void)cancel:(PGMethod*)command;

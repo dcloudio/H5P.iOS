@@ -23,7 +23,7 @@ typedef NS_ENUM(NSInteger, PGLocationDescription) {
 - (void)locationServer:(PGLocationServer*)manager
     didUpdateLocations:(NSArray *)locations;
 - (void)locationServer:(PGLocationServer*)manager didFailWithError:(NSError*)error;
-- (void)locationServer:(PGLocationServer*)manager geocodeCompletion:(PGLocationAddress *) placemark;
+- (void)locationServer:(PGLocationServer*)manager geocodeCompletion:(PGLocationAddress *) placemark error:(NSError*)error;
 @end
 
 @protocol PGLocationServer <NSObject>

@@ -46,6 +46,7 @@
 - (void)setFrame:(CGRect)frame {
     self.hostedFrame = frame;
     [_videoPlayView setFrame:frame];
+    [_videoPlayView updateLayout];
 }
 
 - (void)playerViewExitFullScreen:(H5VideoPlayView*)playerView{
@@ -68,6 +69,10 @@
         [self.hostedView layoutIfNeeded];
     }];
     [self sendFullscreenchangeEvtWithStatus:NO withDirection:UIInterfaceOrientationPortrait];
+}
+
+- (void)setHidden:(BOOL)isHidden {
+    [self.videoPlayView dc_setHidden:isHidden];
 }
 
 - (void)destroy {
@@ -131,6 +136,12 @@
 }
 
 - (void)sendTimeupdateEvtWithCurrentTime:(float)currentTime withTotal:(float)duration{
+    if ( self.curretTime > currentTime ) {
+        self.curretTime = 0;
+    }
+    if ( currentTime > duration ) {
+        currentTime = duration;
+    }
     if ( (currentTime - self.curretTime) > 0.25 ) {
         [self asyncSendEvt:@"timeupdate" withParams:@{@"detail":@{@"currentTime":@(currentTime),@"duration":@(duration)}}];
         self.curretTime = currentTime;

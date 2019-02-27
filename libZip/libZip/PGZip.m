@@ -283,14 +283,18 @@ Error :
                 }
             }
             if ( output ) {
-                [output writeToFile:compressParams.outputPath atomically:NO];
-                PDRPluginResult *result = nil;
-                NSDictionary *dict = @{@"path":[NSString stringWithFormat:@"file://%@", compressParams.outputPath],
-                                       @"w":@(outThubmnailImg.size.width),
-                                       @"h":@(outThubmnailImg.size.height),
-                                       @"size":@(output.length)};
-                result = [PDRPluginResult resultWithStatus:PDRCommandStatusOK messageAsDictionary:dict];
-                [weakSelf toCallback:cbId withReslut:[result toJSONString]];
+                BOOL ret = [output writeToFile:compressParams.outputPath atomically:NO];
+                if ( ret ) {
+                    PDRPluginResult *result = nil;
+                    NSDictionary *dict = @{@"path":[NSString stringWithFormat:@"file://%@", compressParams.outputPath],
+                                           @"w":@(outThubmnailImg.size.width),
+                                           @"h":@(outThubmnailImg.size.height),
+                                           @"size":@(output.length)};
+                    result = [PDRPluginResult resultWithStatus:PDRCommandStatusOK messageAsDictionary:dict];
+                    [weakSelf toCallback:cbId withReslut:[result toJSONString]];
+                } else {
+                    [weakSelf toErrorCallback:cbId withCode:PGPluginErrorIO];
+                }
             } else {
                 [weakSelf toErrorCallback:cbId withCode:PGPluginErrorUnknown];
             }
@@ -330,6 +334,13 @@ Error :
             else
                 self.inputPath = [PTPathUtil h5Path2SysPath:jsInput basePath:baseUrl context:context];
         }
+        
+        NSNumber *jsOverwrite = [dict objectForKey:@"overwrite"];
+        self.isOverwrite = false;
+        if ([jsOverwrite isKindOfClass:[NSNumber class]]) {
+            self.isOverwrite = [jsOverwrite boolValue];
+        }
+        
         if ( self.inputPath ) {
             [self parseFormat:[dict objectForKey:@"format"]];
             
@@ -338,6 +349,7 @@ Error :
                 self.outputPath = [PTPathUtil absolutePath:jsOutput
                                                     prefix:@"compressImg_"
                                                     suffix:self.outputFormat == PGZCompressImgOutputFormatJPG ?@"jpg":@"png"
+                                             allowSameName:self.isOverwrite
                                                    context:context];
                // self.outputPath = [PTPathUtil absolutePath:jsOutput withContext:context];
             } else {
@@ -349,11 +361,6 @@ Error :
 //                                                   context:context];
             }
             
-            NSNumber *jsOverwrite = [dict objectForKey:@"overwrite"];
-            self.isOverwrite = false;
-            if ([jsOverwrite isKindOfClass:[NSNumber class]]) {
-                self.isOverwrite = [jsOverwrite boolValue];
-            }
             NSNumber *jsRotate = [dict objectForKey:@"rotate"];
             self.transform = 0;
             if ([jsRotate isKindOfClass:[NSNumber class]]

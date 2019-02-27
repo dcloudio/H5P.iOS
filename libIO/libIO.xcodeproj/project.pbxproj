@@ -1,0 +1,301 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		173A982B1727BF2E00A17DC4 /* PGIO.mm in Sources */ = {isa = PBXBuildFile; fileRef = 173A982A1727BF2E00A17DC4 /* PGIO.mm */; };
+		17F5CEC6172796CB00356EE5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17F5CEC5172796CB00356EE5 /* Foundation.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		17F5CEC0172796CB00356EE5 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		173A98291727BF2E00A17DC4 /* PGIO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGIO.h; sourceTree = "<group>"; };
+		173A982A1727BF2E00A17DC4 /* PGIO.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PGIO.mm; sourceTree = "<group>"; };
+		17F5CEC2172796CB00356EE5 /* liblibIO.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibIO.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		17F5CEC5172796CB00356EE5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		17F5CEC9172796CB00356EE5 /* libIO-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "libIO-Prefix.pch"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		17F5CEBF172796CB00356EE5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				17F5CEC6172796CB00356EE5 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		17F5CEB9172796CB00356EE5 = {
+			isa = PBXGroup;
+			children = (
+				17F5CEC7172796CB00356EE5 /* libIO */,
+				17F5CEC4172796CB00356EE5 /* Frameworks */,
+				17F5CEC3172796CB00356EE5 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		17F5CEC3172796CB00356EE5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				17F5CEC2172796CB00356EE5 /* liblibIO.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		17F5CEC4172796CB00356EE5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				17F5CEC5172796CB00356EE5 /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		17F5CEC7172796CB00356EE5 /* libIO */ = {
+			isa = PBXGroup;
+			children = (
+				173A98291727BF2E00A17DC4 /* PGIO.h */,
+				173A982A1727BF2E00A17DC4 /* PGIO.mm */,
+				17F5CEC8172796CB00356EE5 /* Supporting Files */,
+			);
+			path = libIO;
+			sourceTree = "<group>";
+		};
+		17F5CEC8172796CB00356EE5 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				17F5CEC9172796CB00356EE5 /* libIO-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		17F5CEC1172796CB00356EE5 /* libIO */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 17F5CED0172796CB00356EE5 /* Build configuration list for PBXNativeTarget "libIO" */;
+			buildPhases = (
+				17F5CEBE172796CB00356EE5 /* Sources */,
+				17F5CEBF172796CB00356EE5 /* Frameworks */,
+				17F5CEC0172796CB00356EE5 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = libIO;
+			productName = libIO;
+			productReference = 17F5CEC2172796CB00356EE5 /* liblibIO.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		17F5CEBA172796CB00356EE5 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0940;
+				ORGANIZATIONNAME = DCloud;
+			};
+			buildConfigurationList = 17F5CEBD172796CB00356EE5 /* Build configuration list for PBXProject "libIO" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 17F5CEB9172796CB00356EE5;
+			productRefGroup = 17F5CEC3172796CB00356EE5 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				17F5CEC1172796CB00356EE5 /* libIO */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		17F5CEBE172796CB00356EE5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				173A982B1727BF2E00A17DC4 /* PGIO.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		17F5CECE172796CB00356EE5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		17F5CECF172796CB00356EE5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_BITCODE = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		17F5CED1172796CB00356EE5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				DSTROOT = /tmp/libIO.dst;
+				ENABLE_BITCODE = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "libIO/libIO-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Tools",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/MiniServer",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Managers",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		17F5CED2172796CB00356EE5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				DSTROOT = /tmp/libIO.dst;
+				ENABLE_BITCODE = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "libIO/libIO-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Tools",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/MiniServer",
+					"$(SRCROOT)/../libPDRCore/libPDRCore/Managers",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		17F5CEBD172796CB00356EE5 /* Build configuration list for PBXProject "libIO" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				17F5CECE172796CB00356EE5 /* Debug */,
+				17F5CECF172796CB00356EE5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		17F5CED0172796CB00356EE5 /* Build configuration list for PBXNativeTarget "libIO" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				17F5CED1172796CB00356EE5 /* Debug */,
+				17F5CED2172796CB00356EE5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 17F5CEBA172796CB00356EE5 /* Project object */;
+}

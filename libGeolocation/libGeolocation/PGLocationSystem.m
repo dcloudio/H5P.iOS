@@ -129,13 +129,13 @@
     CLGeocoder *geocoder = [[[CLGeocoder alloc] init] autorelease];
     __block PGSystemLocationServer *weakSelf = self;
     [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
-        if ( [weakSelf.delegate respondsToSelector:@selector(locationServer:geocodeCompletion:)] ) {
+        if ( [weakSelf.delegate respondsToSelector:@selector(locationServer:geocodeCompletion:error:)] ) {
             PGLocationAddress *address = nil;
             if ( [placemarks count] ) {
                 CLPlacemark *placemark = [placemarks objectAtIndex:0];
                 address = [PGSystemLocationAddress addressWithCLPlacemark:placemark];
             }
-            [weakSelf.delegate locationServer:self geocodeCompletion:error?nil:address];
+            [weakSelf.delegate locationServer:self geocodeCompletion:error?nil:address error:error];
         }
     }];
 }

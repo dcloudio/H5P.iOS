@@ -49,27 +49,34 @@
     NSRange rangeZH = [self.lang rangeOfString:@"zh-"];
     NSRange rangeEN = [self.lang rangeOfString:@"en-us"];
     [self.asrEventManager setParameter:@(EVoiceRecognitionRecordSampleRateAuto) forKey:BDS_ASR_SAMPLE_RATE];
-    // -- 开启标点输出 -----
-    [self.asrEventManager setParameter:@(NO) forKey:BDS_ASR_DISABLE_PUNCTUATION];
     if (rangeZH.length) {
         [self.asrEventManager setParameter:@(EVoiceRecognitionLanguageChinese) forKey:BDS_ASR_LANGUAGE];
         if ([self.lang isEqualToString:@"zh-cantonese"]) {
             [self.asrEventManager setParameter:@(EVoiceRecognitionLanguageCantonese) forKey:BDS_ASR_LANGUAGE];
         }
-        // 普通话标点
-        [self.asrEventManager setParameter:@"1537" forKey:BDS_ASR_PRODUCT_ID];
-    }else if(rangeEN.length) {
-        // 英文标点
-        [self.asrEventManager setParameter:@"1737" forKey:BDS_ASR_PRODUCT_ID];
+    } else if(rangeEN.length) {
         [self.asrEventManager setParameter:@(EVoiceRecognitionLanguageEnglish) forKey:BDS_ASR_LANGUAGE];
     }
     if (self.recognizeContinue) {
         [self.asrEventManager setParameter:@(YES) forKey:BDS_ASR_ENABLE_LONG_SPEECH];
     }
-    [self.asrEventManager setParameter:@(EVR_STRATEGY_ONLINE) forKey:BDS_ASR_STRATEGY];
-    // 长语音请务必开启本地VAD
-    [self.asrEventManager setParameter:@(YES) forKey:BDS_ASR_ENABLE_LOCAL_VAD];
-    [self.asrEventManager setParameter:@(EVRPlayToneNone) forKey:BDS_ASR_PLAY_TONE];
+    if (self.punctuation) {
+        // -- 开启标点输出 -----
+        [self.asrEventManager setParameter:@(NO) forKey:BDS_ASR_DISABLE_PUNCTUATION];
+        if (rangeZH.length) {
+            // 普通话标点
+            [self.asrEventManager setParameter:@"15372" forKey:BDS_ASR_PRODUCT_ID];
+            if ([self.lang isEqualToString:@"zh-cantonese"]) {
+                [self.asrEventManager setParameter:@"16372" forKey:BDS_ASR_PRODUCT_ID];
+            }
+        }else if(rangeEN.length) {
+            // 英文标点
+            [self.asrEventManager setParameter:@"1737" forKey:BDS_ASR_PRODUCT_ID];
+        }
+    }else {
+        // -- 关闭标点输出 -----
+        [self.asrEventManager setParameter:@(YES) forKey:BDS_ASR_DISABLE_PUNCTUATION];
+    }
     
     [self.asrEventManager sendCommand:BDS_ASR_CMD_START];
     [self.bridge sendEvent:@"start" withParams:nil];
@@ -304,20 +311,21 @@
             APP_ID = [dict objectForKey:@"APP_ID"];
         }
         
-        self.asrEventManager = [BDSEventManager createEventManagerWithName:BDS_ASR_NAME];
+        BDSEventManager *eventManager = [BDSEventManager createEventManagerWithName:BDS_ASR_NAME];
         // 设置语音识别代理
-        [self.asrEventManager setDelegate:self];
+        [eventManager setDelegate:self];
         // 参数配置：在线身份验证
-        [self.asrEventManager setParameter:@[API_KEY, SECRET_KEY] forKey:BDS_ASR_API_SECRET_KEYS];
+        [eventManager setParameter:@[API_KEY, SECRET_KEY] forKey:BDS_ASR_API_SECRET_KEYS];
         //设置 APPID
-        [self.asrEventManager setParameter:APP_ID forKey:BDS_ASR_OFFLINE_APP_CODE];
+        [eventManager setParameter:APP_ID forKey:BDS_ASR_OFFLINE_APP_CODE];
         
         NSString *modelVAD_filepath = [[NSBundle mainBundle] pathForResource:@"bds_easr_basic_model" ofType:@"dat"];
-        [self.asrEventManager setParameter:modelVAD_filepath forKey:BDS_ASR_MODEL_VAD_DAT_FILE];
-        [self.asrEventManager setParameter:@(YES) forKey:BDS_ASR_ENABLE_MODEL_VAD];
+        [eventManager setParameter:modelVAD_filepath forKey:BDS_ASR_MODEL_VAD_DAT_FILE];
+        [eventManager setParameter:@(YES) forKey:BDS_ASR_ENABLE_MODEL_VAD];
         // ---- 开启语义理解 -----
-        [self.asrEventManager setParameter:@(YES) forKey:BDS_ASR_ENABLE_NLU];
-        [self.asrEventManager setParameter:@"1536" forKey:BDS_ASR_PRODUCT_ID];
+//        [eventManager setParameter:@(YES) forKey:BDS_ASR_ENABLE_NLU];
+//        [eventManager setParameter:@"1536" forKey:BDS_ASR_PRODUCT_ID];
+        self.asrEventManager = eventManager;
     }
     return _asrEventManager;
 }

@@ -119,7 +119,7 @@ extern NSData* Global_TokeData;
         return nil;
     }
     
-    NSMutableData *hexData = [[NSMutableData alloc] initWithCapacity:8];
+    NSMutableData *hexData = [[[NSMutableData alloc] initWithCapacity:8] autorelease];
     NSRange range;
     if ([str length] % 2 == 0) {
         range = NSMakeRange(0, 2);
@@ -129,10 +129,10 @@ extern NSData* Global_TokeData;
     for (NSInteger i = range.location; i < [str length]; i += 2) {
         unsigned int anInt;
         NSString *hexCharStr = [str substringWithRange:range];
-        NSScanner *scanner = [[NSScanner alloc] initWithString:hexCharStr];
+        NSScanner *scanner = [[[NSScanner alloc] initWithString:hexCharStr] autorelease];
         
         [scanner scanHexInt:&anInt];
-        NSData *entity = [[NSData alloc] initWithBytes:&anInt length:1];
+        NSData *entity = [[[NSData alloc] initWithBytes:&anInt length:1] autorelease];
         [hexData appendData:entity];
         
         range.location += range.length;
@@ -145,10 +145,6 @@ extern NSData* Global_TokeData;
 
 -(void)dealloc
 {
-    PGPushServerAct *pushServer = [self getPushServer];
-    if ( pushServer ) {
-        [pushServer.multiDelegate removeDelegate:self];
-    }
     self.clientId = nil;
     self.appSecret = nil;
     self.appKey = nil;

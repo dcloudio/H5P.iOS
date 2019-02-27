@@ -660,7 +660,7 @@
         NSString *jsObjectF =
         @"%@.maps.__bridge__.execCallback('%@', {type:'bubbleclick'});";
         NSString *javaScript = [NSString stringWithFormat:jsObjectF, [H5CoreJavaScriptText plusObject], marker.UUID];
-        [self.jsBridge asyncWriteJavascript:javaScript];
+        [self.jsBridge asyncWriteJavascript:javaScript inWebview:marker.belongWebview];
     }
 }
 

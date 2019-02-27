@@ -2,14 +2,14 @@
  *------------------------------------------------------------------
  *  pandora/feature/camera/pg_camera.mm
  *  Description:
- *    摄像头实现文件    
+ *    摄像头实现文件
  *      负责和js层代码交互，js native层对象维护
  *  DCloud Confidential Proprietary
  *  Copyright (c) Department of Research and Development/Beijing/DCloud.
  *  All Rights Reserved.
  *
  *  Changelog:
- *	number	author	modify date modify record
+ *    number    author    modify date modify record
  *   0       xty     2013-1-9 创建文件
  *------------------------------------------------------------------
  */
@@ -49,6 +49,7 @@
     PGCameraOption *option = [[PGCameraOption alloc] init];
     if ( [json isKindOfClass:[NSDictionary class]] ){
         NSString *resolutionV = [json objectForKey:@"resolution"];
+        option.resolution = UIImagePickerControllerQualityType640x480;
         if ( [resolutionV isKindOfClass:[NSString class]] ) {
             if ( [@"640*480" isEqualToString:resolutionV] ) {
                 option.resolution = UIImagePickerControllerQualityType640x480;
@@ -71,7 +72,6 @@
                 option.encodingType = PGCameraEncodingTypePNG;
             }
         }
-        
         //获取保存位置
         NSString *dstPath = [json objectForKey:g_pdr_string_filename];
         if ( [dstPath isKindOfClass:[NSString class]] ){
@@ -151,6 +151,9 @@
 - (void)viewDidLayoutSubviews NS_AVAILABLE_IOS(5_0){
     //   [self.view setNeedsLayout];
 }
+
+- (void)didReceiveMemoryWarning {}
+
 // New Autorotation support.
 - (BOOL)shouldAutorotate {
     return FALSE;
@@ -174,8 +177,10 @@
 
 -(void)dealloc
 {
+    self.tempImage = nil;
+    self.mOptions = nil;
     if ( UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM() ) {
-      //  [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+        //  [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
     }
 #if !__has_feature(objc_arc)
     [super dealloc];
@@ -184,12 +189,12 @@
 
 - (PGPlugin*) initWithWebView:(PDRCoreAppFrame*)theWebView withAppContxt:(PDRCoreApp*)app {
     if ( self = [super initWithWebView:theWebView withAppContxt:app] ){
-//        if ( UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM() ) {
-//            [[NSNotificationCenter defaultCenter] addObserver:self
-//                                                     selector:@selector(onDeviceOrientationDidChange:)
-//                                                         name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
-//        }
-
+        //        if ( UIUserInterfaceIdiomPad == UI_USER_INTERFACE_IDIOM() ) {
+        //            [[NSNotificationCenter defaultCenter] addObserver:self
+        //                                                     selector:@selector(onDeviceOrientationDidChange:)
+        //                                                         name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+        //        }
+        
     }
     return self;
 }
@@ -197,10 +202,12 @@
 -(NSData*)getCamera:(PGMethod*)command
 {
     if ( !command.arguments
-        && ![command.arguments isKindOfClass:[NSDictionary class]] )
-    { return nil; }
+        && ![command.arguments isKindOfClass:[NSDictionary class]] ) {
+        return nil;
+        
+    }
     
-  //  NSString *uuid = [command.arguments objectAtIndex:0];
+    //  NSString *uuid = [command.arguments objectAtIndex:0];
     return nil;
 }
 
@@ -348,7 +355,7 @@
             return TRUE;
         }
     }
-
+    
     return FALSE;
 }
 /*
@@ -388,14 +395,21 @@
     self.pickerController.delegate = self;
     self.pickerController.callbackId = option.callbackId;
     self.pickerController.animated = YES;
-//for debugy
+    //for debugy
 #if TARGET_IPHONE_SIMULATOR
     self.pickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
 #else
     self.pickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
     self.pickerController.cameraDevice = cameraDevice;
     self.pickerController.videoQuality = option.resolution;
- //   if ( [self.pickerController respondsToSelector:@selector(setCameraCaptureMode:)] )
+    if (@available(iOS 11.0, *)) {
+        self.pickerController.imageExportPreset = UIImagePickerControllerImageURLExportPresetCurrent;
+    } else {
+        // Fallback on earlier versions
+    }
+    
+    
+    //   if ( [self.pickerController respondsToSelector:@selector(setCameraCaptureMode:)] )
     {
         if ( PGCameraOptionTypeVideo == option.captureMode )
         {
@@ -403,10 +417,10 @@
         }
         else
         {
-           // self.pickerController.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
+            // self.pickerController.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
         }
     }
-   // else
+    // else
     {
         NSMutableArray* pMutableArray = nil;
         if ( PGCameraOptionTypeVideo == option.captureMode )
@@ -442,7 +456,7 @@
         }
     }
 #if !TARGET_IPHONE_SIMULATOR
-   // [self setTransform];
+    // [self setTransform];
 #endif
     [self popImgaeControllerWithOptions:self.mOptions];
 }
@@ -504,9 +518,9 @@
     [self.pickerController.popoverController dismissPopoverAnimated:NO];
     [self.pickerController.popoverController setContentViewController:self.pickerController];
     [self.pickerController.popoverController presentPopoverFromRect:popoverRect
-                                                        inView:self.JSFrameContext
-                                      permittedArrowDirections:UIPopoverArrowDirectionAny
-                                                      animated:NO];
+                                                             inView:self.JSFrameContext
+                                           permittedArrowDirections:UIPopoverArrowDirectionAny
+                                                           animated:NO];
 }
 
 - (CGRect)getDefaultPopRect {
@@ -525,7 +539,7 @@
 }
 
 - (void)setTransform {
-  //  return;
+    //  return;
     CGAffineTransform transform = CGAffineTransformIdentity;
     UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
     switch (interfaceOrientation) {
@@ -534,11 +548,11 @@
             break;
         case UIInterfaceOrientationLandscapeRight:
             transform = CGAffineTransformMakeRotation(M_PI/2*3);
-           // transform = CGAffineTransformTranslate(transform, 80, 80);
+            // transform = CGAffineTransformTranslate(transform, 80, 80);
             break;
         case UIInterfaceOrientationLandscapeLeft:
             transform = CGAffineTransformMakeRotation(M_PI/2);
-           // transform = CGAffineTransformTranslate(transform, -80, -80);
+            // transform = CGAffineTransformTranslate(transform, -80, -80);
             break;
         case UIInterfaceOrientationPortraitUpsideDown:
             transform = CGAffineTransformMakeRotation(M_PI);
@@ -548,25 +562,25 @@
             break;
     }
     /*
-    switch ([UIDevice currentDevice].orientation) {
-        case UIDeviceOrientationPortrait:
-            transform = CGAffineTransformIdentity;
-            break;
-        case UIDeviceOrientationLandscapeLeft:
-            transform = CGAffineTransformMakeRotation(M_PI/2*3);
-             transform = CGAffineTransformTranslate(transform, 80, 80);
-            break;
-        case UIDeviceOrientationLandscapeRight:
-            transform = CGAffineTransformMakeRotation(M_PI/2);
-            transform = CGAffineTransformTranslate(transform, -80, -80);
-            break;
-        case UIDeviceOrientationPortraitUpsideDown:
-            transform = CGAffineTransformMakeRotation(M_PI);
-            break;
-        default:
-            transform = CGAffineTransformIdentity;
-            break;
-    }*/
+     switch ([UIDevice currentDevice].orientation) {
+     case UIDeviceOrientationPortrait:
+     transform = CGAffineTransformIdentity;
+     break;
+     case UIDeviceOrientationLandscapeLeft:
+     transform = CGAffineTransformMakeRotation(M_PI/2*3);
+     transform = CGAffineTransformTranslate(transform, 80, 80);
+     break;
+     case UIDeviceOrientationLandscapeRight:
+     transform = CGAffineTransformMakeRotation(M_PI/2);
+     transform = CGAffineTransformTranslate(transform, -80, -80);
+     break;
+     case UIDeviceOrientationPortraitUpsideDown:
+     transform = CGAffineTransformMakeRotation(M_PI);
+     break;
+     default:
+     transform = CGAffineTransformIdentity;
+     break;
+     }*/
     self.pickerController.cameraViewTransform = transform;
 }
 
@@ -612,7 +626,7 @@
 #pragma mark delegate
 - (void)popoverControllerDidDismissPopover:(id)popoverController
 {
-    // [ self imagePickerControllerDidCancel:self.pickerController ];	'
+    // [ self imagePickerControllerDidCancel:self.pickerController ];    '
     UIPopoverController* pc = (UIPopoverController*)popoverController;
     
     [pc dismissPopoverAnimated:YES];
@@ -686,6 +700,32 @@
     return newImage;
 }
 
+- (UIImage *)processImage:(UIImage *)image {
+    PGCameraOption *cameraOptions = (PGCameraOption*)self.mOptions;
+    CGFloat imageSize = MAX(image.size.width, image.size.height);
+    CGFloat afterSize = 1024;
+    if ( UIImagePickerControllerQualityTypeIFrame1280x720 == cameraOptions.resolution ) {
+        afterSize = 1280;
+    } else if( UIImagePickerControllerQualityTypeIFrame960x540 == cameraOptions.resolution ) {
+        afterSize = 960;
+    } else if ( UIImagePickerControllerQualityType640x480 == cameraOptions.resolution ){
+        afterSize = 640;
+    } else  {
+        return image;
+    }
+    
+    CGFloat factor = afterSize/imageSize;
+    CGFloat newW = image.size.width * factor;
+    CGFloat newH = image.size.height * factor;
+    CGSize newSize = CGSizeMake(newW, newH);
+    UIGraphicsBeginImageContext(newSize);
+    [image drawInRect:CGRectMake(0, 0, newW, newH)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return newImage;
+}
+
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     PGImagePickerController* photoPicker = (PGImagePickerController*)picker;
@@ -700,40 +740,78 @@
             [[photoPicker parentViewController] dismissModalViewControllerAnimated:YES];
         }
     }
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
+    NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
+    UIImage  *originalImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+    NSURL *mediaURL = [info objectForKey: UIImagePickerControllerMediaURL];
+    // NSDictionary *imageMetadata = [info objectForKey:UIImagePickerControllerMediaMetadata];
+    [PDRCore runInBackgroud:^{
         if ( [mediaType isEqualToString:(NSString*)kUTTypeImage] ) {
-            UIImage  *originalImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+            // imageMetadata = NULL;
+            @autoreleasepool {
+                self.tempImage = [self processImage:originalImage];
+            }
+            
             if ( UIUserInterfaceIdiomPhone == UI_USER_INTERFACE_IDIOM() ) {
-               // originalImage = [UIImage imageWithCGImage:originalImage.CGImage scale:1.0 orientation:UIImageOrientationRight];
+                // originalImage = [UIImage imageWithCGImage:originalImage.CGImage scale:1.0 orientation:UIImageOrientationRight];
             }
             //originalImage = [originalImage imageRotatedByDegrees:90 supportRetina:NO scale:1.0];
             //  UIImage  *editedImage = [info objectForKey:UIImagePickerControllerEditedImage];
             //  NSValue *cropRect = [info objectForKey:UIImagePickerControllerCropRect];
             //  NSURL *referenceURL = [info objectForKey:UIImagePickerControllerReferenceURL];
             //   NSDictionary *metaData = [info objectForKey:UIImagePickerControllerMediaMetadata];
-            NSData *data = nil;
+            //   NSData *data = [UIImage lubanCompressImage:originalImage];
+            //     [data writeToFile:photoPicker.saveFileName options:NSAtomicWrite error:nil];
             PGCameraOption *cameraOptions = (PGCameraOption*)self.mOptions;
-            originalImage = [self fixPNGCaptureOrientation:originalImage];
-            if (cameraOptions.encodingType == PGCameraEncodingTypePNG ){
-                data = UIImagePNGRepresentation(originalImage);
-            } else {
-                data = UIImageJPEGRepresentation(originalImage, 0.5f);
-            }
-            [data writeToFile:photoPicker.saveFileName options:NSAtomicWrite error:nil];
+            [self saveImage:self.tempImage encodingType:cameraOptions.encodingType properties:/*(CFDictionaryRef)imageMetadata*/NULL toFile:photoPicker.saveFileName];
+            // originalImage = [self fixPNGCaptureOrientation:originalImage];
+            //                            if (cameraOptions.encodingType == PGCameraEncodingTypePNG ){
+            //                                data = UIImagePNGRepresentation(originalImage);
+            //                            } else {
+            //                                data = UIImageJPEGRepresentation(originalImage, 0.5f);
+            //                            }
+            //                            [data writeToFile:photoPicker.saveFileName options:NSAtomicWrite error:nil];
         } else if ( [mediaType isEqualToString:(NSString*)kUTTypeMovie] ) {
-            NSURL *mediaURL = [info objectForKey: UIImagePickerControllerMediaURL];
             NSData *data = [NSData dataWithContentsOfURL:mediaURL];
             [data writeToFile:photoPicker.saveFileName options:NSAtomicWrite error:nil];
         }
+        self.tempImage = nil;
+        [PDRCore runInMainThread:^{
+            [self result:PDRCommandStatusOK
+                 message:[PTPathUtil relativePath:photoPicker.saveFileName withContext:self.appContext] //[[NSURL fileURLWithPath:photoPicker.saveFileName] absoluteString]
+              callBackId:self.pickerController.callbackId];
+            self.hasPendingOperation = NO;
+            self.pickerController = nil;
+        }];
+    }];
+}
+
+-(BOOL)saveImage:(UIImage *)image encodingType:(PGCameraEncodingType)encodingType
+      properties:(CFDictionaryRef)properties toFile:(NSString *)filePath
+{
+    if (!image.CGImage) {
+        return NO;
+    }
+    @autoreleasepool {
+        float  quality = 0.0;
+        //CGFloat maxPixelSize = MIN(image.size.width, 1024);
         
-        [self result:PDRCommandStatusOK
-             message:[PTPathUtil relativePath:photoPicker.saveFileName withContext:self.appContext] //[[NSURL fileURLWithPath:photoPicker.saveFileName] absoluteString]
-          callBackId:self.pickerController.callbackId];
-        self.hasPendingOperation = NO;
-        self.pickerController = nil;
-    });
+        CFMutableDictionaryRef attrs = CFDictionaryCreateMutable(kCFAllocatorDefault, 1, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+        CFDictionarySetValue( attrs, kCGImageDestinationLossyCompressionQuality, CFNumberCreate(kCFAllocatorDefault,kCFNumberFloatType, &quality));
+        //CFDictionarySetValue( attrs, kCGImageDestinationImageMaxPixelSize, CFNumberCreate(kCFAllocatorDefault,kCFNumberFloatType, &maxPixelSize));
+        
+        CFURLRef url = (__bridge CFURLRef)[NSURL fileURLWithPath:filePath];
+        CGImageDestinationRef destination = CGImageDestinationCreateWithURL(url, (PGCameraEncodingTypePNG == encodingType)? kUTTypePNG:kUTTypeJPEG , 1, attrs);
+        CFRelease(attrs);
+        if (!destination) {
+            return NO;
+        }
+        CGImageDestinationAddImage(destination, image.CGImage, properties);
+        // CGImageDestinationAddImageAndMetadata(destination, image.CGImage, NULL,NULL );
+        CGImageDestinationFinalize(destination);
+        CFRelease(destination);
+    }
+    
+    return YES;
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
@@ -744,20 +822,20 @@
 }
 
 - (void)imagePickerControllerDidClose:(UIImagePickerController*)picker {
-        PGImagePickerController* photoPicker = (PGImagePickerController*)picker;
-        if (photoPicker.popoverSupported && (photoPicker.popoverController != nil)) {
-            [photoPicker.popoverController dismissPopoverAnimated:photoPicker.animated];
-            photoPicker.popoverController.delegate = nil;
-            photoPicker.popoverController = nil;
+    PGImagePickerController* photoPicker = (PGImagePickerController*)picker;
+    if (photoPicker.popoverSupported && (photoPicker.popoverController != nil)) {
+        [photoPicker.popoverController dismissPopoverAnimated:photoPicker.animated];
+        photoPicker.popoverController.delegate = nil;
+        photoPicker.popoverController = nil;
+    } else {
+        if ([photoPicker respondsToSelector:@selector(presentingViewController)]) {
+            [[photoPicker presentingViewController] dismissModalViewControllerAnimated:photoPicker.animated];
         } else {
-            if ([photoPicker respondsToSelector:@selector(presentingViewController)]) {
-                [[photoPicker presentingViewController] dismissModalViewControllerAnimated:photoPicker.animated];
-            } else {
-                [[photoPicker parentViewController] dismissModalViewControllerAnimated:photoPicker.animated];
-            }
+            [[photoPicker parentViewController] dismissModalViewControllerAnimated:photoPicker.animated];
         }
-        self.pickerController.delegate = nil;
-        self.pickerController = nil;
+    }
+    self.pickerController.delegate = nil;
+    self.pickerController = nil;
 }
 
 -(void)result:(PDRCommandStatus)resultCode message:(NSString*)message callBackId:(NSString*)callbackId
@@ -773,3 +851,4 @@
 }
 
 @end
+

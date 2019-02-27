@@ -3,6 +3,7 @@
 #import "PDRCore.h"
 #import "PDRCommonString.h"
 #import "PDRToolSystemEx.h"
+#import "PGPlugin.h"
 
 #define kWXURLSchemePrefix              @"WX_"
 
@@ -23,7 +24,7 @@
        // [self readAuthorizeDataFromKeychain];
         self.isAppidValid = [WXApi registerApp:appid];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(handleOpenURL:)
+                                                 selector:@selector(handleOpenURLNotification:)
                                                      name:PDRCoreOpenUrlNotification
                                                    object:nil];
     }
@@ -111,6 +112,24 @@
         return YES;
     }
     return NO;
+}
+
+- (BOOL)launchMiniProgram:(NSDictionary *)options {
+    if ( ![WXApi isWXAppInstalled] ) {
+        NSError *error = [self getErrorWithCode:WXEngineErrorNotInstall withMessage:nil];
+        [self.wxDelegate wxLaunchMiniProgramError:error];
+        return YES;
+    }
+    NSString *miniAppId = [PGPluginParamHelper getStringValueInDict:options forKey:g_pdr_string_id  defalut:nil];
+    NSString *path = [PGPluginParamHelper getStringValueInDict:options forKey:g_pdr_string_path defalut:nil];
+    NSInteger verType = [PGPluginParamHelper getIntValueInDict:options forKey:g_pdr_string_type defalut:0];
+    //NSString *webUrl = [PGPluginParamHelper getStringValueInDict:options forKey:@"webUrl" defalut:nil];
+    
+    WXLaunchMiniProgramReq *launchMiniProgramReq = [WXLaunchMiniProgramReq object];
+    launchMiniProgramReq.userName = miniAppId;  //拉起的小程序的username
+    launchMiniProgramReq.path = path;    //拉起小程序页面的可带参路径，不填默认拉起小程序首页
+    launchMiniProgramReq.miniProgramType = (WXMiniProgramType)verType; //拉起小程序的类型
+    return [WXApi sendReq:launchMiniProgramReq];
 }
 
 //发表一条带图片的微博
@@ -252,6 +271,12 @@
 #pragma mark - SDK Methods
 -(void) onReq:(BaseReq*)req
 {
+    if([req isKindOfClass:[LaunchFromWXReq class]])
+    {
+        LaunchFromWXReq *launchReq = (LaunchFromWXReq*)req;
+        //从微信启动App
+        [self.wxDelegate wxLaunchFromWXReq:launchReq.message.messageExt];
+    }
     /*
     if([req isKindOfClass:[GetMessageFromWXReq class]])
     {
@@ -278,7 +303,20 @@
                 [temp_send_delegate performSelector:onSendFailureCallback withObject:error];
             }
         }
-    }/* else if([resp isKindOfClass:[SendAuthResp class]]) {
+    } else if ([resp isKindOfClass:[WXLaunchMiniProgramResp class]]) {
+        WXLaunchMiniProgramResp *launchMiniProgramResp = (WXLaunchMiniProgramResp*)resp;
+        if ( WXSuccess == launchMiniProgramResp.errCode ) {
+            NSString *string = launchMiniProgramResp.extMsg;
+            [self.wxDelegate wxLaunchFromWXReq:string];
+            // 对应JsApi navigateBackApplication中的extraData字段数据
+          //  [self.wxDelegate wxLaunchMiniProgramSuccess:string];
+        } else {
+            NSError *error = [self getErrorWithCode:launchMiniProgramResp.errCode withMessage:launchMiniProgramResp.errStr];
+            [self.wxDelegate wxLaunchMiniProgramError:error];
+        }
+    }
+    
+    /* else if([resp isKindOfClass:[SendAuthResp class]]) {
         SendAuthResp *authresp = (SendAuthResp*)resp;
         if ( WXSuccess == authresp.errCode ) {
             self.accessToken = authresp.token;
@@ -297,8 +335,12 @@
     }*/
 }
 
-- (void)handleOpenURL:(NSNotification*)notification {
-    [WXApi handleOpenURL:[notification object] delegate:self];
+- (void)handleOpenURLNotification:(NSNotification*)notification {
+    [self handleOpenURL:[notification object]];
+}
+
+- (void)handleOpenURL:(NSURL*)url {
+    [WXApi handleOpenURL:url delegate:self];
 }
 
 - (NSError*)getErrorWithCode:(int)code withMessage:(NSString*)message {

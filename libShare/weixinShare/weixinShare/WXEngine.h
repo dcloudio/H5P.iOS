@@ -11,6 +11,13 @@ typedef enum {
     WXEngineErrorUnknow
 } WXEngineError;
 
+@protocol WXEngineDelegate <NSObject>
+
+- (void)wxLaunchFromWXReq:(NSString*)message;
+- (void)wxLaunchMiniProgramSuccess:(NSString*)msg;
+- (void)wxLaunchMiniProgramError:(NSError*)error;
+@end
+
 @interface WXEngine : NSObject <WXApiDelegate>{
     NSString            *accessToken;
     NSString            *name;
@@ -24,6 +31,7 @@ typedef enum {
 	SEL                 onFailureCallback;
 }
 @property (nonatomic, assign) BOOL isAppidValid;
+@property (nonatomic, assign) id<WXEngineDelegate> wxDelegate;
 @property (nonatomic, retain) NSString          *accessToken;
 @property (nonatomic, retain) NSString          *name;
 @property (nonatomic, assign) NSTimeInterval    expireTime;
@@ -35,7 +43,7 @@ typedef enum {
 - (void)logInWithDelegate:(id)requestDelegate
                 onSuccess:(SEL)successCallback
                 onFailure:(SEL)failureCallback;
-
+- (void)handleOpenURL:(NSURL*)url;
 - (void)postPictureTweetWithContent:(NSString *)content
                               title:(NSString *)title
                                href:(NSString*)href
@@ -50,6 +58,7 @@ typedef enum {
                           delegate:(id)requestDelegate
                          onSuccess:(SEL)successCallback
                          onFailure:(SEL)failuerCallback;
+- (BOOL)launchMiniProgram:(NSDictionary *)options;
 - (void)dealloc;
 
 @end

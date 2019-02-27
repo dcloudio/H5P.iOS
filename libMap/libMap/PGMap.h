@@ -29,7 +29,7 @@ typedef enum {
 @protocol PGMapPluginDelegate <NSObject>
 @required
 - (PGMapView*)createMapViewWithArgs:(id)args;
-- (id)createOverlayWithUUID:(NSString*)UUID withType:(NSString*)type args:(id)args;
+- (id)createOverlayWithUUID:(NSString*)UUID withType:(NSString*)type args:(id)args inWebview:(NSString*)webviewId;
 @end
 
 @interface PGMapPlugin : PGPlugin<PGMapPluginDelegate>

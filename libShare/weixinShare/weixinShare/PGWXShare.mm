@@ -16,6 +16,13 @@
 #import "PGWXShare.h"
 #import <GameKit/GameKit.h>
 #import "PTPathUtil.h"
+#import "PDRCorePrivate.h"
+#import "PDRCoreAppPrivate.h"
+#import "PDRCommonString.h"
+
+@interface  PGWXShare()<WXEngineDelegate>
+@property(nonatomic, retain)NSString *launchMiniProgramCBId;
+@end
 
 @implementation PGWXShare
 
@@ -37,9 +44,21 @@
             self.note = @"微信";
             self.sdkErrorURL = @"http://ask.dcloud.net.cn/article/287";
             _engine = [[WXEngine alloc] initWithAppid:appid];
+            _engine.wxDelegate = self;
             self.nativeClient = [WXEngine isAppInstalled];
             self.accessToken = nil;
             self.authenticated = TRUE;
+            
+            H5CoreLaunchOptions *options = [PDRCore Instance].cmd;
+            if (  H5CoreLaunchTypeOpenUrl == options.argumentType ) {
+                if ( options.argument ) {
+                    NSURL *url = [NSURL URLWithString:options.argument];
+                    if ( url ) {
+                        [_engine handleOpenURL:url];
+                    }
+                }
+            }
+            
             /*
             self.accessToken = nil;
             self.authenticated = FALSE;
@@ -107,12 +126,45 @@
     return TRUE;
 }
 
+
 - (BOOL)authorizeWithURL:(NSString*)url
                 delegate:(id)delegate
                onSuccess:(SEL)successCallback
                onFailure:(SEL)failureCallback  {
     [_engine logInWithDelegate:delegate onSuccess:successCallback onFailure:failureCallback];
     return TRUE;
+}
+
+#pragma mark - WXEngineDelegate
+- (void)wxLaunchFromWXReq:(NSString*)message {
+    [[PDRCore Instance].cmd setCustrom:message launchType:@"miniProgram"];
+    if ( self.appContext ) {
+       // [self.appContext handleSysEvent:PDRCoreSysEventOpenURL withObject:message];
+    }
+}
+
+- (void)wxLaunchMiniProgramSuccess:(NSString*)msg {
+    [self toSucessCallback:self.launchMiniProgramCBId withString:msg];
+    [self launchMiniProgramComplete];
+}
+
+- (void)wxLaunchMiniProgramError:(NSError*)error {
+    [self toErrorCallback:self.launchMiniProgramCBId withNSError:error];
+    [self launchMiniProgramComplete];
+}
+
+- (void)launchMiniProgramComplete {
+    self.launchMiniProgramCBId = nil;
+}
+
+- (BOOL)launchMiniProgram:(PGMethod*)command {
+    NSString *cbID = [command.arguments objectAtIndex:0];
+    NSDictionary *options = [command.arguments objectAtIndex:2];
+    if ( [_engine launchMiniProgram:options] ) {
+        self.launchMiniProgramCBId = cbID;
+        return YES;
+    }
+    return NO;
 }
 
 - (void)dealloc {

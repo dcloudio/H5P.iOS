@@ -249,6 +249,7 @@
 
 - (void)dealloc
 {
+    self.belongWebview = nil;
     [_animationImages release];
     [_baseURL release];
     [UUID release];
@@ -978,7 +979,7 @@
         NSString * jsObjectF = @"{var args = {type:'markerclick'};\
         var p = %@; p.maps.__bridge__.execCallback('%@', args);}";
         NSString *javaScript = [NSString stringWithFormat:jsObjectF, [H5CoreJavaScriptText plusObject], marker.UUID];
-        [marker.belongMapview.jsBridge asyncWriteJavascript:javaScript];
+        [marker.belongMapview.jsBridge asyncWriteJavascript:javaScript inWebview:marker.belongWebview];
     }
 }
 

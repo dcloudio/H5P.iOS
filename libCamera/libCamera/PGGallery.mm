@@ -350,7 +350,7 @@
         imagePickerController.showSelectedIndex = YES;
         
         // 设置首选语言 / Set preferred language
-        imagePickerController.preferredLanguage = @"zh-Hans";
+        //imagePickerController.preferredLanguage = @"zh-Hans";
         
         if (_selectedAssets && [_selectedAssets count]) {
             imagePickerController.selectedAssets = _selectedAssets;
@@ -510,7 +510,8 @@
                 imgFullPath = arg0;
                 url = [NSURL URLWithString:imgFullPath];
             }else{
-                imgFullPath = [PTPathUtil absolutePath:arg0 withContext:application];
+                imgFullPath = [PTPathUtil h5Path2SysPath:arg0 basePath:self.JSFrameContext.baseURL context:self.appContext];
+                //imgFullPath = [PTPathUtil absolutePath:arg0 withContext:application];
                 url = [NSURL fileURLWithPath:imgFullPath];
             }
         }else{

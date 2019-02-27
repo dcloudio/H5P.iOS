@@ -132,24 +132,27 @@
 
 - (BOOL)judueIPhonePlatformSupportTouchID
 {
-    if ([[self platform] hasPrefix:@"iPhone"]) {
-        if([self platform].length > 6 ){
-            NSString * numberPlatformStr = [[self platform] substringWithRange:NSMakeRange(6, 1)];
+    NSString *platform = [self platform];
+    if ([platform hasPrefix:@"iPhone"]) {
+        if(platform.length > 6 ){
+            NSUInteger loc = [platform rangeOfString:@","].location;
+            NSString * numberPlatformStr = [platform substringWithRange:NSMakeRange(6, loc-6)];
             NSInteger numberPlatform = [numberPlatformStr integerValue];
             // 是否是5s以上的设备
             if(numberPlatform > 5){
                 return YES;
             }
         }
-    }else if([[self platform] hasPrefix:@"iPad"]){
-        if([self platform].length > 4 ){
-            NSString * numberPlatformStr = [[self platform] substringWithRange:NSMakeRange(4, 1)];
+    }else if([platform hasPrefix:@"iPad"]){
+        if(platform.length > 4 ){
+            NSUInteger loc = [platform rangeOfString:@","].location;
+            NSString * numberPlatformStr = [platform substringWithRange:NSMakeRange(4, loc-4)];
             NSInteger numberPlatform = [numberPlatformStr integerValue];
             // 是否是iPad3以上设备
             if(numberPlatform > 2){
                 NSArray* mini2Array = @[@"iPad4,4",@"iPad4,5",@"iPad4,6"];
                 for (NSString* item in mini2Array) {
-                    if([[self platform] hasPrefix:item])
+                    if([platform hasPrefix:item])
                         return NO;
                 }
                 return YES;

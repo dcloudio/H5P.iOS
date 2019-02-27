@@ -55,10 +55,12 @@
     NSString *viewName = [command.arguments objectAtIndex:0];
     __block PGMapView *mapview = nil;
     [_nativeObjectDict enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, PGMapView * _Nonnull view, BOOL * _Nonnull stop) {
-        if ( NSOrderedSame == [viewName caseInsensitiveCompare:view.viewName] ) {
-            mapview = view;
-            [mapview addEvtCallbackId:[self JSFrameContextID]];
-            *stop = YES;
+        if ( [view isKindOfClass:[PGMapView class]] ) {
+            if ( NSOrderedSame == [viewName caseInsensitiveCompare:view.viewName] ) {
+                mapview = view;
+                [mapview addEvtCallbackId:[self JSFrameContextID]];
+                *stop = YES;
+            }
         }
     }];
     return [self resultWithJSON:@{@"uuid":mapview.UUID?:@""}];
@@ -87,7 +89,7 @@
     return nil;
 }
 
-- (id)createOverlayWithUUID:(NSString*)UUID withType:(NSString*)type args:(id)args {
+- (id)createOverlayWithUUID:(NSString*)UUID withType:(NSString*)type args:(id)args inWebview:(NSString*)webviewId{
     return nil;
 }
 
@@ -231,7 +233,7 @@
                     [_nativeObjectDict setObject:mapView forKey:UUID];
                 }
             } else {
-                id obj = [self createOverlayWithUUID:UUID withType:type args:[command.arguments objectAtIndex:2]];
+                id obj = [self createOverlayWithUUID:UUID withType:type args:[command.arguments objectAtIndex:2] inWebview:command.htmlID];
                 if ( obj ) {
                     [_nativeObjectDict setObject:obj forKey:UUID];
                 }

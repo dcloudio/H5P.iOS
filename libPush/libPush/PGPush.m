@@ -20,7 +20,6 @@
 #import "PDRToolSystemEx.h"
 #import "DCH5ScreenAdvertisingBrowser.h"
 
-#define kIndentifiPushAction @"DCPushAction"
 BOOL g_bStartFromePushNotification = false;
 @implementation PGPushServer
 @synthesize multiDelegate = _multiDelegate;
@@ -268,7 +267,48 @@ static PGPush * g_pushInstanceHandle = nil;
     }
 }
 
+/**
+ 判断是否响应通知消息
+ 如果是广告推送则发送广告推送通知，本类不做响应
+ 
+ @param info 推送消息
+ @param isClick 是否点击点击推送消息触发
+ @return YES or NO
+ */
+- (BOOL)canRespondAction:(id)info isClick:(BOOL)isClick
+{
+    NSString *pAction = nil;
+    if ([info isKindOfClass:[UNNotificationContent class]]) {
+        UNNotificationContent *notiContent = (UNNotificationContent *)info;
+        pAction = notiContent.categoryIdentifier;
+    } else if ([info isKindOfClass:[UILocalNotification class]]) {
+        UILocalNotification *localNoti = (UILocalNotification *)info;
+        NSDictionary* pInfoObj = localNoti.userInfo;
+        if(pInfoObj && [pInfoObj isKindOfClass:[NSDictionary class]]){
+            NSDictionary* pPayloadDic = [pInfoObj objectForKey:@"payload"];
+            if(pPayloadDic && [pPayloadDic isKindOfClass:[NSDictionary class]]){
+                pAction = [pPayloadDic objectForKey:@"pushAction"];
+            }
+        }
+    }
+    
+    if ([pAction isEqualToString:g_pdr_string_adpushaction]) {
+        if (isClick) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:PDRCoreAppDidClickADNotificationKey object:info];
+        }
+        return NO;
+    }
+    
+    return YES;
+}
+
 - (void) onRevLocationNotification:(NSObject *)userInfo isReceive:(BOOL)isReceive {
+    
+    // 过滤广告消息，本类中不在处理
+    if (![self canRespondAction:userInfo isClick:!isReceive]) {
+        return;
+    }
+    
     if ( [self processLocalMessage:userInfo type:isReceive ? g_pdr_string_receive :g_pdr_string_click] ) {
     } else {
         [self saveLocalMessage:userInfo isReceive:isReceive];
@@ -276,6 +316,12 @@ static PGPush * g_pushInstanceHandle = nil;
 }
 
 - (void) onRevLocationNotification:(NSNotification *)userInfo {
+    
+    // 过滤广告消息，本类中不在处理
+    if (![self canRespondAction:userInfo.object isClick:bIsDeactivate]) {
+        return;
+    }
+    
     if ( [self processLocalMessage:userInfo.object type:!bIsDeactivate ? g_pdr_string_receive :g_pdr_string_click] ) {
     } else {
         [self saveLocalMessage:userInfo.object isReceive:!bIsDeactivate];
@@ -513,7 +559,7 @@ static PGPush * g_pushInstanceHandle = nil;
     pAppid = [pMessageDic objectForKey:@"appid"];
     fDelay = [[pMessageDic objectForKey:@"delay"] floatValue] / 1000.0f;
     pPayload = [NSMutableDictionary dictionaryWithDictionary:pMessageDic];
-    [pPayload setObject:kIndentifiPushAction forKey:@"pushAction"];
+    [pPayload setObject:g_pdr_string_adpushaction forKey:@"pushAction"];
     
     if(kCFCoreFoundationVersionNumber > kCFCoreFoundationVersionNumber_iOS_9_x_Max)
     {
@@ -535,7 +581,7 @@ static PGPush * g_pushInstanceHandle = nil;
             @try {
                 UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:fDelay==0?1:fDelay repeats:NO];
                 content.body = pMessage;
-                content.categoryIdentifier = kIndentifiPushAction;
+                content.categoryIdentifier = g_pdr_string_adpushaction;
                 if ( [pMessageDic isKindOfClass:[NSString class]] || [pMessageDic isKindOfClass:[NSDictionary class]]){
                     content.userInfo =  [NSDictionary dictionaryWithObjectsAndKeys:pMessageDic ? pMessageDic:@"",@"payload", nil];
                 }
@@ -620,7 +666,7 @@ static PGPush * g_pushInstanceHandle = nil;
     
     if(!receive && !g_bStartFromePushNotification)
     {
-        if ([localMessage respondsToSelector:@selector(category)] && [[localMessage category] isEqualToString:kIndentifiPushAction]){
+        if ([localMessage respondsToSelector:@selector(category)] && [[localMessage category] isEqualToString:g_pdr_string_adpushaction]){
             NSDictionary* pInfoObj = localMessage.userInfo;
             if(pInfoObj && [pInfoObj isKindOfClass:[NSDictionary class]]){
                 NSDictionary* pPayloadDic = [pInfoObj objectForKey:@"payload"];
@@ -636,7 +682,7 @@ static PGPush * g_pushInstanceHandle = nil;
                 NSDictionary* pPayloadDic = [pInfoObj objectForKey:@"payload"];
                 if(pPayloadDic && [pPayloadDic isKindOfClass:[NSDictionary class]]){
                     NSString* pUshAction = [pPayloadDic objectForKey:@"pushAction"];
-                    if(pPayloadDic && [pUshAction isEqualToString:kIndentifiPushAction]){
+                    if(pPayloadDic && [pUshAction isEqualToString:g_pdr_string_adpushaction]){
                         g_bStartFromePushNotification = YES;
                         [self procressPushActions:pPayloadDic];
                         return ;
@@ -849,7 +895,7 @@ static PGPush * g_pushInstanceHandle = nil;
         isNotificationContent = YES;
     }
     
-    if(isNotificationContent && [((UNNotificationContent*)pUserInfo).categoryIdentifier isEqualToString:kIndentifiPushAction]){
+    if(isNotificationContent && [((UNNotificationContent*)pUserInfo).categoryIdentifier isEqualToString:g_pdr_string_adpushaction]){
         if([pType isEqualToString:g_pdr_string_click]){
             [self procressPushActions:[pUserInfo.userInfo objectForKey:@"payload"]];
             return YES;
@@ -863,7 +909,7 @@ static PGPush * g_pushInstanceHandle = nil;
             NSDictionary* pPayloadDic = [pInfoObj objectForKey:@"payload"];
             if(pPayloadDic && [pPayloadDic isKindOfClass:[NSDictionary class]]){
                 NSString* pAction = [pPayloadDic objectForKey:@"pushAction"];
-                if(pAction && [pAction isKindOfClass:[NSString class]] && [pAction isEqualToString:kIndentifiPushAction]){
+                if(pAction && [pAction isKindOfClass:[NSString class]] && [pAction isEqualToString:g_pdr_string_adpushaction]){
                     [self procressPushActions:pPayloadDic];
                     return YES;
                 }

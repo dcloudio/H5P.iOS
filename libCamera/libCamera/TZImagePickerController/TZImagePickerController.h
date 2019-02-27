@@ -184,6 +184,7 @@
 - (id)showAlertWithTitle:(NSString *)title;
 - (void)hideAlertView:(id)alertView;
 - (void)showProgressHUD;
+- (void)showProgressHUD:(BOOL)checkTiemout;
 - (void)hideProgressHUD;
 @property (nonatomic, assign) BOOL isSelectOriginalPhoto;
 @property (assign, nonatomic) BOOL needShowStatusBar;

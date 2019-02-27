@@ -17,7 +17,7 @@
 
 - (id)init {
     if ( self = [super init] ) {
-        self.errorCode = E_PERMISSION_OK;
+        self.errorCode = PGBKErrorCodeNotConfig;
         NSDictionary *mapInfo = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"baidu"];
         if ( [mapInfo isKindOfClass:[NSDictionary class]] ) {
             NSString *tempAK = [mapInfo objectForKey:@"appkey"];
@@ -28,6 +28,7 @@
             }
         }
         if ( self.appKey ) {
+            self.errorCode = E_PERMISSION_OK;
             [self start];
         }
     }
@@ -67,7 +68,7 @@
  *@param iError 错误号
  */
 - (void)onGetNetworkState:(int)iError{
-    
+    self.errorCode = iError;
 }
 
 /**
@@ -165,7 +166,8 @@ static BMKLocationServiceWrap *g_locationService = nil;
  *@param userLocation 新的用户位置
  */
 - (void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation {
-    for ( id<BMKLocationServiceDelegate> delegate in _observers ) {
+    for (int i=0; i<_observers.count; i++) {
+        id<BMKLocationServiceDelegate> delegate = _observers[i];
         if ( [delegate respondsToSelector:@selector(didUpdateBMKUserLocation:)] ) {
             [delegate performSelector:@selector(didUpdateBMKUserLocation:) withObject:userLocation];
         }
@@ -177,7 +179,8 @@ static BMKLocationServiceWrap *g_locationService = nil;
  *@param error 错误号
  */
 - (void)didFailToLocateUserWithError:(NSError *)error {
-    for ( id<BMKLocationServiceDelegate> delegate in _observers ) {
+    for (int i=0; i<_observers.count; i++) {
+        id<BMKLocationServiceDelegate> delegate = _observers[i];
         if ( [delegate respondsToSelector:@selector(didFailToLocateUserWithError:)] ) {
             [delegate performSelector:@selector(didFailToLocateUserWithError:) withObject:error];
         }

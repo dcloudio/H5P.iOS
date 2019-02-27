@@ -65,6 +65,7 @@ UINavigationControllerDelegate,UIPopoverControllerDelegate>
 {
     @private
 }
+@property(nonatomic, retain)UIImage *tempImage;
 @property(nonatomic, retain)PGBaseOption *mOptions;
 @property (readwrite, assign) BOOL hasPendingOperation;
 @property (strong) PGImagePickerController* pickerController;

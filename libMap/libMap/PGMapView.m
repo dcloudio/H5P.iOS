@@ -380,7 +380,7 @@
     CLLocationCoordinate2D rb = [self convertPoint:CGPointMake(0, self.bounds.size.height) toCoordinateFromView:self];
     
     NSString *jsObjectF =
-    @"window.setTimeout(function(){ %@.maps.__bridge__.execCallback('%@', {callbackType:'change',zoom:%f,center:{long:%f,lat:%f},northease:{long:%f,lat:%f},southwest:{long:%f,lat:%f}});},0)";
+    @"window.setTimeout(function(){ %@.maps.__bridge__.execCallback('%@', {callbackType:'change',zoom:%d,center:{long:%f,lat:%f},northease:{long:%f,lat:%f},southwest:{long:%f,lat:%f}});},0)";
     NSString *javaScript = [NSString stringWithFormat:jsObjectF,
                             [H5CoreJavaScriptText plusObject],
                             self.UUID,
@@ -498,11 +498,10 @@
  */
 - (void)showJS:(NSArray*)args
 {
-    NSNumber *value = [args objectAtIndex:0];
-    if ( value && [value isKindOfClass:[NSNumber class]] )
-    {
-        self.hidden = NO;
-        if ( !self.hidden )
+    self.hidden = NO;
+    if ( !self.hidden ) {
+        NSNumber *value = [args objectAtIndex:0];
+        if ( value && [value isKindOfClass:[NSNumber class]] )
         {
             CGFloat left   = [[args objectAtIndex:0] floatValue];
             CGFloat top    = [[args objectAtIndex:1] floatValue];

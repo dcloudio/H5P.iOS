@@ -105,13 +105,14 @@
     //uid
     NSString *uid = [method getArgumentAtIndex:0];
     H5VideoContext *videoPlayer = [_allVideoPlayer objectForKey:uid];
-    [videoPlayer.videoPlayView setHidden:NO];
+    [videoPlayer setHidden:NO];
 }
 
 - (void)VideoPlayer_hide:(PGMethod*)method {
     NSString *uid = [method getArgumentAtIndex:0];
     H5VideoContext *videoPlayer = [_allVideoPlayer objectForKey:uid];
-    [videoPlayer.videoPlayView setHidden:YES];
+  //  [videoPlayer.videoPlayView pause];
+    [videoPlayer setHidden:YES];
 }
 
 - (void)VideoPlayer_play:(PGMethod*)method {
@@ -167,6 +168,13 @@
     }
 }
 
+- (void)clearDanmuForUid:(NSString*)uid{
+    H5VideoContext *videoPlayer = [_allVideoPlayer objectForKey:uid];
+    if ( videoPlayer ) {
+        [videoPlayer.videoPlayView clearDanmaku];
+    }
+}
+
 - (void)VideoPlayer_playbackRate:(PGMethod*)method {
     NSString *uid = [method getArgumentAtIndex:0];
     int rate = [PGPluginParamHelper getFloatValue:[method getArgumentAtIndex:1] defalut:-1];
@@ -202,6 +210,7 @@
                     obj = @([H5VideoPlaySetting directionFromObject:obj]);
                     [videoPlayer.videoPlayView setControlValue:obj forKey:key];
                 } else if ( [key isEqualToString:kH5VideoPlaySettingKeyDanmuList] ){
+                    [self clearDanmuForUid:uid];
                     if ( [obj isKindOfClass:[NSArray class]] ) {
                         for ( NSDictionary *item in obj ) {
                             [self __sendDanmu:item toUid:uid];
@@ -212,6 +221,24 @@
                 }
             }
         }];
+        if ( [options objectForKey:g_pdr_string_width]
+            || [options objectForKey:g_pdr_string_height]
+            || [options objectForKey:g_pdr_string_top]
+            || [options objectForKey:g_pdr_string_left]) {
+            [self __setNativeView:videoPlayer.videoPlayView style:options];
+        }
+        
+    }
+}
+- (void)__setNativeView:(H5VideoPlayView*)nativeViewObj style:(NSDictionary*)styles {
+    if ( [styles isKindOfClass:[NSDictionary class]] ) {
+        [nativeViewObj setOptions:styles ];
+        if ( PDRNViewInWebview == nativeViewObj.belongTo ) {
+            PDRCoreAppFrame *parentWebview = [self.appContext.appWindow getFrameByID:nativeViewObj.parent];
+            [parentWebview layoutNView:nativeViewObj];
+        } else if ( PDRNViewInWindow == nativeViewObj.belongTo ) {
+            [self.appContext.appWindow layoutNView:nativeViewObj];
+        }
     }
 }
 
@@ -236,6 +263,27 @@
         }
     }];
     [_allVideoPlayer removeObjectsForKeys:removeKeys];
+}
+
+- (void)onAppFrameDidHidden:(PDRCoreAppFrame *)theAppframe {
+    [self enumerateVideoContext:^(H5VideoContext *videoContext, BOOL *stop) {
+        [videoContext setHidden:YES];
+    } inAppFrame:theAppframe];
+}
+
+- (void)onAppFrameDidShow:(PDRCoreAppFrame *)theAppframe {
+    [self enumerateVideoContext:^(H5VideoContext *videoContext, BOOL *stop) {
+        [videoContext setHidden:NO];
+    } inAppFrame:theAppframe];
+}
+
+- (void)enumerateVideoContext:(void (NS_NOESCAPE ^)(H5VideoContext *videoContext, BOOL *stop))block inAppFrame:(PDRCoreAppFrame *)theAppframe {
+    [_allVideoPlayer enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, H5VideoContext * _Nonnull videoContext, BOOL * _Nonnull stop) {
+        if ( [videoContext.webviewId isEqualToString:theAppframe.frameID]
+            ||(videoContext.videoPlayView.parent  && [videoContext.videoPlayView.parent isEqualToString:theAppframe.frameID])) {
+            block(videoContext , stop);
+        }
+    }];
 }
 
 -(void)sendEvent:(NSString*)type toJsCallback:(NSString*)cbId withParams:(NSDictionary *)params inWebview:(NSString*)webId {

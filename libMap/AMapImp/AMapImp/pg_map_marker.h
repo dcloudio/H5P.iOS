@@ -62,6 +62,7 @@
 @property(nonatomic, assign)BOOL selected;
 @property(nonatomic, assign)BOOL hidden;
 @property(nonatomic, assign)PGMapView *belongMapview;
+@property(nonatomic, retain)NSString *belongWebview;
 @property(nonatomic, retain)NSString *baseURL;
 @property(nonatomic, retain)NSString *UUID;
 @property(nonatomic, copy)NSString *label;//标点的文本标注
@@ -95,4 +96,5 @@
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, strong) UIImage *portrait;
 @property (nonatomic, strong) UIView *calloutView;
+- (void)doClickForEvt;
 @end

@@ -63,12 +63,13 @@
  * @Changelog:
  *------------------------------------------------------------------
  */
-- (id)createOverlayWithUUID:(NSString*)UUID withType:(NSString*)type args:(id)args {
+- (id)createOverlayWithUUID:(NSString*)UUID withType:(NSString*)type args:(id)args inWebview:(NSString*)webviewId{
     if ( [type isEqualToString:@"marker"] )
     {
         //NSString *baseURL = [self writeJavascript:@"window.location.href" ];
         PGMapMarker *mapMarker = [PGMapMarker markerWithArray:args baseURL:self.JSFrameContext.baseURL];
         mapMarker.UUID = UUID;
+        mapMarker.belongWebview = webviewId;
         return mapMarker;
     }
     else if ( [type isEqualToString:@"circle"] )

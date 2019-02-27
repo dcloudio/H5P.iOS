@@ -35,6 +35,7 @@
 		2FACF5911CEED2DC0072B954 /* WechatAuthSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WechatAuthSDK.h; sourceTree = "<group>"; };
 		2FACF5921CEED2DC0072B954 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
 		2FACF5931CEED2DC0072B954 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
+		2FEA5E352182B35200BE8BDB /* PluginConfig.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = PluginConfig.xcconfig; path = ../../xcconfig/PluginConfig.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +53,7 @@
 		176C091E182746F4008683DC = {
 			isa = PBXGroup;
 			children = (
+				2FEA5E352182B35200BE8BDB /* PluginConfig.xcconfig */,
 				176C092C182746F5008683DC /* weixinShare */,
 				176C0929182746F4008683DC /* Frameworks */,
 				176C0928182746F4008683DC /* Products */,
@@ -167,6 +169,7 @@
 /* Begin XCBuildConfiguration section */
 		176C0933182746F5008683DC /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2FEA5E352182B35200BE8BDB /* PluginConfig.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -215,6 +218,7 @@
 		};
 		176C0934182746F5008683DC /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2FEA5E352182B35200BE8BDB /* PluginConfig.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -255,6 +259,7 @@
 		};
 		176C0936182746F5008683DC /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2FEA5E352182B35200BE8BDB /* PluginConfig.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				DSTROOT = /tmp/weixinShare.dst;
@@ -267,6 +272,7 @@
 					"$(SRCROOT)/../../libPDRCore/libPDRCore/Managers",
 					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools",
 					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/Stream",
 					"$(SRCROOT)/../../libPDRCore/libPDRCore/MiniServer",
 					"$(SRCROOT)/../libShare/SBJSON",
 					"$(SRCROOT)/../libShare/SFHFKeychainUtils",
@@ -283,6 +289,7 @@
 		};
 		176C0937182746F5008683DC /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2FEA5E352182B35200BE8BDB /* PluginConfig.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				DSTROOT = /tmp/weixinShare.dst;
@@ -295,6 +302,7 @@
 					"$(SRCROOT)/../../libPDRCore/libPDRCore/Managers",
 					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools",
 					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
+					"$(SRCROOT)/../../libPDRCore/libPDRCore/Stream",
 					"$(SRCROOT)/../../libPDRCore/libPDRCore/MiniServer",
 					"$(SRCROOT)/../libShare/SBJSON",
 					"$(SRCROOT)/../libShare/SFHFKeychainUtils",

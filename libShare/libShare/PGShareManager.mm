@@ -9,7 +9,7 @@
  *  All Rights Reserved.
  *
  *  Changelog:
- *	number	author	modify date modify record
+ *    number    author    modify date modify record
  *   0       xty     2013-03-22 创建文件
  *------------------------------------------------------------------
  */
@@ -23,33 +23,53 @@
 
 @implementation PGShareManager
 
+- (void) onAppStarted:(NSDictionary*)options {
+    PDRAppFeatureItem *fetureItem = [self.appContext.featureList getPuginInfo:self.name];
+    [self createShareByType:fetureItem.argument];
+}
+
 - (void)loadServices {
+    if ( self.shareLoaded ) {
+        return;
+    }
+    NSDictionary *dict = [self supportShare];
+    NSArray *allKeys = [dict allKeys];
+    for ( NSString *shareName in allKeys ) {
+        if ( [shareName isKindOfClass:[NSString class]] ) {
+            [self createShareByType:shareName];
+        }
+    }
+}
+
+- (void)createShareByType:(NSString*)shareName {
     if ( nil == _shareServices ) {
         _shareServices = [[NSMutableArray alloc] initWithCapacity:3];
+    }
+    if ( ![self getShareObjectByType:shareName] ) {
         NSDictionary *dict = [self supportShare];
-        NSArray *allValues = [dict allValues];
-        for ( NSString *className in allValues ) {
-            if ( [className isKindOfClass:[NSString class]] ) {
-                PGShare *share = [[NSClassFromString(className) alloc] init];
-                if ( [share isKindOfClass:[PGShare class]] ) {
-                    share.JSFrameContext = self.JSFrameContext;
-                    share.appContext = self.appContext;
-                    share.errorURL = self.errorURL;
-                    [share doInit];
-                    share.name = self.name;
-                    share.content = share.note;
-                    [_shareServices addObject:share];
-                    [share release];
-                }
+        NSString *className = [dict objectForKey:shareName];
+        if ( [className isKindOfClass:[NSString class]] ) {
+            PGShare *share = [[NSClassFromString(className) alloc] init];
+            if ( [share isKindOfClass:[PGShare class]] ) {
+                share.JSFrameContext = self.JSFrameContext;
+                share.appContext = self.appContext;
+                share.errorURL = self.errorURL;
+                [share doInit];
+                share.name = self.name;
+                share.content = share.note;
+                [_shareServices addObject:share];
+                [share autorelease];
             }
         }
     }
 }
 
+
 - (void)getServices:(PGMethod*)command
 {
     NSString *cbID = [command.arguments objectAtIndex:0];
     [self loadServices];
+    self.shareLoaded = YES;
     NSMutableArray *retServices = [NSMutableArray array];
     for ( PGShare *share in _shareServices ) {
         [retServices addObject:[share JSDict]];
@@ -115,6 +135,24 @@
     [self toCallback:cbID withReslut:[result toJSONString]];
 }
 
+
+- (void)launchMiniProgram:(PGMethod*)command {
+    BOOL ret = NO;
+    NSString *cbID = [command.arguments objectAtIndex:0];
+    NSString *type = [command.arguments objectAtIndex:1];
+    if ( type ) {
+        PGShare *share = [self getShareObjectByType:type];
+        if ( share ) {
+            share.JSFrameContext = self.JSFrameContext;
+            ret = [share launchMiniProgram:command];
+        }
+    }
+    if ( !ret ) {
+        [self toErrorCallback:cbID withCode:PGPluginErrorNotSupport];
+    }
+}
+
+
 - (PGShare*)getShareObjectByType:(NSString*)aType {
     if ( aType ) {
         for ( PGShare *share in _shareServices ) {
@@ -127,7 +165,7 @@
 }
 
 - (NSDictionary*)supportShare {
-    return [self.appContext.featureList getPuginExtend:@"Share"];
+    return [self.appContext.featureList getPuginExtend:self.name];
 }
 
 #pragma mark -- share control
@@ -166,7 +204,7 @@
     if ( [typeV isKindOfClass:NSString.class] ) {
         shareType = typeV;
     }
-
+    
     PGShareControl *authControl = [_shareControlServices objectForKey:UUID];
     if ( authControl ) {
         [self loadServices];
@@ -198,6 +236,16 @@
     }
 }
 
+- (NSURL*)urlWithPath:(NSString*)path {
+    if ( [path hasPrefix:@"http://"]
+        || [path hasPrefix:@"https://"]
+        ||[path hasPrefix:@"file://"]) {
+        return [NSURL URLWithString:path];
+    }
+    path = [PTPathUtil h5Path2SysPath:path basePath:self.JSFrameContext.baseURL context:self.appContext];
+    return [NSURL fileURLWithPath:path];
+}
+
 - (void)sendWithSystem:(PGMethod*)command
 {
     NSString* cbid = [command.arguments objectAtIndex:0];
@@ -212,61 +260,64 @@
             {
                 if(msg.content)
                     [arguments addObject:msg.content];
-                
-                if(msg.pictures)
+                NSMutableArray *pictures = [NSMutableArray array];
+                if ( [msg.thumbs isKindOfClass:[NSArray class]] && [msg.thumbs count] ) {
+                    [pictures addObjectsFromArray:msg.thumbs];
+                } else if ( [msg.pictures isKindOfClass:[NSArray class]] && [msg.pictures count] ) {
+                    [pictures addObjectsFromArray:msg.pictures];
+                }
+                if( pictures )
                 {
-                    for (NSString* imgPath in msg.pictures) {
-                        NSString* path = [PTPathUtil absolutePath:imgPath withContext:self.appContext];
-                        if(path)
-                        {
-                            UIImage* pImage = [UIImage imageWithContentsOfFile:path];
+                    for (NSString* imgPath in pictures) {
+                        NSURL *url = [self urlWithPath:imgPath];
+                        if(url ){
+                            NSData *imageData = [NSData dataWithContentsOfURL:url];
+                            UIImage* pImage = [UIImage imageWithData:imageData];
                             if(pImage){
                                 [arguments addObject:pImage];
                             }
-                            
-                        }
+                        } 
                     }
                 }
-                if(msg.href) {
-                    [arguments addObject:[NSURL URLWithString:msg.href]];
-                }
-                
-                UIActivityViewController *avc = [[UIActivityViewController alloc] initWithActivityItems:arguments applicationActivities:nil];
-                if(nil == avc)
-                {
-                    [self toErrorCallback:cbid withCode:-3 withMessage:@"share error"];
-                }
-
-                if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad
-                    && [avc respondsToSelector:@selector(popoverPresentationController)] ) {
-                    UIPopoverPresentationController *popover = avc.popoverPresentationController;
-                    if ( popover ) {
-                        popover.sourceView = self.JSFrameContext;
-                        popover.sourceRect = CGRectMake(self.JSFrameContext.bounds.size.width/2, self.JSFrameContext.bounds.size.height, 1, 1);
-                        popover.permittedArrowDirections = UIPopoverArrowDirectionAny;
-                    }
-                }
-                [self.rootViewController presentViewController:avc animated:YES completion:nil];
-                
-                if ( kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_8_0 )
-                {
-                    //分享结果回调方法
-                    UIActivityViewControllerCompletionHandler myblock = ^(NSString *type,BOOL completed){
-                        if(completed)
-                            [self toSucessCallback:cbid withInt:0];
-                        else
-                            [self toErrorCallback:cbid withCode:-2 withMessage:@"user cancelled"];
-                    };
-                    
-                    avc.completionHandler = myblock;
-                    
-                }else{
-                    [self toSucessCallback:cbid withInt:0];
+            }
+            if(msg.href) {
+                [arguments addObject:[NSURL URLWithString:msg.href]];
+            }
+            UIActivityViewController *avc = [[UIActivityViewController alloc] initWithActivityItems:arguments applicationActivities:nil];
+            if(nil == avc)
+            {
+                [self toErrorCallback:cbid withCode:-3 withMessage:@"share error"];
+            }
+            
+            if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad
+                && [avc respondsToSelector:@selector(popoverPresentationController)] ) {
+                UIPopoverPresentationController *popover = avc.popoverPresentationController;
+                if ( popover ) {
+                    popover.sourceView = self.JSFrameContext;
+                    popover.sourceRect = CGRectMake(self.JSFrameContext.bounds.size.width/2, self.JSFrameContext.bounds.size.height, 1, 1);
+                    popover.permittedArrowDirections = UIPopoverArrowDirectionAny;
                 }
             }
-            else{
-                [self toErrorCallback:cbid withCode: -1 withMessage:@"Parameter error"];
+            [self.rootViewController presentViewController:avc animated:YES completion:nil];
+            
+            if ( kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_8_0 )
+            {
+                //分享结果回调方法
+                UIActivityViewControllerCompletionHandler myblock = ^(NSString *type,BOOL completed){
+                    if(completed)
+                        [self toSucessCallback:cbid withInt:0];
+                    else
+                        [self toErrorCallback:cbid withCode:-2 withMessage:@"user cancelled"];
+                };
+                
+                avc.completionHandler = myblock;
+                
+            }else{
+                [self toSucessCallback:cbid withInt:0];
             }
+        }
+        else{
+            [self toErrorCallback:cbid withCode: -1 withMessage:@"Parameter error"];
         }
     }
 }
@@ -292,3 +343,4 @@
 }
 
 @end
+
