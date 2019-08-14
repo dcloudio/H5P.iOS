@@ -17,13 +17,13 @@
 - (void) onCreate{
     [super onCreate];
     
-    __block typeof(self) weakSelf = self;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        PGPushServerAct *pushServer = [weakSelf getPushServer];
+  //  __block typeof(self) weakSelf = self;
+  //  dispatch_async(dispatch_get_main_queue(), ^{
+        PGPushServerAct *pushServer = [self getPushServer];
         if ( pushServer ) {
-            [pushServer.multiDelegate addDelegate:weakSelf];
+            [pushServer.multiDelegate addDelegate:self];
         }
-    });
+ //   });
 }
 
 - (PGPushServerAct*)getPushServer {

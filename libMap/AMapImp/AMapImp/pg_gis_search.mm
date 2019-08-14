@@ -814,7 +814,7 @@ static AMapGeoPoint* object2AMapGeoPoint(NSObject* obj)
         result.poiList = %@;\
         plus.maps.__bridge__.execCallback('%@', result);}";
         NSMutableString *jsResult = [NSMutableString stringWithFormat:jsonResultF,
-                                     [H5CoreJavaScriptText plusObject],
+                                     [self.jsBridge plusObject],
                                      response.count, //totalNumber
                                      [response.pois count], //currentNumber
                                      response.count/self.pageCapacity+1,//response.pageNum,//pageNumber
@@ -992,7 +992,7 @@ static AMapGeoPoint* object2AMapGeoPoint(NSObject* obj)
     plus.maps.__bridge__.execCallback('%@', result);}";
     
     NSMutableString *jsResult = [NSMutableString stringWithFormat:jsonResultF,
-                                 [H5CoreJavaScriptText plusObject],
+                                 [self.jsBridge plusObject],
                                  [startPoint JSObject], //startPosition
                                  [endPoint JSObject], //endPosition
                                  count,
@@ -1025,7 +1025,7 @@ static AMapGeoPoint* object2AMapGeoPoint(NSObject* obj)
         result.routeList = null;\
         plus.maps.__bridge__.execCallback('%@', result);}";
     
-    NSMutableString *jsResult = [NSMutableString stringWithFormat:jsonResultF, [H5CoreJavaScriptText plusObject], _UUID];
+    NSMutableString *jsResult = [NSMutableString stringWithFormat:jsonResultF, [self.jsBridge plusObject], _UUID];
     [jsBridge asyncWriteJavascript:jsResult];
 }
 
@@ -1053,7 +1053,7 @@ static AMapGeoPoint* object2AMapGeoPoint(NSObject* obj)
         args.pageIndex = 0;\
         args.poiList = null;\
         plus.maps.__bridge__.execCallback('%@', args);}";
-    NSMutableString *jsResult = [NSMutableString stringWithFormat:jsonResultF, [H5CoreJavaScriptText plusObject], _UUID];//poiList
+    NSMutableString *jsResult = [NSMutableString stringWithFormat:jsonResultF, [self.jsBridge plusObject], _UUID];//poiList
     [jsBridge asyncWriteJavascript:jsResult];
 }
 

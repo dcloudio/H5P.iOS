@@ -12,7 +12,7 @@
 #import "NWindowOptionsParse.h"
 #import "PDRCoreAppFramePrivate.h"
 
-NSString* const EVENT_TEMPLATE = @"window.__Media_Live__Push__.execCallback_LivePush('%@', %@);";
+NSString* const EVENT_TEMPLATE = @"{var target = (typeof window === 'object' && window) || (new WeexPlus(weex)); target.__Media_Live__Push__.execCallback_LivePush('%@', %@);}";
 NSString* const EVENT_RESULT_TEMPLATE = @"{code:'%d',message:'%@'}";
 NSString* const EventType = @"statechange";
 

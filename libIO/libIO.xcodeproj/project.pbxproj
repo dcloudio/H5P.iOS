@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		173A982B1727BF2E00A17DC4 /* PGIO.mm in Sources */ = {isa = PBXBuildFile; fileRef = 173A982A1727BF2E00A17DC4 /* PGIO.mm */; };
 		17F5CEC6172796CB00356EE5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17F5CEC5172796CB00356EE5 /* Foundation.framework */; };
+		2FB7963622A2396F00FC8048 /* PGIO+Digest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FB7963522A2396F00FC8048 /* PGIO+Digest.m */; };
+		2FD5879622A12CD10046515B /* PGIO+FileInfo.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2FD5879522A12CD10046515B /* PGIO+FileInfo.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -29,6 +31,10 @@
 		17F5CEC2172796CB00356EE5 /* liblibIO.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibIO.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		17F5CEC5172796CB00356EE5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		17F5CEC9172796CB00356EE5 /* libIO-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "libIO-Prefix.pch"; sourceTree = "<group>"; };
+		2FB7963422A2396F00FC8048 /* PGIO+Digest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PGIO+Digest.h"; sourceTree = "<group>"; };
+		2FB7963522A2396F00FC8048 /* PGIO+Digest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "PGIO+Digest.m"; sourceTree = "<group>"; };
+		2FD5879422A12CD10046515B /* PGIO+FileInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PGIO+FileInfo.h"; sourceTree = "<group>"; };
+		2FD5879522A12CD10046515B /* PGIO+FileInfo.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "PGIO+FileInfo.mm"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,9 +77,13 @@
 		17F5CEC7172796CB00356EE5 /* libIO */ = {
 			isa = PBXGroup;
 			children = (
+				2FD5879422A12CD10046515B /* PGIO+FileInfo.h */,
+				2FD5879522A12CD10046515B /* PGIO+FileInfo.mm */,
 				173A98291727BF2E00A17DC4 /* PGIO.h */,
 				173A982A1727BF2E00A17DC4 /* PGIO.mm */,
 				17F5CEC8172796CB00356EE5 /* Supporting Files */,
+				2FB7963422A2396F00FC8048 /* PGIO+Digest.h */,
+				2FB7963522A2396F00FC8048 /* PGIO+Digest.m */,
 			);
 			path = libIO;
 			sourceTree = "<group>";
@@ -120,6 +130,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 17F5CEB9172796CB00356EE5;
@@ -137,7 +148,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2FD5879622A12CD10046515B /* PGIO+FileInfo.mm in Sources */,
 				173A982B1727BF2E00A17DC4 /* PGIO.mm in Sources */,
+				2FB7963622A2396F00FC8048 /* PGIO+Digest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -235,6 +248,7 @@
 		17F5CED1172796CB00356EE5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				DSTROOT = /tmp/libIO.dst;
 				ENABLE_BITCODE = YES;
@@ -256,6 +270,7 @@
 		17F5CED2172796CB00356EE5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				DSTROOT = /tmp/libIO.dst;
 				ENABLE_BITCODE = YES;

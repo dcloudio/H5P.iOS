@@ -155,6 +155,7 @@ NSString * const kMkeyPushConfigURLKey = @"url";
 
 - (void)dealloc {
     self.model = nil;
+    self.UDID = nil;
     [super dealloc];
 }
 

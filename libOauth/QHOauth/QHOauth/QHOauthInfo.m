@@ -216,6 +216,7 @@ static QHOauthInfo* g_QHOauthHandle = nil;
     self.T = nil;
     self.secMobile = nil;
     self.accessToken = nil;
+    self.loginInfoPath = nil;
 }
 
 

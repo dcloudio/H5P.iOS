@@ -21,7 +21,7 @@ typedef NS_ENUM(NSInteger, PGLocationDescription) {
 @protocol PGLocationServerDelegete <NSObject>
 @optional
 - (void)locationServer:(PGLocationServer*)manager
-    didUpdateLocations:(NSArray *)locations;
+    didUpdateLocations:(NSArray *)locations geocodeCompletion:(PGLocationAddress *) placemark;
 - (void)locationServer:(PGLocationServer*)manager didFailWithError:(NSError*)error;
 - (void)locationServer:(PGLocationServer*)manager geocodeCompletion:(PGLocationAddress *) placemark error:(NSError*)error;
 @end
@@ -31,6 +31,7 @@ typedef NS_ENUM(NSInteger, PGLocationDescription) {
 @property (nonatomic, assign) id<PGLocationServerDelegete> delegate;
 
 - (BOOL)isLocationServicesEnabled;
+- (BOOL)isLocationServiceValid;
 + (CLAuthorizationStatus)authorizedStatus;
 - (NSString*)getDefalutCoorType;
 - (NSString*)getSupportCoorType:(NSString*)coorType;

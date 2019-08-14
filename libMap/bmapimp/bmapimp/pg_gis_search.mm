@@ -534,7 +534,7 @@ BMKPlanNode* object2PlanNode(NSObject* obj, NSString*cityname)
             result.poiList = %@;\
             plus.maps.__bridge__.execCallback('%@', result);}";
             NSMutableString *jsResult = [NSMutableString stringWithFormat:jsonResultF,
-                                         [H5CoreJavaScriptText plusObject],
+                                         [self.jsBridge plusObject],
                                          result.totalPOINum, //totalNumber
                                          result.curPOINum, //currentNumber
                                          result.totalPageNum,//pageNumber
@@ -698,7 +698,7 @@ BMKPlanNode* object2PlanNode(NSObject* obj, NSString*cityname)
         plus.maps.__bridge__.execCallback('%@', result);}";
     
     NSMutableString *jsResult = [NSMutableString stringWithFormat:jsonResultF,
-                                 [H5CoreJavaScriptText plusObject],
+                                 [self.jsBridge plusObject],
                                  [startPoint JSObject], //startPosition
                                  [endPoint JSObject], //endPosition
                                  count,
@@ -731,7 +731,7 @@ BMKPlanNode* object2PlanNode(NSObject* obj, NSString*cityname)
         result.routeList = null;\
         plus.maps.__bridge__.execCallback('%@', result);}";
     
-    NSMutableString *jsResult = [NSMutableString stringWithFormat:jsonResultF, [H5CoreJavaScriptText plusObject], _UUID];
+    NSMutableString *jsResult = [NSMutableString stringWithFormat:jsonResultF, [self.jsBridge plusObject], _UUID];
     [jsBridge asyncWriteJavascript:jsResult];
 }
 
@@ -759,7 +759,7 @@ BMKPlanNode* object2PlanNode(NSObject* obj, NSString*cityname)
         result.pageIndex = 0;\
         result.poiList = null;\
         plus.maps.__bridge__.execCallback('%@', result);}";
-    NSMutableString *jsResult = [NSMutableString stringWithFormat:jsonResultF,  [H5CoreJavaScriptText plusObject], _UUID];//poiList
+    NSMutableString *jsResult = [NSMutableString stringWithFormat:jsonResultF,  [self.jsBridge plusObject], _UUID];//poiList
     [jsBridge asyncWriteJavascript:jsResult];
 }
 

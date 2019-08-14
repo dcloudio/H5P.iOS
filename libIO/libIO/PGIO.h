@@ -53,6 +53,7 @@ typedef NS_ENUM(NSInteger, PGFileError) {
 - (void) resolveLocalFileSystemURL:(PGMethod*)command;
 - (NSData*) convertLocalFileSystemURL:(PGMethod*)command;
 - (NSData*) convertAbsoluteFileSystem:(PGMethod*)command;
+- (void)getImageInfo:(PGMethod*)command;
 @end
 
 #pragma mark -------------------------

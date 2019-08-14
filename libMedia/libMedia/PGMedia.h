@@ -15,7 +15,7 @@ typedef NS_ENUM(NSInteger, PGAudioOutput) {
     PGAudioOutputEarpiece
 };
 
-@interface PGAudio : PGPlugin <AVAudioPlayerDelegate>
+@interface PGAudio : PGPlugin
 {
     NSMutableDictionary*   m_pPlayerDic;
     NSMutableDictionary*   m_pRecorderDic;

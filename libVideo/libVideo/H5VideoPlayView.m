@@ -7,16 +7,17 @@
 //
 
 #import "H5VideoPlayView.h"
-#import <UPLiveSDK/UPAVPlayer.h>
 #import "H5DirectionGestureRecognizer.h"
 #import "H5VideoPlayOverlayView.h"
 #import "Masonry.h"
 #import "H5VideoBrightnessView.h"
+#import "H5VideoVolumeView.h"
 #import "H5DanmuSwitchView.h"
 #import "H5DanmakuManager.h"
 #import "PDRCorePrivate.h"
 #import "UIImageView+Video.h"
 #import "SVProgressHUD.h"
+#import <IJKMediaFramework/IJKMediaFramework.h>
 
 #define kH5VidelPlayViewAutoHideBarTimerinterval 8
 #define kH5VidelPlayViewBottomButtonSpace 5
@@ -31,8 +32,12 @@
 }
 @end
 
-@interface H5VideoPlayView()<UPAVPlayerDelegate, UIGestureRecognizerDelegate>
-@property(nonatomic, strong)UPAVPlayer *videoPlayer;
+@interface H5VideoPlayView()<UIGestureRecognizerDelegate>
+@property(nonatomic,strong) IJKFFMoviePlayerController * videoPlayer;
+@property(nonatomic,assign) BOOL isStreamVideo;
+@property(nonatomic,assign) BOOL isPlayError;
+@property(nonatomic,retain) NSTimer * timer;
+
 @property(nonatomic, strong)H5SwitchButton *playAndPauseButton;
 @property(nonatomic, strong)H5SwitchButton *fullScreenSwitchButton;
 @property(nonatomic, strong)UISlider *slider;
@@ -58,10 +63,12 @@
 @property (nonatomic, strong)NSMutableArray<NSDictionary*> *dumaLists;
 @property (nonatomic, assign)float lastSlideProgress;
 @property(nonatomic, assign)BOOL isShowBuffingView;
+@property(nonatomic, assign)BOOL isShowBuffingView2;
 @property(nonatomic, assign)BOOL isPlayLoopRun;
 @property(nonatomic, assign)BOOL isPlayAfterShow;
-//Todo.. 又拍云SDK 在seek之后会触发idle 导致区分不开stop，加个标记来区分
-@property(nonatomic, assign)BOOL ingoreIdleAfterSeek;
+
+//@property(nonatomic, assign)float currentTime;
+//@property(nonatomic, assign)float durationTime;
 @end
 
 @implementation H5VideoPlayView
@@ -85,6 +92,7 @@
         [self addGestureRecognizer:self.tapGesture];
         [self addGestrueControl];
         [self addSystemNotify];
+        [self addOrientationChangeNotify];
         self.isFirst = YES;
         self.isPlayLoopRun = NO;
     }
@@ -103,34 +111,76 @@
 }
 
 - (void)createPlayView {
-    self.videoPlayer = [[UPAVPlayer alloc] initWithURL:self.setting.url];
-    [self.videoPlayer.playView setFrame:self.bounds];
-    self.videoPlayer.mute = self.setting.isMuted;
-    self.videoPlayer.bufferingTime = 5;
-    //[self.videoPlayer connect];
-    //self.videoPlayer.playView.contentMode = UIViewContentModeScaleToFill;
-    self.videoPlayer.playView.autoresizingMask = UIViewAutoresizingFlexibleWidth
+//    self.setting.url = @"https://img.cdn.aliyun.dcloud.net.cn/guide/uniapp/%E7%AC%AC1%E8%AE%B2%EF%BC%88uni-app%E4%BA%A7%E5%93%81%E4%BB%8B%E7%BB%8D%EF%BC%89-%20DCloud%E5%AE%98%E6%96%B9%E8%A7%86%E9%A2%91%E6%95%99%E7%A8%8B@20181126.mp4";
+    NSURL *testURL = [NSURL URLWithString:self.setting.url];
+    if ( testURL && testURL.scheme &&[testURL.scheme isEqualToString:@"rtmp"]) {
+        self.isStreamVideo = YES;
+    }
+    IJKFFOptions * options = [IJKFFOptions optionsByDefault];
+    self.videoPlayer = [[IJKFFMoviePlayerController alloc]initWithContentURL:[NSURL URLWithString:self.setting.url]withOptions:options];
+    if (self.setting.objectFit == H5VideObjectFitContain) {
+        self.videoPlayer.scalingMode = IJKMPMovieScalingModeAspectFit;
+    }else if(self.setting.objectFit == H5VideObjectFitFill){
+        self.videoPlayer.scalingMode = IJKMPMovieScalingModeAspectFill;
+    }else if(self.setting.objectFit == H5VideObjectFitCover){
+        self.videoPlayer.scalingMode = IJKMPMovieScalingModeFill;
+    }else{
+        self.videoPlayer.scalingMode = IJKMPMovieScalingModeAspectFit;
+    }
+    if (self.setting.isMuted) {
+        self.videoPlayer.playbackVolume = 0;
+    }
+//        [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_INFO];
+//        [IJKFFMoviePlayerController setLogReport:YES];
+    self.videoPlayer.view.autoresizingMask = UIViewAutoresizingFlexibleWidth
     | UIViewAutoresizingFlexibleTopMargin
     | UIViewAutoresizingFlexibleRightMargin
     | UIViewAutoresizingFlexibleLeftMargin
     | UIViewAutoresizingFlexibleHeight
     | UIViewAutoresizingFlexibleBottomMargin;
+    self.videoPlayer.view.backgroundColor = [UIColor blackColor];
+    [self.videoPlayer.view setFrame:self.bounds];
+    [self insertSubview:self.videoPlayer.view atIndex:0];
     
-    self.videoPlayer.delegate = self;
-    self.videoPlayer.lipSynchOn = NO;
-    [self insertSubview:self.videoPlayer.playView atIndex:0];
+    [self installMovieNotificationObservers];
 }
-
+-(void)installMovieNotificationObservers
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(loadStateDidChange:)
+                                                 name:IJKMPMoviePlayerLoadStateDidChangeNotification
+                                               object:self.videoPlayer];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(moviePlayBackDidFinish:)
+                                                 name:IJKMPMoviePlayerPlaybackDidFinishNotification
+                                               object:self.videoPlayer];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(mediaIsPreparedToPlayDidChange:)
+                                                 name:IJKMPMediaPlaybackIsPreparedToPlayDidChangeNotification
+                                               object:self.videoPlayer];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(moviePlayBackStateDidChange:)
+                                                 name:IJKMPMoviePlayerPlaybackStateDidChangeNotification
+                                               object:self.videoPlayer];
+}
+-(void)removeMovieNotificationObservers{
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:IJKMPMoviePlayerLoadStateDidChangeNotification object:_videoPlayer];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:IJKMPMoviePlayerPlaybackDidFinishNotification object:_videoPlayer];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:IJKMPMediaPlaybackIsPreparedToPlayDidChangeNotification object:_videoPlayer];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:IJKMPMoviePlayerPlaybackStateDidChangeNotification object:_videoPlayer];
+}
 - (void)onLayout_{
-    [self.videoPlayer.playView setFrame:self.bounds];
+    [self.videoPlayer.view setFrame:self.bounds];
    // [self.videoPlayer setFrame:self.bounds];
     [self.delegate onLayout_:self];
 }
 
 - (void)destroyPlayView {
-    [self.videoPlayer stop];
-    self.videoPlayer.delegate = nil;
-    [self.videoPlayer.playView removeFromSuperview];
+    [self.videoPlayer shutdown];
+    [self.videoPlayer.view removeFromSuperview];
     self.videoPlayer = nil;
 }
 
@@ -148,7 +198,6 @@
 
 - (void)showBar {
     [self showBottomBar];
-    // self.centerPauseButton.hidden = NO;
     if ([self isFullScreen]) {
     }
     [self doConstraintAnimation];
@@ -160,7 +209,6 @@
 
 - (void)hideBarDelay {
     [self performSelector:@selector(hideBar) withObject:nil afterDelay:kH5VidelPlayViewAutoHideBarTimerinterval];
-   // [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideBar) object:nil];
 }
 
 - (void)cancelHideBar {
@@ -168,10 +216,7 @@
 }
 
 - (void)hideBar {
-    
-   // if (UPAVPlayerStatusPlaying != self.videoPlayer.playerStatus) return;
     [self hideBottomBar];
-    //    self.centerPauseButton.hidden = YES;
     [self doConstraintAnimation];
 }
 
@@ -188,10 +233,9 @@
     self.slider.enabled = NO;
     self.isPlayLoopRun = NO;
     self.slider.value = 0.0f;
-    self.playTimeLabel.text = @"00:00";
+    self.playTimeLabel.text = @"0:00:00";
     [self turnOnPlayPauseButton:NO];
-    //2self.tapGesture.enabled = NO;
-    self.directionGesture.enabled = NO;
+    
     [self dismissBuffuingView];
     [self hideBar];
     self.isFirst = YES;
@@ -204,17 +248,7 @@
 
 
 - (void)turnOnPlayPauseButton:(BOOL)isPlaying {
-  //  self.playAndPauseButton .hidden = isPlaying;
-    //self.pauseButton.hidden = !isPlaying;
     self.playAndPauseButton.on = isPlaying;
-  //
-    //    if (isPlaying) {
-    //        self.centerPauseButton.hidden = NO;
-    //        self.centerPlayButton.hidden  = YES;
-    //    } else {
-    //        self.centerPauseButton.hidden = YES;
-    //        [self.centerPlayButton show];
-    //    }
 }
 -(void)addSystemNotify {
     // app退到后台
@@ -229,7 +263,7 @@
 }
 
 - (void)appDidEnterBackground {
-    if ( UPAVPlayerStatusPlaying == _videoPlayer.playerStatus  ) {
+    if ( IJKMPMoviePlaybackStatePlaying == _videoPlayer.playbackState  ) {
         self.restorePlay = YES;
         [_videoPlayer pause];
     }
@@ -243,22 +277,22 @@
     }
 }
 
--(void)addFullStreenNotify {
-    [self removeFullStreenNotify];
-     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+-(void)addOrientationChangeNotify {
+//    [self removeFullStreenNotify];
+//     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(onStatusBarOrientationChange)
-                                                 name:UIApplicationDidChangeStatusBarOrientationNotification
+                                                 name:UIApplicationWillChangeStatusBarOrientationNotification
                                                object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(onDeviceOrientationChange)
-                                                 name:UIDeviceOrientationDidChangeNotification
-                                               object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(onDeviceOrientationChange)
+//                                                 name:UIDeviceOrientationDidChangeNotification
+//                                               object:nil];
 }
 
--(void)removeFullStreenNotify{
+-(void)removeOrientationChangeNotify{
   //  [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillChangeStatusBarOrientationNotification object:nil];
 }
 
 - (void)sendDanmaku:(NSString*)sender withColor:(UIColor*)color {
@@ -281,7 +315,7 @@
 - (void)sendDanmaku:(NSDictionary*)danmu {
     if ( self.setting.enableDanmu ) {
         if ( self.danmuSwitchView.selected ) {
-            if ( UPAVPlayerStatusPlaying == _videoPlayer.playerStatus ) {
+            if ( IJKMPMoviePlaybackStatePlaying == _videoPlayer.playbackState ) {
                 [self __sendDanmaku:danmu];
             }else {
                 [self appendDuma:@[danmu]];
@@ -294,20 +328,14 @@
     if ( [key isEqualToString:kH5VideoPlaySettingKeyUrl] ) {
         NSString *newUrl = (NSString*)value;
         if ( [newUrl isKindOfClass:[NSString class]] && ![newUrl isEqualToString:self.setting.url]) {
-            UPAVPlayerStatus oldStatus = _videoPlayer.playerStatus;
-            if (UPAVPlayerStatusIdle != _videoPlayer.playerStatus ) {
-                [_videoPlayer stop];
-                self.ingoreIdleAfterSeek = YES;
-            }
-            _videoPlayer.url = newUrl;
-            if ( UPAVPlayerStatusPlaying == oldStatus ) {
-                 [_videoPlayer play];
-            } else if ( UPAVPlayerStatusIdle == oldStatus ){
+//            IJKMPMoviePlaybackState oldStatus = _videoPlayer.playbackState;
+            self.setting.url = newUrl;
+            [self stop];
+//            if ( IJKMPMoviePlaybackStateStopped == oldStatus ){
                 if ( self.setting.isAutoplay ) {
                     [self play];
                 }
-            }
-            self.setting.url = newUrl;
+//            }
         }
     } else if ( [key isEqualToString:kH5VideoPlaySettingKeyPoster] ) {
         NSString *newPoster = (NSString*)value;
@@ -329,7 +357,7 @@
         NSNumber *newValue = (NSNumber*)value;
         if ( [newValue isKindOfClass:[NSNumber class]] ) {
             self.setting.isShowCenterPlayBtn = [newValue boolValue];
-            if ( self.videoPlayer.displayPosition == 0 ){
+            if ( self.videoPlayer.playableDuration == 0 ){
                 self.centerPlayButton.hidden = !self.setting.isShowCenterPlayBtn;
             }
         }
@@ -390,7 +418,9 @@
         NSNumber *newValue = (NSNumber*)value;
         if ( [newValue isKindOfClass:[NSNumber class]] ) {
             self.setting.isMuted = [newValue boolValue];
-            _videoPlayer.mute = [newValue boolValue];
+            if (self.setting.isMuted == YES) {
+                _videoPlayer.playbackVolume = 0;
+            }
         }
     } else if ( [key isEqualToString:kH5VideoPlaySettingKeyDirection] ) {
         NSNumber *newValue = (NSNumber*)value;
@@ -406,21 +436,13 @@
     }
 }
 
-- (void)updateWithSetting:(H5VideoPlaySetting*)setting {
-    //Todo..
-    if ( setting.url && ![setting.url isEqualToString:self.setting.url] ) {
-        [_videoPlayer stop];
-        _videoPlayer.url = setting.url;
-        [_videoPlayer play];
-        self.setting.url = setting.url;
-    }
-}
+
 
 #pragma mark - life cycle
 - (void)dc_setHidden:(BOOL)isHidden {
     self.hidden = isHidden;
     if ( self.hidden ) {
-        if ( UPAVPlayerStatusPlaying == self.videoPlayer.playerStatus ) {
+        if ( IJKMPMoviePlaybackStatePlaying == self.videoPlayer.playbackState ) {
             [self pause];
             self.isPlayAfterShow = YES;
         }
@@ -432,13 +454,17 @@
     }
 }
 - (void)destroy {
+    if (self.timer !=nil) {
+        [self.timer invalidate];
+        self.timer = nil;
+    }
     [self removeSystemNotify];
+    [self removeOrientationChangeNotify];
     [self removeGestureRecognizer:self.tapGesture];
     [self removeGestureRecognizer:self.directionGesture];
     [_danmakuManager destroy];
-    [self removeFullStreenNotify];
-    [self removeFromSuperview];
     [self destroyPlayView];
+    [self removeFromSuperview];
 }
 
 - (void)updateLayout {
@@ -450,41 +476,13 @@
 }
 
 - (void)seek:(float)positon {
-    //TODO... pause seek play???
-    BOOL pauseAfterSeek = (UPAVPlayerStatusPause == self.videoPlayer.playerStatus)?YES:NO;
-    /*Todo.. 又拍云 seek到结尾的情况下不会触发idle 判断不出stop 这个强制终止
-     ask 链接 http://ask.dcloud.net.cn/question/62236 */
-    if ( self.videoPlayer.streamInfo.canSeek && positon >= self.videoPlayer.streamInfo.duration ) {
-        [self.videoPlayer stop];
-        return;
-    }
-    [self.videoPlayer seekToTime:positon];
-    self.ingoreIdleAfterSeek = YES;
-    if ( pauseAfterSeek ) {
-      //  [self.videoPlayer pause];
-        //Todo..
-        /*又拍云SDK调用seek 后会自动播放会导致之前如果是暂停播放按钮显示不对，
-         此时调用pause也无效，该问题需要又拍云修改SDK，目前暂时修改为继续播放修复播 放按钮不对的问题
-          ask 链接 http://ask.dcloud.net.cn/question/61332 */
-        [self turnOnPlayPauseButton:YES];
-        [self __play];
-        //end
-    }
+    [self showBuffuingView];
+    self.videoPlayer.currentPlaybackTime = positon;
 }
 
 - (void)playbackReate:(int)rate {
-    // Not suppot
+    [self.videoPlayer setPlaybackRate:rate];
 }
-//- (void)resume {
-//    // [self.delegate playerViewWillPlay:self];
-//    [self turnOnPlayPauseButton:YES];
-//    //[self.videoPlayer performSelector:@selector(play) withObject:nil afterDelay:1.1];
-//    [self.videoPlayer play];
-//
-//    if ( [self.delegate respondsToSelector:@selector(playerViewPlay:)] ) {
-//        [self.delegate playerViewPlay:self];
-//    }
-//}
 
 - (void)pause {
     [self turnOnPlayPauseButton:NO];
@@ -492,6 +490,14 @@
     self.isPlayAfterShow = NO;
 }
 
+- (void)__pause {
+    // [self turnOnPlayPauseButton:NO];
+    [self dismissBuffuingView];
+    [self.videoPlayer pause];
+    if ( [self.delegate respondsToSelector:@selector(playerViewPause:)] ) {
+        [self.delegate playerViewPause:self];
+    }
+}
 - (void)stop {
     [self resetUI];
     [self destroyPlayView];
@@ -501,45 +507,38 @@
 
 - (void)play {
     if ([self __play]) {
+        self.directionGesture.enabled = YES;
         [self.videoPlayOverlayView hideRepeatView];
         [self turnOnPlayPauseButton:YES];
     }
     self.isPlayAfterShow = NO;
 }
-
-- (void)__pause {
-    // [self turnOnPlayPauseButton:NO];
-    [self dismissBuffuingView];
-    if ( self.videoPlayer.streamInfo.canSeek ) {
-        [self.videoPlayer pause];
-    } else {
-        [self.videoPlayer stop];
-    }
-    if ( [self.delegate respondsToSelector:@selector(playerViewPause:)] ) {
-        [self.delegate playerViewPause:self];
-    }
-}
-
 - (BOOL)__play {
-    //[self.delegate playerViewWillPlay:self];
-    // [self addFullStreenNotify];
-    //[self addTimer];
-    if ( !self.videoPlayer.url ) {
+    if ( !self.videoPlayer ) {
         NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:-1 userInfo:@{NSLocalizedDescriptionKey:@"file not found"}];
         [self.delegate playerView:self playerError:error];
         return NO;
     }
     [self.videoPlayOverlayView hideRepeatView];
     self.centerPlayButton.hidden = YES;
-    //[self turnOnPlayPauseButton:YES];
-    if (!(UPAVPlayerStatusPlaying == self.videoPlayer.playerStatus)) {
-       // NSDate *date = [NSDate date];
-        [self.videoPlayer play];
+    if (!(IJKMPMoviePlaybackStatePlaying == self.videoPlayer.playbackState)) {
+        
+        if (self.isPlayError == YES) {
+            self.isPlayError= NO;
+            [self stop];
+        }
+        if (self.videoPlayer.isPreparedToPlay == NO) {
+            [self showBuffuingView];
+            [self.videoPlayer prepareToPlay];
+        }
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.videoPlayer play];
+//        });
+        
         if ( self.isFirst ) {
             self.isFirst = NO;
-          //  [self.videoPlayer seekToTime:self.setting.initialTime];
         }
-       // NSLog(@"play 耗时： %f s",[[NSDate date] timeIntervalSinceDate:date]);
+        // NSLog(@"play 耗时： %@",[NSDate date]);
     }
     
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -593,10 +592,8 @@
 }
 
 - (void)singleTap:(UIGestureRecognizer *)gesture {
-    if ( self.centerPlayButton && !self.centerPlayButton.hidden ) {
-      //  return;
-    }
     if (self.bottomBarBackView.frame.origin.y >= self.bounds.size.height) {
+        
         [self showBar];
     } else {
         [self hideBar];
@@ -609,20 +606,19 @@
     }
     
     if ( UIGestureRecognizerStateBegan ==  panGesture.state ) {
-        self.lastSlideProgress = self.videoPlayer.displayPosition;
+        self.lastSlideProgress = self.videoPlayer.playableDuration;
     } else if ( UIGestureRecognizerStateChanged == panGesture.state ) {
         if ( [panGesture isHorizontal] ) {
             if ( self.setting.isEnableProgressGesture ) {
-                UPAVPlayerStreamInfo *streamInfo = self.videoPlayer.streamInfo;
-                if ( streamInfo.canSeek ) {
+                if ( self.isStreamVideo == NO ) {
                     [self manualSliderValueStart];
                     //NSLog(@"directionGesture---[%f]",self.videoPlayer.displayPosition);
                     CGFloat value = [self newValue:self.lastSlideProgress//self.slider.value
                                         deltaValue:panGesture.delta.x deltaReferenceValue:CGRectGetWidth(self.bounds)
-                                          minValue:0.0 maxValue:streamInfo.duration];
+                                          minValue:0.0 maxValue:self.videoPlayer.duration];
                     self.slider.value = value;
                     self.lastSlideProgress = value;
-                    NSString *seekInfo = [NSString stringWithFormat:@"%@/%@",[self foramtStringByPosition:value], [self foramtStringByPosition:streamInfo.duration]];
+                    NSString *seekInfo = [NSString stringWithFormat:@"%@/%@",[self foramtStringByPosition:value], [self foramtStringByPosition:self.videoPlayer.duration]];
                     [self.videoPlayOverlayView initProgressViewWithText:seekInfo];
                     [self.videoPlayOverlayView updateProgress:seekInfo];
                 }
@@ -630,14 +626,23 @@
         } else if ( [panGesture isVertical] ) {
             if ( self.isFullScreen/*|| (self.setting.isEnablePageGesture && !self.isFullScreen)*/) {
                 if ( panGesture.beginPressPoint.x < CGRectGetMidX(self.bounds) ) {//调整亮度
-                    self.videoPlayer.bright = [self newValue:[self.videoPlayer bright]
+                    CGFloat brightness = [UIScreen mainScreen].brightness;
+                    CGFloat cureBright = [self newValue:brightness
                                                   deltaValue:-panGesture.delta.y deltaReferenceValue:CGRectGetHeight(self.bounds)
                                                     minValue:0.01 maxValue:1.0];
-                    [[H5VideoBrightnessView sharedView] updateLongView:self.videoPlayer.bright];
+//                    [[H5VideoBrightnessView sharedView] updateLongView:cureBright];
+                    [UIScreen mainScreen].brightness = cureBright;
                 } else {//调整音量
-                    [self.videoPlayer setVolume:[self newValue:self.videoPlayer.volume
-                                                    deltaValue:-panGesture.delta.y deltaReferenceValue:CGRectGetHeight(self.bounds)
-                                                      minValue:0.01 maxValue:1.0]];
+                    CGFloat volume = [self newValue:self.videoPlayer.playbackVolume
+                                         deltaValue:-panGesture.delta.y deltaReferenceValue:CGRectGetHeight(self.bounds)
+                                           minValue:0.00 maxValue:1.0];
+                    [self.videoPlayer setPlaybackVolume:volume];
+                    if (volume>0 && volume<0.1) {
+//                        [H5VideoVolumeView sharedView].volume = 0.1;
+                    }else{
+                        [H5VideoVolumeView sharedView].volume = volume;
+                    }
+
                 }
             }
         }
@@ -645,8 +650,7 @@
               || UIGestureRecognizerStateCancelled == panGesture.state ) {
         if ( [panGesture isHorizontal] ) {
             if ( self.setting.isEnableProgressGesture ) {
-                UPAVPlayerStreamInfo *streamInfo = self.videoPlayer.streamInfo;
-                if ( streamInfo.canSeek ) {
+                if ( self.isStreamVideo ==NO ) {
                     [self.videoPlayOverlayView hideProgressView];
                     [self manualSliderValueEnd];
                 }
@@ -654,13 +658,15 @@
         } else if ( [panGesture isVertical] ) {
             if ( self.isFullScreen /*|| (self.setting.isEnablePageGesture && !self.isFullScreen)*/) {
                 if ( panGesture.beginPressPoint.x < CGRectGetMidX(self.bounds) ) {//调整亮度
-                    self.videoPlayer.bright = [self newValue:[self.videoPlayer bright]
+                    CGFloat brightness = [UIScreen mainScreen].brightness;
+                    CGFloat cureBright = [self newValue:brightness
                                                   deltaValue:-panGesture.delta.y deltaReferenceValue:CGRectGetHeight(self.bounds)
                                                     minValue:0.01 maxValue:1.0];
+                    [UIScreen mainScreen].brightness = cureBright;
                 } else {//调整音量
-                    [self.videoPlayer setVolume:[self newValue:self.videoPlayer.volume
-                                                    deltaValue:-panGesture.delta.y deltaReferenceValue:CGRectGetHeight(self.bounds)
-                                                      minValue:0.01 maxValue:1.0]];
+//                    [self.videoPlayer setPlaybackVolume:[self newValue:self.videoPlayer.playbackVolume
+//                                                            deltaValue:-panGesture.delta.y deltaReferenceValue:CGRectGetHeight(self.bounds)
+//                                                              minValue:0.01 maxValue:1.0]];
                 }
             }
         }
@@ -685,11 +691,13 @@
 - (H5VideoBrightnessView*) brightnessView{
     return [H5VideoBrightnessView sharedView];
 }
+- (H5VideoVolumeView*) volumeView{
+    return [H5VideoVolumeView sharedView];
+}
 
 #pragma mark - fullScreen
 - (void)requestFullScreen:(H5VideoPlayDirection)direction {
     if ( !self.isFullScreen ) {
-        //  [self addFullStreenNotify];
         [PDRCore lockScreen];
         self.isFullScreen = YES;
         UIInterfaceOrientation interfaceOrientation = UIInterfaceOrientationLandscapeRight;
@@ -715,7 +723,7 @@
         [self setFullScreenLayout:interfaceOrientation];
         [self transformWithOrientation:interfaceOrientation];
         [[PDRCore Instance] setHomeIndicatorAutoHidden:YES];
-        [self.delegate playerViewEnterFullScreen:self interfaceOrientation:interfaceOrientation];
+//        [self.delegate playerViewEnterFullScreen:self interfaceOrientation:interfaceOrientation];
     } else {
         [[PDRCore Instance] setHomeIndicatorAutoHidden:NO];
         [self exitFullScreen];
@@ -732,7 +740,6 @@
     [self setExitFullScreenLayout];
     self.isFullScreen = NO;
     [self transformWithOrientationWithExitFullScreen:self.afterInterfaceOrientation];
-    [self removeFullStreenNotify];
     [self.delegate playerViewExitFullScreen:self];
 }
 
@@ -752,50 +759,69 @@
         }
     }];
     
-    [[self brightnessView] removeFromSuperview];
+    //    [[self volumeView] removeFromSuperview];
+    [self addSubview:self.volumeView];
+    [self.volumeView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.center.mas_equalTo(self);
+        make.width.height.mas_equalTo(155);
+    }];
+    //    [[self brightnessView] removeFromSuperview];
     [self addSubview:self.brightnessView];
     [self.brightnessView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.center.mas_equalTo(self);
         make.width.height.mas_equalTo(155);
     }];
+
 }
 
 - (void)setExitFullScreenLayout {
     [self removeFromSuperview];
     [[self brightnessView].layer removeAllAnimations];
     [[self brightnessView] removeFromSuperview];
-    [[UIApplication sharedApplication].keyWindow addSubview:self.brightnessView];
-    CGSize size =  [[UIScreen mainScreen] bounds].size;
-    [self.brightnessView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.width.height.mas_equalTo(155);
-        make.leading.mas_equalTo((size.width -155)/2);
-        make.top.mas_equalTo((size.height-155)/2);
-    }];
+//    [[UIApplication sharedApplication].keyWindow addSubview:self.brightnessView];
+//    CGSize size =  [[UIScreen mainScreen] bounds].size;
+//    [self.brightnessView mas_remakeConstraints:^(MASConstraintMaker *make) {
+//        make.width.height.mas_equalTo(155);
+//        make.leading.mas_equalTo((size.width -155)/2);
+//        make.top.mas_equalTo((size.height-155)/2);
+//    }];
+    [[self volumeView].layer removeAllAnimations];
+    [[self volumeView] removeFromSuperview];
 }
 
 - (void)transformWithOrientation:(UIInterfaceOrientation)newOrientation {
     UIInterfaceOrientation currentOrientation = [UIApplication sharedApplication].statusBarOrientation;
-    if ( newOrientation == currentOrientation ) return;
+    if ( newOrientation == currentOrientation ) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.delegate playerViewEnterFullScreen:self interfaceOrientation:newOrientation];
+        });
+        
+        return;
+    }
     if ( newOrientation == UIInterfaceOrientationLandscapeLeft
         || newOrientation == UIInterfaceOrientationLandscapeRight ) {
         if ( currentOrientation == UIInterfaceOrientationPortrait) {
-            [UIView animateWithDuration:0.3 animations:^{
-                // self.transform = CGAffineTransformIdentity;
-                //self.transform = [self getTransformRotationAngle];
+
+            [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
                 self.transform = UIInterfaceOrientationLandscapeLeft == newOrientation ? CGAffineTransformMakeRotation(-M_PI_2) : CGAffineTransformMakeRotation(M_PI_2);
+            } completion:^(BOOL finished) {
+                [self.delegate playerViewEnterFullScreen:self interfaceOrientation:newOrientation];
             }];
+            
         } else {
-            [UIView animateWithDuration:0.3 animations:^{
-                // self.transform = CGAffineTransformIdentity;
-                //self.transform = [self getTransformRotationAngle];
+            [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
                 self.transform = UIInterfaceOrientationLandscapeLeft == newOrientation ? CGAffineTransformMakeRotation(-M_PI) : CGAffineTransformMakeRotation(M_PI);
+            } completion:^(BOOL finished) {
+                [self.delegate playerViewEnterFullScreen:self interfaceOrientation:newOrientation];
             }];
         }
        // [self setNeedsUpdateConstraints];
        // [self doConstraintAnimation];
     } else {
-        [UIView animateWithDuration:.3 animations:^{
+        [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
             self.transform = CGAffineTransformIdentity;
+        } completion:^(BOOL finished) {
+            [self.delegate playerViewEnterFullScreen:self interfaceOrientation:newOrientation];
         }];
     }
     [[UIApplication sharedApplication] setStatusBarOrientation:newOrientation animated:NO];
@@ -831,48 +857,11 @@
 }
 
 - (void)onStatusBarOrientationChange {
-    return;
-    if ( self.isFullScreen ) {
-        UIInterfaceOrientation currentOrientation = [UIApplication sharedApplication].statusBarOrientation;
-        [self transformWithOrientation:currentOrientation];
+    if (self.isShowBuffingView) {
+        [self dismissBuffuingView];
+        self.isShowBuffingView2 = YES;
     }
-    //if (!self.didEnterBackground) {
-    // 获取到当前状态条的方向
-    
-    
-    // if (currentOrientation == UIInterfaceOrientationPortrait) {
-    //            [self setOrientationPortraitConstraint];
-    //            if (self.cellPlayerOnCenter) {
-    //                if ([self.scrollView isKindOfClass:[UITableView class]]) {
-    //                    UITableView *tableView = (UITableView *)self.scrollView;
-    //                    [tableView scrollToRowAtIndexPath:self.indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
-    //
-    //                } else if ([self.scrollView isKindOfClass:[UICollectionView class]]) {
-    //                    UICollectionView *collectionView = (UICollectionView *)self.scrollView;
-    //                    [collectionView scrollToItemAtIndexPath:self.indexPath atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
-    //                }
-    //            }
-    //            [self.brightnessView removeFromSuperview];
-    //            [[UIApplication sharedApplication].keyWindow addSubview:self.brightnessView];
-    //            [self.brightnessView mas_remakeConstraints:^(MASConstraintMaker *make) {
-    //                make.width.height.mas_equalTo(155);
-    //                make.leading.mas_equalTo((ScreenWidth-155)/2);
-    //                make.top.mas_equalTo((ScreenHeight-155)/2);
-    //            }];
-    // } else {
-    //            if (currentOrientation == UIInterfaceOrientationLandscapeRight) {
-    //                [self toOrientation:UIInterfaceOrientationLandscapeRight];
-    //            } else if (currentOrientation == UIDeviceOrientationLandscapeLeft){
-    //                [self toOrientation:UIInterfaceOrientationLandscapeLeft];
-    //            }
-    //            [self.brightnessView removeFromSuperview];
-    //            [self addSubview:self.brightnessView];
-    //            [self.brightnessView mas_remakeConstraints:^(MASConstraintMaker *make) {
-    //                make.center.mas_equalTo(self);
-    //                make.width.height.mas_equalTo(155);
-    //            }];
-    //  }
-    // }
+    return;
 }
 
 
@@ -880,22 +869,6 @@
     return [UIApplication sharedApplication].keyWindow;
 }
 
-//- (void)playerViewEnterFullScreen {
-//    UIView *superView = [UIApplication sharedApplication].delegate.window.rootViewController.view;
-//    [self removeFromSuperview];
-//    [superView addSubview:self];
-//    [self mas_remakeConstraints:^(MASConstraintMaker *make) {
-//        make.width.equalTo(superView.mas_height);
-//        make.height.equalTo(superView.mas_width);
-//        make.center.equalTo(superView);
-//    }];
-//    [superView setNeedsUpdateConstraints];
-//    [superView updateConstraintsIfNeeded];
-//
-//    [UIView animateWithDuration:.3 animations:^{
-//        [superView layoutIfNeeded];
-//    }];
-//}
 
 #pragma mark - otherView
 - (void)createThumbImageView {
@@ -904,9 +877,9 @@
             self.thumbImageView = [[UIImageView alloc] init];
             self.thumbImageView.contentMode = UIViewContentModeScaleAspectFill;
             self.clipsToBounds = YES;
-            [self.videoPlayer.playView addSubview:self.thumbImageView];
+            [self.videoPlayer.view addSubview:self.thumbImageView];
             [self.thumbImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.edges.equalTo(self.videoPlayer.playView);
+                make.edges.equalTo(self.videoPlayer.view);
             }];
         }
     }
@@ -968,6 +941,7 @@
     
     self.durationLabel = [[UILabel alloc] init];
     self.durationLabel.font = [UIFont systemFontOfSize:12];
+    self.durationLabel.textAlignment = NSTextAlignmentCenter;
     if (@available(iOS 9.0, *)) {
         self.durationLabel.font= [UIFont monospacedDigitSystemFontOfSize:12 weight:(UIFontWeightRegular)];
     }
@@ -1008,29 +982,10 @@
 
 - (void)hideBottomBar {
     [self doBottomBarBackViewConstraint:NO];
-//    [self.bottomBarBackView mas_remakeConstraints:^(MASConstraintMaker *make) {
-//        make.left.right.equalTo(self);
-//        make.top.equalTo(self.mas_bottom);
-//        make.height.equalTo(44);
-//    }];
-    
-    //    self.snapshotButton.hidden = YES;
-    //
-    //    if (PLPlayerStatusPlaying == self.player.status ||
-    //        PLPlayerStatusPaused == self.player.status ||
-    //        PLPlayerStatusCaching == self.player.status) {
-    //        [self showBottomProgressView];
-    //    }
 }
 
 - (void)showBottomBar {
     [self doBottomBarBackViewConstraint:YES];
-//    [self.bottomBarBackView mas_remakeConstraints:^(MASConstraintMaker *make) {
-//        make.left.bottom.right.equalTo(self);
-//        make.height.equalTo(44+ self.safeAreaInsets.bottom);
-//    }];
-    
-    //  [self hideBottomProgressView];
 }
 
 -(void)safeAreaInsetsDidChange {
@@ -1096,7 +1051,7 @@
     if ( !(self.playAndPauseButton.hidden) ) {
         [self.playAndPauseButton mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.bottom.equalTo(self.bottomBarView);
-            make.left.equalTo(self.bottomBarView).offset(kH5VidelPlayViewBottomButtonSpace);
+            make.left.equalTo(self.bottomBarView).offset(kH5VidelPlayViewBottomButtonSpace+2);
             make.width.equalTo(self.playAndPauseButton.mas_height);
         }];
     }
@@ -1146,8 +1101,10 @@
     
     if ( !self.fullScreenSwitchButton.hidden ) {
         [self.fullScreenSwitchButton mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.right.top.bottom.equalTo(self.bottomBarView);
+            make.top.bottom.equalTo(self.bottomBarView);
+            make.right.equalTo(self.bottomBarView).offset(-7);
             make.width.equalTo(self.fullScreenSwitchButton.mas_height);
+            make.width.equalTo(53);
         }];
     }
     
@@ -1161,9 +1118,6 @@
     self.lockAutoUpdateSlider = NO;
     float seekValue = MAX(self.slider.value, self.lastSlideProgress);
     [self seek:seekValue];
-    dispatch_async(dispatch_get_main_queue(), ^{
-       // [self doVideoPlayStop:seekValue];
-    });
 }
 
 #pragma mark - event
@@ -1188,14 +1142,10 @@
 - (void)onClickPlayPauseSwitchButton {
     if ( [self.playAndPauseButton isNeedPlay] ) {
         [self __play];
+        [self turnOnPlayPauseButton:YES];
     } else {
         [self __pause];
     }
-   // if (UPAVPlayerStatusPause == self.videoPlayer.playerStatus) {
-        //[self resume];
-   // } else {
-    
-//    }
 }
 
 - (void)onClickCenterPlayPauseSwitchButton {
@@ -1226,7 +1176,7 @@
 
 - (void)showBuffuingView {
     if ( !self.isShowBuffingView ) {
-        [SVProgressHUD setContainerView:self.videoPlayer.playView];
+        [SVProgressHUD setContainerView:self.videoPlayer.view];
         [SVProgressHUD setMinimumSize:CGSizeMake(20, 20)];
         [SVProgressHUD setRingThickness:4];
         [SVProgressHUD setBackgroundColor:[UIColor clearColor]];
@@ -1235,22 +1185,80 @@
     }
     self.isShowBuffingView = YES;
 }
-
-#pragma mark - UPAVPlayer delegate
-- (void)player:(UPAVPlayer *)player playerError:(NSError *)error {
-    [self dismissBuffuingView];
-    [self turnOnPlayPauseButton:NO];
-    if ( [self.delegate respondsToSelector:@selector(playerView:playerError:)] ) {
-        [self.delegate playerView:self playerError:error];
+- (void)setFrame:(CGRect)frame{
+    if (CGRectEqualToRect(self.frame, frame)) {
+        return;
+    }    
+    [super setFrame:frame];
+    if (self.isShowBuffingView2) {
+//        [self dismissBuffuingView];
+        [self showBuffuingView];
+        self.isShowBuffingView2 = NO;
+    }
+}
+#pragma mark - 通知
+- (void)loadStateDidChange:(NSNotification*)notification
+{
+    IJKMPMovieLoadState loadState = self.videoPlayer.loadState;
+    if ((loadState & IJKMPMovieLoadStatePlaythroughOK) != 0) {
+        [self dismissBuffuingView];
+        
+//        NSLog(@"loadStateDidChange: IJKMPMovieLoadStatePlaythroughOK: %d\n", (int)loadState);
+    } else if ((loadState & IJKMPMovieLoadStateStalled) != 0) {
+        [self showBuffuingView];
+        [self.delegate playerViewBuffering:self];
+//        NSLog(@"loadStateDidChange: IJKMPMovieLoadStateStalled: %d\n", (int)loadState);
+    } else {
+//        NSLog(@"loadStateDidChange: ???: %d\n", (int)loadState);
     }
 }
 
-- (void)player:(id)player streamInfoDidReceive:(UPAVPlayerStreamInfo *)streamInfo {
-    if (streamInfo.canPause && streamInfo.canSeek) {
+- (void)moviePlayBackDidFinish:(NSNotification*)notification
+{
+    
+    int reason = [[[notification userInfo] valueForKey:IJKMPMoviePlayerPlaybackDidFinishReasonUserInfoKey] intValue];
+    switch (reason){
+        case IJKMPMovieFinishReasonPlaybackEnded:
+            [self dismissBuffuingView];
+            [self turnOnPlayPauseButton:NO];
+            if ( self.isStreamVideo==NO ) {
+                [self doVideoPlayStop];
+            }
+            break;
+            
+        case IJKMPMovieFinishReasonUserExited:
+//            [self dismissBuffuingView];
+//            [self turnOnPlayPauseButton:NO];
+//            if ( self.isStreamVideo==NO ) {
+//                if ( [self.delegate respondsToSelector:@selector(playerViewEnded:)] ) {
+//                    [self.delegate playerViewEnded:self];
+//                }
+//            }
+//            NSLog(@"playbackStateDidChange: IJKMPMovieFinishReasonUserExited: %d\n", reason);
+            break;
+            
+        case IJKMPMovieFinishReasonPlaybackError:
+            [self.timer setFireDate:[NSDate distantFuture]];
+            [self dismissBuffuingView];
+            [self turnOnPlayPauseButton:NO];
+            if ( [self.delegate respondsToSelector:@selector(playerView:playerError:)] ) {
+                [self.delegate playerView:self playerError:nil];
+            }
+            self.isPlayError = YES;
+            break;
+            
+        default:
+//            NSLog(@"playbackPlayBackDidFinish: ???: %d\n", reason);
+            break;
+    }
+}
+
+- (void)mediaIsPreparedToPlayDidChange:(NSNotification*)notification
+{
+    if (self.isStreamVideo == NO) {
         //判别为点播
         self.slider.enabled = YES;
-        
-        CGFloat fduration = streamInfo.duration;
+        CGFloat fduration = self.videoPlayer.duration;
         if ( self.setting.duration > 0) {
             fduration = self.setting.duration;
         }
@@ -1261,91 +1269,88 @@
             self.slider.hidden = NO;
             self.playTimeLabel.hidden = NO;
         }
-        //self.thumbImageView.hidden = YES;
-    } else {
-        //判别为直播流
+    } else {//判别为直播流
         self.durationLabel.hidden = YES;
         self.slider.hidden = YES;
         self.playTimeLabel.hidden = YES;
         //self.durationLabel.text = [self foramtStringByPosition:0];
         self.slider.enabled = NO;
     }
-//
-//    NSArray *video = [streamInfo.descriptionInfo objectForKey:@"video"];
-//    if (video.count > 0) {
-//        NSLog(@"视频流: %@", video);
-//    }
-//    NSArray *audio = [streamInfo.descriptionInfo objectForKey:@"audio"];
-//    if (audio.count > 0) {
-//        NSLog(@"音频流: %@", audio);
-//    }
-//    NSArray *subtitles = [streamInfo.descriptionInfo objectForKey:@"subtitles"];
-//    if (subtitles.count > 0) {
-//        NSLog(@"字幕流: %@", subtitles);
-//    }
+    
 }
-
-- (void)player:(id)player displayPositionDidChange:(float)position {
+-(void)videoPlayerisPlaying{
     if ( !self.lockAutoUpdateSlider ) {
-        if ( self.videoPlayer.streamInfo.duration > 0 ){
-            self.slider.value = position;
+        if ( self.videoPlayer.duration > 0 ){
+            self.slider.value = self.videoPlayer.currentPlaybackTime;
         }
-        self.playTimeLabel.text = [self foramtStringByPosition:position];
+        self.playTimeLabel.text = [self foramtStringByPosition:self.videoPlayer.currentPlaybackTime];
         if ( [self.delegate respondsToSelector:@selector(playerView:timeUpdate:total:)] ) {
-            [self.delegate playerView:self timeUpdate:position total:self.videoPlayer.streamInfo.duration];
+            [self.delegate playerView:self timeUpdate:self.videoPlayer.currentPlaybackTime total:self.videoPlayer.duration];
         }
     }
 }
-
-- (void)player:(UPAVPlayer *)player streamStatusDidChange:(UPAVStreamStatus)streamStatus {
-    if ( UPAVStreamStatusReady == streamStatus ) {
-        //self.thumbImageView.hidden = YES;
-    }
-}
-
-- (void)player:(UPAVPlayer *)player playerStatusDidChange:(UPAVPlayerStatus)playerStatus {
-    if ( UPAVPlayerStatusPlaying == playerStatus  ) {
-        if ( !self.isPlayLoopRun ) {
-            self.isPlayLoopRun = YES;
-            if ( self.setting.initialTime > 0 ) {
-                [self seek:self.setting.initialTime];
-                //[self.videoPlayer seekToTime:self.setting.initialTime];
+- (void)moviePlayBackStateDidChange:(NSNotification*)notification
+{
+    switch (self.videoPlayer.playbackState){
+        case IJKMPMoviePlaybackStateStopped: {
+            [self.timer setFireDate:[NSDate distantFuture]];
+//            NSLog(@"IJKMPMoviePlayBackStateDidChange %d: stoped", (int)(self.videoPlayer.playbackState));
+            break;
+        }
+        case IJKMPMoviePlaybackStatePlaying: {
+            if (self.videoPlayer.isPlaying && self.timer ==nil) {
+                self.timer = [NSTimer scheduledTimerWithTimeInterval:0.25 target:self selector:@selector(videoPlayerisPlaying) userInfo:nil repeats:YES];
+            }else{
+                [self.timer setFireDate:[NSDate distantPast]];
             }
-            self.slider.enabled = YES;
+            if ( !self.isPlayLoopRun ) {
+                self.isPlayLoopRun = YES;
+                if ( self.setting.initialTime > 0 ) {
+                    [self seek:self.setting.initialTime];
+                }
+                self.slider.enabled = YES;
+            }
+            [self dismissBuffuingView];
+            self.thumbImageView.hidden = YES;
+            break;
         }
-        [self dismissBuffuingView];
-        self.thumbImageView.hidden = YES;
-    } else if (UPAVPlayerStatusPlaying_buffering == playerStatus){
-        [self.delegate playerViewBuffering:self];
-        [self showBuffuingView];
-    } else if ( UPAVPlayerStatusIdle == playerStatus ){
-        if ( self.ingoreIdleAfterSeek) {
-            self.ingoreIdleAfterSeek = NO;
-            return;
+        case IJKMPMoviePlaybackStatePaused: {
+            [self.timer setFireDate:[NSDate distantFuture]];
+            
+            [self dismissBuffuingView];
+            break;
         }
-        if ( self.videoPlayer.streamInfo.canSeek ) {
-             [self doVideoPlayStop];
+        case IJKMPMoviePlaybackStateInterrupted: {
+            [self.timer setFireDate:[NSDate distantFuture]];
+            [self dismissBuffuingView];
+            break;
         }
-    } else if ( UPAVPlayerStatusFailed == playerStatus ){
-        [self dismissBuffuingView];
+        case IJKMPMoviePlaybackStateSeekingForward:{}
+        case IJKMPMoviePlaybackStateSeekingBackward: {
+            break;
+        }
+        default: {
+            break;
+        }
     }
 }
+
+
+/////////////////////////////
 
 - (void)doVideoPlayStop {
-   // if (self.videoPlayer.streamInfo.duration > 0 && self.videoPlayer.streamInfo.canSeek ) {
-    //if (  floor(self.videoPlayer.streamInfo.duration - position) <= 1 ||self.videoPlayer.streamInfo.duration < position) {
-            [self resetUI];
-            if ( self.setting.isLoop ) {
-                [self performSelector:@selector(onClickRepeatPlay) withObject:nil afterDelay:1];
-            } else {
-                [self.videoPlayOverlayView initRepeatViewWithText:[self foramtStringByPosition:self.videoPlayer.streamInfo.duration]];
-                [self bringSubviewToFront:self.bottomBarBackView];
-            }
-            if ( [self.delegate respondsToSelector:@selector(playerViewEnded:)] ) {
-                [self.delegate playerViewEnded:self];
-            }
-       // }
-   // }
+    [self resetUI];
+    self.directionGesture.enabled = NO;
+    [self.timer setFireDate:[NSDate distantFuture]];
+    if ( self.setting.isLoop ) {
+        [self performSelector:@selector(onClickRepeatPlay) withObject:nil afterDelay:1];
+    } else {
+        [self.videoPlayOverlayView initRepeatViewWithText:[self foramtStringByPosition:self.videoPlayer.duration]];
+        [self bringSubviewToFront:self.bottomBarBackView];
+    }
+    if ( [self.delegate respondsToSelector:@selector(playerViewEnded:)] ) {
+        [self.delegate playerViewEnded:self];
+    }
 }
 
 #pragma mark - tools

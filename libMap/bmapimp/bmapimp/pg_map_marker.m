@@ -249,6 +249,7 @@
 
 - (void)dealloc
 {
+    self.createWebviewId = nil;
     self.belongWebview = nil;
     [_animationImages release];
     [_baseURL release];
@@ -279,7 +280,7 @@
     
     PGMapMarker *marker = [[[PGMapMarker alloc] init] autorelease];
     
-    marker.baseURL = [baseURL retain];
+    marker.baseURL = baseURL;
     
     PGMapCoordinate *point = [PGMapCoordinate pointWithJSON:[jsonObj objectAtIndex:0]];
     marker.coordinate = [point point2CLCoordinate];
@@ -978,7 +979,7 @@
         PGMapMarker *marker = (PGMapMarker*)annotation;
         NSString * jsObjectF = @"{var args = {type:'markerclick'};\
         var p = %@; p.maps.__bridge__.execCallback('%@', args);}";
-        NSString *javaScript = [NSString stringWithFormat:jsObjectF, [H5CoreJavaScriptText plusObject], marker.UUID];
+        NSString *javaScript = [NSString stringWithFormat:jsObjectF, [marker.belongMapview.jsBridge plusObject], marker.UUID];
         [marker.belongMapview.jsBridge asyncWriteJavascript:javaScript inWebview:marker.belongWebview];
     }
 }

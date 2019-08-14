@@ -25,7 +25,7 @@
 #import "PDRCommonString.h"
 #import "PTUserAgentUtil.h"
 #import "H5PUIToast.h"
-#import "PGNativeImageSliderView.h"
+
 
 NSString *const PGUICloseWaitingNotificationKey = @"PGUICloseWaitingNotificationKey";
 
@@ -311,7 +311,14 @@ NSString* g_PDR_Localization_Cancel = @"取消";
     NSArray *keys = [m_pDatePickDic allKeys];
     NSString *htmlID = [keys objectAtIndex:0];
     NSString *callBackID = [m_pDatePickDic objectForKey:htmlID];
-    PDRPluginResult *reuslt = [PDRPluginResult resultWithStatus:PDRCommandStatusOK messageAsDouble:[date timeIntervalSince1970]*1000];
+    
+    // 直接返回时间戳在 iOS 的浏览器中时区会有问题，返回 yyyy/MM/dd HH:mm:ss 时间格式可以兼容
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy/MM/dd HH:mm:ss"];
+    NSString *time = [formatter stringFromDate:date];
+    [formatter release];
+    
+    PDRPluginResult *reuslt = [PDRPluginResult resultWithStatus:PDRCommandStatusOK messageAsString:time];
     [self toCallback:callBackID withReslut:[reuslt toJSONString]];
     [m_pDatePickDic removeAllObjects];
 }
@@ -321,15 +328,25 @@ NSString* g_PDR_Localization_Cancel = @"取消";
 {
     NSArray* pTmpImages = nil;
     NSDictionary* pOptions = nil;
-
+    NSString *callBackId = nil;
+    NSString *htmlID = nil;
     NSArray* pArgus = [pMethod getArgumentAtIndex:1];
     if(pArgus && [pArgus isKindOfClass:[NSArray class]]){
         pTmpImages = [pArgus firstObject];
         if(pArgus.count > 1){
             pOptions = [pArgus objectAtIndex:1];
         }
+        callBackId = [pArgus objectAtIndex:2];
     }
     
+    NSString *htmlIDValue = pMethod.htmlID;
+    if ( [htmlIDValue isKindOfClass:[NSString class]] ) {
+        htmlID = htmlIDValue;
+    }
+    if (m_previewImgDic == nil) {
+        m_previewImgDic = [[NSMutableDictionary alloc] init];
+    }
+    [m_previewImgDic setObject:callBackId forKey:htmlID];
     
     NSMutableArray* pImages = [NSMutableArray arrayWithCapacity:0];
     int current = 0;
@@ -364,6 +381,8 @@ NSString* g_PDR_Localization_Cancel = @"取消";
                                                                                                @"fullscreen":@(true),
                                                                                                g_pdr_string_baseURL:self.JSFrameContext.baseURL?self.JSFrameContext.baseURL:@"",
                                                                                                @"images":pImages}];
+    pImageSlider.delegate = self;
+    
     if(pImageSlider){
         pImageSlider.belongTo = PDRNViewInWindow;
         if(pBgColor && [pBgColor isKindOfClass:[NSString class]]){
@@ -383,8 +402,24 @@ NSString* g_PDR_Localization_Cancel = @"取消";
         [self.appContext.appWindow  addSubview:pImageSlider];
         [pImageSlider release];
     }
+    
+    if (m_pDatePickDic == nil) {
+        m_pDatePickDic = [[NSMutableDictionary alloc] init];
+    }
+    
 }
-
+-(void)longPressForIndex:(NSNumber *)index url:(NSString *)url path:(NSString *)path{
+    NSArray *keys = [m_previewImgDic allKeys];
+    NSString *htmlID = [keys objectAtIndex:0];
+    NSString *callBackID = [m_previewImgDic objectForKey:htmlID];
+    NSMutableDictionary * dic = [NSMutableDictionary new];
+    [dic setObject:index forKey:@"index"];
+    [dic setObject:url forKey:@"url"];
+    [dic setObject:path forKey:@"path"];
+    PDRPluginResult *result = [PDRPluginResult resultWithStatus:PDRCommandStatusOK messageAsDictionary:dic];
+    [result setKeepCallback:YES];
+    [self toCallback:callBackID withReslut:[result toJSONString]];
+}
 #pragma mark --
 #pragma mark 系统提示框
 - (void)toast:(PGMethod*)pMethod {
@@ -467,6 +502,10 @@ NSString* g_PDR_Localization_Cancel = @"取消";
         } else if (NSOrderedSame == [g_pdr_string_center caseInsensitiveCompare:verticalAlign]){
             toast.verticalAlignment = H5PUIToastPopStyleCenter;
         }
+    }
+    NSString *bkColor = [PGPluginParamHelper getStringValueInDict:options forKey:g_pdr_string_background defalut:nil];
+    if ( bkColor ) {
+        toast.color = [UIColor colorWithCSS:bkColor];
     }
     
     if ( NSFoundationVersionNumber >= NSFoundationVersionNumber_iOS_8_0 ) {
@@ -1292,6 +1331,8 @@ NSString* g_PDR_Localization_Cancel = @"取消";
     [m_pPopTrace removeAllObjects];
     [m_pPopTrace release];
     
+    [m_previewImgDic removeAllObjects];
+    [m_previewImgDic release];
     [super dealloc];
 }
 

@@ -28,7 +28,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         instance = [[H5VideoBrightnessView alloc] init];
-        [[UIApplication sharedApplication].keyWindow addSubview:instance];
+//        [[UIApplication sharedApplication].keyWindow addSubview:instance];
     });
     return instance;
 }

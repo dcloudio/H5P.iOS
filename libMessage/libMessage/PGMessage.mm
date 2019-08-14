@@ -1,4 +1,4 @@
-﻿/*
+/*
  *------------------------------------------------------------------
  *  pandora/feature/message/pg_message.mm
  *  Description:
@@ -82,6 +82,9 @@
                     _attachemnt = [[NSMutableArray alloc] initWithCapacity:10];
                 }
                 NSString *absolutePath = [PTPathUtil absolutePath:att];
+                if (absolutePath ==nil) {
+                    absolutePath = @"";
+                }
                 [_attachemnt addObject:absolutePath];
             }
         }

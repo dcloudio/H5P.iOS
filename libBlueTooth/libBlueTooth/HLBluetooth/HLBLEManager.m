@@ -106,11 +106,7 @@ static DCHLBLEManager *instance = nil;
     }
 }
 
-- (void)readValueForCharacteristic:(CBCharacteristic *)characteristic
-                        Peripheral:(CBPeripheral *)peripheral;
-{
-    [peripheral readValueForCharacteristic:characteristic];
-}
+
 
 - (void)NotifyValueforCharacteristic:(CBCharacteristic *)characteristic Peripheral:(CBPeripheral *)peripheral{
     [peripheral setNotifyValue:true forCharacteristic:characteristic];
@@ -124,6 +120,11 @@ static DCHLBLEManager *instance = nil;
     _valueForCharacteristicBlock = completionBlock;
     [self readValueForCharacteristic:characteristic Peripheral:peripheral];
 }
+- (void)readValueForCharacteristic:(CBCharacteristic *)characteristic
+                        Peripheral:(CBPeripheral *)peripheral;
+{
+    [peripheral readValueForCharacteristic:characteristic];
+}
 
 - (void)writeValue:(NSData *)data Peripheral:(CBPeripheral *)peripheral forCharacteristic:(CBCharacteristic *)characteristic type:(CBCharacteristicWriteType)type
 {
@@ -131,7 +132,11 @@ static DCHLBLEManager *instance = nil;
     _responseCount = 0;
     // iOS 9 以后，系统添加了这个API来获取特性能写入的最大长度
     if ([peripheral respondsToSelector:@selector(maximumWriteValueLengthForType:)]) {
-        _limitLength = [peripheral maximumWriteValueLengthForType:type];
+        if (@available(iOS 9.0, *)) {
+            _limitLength = [peripheral maximumWriteValueLengthForType:type];//CBCharacteristicWriteWithoutResponse
+        } else {
+            // Fallback on earlier versions
+        }
     }
     
     // 如果_limitLength 小于等于0，则表示不用分段发送
@@ -163,12 +168,12 @@ static DCHLBLEManager *instance = nil;
 {
     _writeToCharacteristicBlock = completionBlock;
     [self writeValue:data Peripheral:peripheral forCharacteristic:characteristic type:type];
+//    BOOL is =  peripheral.canSendWriteWithoutResponse;    
+}
+- (void)peripheralIsReadyToSendWriteWithoutResponse:(CBPeripheral *)peripheral{
+    
 }
 
-- (void)readValueForDescriptor:(CBDescriptor *)descriptor Peripheral:(CBPeripheral *)peripheral
-{
-    [peripheral readValueForDescriptor:descriptor];
-}
 
 - (void)readValueForDescriptor:(CBDescriptor *)descriptor
                     Peripheral:(CBPeripheral *)peripheral
@@ -177,10 +182,9 @@ static DCHLBLEManager *instance = nil;
     _valueForDescriptorBlock = completionBlock;
     [self readValueForDescriptor:descriptor Peripheral:peripheral];
 }
-
-- (void)writeValue:(NSData *)data Peripheral:(CBPeripheral *)peripheral forDescriptor:(CBDescriptor *)descriptor
+- (void)readValueForDescriptor:(CBDescriptor *)descriptor Peripheral:(CBPeripheral *)peripheral
 {
-    [peripheral writeValue:data forDescriptor:descriptor];
+    [peripheral readValueForDescriptor:descriptor];
 }
 
 
@@ -189,7 +193,10 @@ static DCHLBLEManager *instance = nil;
     _writeToDescriptorBlock = completionBlock;
     [self writeValue:data Peripheral:peripheral forDescriptor:descriptor];
 }
-
+- (void)writeValue:(NSData *)data Peripheral:(CBPeripheral *)peripheral forDescriptor:(CBDescriptor *)descriptor
+{
+    [peripheral writeValue:data forDescriptor:descriptor];
+}
 
 - (void)readRSSICompletionBlock:(HLGetRSSIBlock)getRSSIBlock Peripheral:(CBPeripheral *)peripheral
 {
@@ -253,7 +260,6 @@ static DCHLBLEManager *instance = nil;
         _disconnectBlock(peripheral, error);
         return;
     }
-    NSLog(@"断开连接了，断开连接了 %@",error);
 }
 
 #pragma mark ---------------- 发现服务的代理 -----------------
@@ -313,7 +319,7 @@ static DCHLBLEManager *instance = nil;
 //    }
 
 }
-
+//订阅特征值是否成功
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateNotificationStateForCharacteristic:(CBCharacteristic *)characteristic error:(nullable NSError *)error
 {
     if (error) {
@@ -336,14 +342,10 @@ static DCHLBLEManager *instance = nil;
         }
         return;
     }
-    
-//    
     NSData *data = characteristic.value;
 //    if (data.length > 0) {
 //        const unsigned char *hexBytesLight = [data bytes];
-//        
 //        NSString * battery = [NSString stringWithFormat:@"%02x", hexBytesLight[0]];
-//        
 //        NSLog(@"batteryInfo:%@",battery);        
 //    }
     
@@ -359,11 +361,10 @@ static DCHLBLEManager *instance = nil;
         if (_completionBlock) {
             _completionBlock(HLOptionStageSeekdescriptors,peripheral,nil,characteristic,error);
         }
-        return;
-    }
-    
-    if (_completionBlock) {
-        _completionBlock(HLOptionStageSeekdescriptors,peripheral,nil,characteristic,nil);
+    }else{
+        if (_completionBlock) {
+            _completionBlock(HLOptionStageSeekdescriptors,peripheral,nil,characteristic,nil);
+        }
     }
 }
 
@@ -373,30 +374,29 @@ static DCHLBLEManager *instance = nil;
         if (_valueForDescriptorBlock) {
             _valueForDescriptorBlock(descriptor,nil,error);
         }
-        return;
-    }
-    
-    NSData *data = descriptor.value;
-    if (_valueForDescriptorBlock) {
-        _valueForDescriptorBlock(descriptor,data,nil);
+    }else{
+        NSData *data = descriptor.value;
+        if (_valueForDescriptorBlock) {
+            _valueForDescriptorBlock(descriptor,data,nil);
+        }
     }
 }
 
+#pragma mark ---------------- 写入数据的回调 --------------------
 - (void)peripheral:(CBPeripheral *)peripheral didWriteValueForDescriptor:(CBDescriptor *)descriptor error:(nullable NSError *)error
 {
     if (error) {
         if (_writeToDescriptorBlock) {
             _writeToDescriptorBlock(descriptor, error);
         }
-        return;
-    }
-    
-    if (_writeToDescriptorBlock) {
-        _writeToDescriptorBlock(descriptor, nil);
+    }else{
+        if (_writeToDescriptorBlock) {
+            _writeToDescriptorBlock(descriptor, nil);
+        }
     }
 }
 
-#pragma mark ---------------- 写入数据的回调 --------------------
+
 - (void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(nullable NSError *)error
 {
     if (!_writeToCharacteristicBlock) {

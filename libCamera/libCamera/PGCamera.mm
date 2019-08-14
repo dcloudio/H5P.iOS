@@ -22,7 +22,7 @@
 #import "PDRCoreAppWindow.h"
 #import "PDRCommonString.h"
 #import "PDRCoreDefs.h"
-
+#import "PGGalleryProgressHUD.h"
 @implementation PGCameraOption
 
 @synthesize savePath;
@@ -439,7 +439,7 @@
     if ( PGCameraOptionTypeVideo == option.captureMode ){
         self.pickerController.saveFileName = [PTPathUtil absolutePath:option.savePath
                                                                prefix:@"video_"
-                                                               suffix:@"mov"
+                                                               suffix:@"mp4"
                                                               context:self.appContext];
         self.pickerController.videoMaximumDuration = option.videoMaximumDuration;
     } else {
@@ -729,6 +729,12 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     PGImagePickerController* photoPicker = (PGImagePickerController*)picker;
+    NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
+    PGGalleryProgressHUD *hud = nil;
+    if ([mediaType isEqualToString:(NSString*)kUTTypeMovie]) {
+         hud = [self showWaiting];
+    }
+    
     if (photoPicker.popoverSupported && (photoPicker.popoverController != nil)) {
         [photoPicker.popoverController dismissPopoverAnimated:YES];
         photoPicker.popoverController.delegate = nil;
@@ -740,7 +746,7 @@
             [[photoPicker parentViewController] dismissModalViewControllerAnimated:YES];
         }
     }
-    NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
+    
     UIImage  *originalImage = [info objectForKey:UIImagePickerControllerOriginalImage];
     NSURL *mediaURL = [info objectForKey: UIImagePickerControllerMediaURL];
     // NSDictionary *imageMetadata = [info objectForKey:UIImagePickerControllerMediaMetadata];
@@ -770,19 +776,107 @@
             //                                data = UIImageJPEGRepresentation(originalImage, 0.5f);
             //                            }
             //                            [data writeToFile:photoPicker.saveFileName options:NSAtomicWrite error:nil];
+            self.tempImage = nil;
+            [PDRCore runInMainThread:^{
+                [self.appContext.appWindow recoveryCrashWebview];
+                [self result:PDRCommandStatusOK
+                     message:[PTPathUtil relativePath:photoPicker.saveFileName withContext:self.appContext] //[[NSURL fileURLWithPath:photoPicker.saveFileName] absoluteString]
+                  callBackId:self.pickerController.callbackId];
+                self.hasPendingOperation = NO;
+                self.pickerController = nil;
+            }];
         } else if ( [mediaType isEqualToString:(NSString*)kUTTypeMovie] ) {
-            NSData *data = [NSData dataWithContentsOfURL:mediaURL];
-            [data writeToFile:photoPicker.saveFileName options:NSAtomicWrite error:nil];
+//            NSData *data = [NSData dataWithContentsOfURL:mediaURL];
+//            [data writeToFile:photoPicker.saveFileName options:NSAtomicWrite error:nil];
+            
+            NSURL *saveFileNameURL = [NSURL fileURLWithPath:photoPicker.saveFileName];
+            [self lowQuailtyWithInputURL:mediaURL :saveFileNameURL blockHandler:^(AVAssetExportSession *session, NSURL *compressionVideoURL) {
+                [hud hide:NO];
+
+                self.tempImage = nil;
+                [PDRCore runInMainThread:^{
+                    [self.appContext.appWindow recoveryCrashWebview];
+                    [self result:PDRCommandStatusOK
+                         message:[PTPathUtil relativePath:photoPicker.saveFileName withContext:self.appContext] //[[NSURL fileURLWithPath:photoPicker.saveFileName] absoluteString]
+                      callBackId:self.pickerController.callbackId];
+                    self.hasPendingOperation = NO;
+                    self.pickerController = nil;
+                }];
+            }];
         }
-        self.tempImage = nil;
-        [PDRCore runInMainThread:^{
-            [self result:PDRCommandStatusOK
-                 message:[PTPathUtil relativePath:photoPicker.saveFileName withContext:self.appContext] //[[NSURL fileURLWithPath:photoPicker.saveFileName] absoluteString]
-              callBackId:self.pickerController.callbackId];
-            self.hasPendingOperation = NO;
-            self.pickerController = nil;
-        }];
+       
     }];
+}
+- (PGGalleryProgressHUD*)showWaiting {
+    PGGalleryProgressHUD *hud = [PGGalleryProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
+    return hud;
+}
+- (void)lowQuailtyWithInputURL:(NSURL *)inputURL :(NSURL*)compressionVideoURL blockHandler:(void (^)(AVAssetExportSession *session, NSURL *compressionVideoURL))handler {
+    AVURLAsset *asset = [AVURLAsset URLAssetWithURL:inputURL options:nil];
+    AVAssetExportSession *session = nil;
+        if ( self.pickerController.videoQuality == UIImagePickerControllerQualityType640x480) {
+            session = [[AVAssetExportSession alloc] initWithAsset:asset presetName:AVAssetExportPreset640x480];
+        } else if ( self.pickerController.videoQuality == UIImagePickerControllerQualityTypeIFrame1280x720) {
+            session = [[AVAssetExportSession alloc] initWithAsset:asset presetName:AVAssetExportPreset1280x720];
+        } else if ( self.pickerController.videoQuality == UIImagePickerControllerQualityTypeIFrame960x540) {
+            session = [[AVAssetExportSession alloc] initWithAsset:asset presetName:AVAssetExportPreset960x540];
+        } else if ( self.pickerController.videoQuality == UIImagePickerControllerQualityTypeHigh) {
+            session = [[AVAssetExportSession alloc] initWithAsset:asset presetName:AVAssetExportPresetHighestQuality];
+        } else if ( self.pickerController.videoQuality == UIImagePickerControllerQualityTypeMedium) {
+            session = [[AVAssetExportSession alloc] initWithAsset:asset presetName:AVAssetExportPresetMediumQuality];
+        } else if ( self.pickerController.videoQuality == UIImagePickerControllerQualityTypeLow) {
+            session = [[AVAssetExportSession alloc] initWithAsset:asset presetName:AVAssetExportPresetLowQuality];
+        }
+    session.outputURL = compressionVideoURL;
+    session.outputFileType = AVFileTypeMPEG4;
+    session.shouldOptimizeForNetworkUse = YES;
+    session.videoComposition = [self getVideoComposition:asset];
+    [session exportAsynchronouslyWithCompletionHandler:^{
+        dispatch_async(dispatch_get_main_queue(),^{
+            switch ([session status]) {
+                case AVAssetExportSessionStatusFailed:{
+                    NSLog(@"Export failed: %@ : %@", [[session error] localizedDescription], [session error]);
+                    handler(session, nil);
+                    break;
+                }case AVAssetExportSessionStatusCancelled:{
+                    NSLog(@"Export canceled");
+                    handler(session, nil);
+                    break;
+                }default:
+                    handler(session,compressionVideoURL);
+                    break;
+            }
+        });
+    }];
+}
+- (AVMutableVideoComposition *)getVideoComposition:(AVAsset *)asset {
+    AVAssetTrack *videoTrack = [[asset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0];
+    AVMutableComposition *composition = [AVMutableComposition composition];
+    AVMutableVideoComposition *videoComposition = [AVMutableVideoComposition videoComposition];
+    CGSize videoSize = videoTrack.naturalSize;
+    
+    NSArray *tracks = [asset tracksWithMediaType:AVMediaTypeVideo];
+    if([tracks count] > 0) {
+        AVAssetTrack *videoTrack = [tracks objectAtIndex:0];
+        CGAffineTransform t = videoTrack.preferredTransform;
+        if((t.a == 0 && t.b == 1.0 && t.c == -1.0 && t.d == 0) ||
+           (t.a == 0 && t.b == -1.0 && t.c == 1.0 && t.d == 0)){
+            videoSize = CGSizeMake(videoSize.height, videoSize.width);
+        }
+    }
+    composition.naturalSize    = videoSize;
+    videoComposition.renderSize = videoSize;
+    videoComposition.frameDuration = CMTimeMakeWithSeconds( 1 / videoTrack.nominalFrameRate, 600);
+    
+    AVMutableCompositionTrack *compositionVideoTrack = [composition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
+    [compositionVideoTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, asset.duration) ofTrack:videoTrack atTime:kCMTimeZero error:nil];
+    AVMutableVideoCompositionLayerInstruction *layerInst = [AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:videoTrack];
+    [layerInst setTransform:videoTrack.preferredTransform atTime:kCMTimeZero];
+    AVMutableVideoCompositionInstruction *inst = [AVMutableVideoCompositionInstruction videoCompositionInstruction];
+    inst.timeRange = CMTimeRangeMake(kCMTimeZero, asset.duration);
+    inst.layerInstructions = [NSArray arrayWithObject:layerInst];
+    videoComposition.instructions = [NSArray arrayWithObject:inst];
+    return videoComposition;
 }
 
 -(BOOL)saveImage:(UIImage *)image encodingType:(PGCameraEncodingType)encodingType

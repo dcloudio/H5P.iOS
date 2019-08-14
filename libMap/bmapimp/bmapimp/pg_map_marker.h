@@ -56,6 +56,7 @@
 @property(nonatomic, assign)BOOL selected;
 @property(nonatomic, assign)BOOL hidden;
 @property(nonatomic, assign)PGBaiduMapView *belongMapview;
+@property(nonatomic, retain)NSString *createWebviewId;
 @property(nonatomic, retain)NSString *belongWebview;
 @property(nonatomic, retain)NSString *baseURL;
 @property(nonatomic, retain)NSString *UUID;
@@ -74,7 +75,7 @@
 //- (void)setCoordinate:(CLLocationCoordinate2D)newCoordinate;
 - (BOOL)updateObject:(NSMutableArray*)command;
 - (NSString*)getFullPath:(NSString*)fileName;
-- (void)setBaseURL:(NSString*)baseURL;
+//- (void)setBaseURL:(NSString*)baseURL;
 - (void)setAnimationImages:(NSArray *)animationImages;
 @end
 

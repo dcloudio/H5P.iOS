@@ -247,7 +247,7 @@
         connection.username = username;
         connection.password = password;
         connection.reqMethod = method;
-        connection.reqUrl = url;
+        connection.reqUrl =  [url URLChineseEncode];
         connection.timeout = timout;
         [connection open];
     }

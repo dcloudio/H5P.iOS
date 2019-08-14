@@ -11,6 +11,8 @@
 #import <MapKit/MapKit.h>
 #import "PDRToolSystemEx.h"
 #import "H5CoreJavaScriptText.h"
+#import "PGMap.h"
+#import "PDRCoreAppFramePrivate.h"
 
 //缩放控件距离地图边界值
 #define PG_MAP_ZOOMCONTROL_GAP 3
@@ -25,11 +27,13 @@
 @end
 
 @implementation PGMapView
+
 - (void)dealloc {
     self.onEventWebviewIds = nil;
     self.jsCallbackIdDict = nil;
     self.userLocation = nil;
     self.UUID = nil;
+    self.jsBridge = nil;
     self.webviewId = nil;
      [_zoomControlView release];
     [super dealloc];
@@ -68,6 +72,20 @@
             top    = [[args objectAtIndex:2] floatValue];
             width  = [[args objectAtIndex:3] floatValue];
             height = [[args objectAtIndex:4] floatValue];
+            // 存一下
+            options = [NSMutableDictionary dictionaryWithDictionary:options];
+            if (!options[@"left"]) {
+                [options setValue:@(left) forKey:@"left"];
+            }
+            if (!options[@"top"]) {
+                [options setValue:@(top) forKey:@"top"];
+            }
+            if (!options[@"width"]) {
+                [options setValue:@(width) forKey:@"width"];
+            }
+            if (!options[@"height"]) {
+                [options setValue:@(height) forKey:@"height"];
+            }
         } else {
             left = [PGPluginParamHelper getFloatValueInDict:options forKey:@"left" defalut:left];
             top = [PGPluginParamHelper getFloatValueInDict:options forKey:@"top" defalut:top];
@@ -260,12 +278,10 @@
         NSString *uuid = [args objectAtIndex:0];
         CLLocationCoordinate2D coordinate = self.centerCoordinate;
         NSString *jsObjectF =
-        @"{\
-        var plus = %@;\
-        var point = new plus.maps.Point(%f,%f);\
+        @" var point = new plus.maps.Point(%f,%f);\
         var args = {'state':0, 'point':point};\
-        plus.maps.__bridge__.execCallback('%@', args);}";
-        NSMutableString *javascript = [NSMutableString stringWithFormat:jsObjectF, [H5CoreJavaScriptText plusObject],coordinate.longitude, coordinate.latitude, uuid];
+        plus.maps.__bridge__.execCallback('%@', args);";
+        NSMutableString *javascript = [NSMutableString stringWithFormat:jsObjectF, coordinate.longitude, coordinate.latitude, uuid];
         [self.jsBridge asyncWriteJavascript:javascript];
     }
 }
@@ -295,17 +311,16 @@
             CLLocation *location = userLocation.location;
             CLLocationCoordinate2D coordinate = location.coordinate;
             NSString *jsObjectF =
-            @"{ var plus = %@;\
-            var point = new plus.maps.Point(%f,%f);\
+            @"var point = new plus.maps.Point(%f,%f);\
             var args = {'state':0, 'point':point};\
-            plus.maps.__bridge__.execCallback('%@', args);}";
-            NSMutableString *javascript = [NSMutableString stringWithFormat:jsObjectF, [H5CoreJavaScriptText plusObject], coordinate.longitude, coordinate.latitude, uuid];
+            plus.maps.__bridge__.execCallback('%@', args);";
+            NSMutableString *javascript = [NSMutableString stringWithFormat:jsObjectF, coordinate.longitude, coordinate.latitude, uuid];
             [self.jsBridge asyncWriteJavascript:javascript];
         }
         else
         {
             if ( !self.jsCallbackIdDict )
-                self.jsCallbackIdDict = [[NSMutableDictionary alloc] initWithCapacity:10];
+                self.jsCallbackIdDict = [[[NSMutableDictionary alloc] initWithCapacity:10] autorelease];
             [self.jsCallbackIdDict setObject:webviewId forKey:uuid];
         }
     }
@@ -313,9 +328,9 @@
 
 - (void)mapView:(PGMapView *)mapView onClicked:(CLLocationCoordinate2D)coordinate {
     NSString *jsObjectF =
-    @"{var plus = %@; var args = new plus.maps.Point(%f,%f);\
-    plus.maps.__bridge__.execCallback('%@', {callbackType:'click',payload:args});}";
-    NSString *javaScript = [NSString stringWithFormat:jsObjectF, [H5CoreJavaScriptText plusObject], coordinate.longitude, coordinate.latitude, self.UUID];
+    @"var args = new plus.maps.Point(%f,%f);\
+    plus.maps.__bridge__.execCallback('%@', {callbackType:'click',payload:args});";
+    NSString *javaScript = [NSString stringWithFormat:jsObjectF, coordinate.longitude, coordinate.latitude, self.UUID];
     for ( NSString *webviewId in self.onEventWebviewIds ) {
         [self.jsBridge asyncWriteJavascript:javaScript inWebview:webviewId];
     }
@@ -338,11 +353,10 @@
         
         [self.jsCallbackIdDict enumerateKeysAndObjectsUsingBlock:^(NSString*  _Nonnull aUUID, NSString*   _Nonnull webviewId, BOOL * _Nonnull stop) {
             NSString *jsObjectF =
-            @"{ var plus = %@;\
-            var point = new plus.maps.Point(%f,%f);\
+            @"var point = new plus.maps.Point(%f,%f);\
             var args = {'state':0, 'point':point};\
-            plus.maps.__bridge__.execCallback('%@', args);}";
-            NSMutableString *javascript = [NSMutableString stringWithFormat:jsObjectF, [H5CoreJavaScriptText plusObject],coordinate.longitude, coordinate.latitude, aUUID];
+            plus.maps.__bridge__.execCallback('%@', args);";
+            NSMutableString *javascript = [NSMutableString stringWithFormat:jsObjectF,coordinate.longitude, coordinate.latitude, aUUID];
             [self.jsBridge asyncWriteJavascript:javascript inWebview:webviewId];
         }];
         [self.jsCallbackIdDict removeAllObjects];
@@ -361,11 +375,10 @@
     {
         [self.jsCallbackIdDict enumerateKeysAndObjectsUsingBlock:^(NSString*  _Nonnull aUUID, NSString*   _Nonnull webviewId, BOOL * _Nonnull stop) {
             NSString *jsObjectF =
-            @"{ var plus = %@;\
-            var point = new plus.maps.Point(%f,%f);\
+            @"var point = new plus.maps.Point(%f,%f);\
             var args = {'state':-1, 'point':point};\
-            plus.maps.__bridge__.execCallback('%@', args);}";
-            NSMutableString *javascript = [NSMutableString stringWithFormat:jsObjectF, [H5CoreJavaScriptText plusObject], 0.0f, 0.0f, aUUID];
+            plus.maps.__bridge__.execCallback('%@', args);";
+            NSMutableString *javascript = [NSMutableString stringWithFormat:jsObjectF, 0.0f, 0.0f, aUUID];
             [self.jsBridge asyncWriteJavascript:javascript inWebview:webviewId];
         }];
         [self.jsCallbackIdDict removeAllObjects];
@@ -376,19 +389,20 @@
     if ( _zoomControlView ){
         _zoomControlView.value = self.zoomLevel;
     }
-    CLLocationCoordinate2D tl = [self convertPoint:CGPointMake(self.bounds.size.width, 0) toCoordinateFromView:self];
-    CLLocationCoordinate2D rb = [self convertPoint:CGPointMake(0, self.bounds.size.height) toCoordinateFromView:self];
-    
-    NSString *jsObjectF =
-    @"window.setTimeout(function(){ %@.maps.__bridge__.execCallback('%@', {callbackType:'change',zoom:%d,center:{long:%f,lat:%f},northease:{long:%f,lat:%f},southwest:{long:%f,lat:%f}});},0)";
-    NSString *javaScript = [NSString stringWithFormat:jsObjectF,
-                            [H5CoreJavaScriptText plusObject],
-                            self.UUID,
-                            self.zoomLevel,
-                            self.centerCoordinate.longitude, self.centerCoordinate.latitude,
-                            tl.longitude, tl.latitude, rb.longitude, rb.latitude];
-    for ( NSString *webviewId in self.onEventWebviewIds ) {
-        [self.jsBridge asyncWriteJavascript:javaScript inWebview:webviewId];
+    if ( self.UUID ) {
+        CLLocationCoordinate2D tl = [self convertPoint:CGPointMake(self.bounds.size.width, 0) toCoordinateFromView:self];
+        CLLocationCoordinate2D rb = [self convertPoint:CGPointMake(0, self.bounds.size.height) toCoordinateFromView:self];
+        
+        NSString *jsObjectF =
+        @"plus.maps.__bridge__.execCallback('%@', {callbackType:'change',zoom:%d,center:{long:%f,lat:%f},northease:{long:%f,lat:%f},southwest:{long:%f,lat:%f}});";
+        NSString *javaScript = [NSString stringWithFormat:jsObjectF,
+                                self.UUID,
+                                self.zoomLevel,
+                                self.centerCoordinate.longitude, self.centerCoordinate.latitude,
+                                tl.longitude, tl.latitude, rb.longitude, rb.latitude];
+        for ( NSString *webviewId in self.onEventWebviewIds ) {
+            [self.jsBridge asyncWriteJavascript:javaScript inWebview:webviewId];
+        }
     }
 }
 
@@ -488,6 +502,65 @@
 }
 #pragma mark invoke js method
 #pragma mark -----------------------------
+/**
+ 动态更新地图属性
+ API: http://www.dcloud.io/docs/api/zh_cn/maps.html#plus.maps.Map.setStyles
+ */
+- (void)setStyles:(NSDictionary *)styles {
+    if (styles[@"center"] ) {
+        [self setCenterJS:@[styles[@"center"]]];
+    }
+    
+    if (styles[@"zoom"]) {
+        [self setZoomJS:@[styles[@"zoom"]]];
+    }
+    
+    if (styles[@"type"]) {
+        [self setMapTypeJS:@[styles[@"type"]]];
+    }
+    
+    if (styles[@"traffic"]) {
+        [self setTrafficJS:@[styles[@"traffic"]]];
+    }
+    
+    if (styles[@"zoomControls"]) {
+        [self showZoomControlsJS:@[styles[@"zoomControls"]]];
+    }
+    
+    if (styles[@"top"] || styles[@"left"] || styles[@"width"] || styles[@"height"] || styles[@"position"]) {
+        
+        float left = self.frame.origin.x, top = self.frame.origin.y, width = self.frame.size.width, height = self.frame.size.height;
+        NSMutableDictionary *newOptions = [NSMutableDictionary dictionaryWithDictionary:self.options];
+        if (styles[@"top"]) {
+            top = [PGPluginParamHelper getFloatValueInDict:styles forKey:@"top" defalut:top];
+            [newOptions setValue:styles[@"top"] forKey:@"top"];
+        }
+        if (styles[@"left"]) {
+            left = [PGPluginParamHelper getFloatValueInDict:styles forKey:@"left" defalut:left];
+            [newOptions setValue:styles[@"left"] forKey:@"left"];
+        }
+        if (styles[@"width"]) {
+            width = [PGPluginParamHelper getFloatValueInDict:styles forKey:@"width" defalut:width];
+            [newOptions setValue:styles[@"width"] forKey:@"width"];
+        }
+        if (styles[@"height"]) {
+            height = [PGPluginParamHelper getFloatValueInDict:styles forKey:@"height" defalut:height];
+            [newOptions setValue:styles[@"height"] forKey:@"height"];
+        }
+        
+        NSString *position = styles[@"position"];
+        if (position && ![position isEqualToString:self.options[@"position"]]) {
+            [newOptions setValue:position forKey:@"position"];
+            self.options = [NSDictionary dictionaryWithDictionary:newOptions];
+            [self.jsBridge.JSFrameContext removedNView:self];
+            [self.jsBridge.JSFrameContext appendNView:self forKey:self.viewUUID];
+        } else {
+            self.options = [NSDictionary dictionaryWithDictionary:newOptions];
+            self.frame = CGRectMake(left, top, width, height);
+        }
+    }
+}
+
 /*
  *------------------------------------------------
  *@summay: 设置是否显示地图

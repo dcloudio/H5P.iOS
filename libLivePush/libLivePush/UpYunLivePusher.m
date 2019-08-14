@@ -46,6 +46,10 @@
     return self;
 }
 
+- (void)onLayout_ {
+    self.livePushView.frame = self.bounds;
+}
+
 - (void)preview {
     [_upavCapturehandle setCamaraPosition:AVCaptureDevicePositionFront];
     [_upavCapturehandle openCamera:YES];

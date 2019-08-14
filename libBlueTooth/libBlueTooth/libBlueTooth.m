@@ -9,7 +9,7 @@
 #import "libBlueTooth.h"
 #import "HLBLEManager.h"
 #import <CoreBluetooth/CoreBluetooth.h>
-
+#define BaseUUid(uuid) [NSString stringWithFormat:@"0000%@-0000-1000-8000-00805F9B34FB",uuid]
 
 @interface libBlueTooth()
 
@@ -40,7 +40,6 @@
         if (_rssiArray == nil) {
             _rssiArray = [NSMutableDictionary dictionaryWithCapacity:0];
         }
-
         _mBleManager = NULL;
     }
     return self;
@@ -48,18 +47,20 @@
 }
 -(void)openBluetoothAdapter:(PGMethod*)pMethod{
     
-    NSString* cbid = [pMethod.arguments objectAtIndex:0];
+    __block NSString* cbid = [pMethod.arguments objectAtIndex:0];
     __weak typeof(self) weakSelf = self;
     if (_mBleManager == NULL) {
         _mBleManager = [DCHLBLEManager sharedInstance];
         _mBleManager.stateUpdateBlock = ^(CBCentralManager *central) {
-            NSString *info = nil;
             switch (central.state) {
                 case CBCentralManagerStatePoweredOn:{
-                    info = @"蓝牙已打开，并且可用";
+                    //info = @"蓝牙已打开，并且可用";
                     weakSelf.mBlueToothState = 0;
-                    _m_evalFrame = self.JSFrameContext;
                     [weakSelf toSucessCallback:weakSelf.onBluetoothAdapterStateChangeCbid withJSON:@{@"available":[NSNumber numberWithBool:YES],@"discovering":[NSNumber numberWithBool:false]} keepCallback:YES];
+                    if (cbid) {
+                         [weakSelf toSucessCallback:cbid withJSON:@{@"code":@(0),@"message":@"ok"}];
+                        cbid = nil;
+                    }
                 }
                     break;
                 case CBCentralManagerStatePoweredOff:
@@ -68,16 +69,31 @@
                 case CBCentralManagerStateUnknown:{
                     weakSelf.mBlueToothState = 10001;
                     [weakSelf toSucessCallback:weakSelf.onBluetoothAdapterStateChangeCbid withJSON:@{@"available":[NSNumber numberWithBool:false],@"discovering":[NSNumber numberWithBool:false]} keepCallback:YES];
+                    if (cbid) {
+                        [weakSelf toErrorCallback:cbid withCode:weakSelf.mBlueToothState withMessage:@"not available"];
+                        cbid = nil;
+                    }
                 }
                     break;
                 case CBCentralManagerStateUnauthorized:{
                     weakSelf.mBlueToothState = 10000;
                     [weakSelf toSucessCallback:weakSelf.onBluetoothAdapterStateChangeCbid withJSON:@{@"available":[NSNumber numberWithBool:false],@"discovering":[NSNumber numberWithBool:false]} keepCallback:YES];
+                    if (cbid) {
+                        [weakSelf toErrorCallback:cbid withCode:weakSelf.mBlueToothState withMessage:@"not init"];
+                        cbid = nil;
+                    }
                 }
                     break;
             }
         };
-        [weakSelf toSucessCallback:cbid withJSON:@{@"code":@(0),@"message":@"ok"}];
+        if (weakSelf.mBlueToothState == 0) {
+            [weakSelf toSucessCallback:cbid withJSON:@{@"code":@(0),@"message":@"ok"}];
+        }else if(_mBlueToothState == 10000){
+            [weakSelf toErrorCallback:cbid withCode:weakSelf.mBlueToothState withMessage:@"not init"];
+        }else {
+            [weakSelf toErrorCallback:cbid withCode:weakSelf.mBlueToothState withMessage:@"not available"];
+        }
+        
     }else{
         if (_mBlueToothState == 0) {
             [weakSelf toSucessCallback:cbid withJSON:@{@"code":@(0),@"message":@"ok"}];
@@ -103,16 +119,20 @@
         _mBleManager = nil;
 
         [self toSucessCallback:self.onBluetoothAdapterStateChangeCbid withJSON:@{@"available":[NSNumber numberWithBool:false],@"discovering":[NSNumber numberWithBool:false]} keepCallback:YES];
-    }else{
-        [self toErrorCallback:cbid withCode:10000 withMessage:@"not init"];
     }
-    [self toSucessCallback:cbid withJSON:@{@"code":@(0),@"message":@"ok"}];
+    if (_mBlueToothState == 0) {
+        [self toSucessCallback:cbid withJSON:@{@"code":@(0),@"message":@"ok"}];
+    }else if(_mBlueToothState == 10000){
+        [self toErrorCallback:cbid withCode:_mBlueToothState withMessage:@"not init"];
+    }else {
+        [self toErrorCallback:cbid withCode:_mBlueToothState withMessage:@"not available"];
+    }
     
 }
 
 -(void)getBluetoothAdapterState:(PGMethod*)pMethod{
     
-    NSString* cbid = [pMethod.arguments objectAtIndex:0];
+   __block NSString* cbid = [pMethod.arguments objectAtIndex:0];
     __weak typeof(self) weakSelf = self;
     if (_mBleManager == NULL) {
         _mBleManager = [DCHLBLEManager sharedInstance];
@@ -121,12 +141,13 @@
         };
         
         _mBleManager.stateUpdateBlock = ^(CBCentralManager *central) {
-            NSString *info = nil;
             switch (central.state) {
-                case CBManagerStatePoweredOn:{
-                    info = @"蓝牙已打开，并且可用";
+                case CBManagerStatePoweredOn:{//@"蓝牙已打开，并且可用";
                     weakSelf.mBlueToothState = 0;
                     [weakSelf toSucessCallback:weakSelf.onBluetoothAdapterStateChangeCbid withJSON:@{@"available":[NSNumber numberWithBool:YES],@"discovering":[NSNumber numberWithBool:false]} keepCallback:YES];
+                    if (cbid) {
+                        [weakSelf toSucessCallback:cbid withJSON:@{@"code":@(0),@"message":@"ok"}];
+                    }
                 }
                     break;
                 case CBManagerStatePoweredOff:
@@ -136,12 +157,18 @@
                 {
                     weakSelf.mBlueToothState = 10001;
                     [weakSelf toSucessCallback:weakSelf.onBluetoothAdapterStateChangeCbid withJSON:@{@"available":[NSNumber numberWithBool:false],@"discovering":[NSNumber numberWithBool:false]} keepCallback:YES];
+                    if (cbid) {
+                        [weakSelf toErrorCallback:cbid withCode:weakSelf.mBlueToothState withMessage:@"not available"];
+                    }
                 }
                     break;
                 case CBManagerStateUnauthorized:
                 {
                     weakSelf.mBlueToothState = 10000;
                     [weakSelf toSucessCallback:weakSelf.onBluetoothAdapterStateChangeCbid withJSON:@{@"available":[NSNumber numberWithBool:false],@"discovering":[NSNumber numberWithBool:false]} keepCallback:YES];
+                    if (cbid) {
+                        [weakSelf toErrorCallback:cbid withCode:weakSelf.mBlueToothState withMessage:@"not init"];
+                    }
                 }
                     break;
             }
@@ -172,30 +199,44 @@
                     [serv readRSSI];
                     [resultItem setValue:uuid forKey:@"deviceId"];
                     [resultItem setValue:serv.name?serv.name:@"" forKey:@"name"];
-                    [resultItem setValue:[_rssiArray objectForKey:uuid] forKey:@"RSSI"];
-                    NSData *advertisData = [advNode objectForKey:@"kCBAdvDataManufacturerData"];
-                    if (advertisData) {
-                        NSMutableArray* result = [NSMutableArray arrayWithCapacity:0];
-                        size_t bufSize = sizeof(char)*(advertisData.length + 1);
-                        Byte* buffer = (Byte*)malloc(bufSize);
-                        if (buffer) {
-                            memset(buffer, 0, bufSize);
-                            [advertisData getBytes:buffer length:advertisData.length];
-                            for (int index = 0; index < advertisData.length; index++) {
-                                [result addObject: [NSNumber numberWithInt:(int)buffer[index]]];
-                            }
-                            [resultItem setValue:result forKey:@"advertisData"];
-                        }
-                    }
-
-                    NSArray *kCBAdvDataServiceUUIDs = advNode[@"kCBAdvDataServiceUUIDs"];
-                    if (kCBAdvDataServiceUUIDs) {
-                        [resultItem setValue:kCBAdvDataServiceUUIDs forKey:@"advertisServiceUUIDs"];
-                    }
+                    [resultItem setValue:[[_rssiArray objectForKey:uuid] stringValue] forKey:@"RSSI"];
                     
                     NSString* kCBAdvDataLocalName = [advNode objectForKey:@"kCBAdvDataLocalName"];
                     if (kCBAdvDataLocalName) {
                         [resultItem setValue:kCBAdvDataLocalName forKey:@"localName"];
+                    }
+                    
+                    NSArray *kCBAdvDataServiceUUIDs = advNode[@"kCBAdvDataServiceUUIDs"];
+                    if (kCBAdvDataServiceUUIDs) {
+                        NSMutableArray* serUUids = [NSMutableArray arrayWithCapacity:0];
+                        for (CBUUID* item in kCBAdvDataServiceUUIDs) {
+                            [serUUids addObject: item.UUIDString.length<16?BaseUUid(item.UUIDString):item.UUIDString];
+                        }
+                        [resultItem setValue:serUUids forKey:@"advertisServiceUUIDs"];
+                    }
+                    NSData *advertisData = [advNode objectForKey:@"kCBAdvDataManufacturerData"];
+                    if (advertisData) {
+                        [resultItem setValue:[self convertDataToHexStr:advertisData] forKey:@"advertisData"];
+                    }
+                    
+                    
+                    NSDictionary* kServiceData = [advNode objectForKey:@"kCBAdvDataServiceData"];
+                    NSMutableDictionary * kData = [NSMutableDictionary new];
+                    if (kServiceData && [kServiceData isKindOfClass:[NSDictionary class]]) {
+                        NSArray * keys = kServiceData.allKeys;
+                        NSString *keyName ;
+                        for (int i = 0; i < [keys count]; ++i) {
+                            NSObject * key = [keys objectAtIndex: i];
+                            if ([key isKindOfClass: [CBUUID class]]) {
+                                CBUUID * uuid =(CBUUID*)key;
+                                keyName = uuid.UUIDString;
+                            }else{
+                                continue;
+                            }
+                            NSData *value = [kServiceData objectForKey:key];
+                            [kData setValue:[self convertDataToHexStr:value] forKey:keyName.length<16?BaseUUid(keyName):keyName];
+                        }
+                        [resultItem setValue:kData forKey:@"serviceData"];
                     }
                 }
             }
@@ -220,8 +261,8 @@
     if (_mBleManager) {
         if (uuids && [uuids isKindOfClass:[NSArray class]] && uuids.count > 0) {
             for (NSString* uuid in uuids) {
-                if ([uuids isKindOfClass:[NSString class]]) {
-                    CBPeripheral* peritem = [_connectDeviceArray objectForKey:uuids];
+                if ([uuid isKindOfClass:[NSString class]]) {
+                    CBPeripheral* peritem = [_connectDeviceArray objectForKey:uuid];
                     if (peritem) {
                         NSDictionary* dic = @{@"deviceId":uuid, @"name":peritem.name?peritem.name:@""};
                         [result addObject:dic];
@@ -257,7 +298,7 @@
     NSString* cbid = [pMethod.arguments objectAtIndex:0];
     NSDictionary* infoDic = [pMethod.arguments objectAtIndex:1];
     
-    if (infoDic && [infoDic isKindOfClass:[NSDictionary class]]) {
+    if (infoDic.allKeys.count>0 && infoDic && [infoDic isKindOfClass:[NSDictionary class]]) {
         NSArray* pallKeys = [infoDic allKeys];
         if ([pallKeys containsObject:@"services"]) {
             serviceID = [infoDic objectForKey:@"services"];
@@ -281,7 +322,10 @@
     }
     
     if (_mBleManager && ![_mBleManager isScaning]) {
-        _mBleManager.discoverPeripheralBlcok = ^(CBCentralManager *central, CBPeripheral *peripheral, NSDictionary *advertisementData, NSNumber *RSSI) {
+        _mBleManager.discoverPeripheralBlcok = ^(CBCentralManager *central,
+                                                 CBPeripheral *peripheral,
+                                                 NSDictionary *advertisementData,
+                                                 NSNumber *RSSI) {
             
             BOOL bHasNewObj = false;
             if (weakself.deviceArray.allKeys.count == 0) {
@@ -303,7 +347,12 @@
                     bHasNewObj = true;
                 }
             }
-            
+
+            [weakself.rssiArray setObject:RSSI forKey:peripheral.identifier.UUIDString];
+            [weakself.mBleManager readRSSICompletionBlock:^(CBPeripheral *peripheral, NSNumber *RSSI, NSError *error) {
+                [weakself.rssiArray setObject:RSSI forKey:peripheral.identifier.UUIDString];
+            } Peripheral:peripheral];
+
             if (bHasNewObj) {
                 NSMutableArray* results = [NSMutableArray arrayWithCapacity:0];
                 if (allowDuplicatesKey) {
@@ -331,7 +380,13 @@
         };
 
         [_mBleManager scanForPeripheralsWithServiceUUIDs:[cbuuids count]?cbuuids:nil options:@{CBCentralManagerRestoredStateScanOptionsKey:@(YES)}];
-        [self toSucessCallback:cbid withJSON:@{@"code":@(0),@"message":@"ok"}];
+        if (_mBlueToothState == 0) {
+            [self toSucessCallback:cbid withJSON:@{@"code":@(0),@"message":@"ok"}];
+        }else if(_mBlueToothState == 10000){
+            [self toErrorCallback:cbid withCode:self.mBlueToothState withMessage:@"not init"];
+        }else {
+            [self toErrorCallback:cbid withCode:self.mBlueToothState withMessage:@"not available"];
+        }
     }else{
         if (_mBleManager == nil) {
             [self toErrorCallback:cbid withCode:10000 withMessage:@"not init"];
@@ -348,44 +403,66 @@
         [resultItem setValue:serv.identifier.UUIDString forKey:@"deviceId"];
         [resultItem setValue:serv.name?serv.name:@"" forKey:@"name"];
         [resultItem setValue:rssi forKey:@"RSSI"];
-        NSData *advertisData = [advNode objectForKey:@"kCBAdvDataManufacturerData"];
-        if (advertisData) {
-            NSMutableArray* result = [NSMutableArray arrayWithCapacity:0];
-            size_t bufSize = sizeof(char)*(advertisData.length + 1);
-            Byte* buffer = (Byte*)malloc(bufSize);
-            if (buffer) {
-                memset(buffer, 0, bufSize);
-                [advertisData getBytes:buffer length:advertisData.length];
-                for (int index = 0; index < advertisData.length; index++) {
-                    [result addObject: [NSNumber numberWithInt:(int)buffer[index]]];
-                }
-                [resultItem setValue:result forKey:@"advertisData"];
-            }
-        }
-        
-        NSArray *kCBAdvDataServiceUUIDs = advNode[@"kCBAdvDataServiceUUIDs"];
-        if (kCBAdvDataServiceUUIDs) {
-            NSMutableArray* serUUids = [NSMutableArray arrayWithCapacity:0];
-            for (CBUUID* item in kCBAdvDataServiceUUIDs) {
-                [serUUids addObject:item.UUIDString];
-            }
-            [resultItem setValue:serUUids forKey:@"advertisServiceUUIDs"];
-        }
         
         NSString* kCBAdvDataLocalName = [advNode objectForKey:@"kCBAdvDataLocalName"];
         if (kCBAdvDataLocalName) {
             [resultItem setValue:kCBAdvDataLocalName forKey:@"localName"];
         }
-
+        NSArray *kCBAdvDataServiceUUIDs = advNode[@"kCBAdvDataServiceUUIDs"];
+        if (kCBAdvDataServiceUUIDs) {
+            NSMutableArray* serUUids = [NSMutableArray arrayWithCapacity:0];
+            for (CBUUID* item in kCBAdvDataServiceUUIDs) {
+                [serUUids addObject: item.UUIDString.length<16?BaseUUid(item.UUIDString):item.UUIDString];
+            }
+            [resultItem setValue:serUUids forKey:@"advertisServiceUUIDs"];
+        }
+        NSData *advertisData = [advNode objectForKey:@"kCBAdvDataManufacturerData"];
+        if (advertisData) {
+            [resultItem setValue:[self convertDataToHexStr:advertisData] forKey:@"advertisData"];
+        }
+        
         NSDictionary* kServiceData = [advNode objectForKey:@"kCBAdvDataServiceData"];
-        if (kServiceData) {
-            [resultItem setValue:kServiceData forKey:@"serviceData"];
+        if (kServiceData && [kServiceData isKindOfClass:[NSDictionary class]]) {
+            NSMutableDictionary * kData = [NSMutableDictionary new];
+            NSArray * keys = kServiceData.allKeys;
+            NSString *keyName ;
+            for (int i = 0; i < [keys count]; ++i) {
+                NSObject * key = [keys objectAtIndex: i];
+                if ([key isKindOfClass: [CBUUID class]]) {
+                    CBUUID * uuid =(CBUUID*)key;
+                    keyName = uuid.UUIDString;
+                }else{
+                    continue;
+                }
+                NSData *value = [kServiceData objectForKey:key];
+                [kData setValue:[self convertDataToHexStr:value] forKey:keyName.length<16?BaseUUid(keyName):keyName];
+            }
+            [resultItem setValue:kData forKey:@"serviceData"];
         }
     }
     return resultItem;
 }
 
-
+// NSData转16进制 第一种
+- (NSString *)convertDataToHexStr:(NSData *)data
+{
+    if (!data || [data length] == 0) {
+        return @"";
+    }
+    NSMutableString *string = [[NSMutableString alloc] initWithCapacity:[data length]];
+    [data enumerateByteRangesUsingBlock:^(const void *bytes, NSRange byteRange, BOOL *stop) {
+        unsigned char *dataBytes = (unsigned char*)bytes;
+        for (NSInteger i = 0; i < byteRange.length; i++) {
+            NSString *hexStr = [NSString stringWithFormat:@"%x", (dataBytes[i]) & 0xff];
+            if ([hexStr length] == 2) {
+                [string appendString:hexStr];
+            } else {
+                [string appendFormat:@"0%@", hexStr];
+            }
+        }
+    }];
+    return string;
+}
 
 -(void)stopBluetoothDevicesDiscovery:(PGMethod*)pMethod{
     
@@ -417,7 +494,9 @@
 -(void)createBLEConnection:(PGMethod*)pMethod{
     NSString* deviceID = nil;
     NSString* cbid = [pMethod.arguments objectAtIndex:0];
-    
+    float timeOut = -1;
+    __block bool bConnected = false;
+
     if (_mBleManager == nil) {
         [self toErrorCallback:cbid withCode:10000 withMessage:@"not init"];
         return;
@@ -426,10 +505,13 @@
     NSDictionary* paramInfo = [pMethod.arguments objectAtIndex:1];
     if (paramInfo && [paramInfo isKindOfClass:[NSDictionary class]]) {
         deviceID = [paramInfo objectForKey:@"deviceId"];
+        if ([[paramInfo allKeys] containsObject:@"timeout"]) {
+            int tmpTomeOut = [[paramInfo objectForKey:@"timeout"] intValue];
+            timeOut = tmpTomeOut/1000.0f;
+        }
     }
     
     if (deviceID && [deviceID isKindOfClass:[NSString class]]) {
-        
         NSDictionary* perInfoDic = [self.deviceArray objectForKey:deviceID];
         if (perInfoDic == nil || ![perInfoDic isKindOfClass:[NSDictionary class]]){
             [self toErrorCallback:cbid withCode:10002 withMessage:@"no device"];
@@ -440,7 +522,6 @@
         if (peripheral) {
             
             __weak typeof (self) weakself = self;
-
             [_mBleManager setDisconnectBlock:^(CBPeripheral *peripheral, NSError *error) {
                 [weakself.connectDeviceArray removeObjectForKey:peripheral.identifier.UUIDString];
 
@@ -451,6 +532,21 @@
                                   keepCallback:YES];
                 }
             }];
+
+            // 超时处理
+            if (timeOut > 0) {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(timeOut * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    if (!bConnected) {
+                        [_mBleManager cancelPeripheralConnection:peripheral];
+                        if (weakself.onBLEConnectionStateChangeCbid) {
+                            [weakself toSucessCallback:weakself.onBLEConnectionStateChangeCbid
+                                              withJSON:@{@"deviceId":peripheral.identifier.UUIDString,
+                                                         @"connected":[NSNumber numberWithBool:peripheral.state == CBPeripheralStateConnected]}
+                                          keepCallback:YES];
+                        }
+                    }
+                });
+            }
 
             [_mBleManager connectPeripheral:peripheral
                              connectOptions:@{CBConnectPeripheralOptionNotifyOnDisconnectionKey:@(YES)}
@@ -464,6 +560,7 @@
                                               NSError *error) {
                                   if (error == nil && stage == HLOptionStageConnection && peripheral.state == CBPeripheralStateConnected) {
                                       [weakself.connectDeviceArray setObject:peripheral forKey:deviceID];
+                                      bConnected = true;
                                       if (weakself.onBLEConnectionStateChangeCbid) {
                                           [weakself toSucessCallback:weakself.onBLEConnectionStateChangeCbid
                                                             withJSON:@{@"deviceId":peripheral.identifier.UUIDString,
@@ -471,9 +568,9 @@
                                                         keepCallback:YES];
                                       }
                                   }
-                                  
+                                  [self toSucessCallback:cbid withJSON:@{@"code":@(0),@"message":@"ok"}];
                               }];
-            [self toSucessCallback:cbid withJSON:@{@"code":@(0),@"message":@"ok"}];
+
         }
         else{
             [self toErrorCallback:cbid withCode:10002 withMessage:@"no device"];
@@ -513,8 +610,7 @@
             [self toSucessCallback:self.onBLEConnectionStateChangeCbid withJSON:@{@"deviceId":peripheral.identifier.UUIDString,
                                                                                   @"connected":[NSNumber numberWithBool:false]} keepCallback:YES];
         }
-    }
-    else{
+    }else{
         [self toErrorCallback:cbid withCode:10002 withMessage:@"no device"];
     }
 }
@@ -552,12 +648,12 @@
     if (deviceInfo) {
         bool bFindService = false;
         for (CBService* item in deviceInfo.services){
-            if ([item.UUID.UUIDString isEqualToString:serviceId]) {
+            if ([item.UUID.UUIDString.length<16?BaseUUid(item.UUID.UUIDString):item.UUID.UUIDString caseInsensitiveCompare:serviceId]==NSOrderedSame) {
                 bFindService = true;
                 for (CBCharacteristic* charactItem in item.characteristics) {
-                    [resultArray addObject:@{@"uuid":charactItem.UUID.UUIDString,@"properties":@{
+                    [resultArray addObject:@{@"uuid":charactItem.UUID.UUIDString.length<16? BaseUUid(charactItem.UUID.UUIDString):charactItem.UUID.UUIDString,@"properties":@{
                                                      @"read":[NSNumber numberWithBool:charactItem.properties & CBCharacteristicPropertyRead],
-                                                     @"write":[NSNumber numberWithBool:charactItem.properties & CBCharacteristicPropertyWrite],
+                                                     @"write":[NSNumber numberWithBool:(charactItem.properties & CBCharacteristicPropertyWrite ||charactItem.properties & CBCharacteristicPropertyWriteWithoutResponse)],
                                                      @"notify":[NSNumber numberWithBool:charactItem.properties & CBCharacteristicPropertyNotify],
                                                      @"indicate":[NSNumber numberWithBool:charactItem.properties & CBCharacteristicPropertyIndicate]}}];
 
@@ -604,7 +700,7 @@
 
     NSMutableArray* resultArray = [NSMutableArray arrayWithCapacity:0];
     for (CBService* serItem in device.services) {
-        [resultArray addObject:@{@"uuid":serItem.UUID.UUIDString, @"isPrimary":[NSNumber numberWithBool:serItem.isPrimary]}];
+        [resultArray addObject:@{@"uuid": serItem.UUID.UUIDString.length<16?BaseUUid(serItem.UUID.UUIDString):serItem.UUID.UUIDString, @"isPrimary":[NSNumber numberWithBool:serItem.isPrimary]}];
     }
 
     if (resultArray.count > 0) {
@@ -653,39 +749,33 @@
     if (device) {
         bool bFindService = false;
         for (CBService* seritem in device.services) {
-            bool bFindCharact = false;
-            if ([seritem.UUID.UUIDString isEqualToString:serviceId]) {
+            if ([seritem.UUID.UUIDString.length<16?BaseUUid(seritem.UUID.UUIDString):seritem.UUID.UUIDString caseInsensitiveCompare:serviceId]==NSOrderedSame) {
                 bFindService = true;
+                 bool bFindCharact = false;
                 for (CBCharacteristic* charactItem in seritem.characteristics) {
-                    if ([charactItem.UUID.UUIDString isEqualToString:characteristicId])
+                    if ([(charactItem.UUID.UUIDString.length<16?BaseUUid(charactItem.UUID.UUIDString):charactItem.UUID.UUIDString) caseInsensitiveCompare:characteristicId]==NSOrderedSame)
                     {
                         bFindCharact = true;
-                        _mBleManager.notifyCharacteristicBlock = ^(CBPeripheral *peripheral, CBCharacteristic *characteristic, NSError *error) {
-                            if (nil == error && charactItem.isNotifying){
-                                NSData* value = characteristic.value;
-                                if (value) {
-                                    NSMutableArray* result = [NSMutableArray arrayWithCapacity:0];
-                                    size_t bufSize = sizeof(char)*(value.length + 1);
-                                    Byte* buffer = (Byte*)malloc(bufSize);
-                                    if (buffer) {
-                                        memset(buffer, 0, bufSize);
-                                        [value getBytes:buffer length:value.length];
-                                        for (int index = 0; index < value.length; index++) {
-                                            [result addObject: [NSNumber numberWithInt:(int)buffer[index]]];
-                                        }
-
-                                        if (weakself.onBLECharacteristicValueChangeCbid) {
-                                            [weakself toSucessCallback:weakself.onBLECharacteristicValueChangeCbid withJSON:@{@"deviceId":deviceID,@"serviceId":serviceId,@"characteristicId":characteristicId,@"value":result}
-                                                          keepCallback:true];
-                                        }
-                                    }
-                                    free(buffer);
-                                }
+                        weakself.mBleManager.notifyCharacteristicBlock = ^(CBPeripheral *peripheral, CBCharacteristic *characteristic, NSError *error) {
+                            if (nil == error){
+                                [self toSucessCallback:cbid withJSON:@{@"code":@(0),@"message":@"ok"}];
+                            }else{
+                                [self toErrorCallback:cbid withCode:-10008 withMessage:error.description];
                             }
                         };
 
-                        [_mBleManager NotifyValueforCharacteristic:charactItem Peripheral:device];
-                        [self toSucessCallback:cbid withJSON:@{@"code":@(0),@"message":@"ok"}];
+                        if (charactItem.properties & CBCharacteristicPropertyNotify || charactItem.properties & CBCharacteristicPropertyIndicate) {
+                            [_mBleManager NotifyValueforCharacteristic:charactItem Peripheral:device];
+                        }else{
+                            [self toErrorCallback:cbid withCode:-10007 withMessage:@"error,Property unsupport Notify or Indicate"];
+                        }
+                        weakself.mBleManager.valueForCharacteristicBlock = ^(CBCharacteristic *characteristic, NSData *value, NSError *error) {
+                            if (value && error == nil) {
+                                if (weakself.onBLECharacteristicValueChangeCbid) {
+                                    [weakself toSucessCallback:weakself.onBLECharacteristicValueChangeCbid withJSON:@{@"deviceId":deviceID,@"serviceId":serviceId,@"characteristicId":characteristicId,@"value":[self convertDataToHexStr:value]} keepCallback:true];
+                                }
+                            }
+                        };
                         return;
                     }
                 }
@@ -708,7 +798,6 @@
 -(void)onBLECharacteristicValueChange:(PGMethod*)pMethod{
     NSString* pCbid = [pMethod.arguments objectAtIndex:0];
     self.onBLECharacteristicValueChangeCbid = [[NSString alloc] initWithString:pCbid];
-    
 }
 
 -(void)onBLEConnectionStateChange:(PGMethod*)pMethod{
@@ -754,34 +843,26 @@
     if (device) {
         bool bFindService = false;
         for (CBService* seritem in device.services) {
-            bool bFindCharact = false;
-            if ([seritem.UUID.UUIDString isEqualToString:serviceId]) {
+            if ([(seritem.UUID.UUIDString.length<16?BaseUUid(seritem.UUID.UUIDString):seritem.UUID.UUIDString) caseInsensitiveCompare:serviceId]==NSOrderedSame) {
                 bFindService = true;
+                bool bFindCharact = false;
                 for (CBCharacteristic* charactItem in seritem.characteristics) {
-                    if ([charactItem.UUID.UUIDString isEqualToString:characteristicId]) {
+                    if ([charactItem.UUID.UUIDString.length<16?BaseUUid(charactItem.UUID.UUIDString):charactItem.UUID.UUIDString caseInsensitiveCompare:characteristicId]==NSOrderedSame) {
                         bFindCharact = true;
-                        _mBleManager.valueForCharacteristicBlock = ^(CBCharacteristic *characteristic, NSData *value, NSError *error) {
+                        weakself.mBleManager.valueForCharacteristicBlock = ^(CBCharacteristic *characteristic, NSData *value, NSError *error) {
                             if (value && error == nil) {
-                                NSMutableArray* result = [NSMutableArray arrayWithCapacity:0];
-                                size_t bufSize = sizeof(char)*(value.length + 1);
-                                Byte* buffer = (Byte*)malloc(bufSize);
-                                if (buffer) {
-                                    memset(buffer, 0, bufSize);
-                                    [value getBytes:buffer length:value.length];
-                                    for (int index = 0; index < value.length; index++) {
-                                        [result addObject: [NSNumber numberWithInt:(int)buffer[index]]];
-                                    }
-                                    
-                                    if (weakself.onBLECharacteristicValueChangeCbid) {
-                                        [weakself toSucessCallback:weakself.onBLECharacteristicValueChangeCbid withJSON:@{@"deviceId":deviceID,@"serviceId":serviceId,@"characteristicId":characteristicId,@"value":result}
-                                                      keepCallback:true];
-                                    }
+                                if (weakself.onBLECharacteristicValueChangeCbid) {
+                                    [weakself toSucessCallback:weakself.onBLECharacteristicValueChangeCbid withJSON:@{@"deviceId":deviceID,@"serviceId":serviceId,@"characteristicId":characteristicId,@"value":[self convertDataToHexStr:value]} keepCallback:true];
                                 }
-                                free(buffer);
                             }
+                            [weakself toSucessCallback:cbid withJSON:@{@"code":@(0),@"message":@"ok"}];
                         };
-                        [_mBleManager readValueForCharacteristic:charactItem Peripheral:device];
-                        [self toSucessCallback:cbid withJSON:@{@"code":@(0),@"message":@"ok"}];
+                        if (charactItem.properties & CBCharacteristicPropertyRead) {
+                                [_mBleManager readValueForCharacteristic:charactItem Peripheral:device];
+                        }else{
+                            [self toErrorCallback:cbid withCode:-10010 withMessage:@"error,Property unsupport Read"];
+                        }
+                        
                         return;
                     }
                 }
@@ -837,64 +918,42 @@
         return;
     }
     
-    NSArray* array = [valueAry componentsSeparatedByString:@","];
-    Byte* buffer  = (Byte*)malloc(sizeof(char) * ([array count] + 5));
-    for (int i = 0; i < [array count]; i++) {
-        NSString* item = [array objectAtIndex:i];
-        int val  = [item intValue];
-        buffer[i] = val;
-    }
-    
     __weak typeof (self) weakself = self;
     CBPeripheral* device = [self.connectDeviceArray objectForKey:deviceID];
     if (device) {
         bool bFindService = false;
         for (CBService* seritem in device.services) {
-            bool bFindCharact = false;
-            if ([seritem.UUID.UUIDString isEqualToString:serviceId]) {
+            if ([seritem.UUID.UUIDString.length<16?BaseUUid(seritem.UUID.UUIDString):seritem.UUID.UUIDString caseInsensitiveCompare:serviceId]==NSOrderedSame) {
                 bFindService = true;
+                 bool bFindCharact = false;
                 for (CBCharacteristic* charactItem in seritem.characteristics) {
-                    if ([charactItem.UUID.UUIDString isEqualToString:characteristicId]) {
-                        bFindService = true;
-                        [weakself.mBleManager writeValue:[NSData dataWithBytes:buffer length:array.count]
+                    if ([(charactItem.UUID.UUIDString.length<16?BaseUUid(charactItem.UUID.UUIDString):charactItem.UUID.UUIDString) caseInsensitiveCompare:characteristicId]==NSOrderedSame) {
+                        bFindCharact = true;
+                        CBCharacteristicWriteType type = CBCharacteristicWriteWithoutResponse;
+                        if (charactItem.properties & CBCharacteristicPropertyWrite) {
+                            type = CBCharacteristicWriteWithResponse;
+                        }
+                        if (charactItem.properties & CBCharacteristicPropertyWrite || charactItem.properties & CBCharacteristicPropertyWriteWithoutResponse) {
+
+                        }else{
+                            [self toErrorCallback:cbid withCode:10007 withMessage:@"error,Property unsupport Write"];
+                            return;
+                        }
+                        [weakself.mBleManager writeValue:[self convertHexStrToData:valueAry]
                                        forCharacteristic:charactItem
                                               Peripheral:device
-                                                    type:CBCharacteristicWriteWithResponse
+                                                    type:type
                                          completionBlock:^(CBCharacteristic *characteristic, NSError *error) {
                                              if (nil == error){
                                                  [self toSucessCallback:cbid withJSON:@{@"code":@(0),@"message":@"ok"}];
                                              }else{
-                                                 [self toErrorCallback:cbid withCode:10007 withMessage:@"property not support"];
+                                                 [self toErrorCallback:cbid withCode:10007 withMessage:error.description];
                                              }
                                          }];
 
-//                        weakself.mBleManager.notifyCharacteristicBlock = ^(CBPeripheral *peripheral, CBCharacteristic *characteristic, NSError *error) {
-//                            if (nil == error && charactItem.isNotifying){
-//                                NSData* value = characteristic.value;
-//                                if (value) {
-//                                    NSMutableArray* result = [NSMutableArray arrayWithCapacity:0];
-//                                    size_t bufSize = sizeof(char)*(value.length + 1);
-//                                    Byte* buffer = (Byte*)malloc(bufSize);
-//                                    if (buffer) {
-//                                        memset(buffer, 0, bufSize);
-//                                        [value getBytes:buffer length:value.length];
-//                                        for (int index = 0; index < value.length; index++) {
-//                                            [result addObject: [NSNumber numberWithInt:(int)buffer[index]]];
-//                                        }
-//
-//                                        if (weakself.onBLECharacteristicValueChangeCbid) {
-//                                            [weakself toSucessCallback:weakself.onBLECharacteristicValueChangeCbid withJSON:@{@"deviceId":deviceID,@"serviceId":serviceId,@"characteristicId":characteristicId,@"value":result}
-//                                                          keepCallback:true];
-//                                        }
-//                                    }
-//                                    free(buffer);
-//                                }
-//                            }
-//                        };
-//                        [weakself.mBleManager NotifyValueforCharacteristic:charactItem Peripheral:device];
                     }
                 }
-                if(bFindCharact){
+                if(!bFindCharact){
                     [self toErrorCallback:cbid withCode:10005 withMessage:@"no characteristic"];
                     return;
                 }
@@ -909,7 +968,33 @@
         return;
     }
 }
-
-#pragma mark delegates
+// 16进制转NSData
+- (NSData *)convertHexStrToData:(NSString *)str
+{
+    if (!str || [str length] == 0) {
+        return nil;
+    }
+    
+    NSMutableData *hexData = [[NSMutableData alloc] initWithCapacity:20];
+    NSRange range;
+    if ([str length] % 2 == 0) {
+        range = NSMakeRange(0, 2);
+    } else {
+        range = NSMakeRange(0, 1);
+    }
+    for (NSInteger i = range.location; i < [str length]; i += 2) {
+        unsigned int anInt;
+        NSString *hexCharStr = [str substringWithRange:range];
+        NSScanner *scanner = [[NSScanner alloc] initWithString:hexCharStr];
+        
+        [scanner scanHexInt:&anInt];
+        NSData *entity = [[NSData alloc] initWithBytes:&anInt length:1];
+        [hexData appendData:entity];
+        
+        range.location += range.length;
+        range.length = 2;
+    }
+    return hexData;
+}
 
 @end

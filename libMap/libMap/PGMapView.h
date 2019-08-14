@@ -59,6 +59,7 @@ typedef NS_ENUM(NSInteger, PGMapViewPosition) {
 - (instancetype)initViewWithArray:(NSArray*)args;
 - (id)initWithFrame:(CGRect)frame params:(NSDictionary*)setInfo;
 //invoke js method
+- (void)setStyles:(NSDictionary *)styles;
 - (void)resizeJS:(NSArray*)args;
 - (void)centerAndZoomJS:(NSArray*)args;
 - (void)setCenterJS:(NSArray*)args;
@@ -77,7 +78,7 @@ typedef NS_ENUM(NSInteger, PGMapViewPosition) {
 - (void)getCurrentCenterJS:(NSArray*)args;
 - (void)getUserLocationJS:(NSArray*)args;
 
-- (void)close;
+- (NSArray*)close;
 //native
 - (void)hideZoomControl;
 - (void)resizeZoomControl;

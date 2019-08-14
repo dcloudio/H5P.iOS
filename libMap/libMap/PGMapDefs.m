@@ -285,6 +285,13 @@
 - (NSDictionary*)toJSON {
     return @{@"northease":[self.northease toJSON],@"southwest":[self.southwest toJSON]};
 }
+
+-(void)dealloc {
+    self.northease = nil;
+    self.southwest = nil;
+    [super dealloc];
+}
+
 @end
 
 
@@ -335,4 +342,9 @@
 @end
 
 @implementation PGMapUserLocation
+- (void)dealloc {
+    self.location = nil;
+    self.heading = nil;
+    [super dealloc];
+}
 @end

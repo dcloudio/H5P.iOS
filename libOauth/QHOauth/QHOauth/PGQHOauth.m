@@ -463,6 +463,7 @@ static PGQHOauth* g_sQHOAuthHandle = nil;
 
 - (void)dealloc
 {
+    self.pAppid = nil;
     [super dealloc];
 }
 

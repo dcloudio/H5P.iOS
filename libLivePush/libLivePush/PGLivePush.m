@@ -44,20 +44,21 @@
     if (pPusherID) {
         DCLivePusher* pusher = [_pusherDict objectForKey:pusherUUID];
         if (nil == pusher) {
-            pusher = [[UpYunLivePusher alloc] initWithFrame:CGRectZero withOptions:pPusherOptions withJsContext:self];
+            int left = 0, top = 0, width = [UIScreen mainScreen].bounds.size.width, height = [UIScreen mainScreen].bounds.size.height;
+            CGRect destFrameRect = CGRectMake(left, top, width, height);
+            pusher = [[UpYunLivePusher alloc] initWithFrame:destFrameRect withOptions:pPusherOptions withJsContext:self];
             
             if (pusher) {
                 [pusher initWithOption:pMethod.arguments];
                 
                 NSArray* rectArray = [pMethod.arguments objectAtIndex:2];
-                int left = 0, top = 0, width = [UIScreen mainScreen].bounds.size.width, height = [UIScreen mainScreen].bounds.size.height;
                 
                 if(rectArray && [rectArray isKindOfClass:[NSArray class]]){
                     left = [[rectArray firstObject] intValue];
                     top = [[rectArray objectAtIndex:1] intValue];
                     width = [[rectArray objectAtIndex:2] intValue];
                     height = [[rectArray objectAtIndex:3] intValue];
-                    CGRect destFrameRect = CGRectMake(left, top, width, height);
+                    destFrameRect = CGRectMake(left, top, width, height);
                     
                     pusher.frame = destFrameRect;
                     

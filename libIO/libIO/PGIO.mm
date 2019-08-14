@@ -8,7 +8,7 @@
  *  All Rights Reserved.
  *
  *  Changelog:
- *	number	author	modify date  modify record
+ *    number    author    modify date  modify record
  *   0       xty     2013-01-11  创建文件
  *------------------------------------------------------------------
  */
@@ -23,7 +23,9 @@
 #import "PDRCoreAppWindow.h"
 #import "PDRCoreWindowManager.h"
 #import "PDRCommonString.h"
-
+#import "H5CoreImageLoader.h"
+@interface PGFile ()<H5CoreImageLoaderDelegate>
+@end
 @implementation PGFile
 
 @synthesize privateWWW;
@@ -53,8 +55,8 @@
  * @Summary:
  *      请求文件系统
  * @Parameters:
- *      command 
- *       [callbackid,[type]] 
+ *      command
+ *       [callbackid,[type]]
  * @Returns:
  *    无
  * @Remark:
@@ -77,9 +79,9 @@
     if ( [typeJS isKindOfClass:[NSNumber class]] ) {
         type = [typeJS intValue];
     }
-
+    
     PDRPluginResult *result = nil;
-	
+    
     NSString *fullPath = nil;
     if ( 1 == type  ){ //privateWWW
         fullPath = self.privateWWW;
@@ -145,19 +147,19 @@
 - (NSString*)getFSTypeRoot:(int)type {
     switch (type) {
         case 1:
-            return self.privateWWW;
-            break;
+        return self.privateWWW;
+        break;
         case 2:
-            return self.privateDocuments;
-            break;
+        return self.privateDocuments;
+        break;
         case 3:
-            return self.publicDocuments;
-            break;
+        return self.publicDocuments;
+        break;
         case 4:
-            return self.publicDownloads;
-            break;
+        return self.publicDownloads;
+        break;
         default:
-            break;
+        break;
     }
     return nil;
 }
@@ -166,19 +168,19 @@
 - (NSString*)getFSTypeName:(int)type {
     switch (type) {
         case 1:
-            return kPDRFileSystemPrivateWWW;
-            break;
+        return kPDRFileSystemPrivateWWW;
+        break;
         case 2:
-            return kPDRFileSystemPrivateDocumnets;
-            break;
+        return kPDRFileSystemPrivateDocumnets;
+        break;
         case 3:
-            return kPDRFileSystemPublicDocumnets;
-            break;
+        return kPDRFileSystemPublicDocumnets;
+        break;
         case 4:
-            return kPDRFileSystemPublicDownloads;
-            break;
+        return kPDRFileSystemPublicDownloads;
+        break;
         default:
-            break;
+        break;
     }
     return @"Unkown File System";
 }
@@ -247,7 +249,7 @@
         }
     }
     
-   // if (!testUri || ![testUri isFileURL]) {
+    // if (!testUri || ![testUri isFileURL]) {
     if (!path ) {
         // issue ENCODING_ERR
         result = [PDRPluginResult resultWithStatus:PDRCommandStatusError
@@ -257,7 +259,7 @@
         return;
     } else {
         NSFileManager* fileMgr = [NSFileManager defaultManager];
-       // NSString* path = [testUri path];
+        // NSString* path = [testUri path];
         // NSLog(@"url path: %@", path);
         BOOL isDir = NO;
         if ( ![self allowRead:path] ) {
@@ -325,7 +327,148 @@
     }
     return [self resultWithNull];
 }
+- (void)getImageInfo:(PGMethod *)command{
+    NSString * cbId = [command.arguments objectAtIndex:0];
+    NSString* path = [command.arguments objectAtIndex:1];
+    if ([path hasPrefix:@"http"]) {
+        NSString * jdPath =  [[PTPathUtil runtimeTmpPath] stringByAppendingPathComponent:@"_IMage_INFO"];
+        NSFileManager* pFileManger = [NSFileManager defaultManager];
+        NSString *hash = [path convertToMD5];
+        NSString *ext = [path pathExtension];
+        if ( ext ) {
+            hash = [hash stringByAppendingPathExtension:ext];
+        }
+        jdPath = [jdPath stringByAppendingPathComponent:hash];
+        if ( [pFileManger fileExistsAtPath:jdPath] == YES) {
+            UIImage* image = [UIImage imageWithContentsOfFile:jdPath];
+            [self callbackjS:cbId :image :jdPath];
+        }else{
+            NSString * jdPath =  [[PTPathUtil runtimeTmpPath] stringByAppendingPathComponent:@"_IMage_INFO"];
+            [[PDRCore imageLoader] loadImage:path withDelegate:self withContext:@{@"jdPath":jdPath,@"cbId":cbId,@"path":path}];
+        }
+    }else{
+        NSString * jdPath  = [PTPathUtil h5Path2SysPath:path basePath:self.JSFrameContext.baseURL?self.JSFrameContext.baseURL:@""];
+        NSLog(@"caches:%@",[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]);
+        UIImage* image = [[UIImage alloc]initWithContentsOfFile:jdPath];
+        [self callbackjS:cbId :image :jdPath];
+    }
+    
+}
+-(void)callbackjS:(NSString *)cbId :(UIImage*)image :(NSString*)jdPath{
+    NSString * orientation = @"";
+    NSString * width = @"";
+    NSString * height = @"";
+    NSString * type = @"";
+    if (image) {
+        UIImageOrientation imgorientation = image.imageOrientation;
+        if (imgorientation == UIImageOrientationUp) {
+            orientation = @"up";
+        }else if (imgorientation == UIImageOrientationDown){
+            orientation = @"down";
+        }else if (imgorientation == UIImageOrientationLeft){
+            orientation = @"left";
+        }else if (imgorientation == UIImageOrientationRight){
+            orientation = @"right";
+        }else if (imgorientation == UIImageOrientationUpMirrored){
+            orientation = @"up-mirrored";
+        }else if (imgorientation == UIImageOrientationDownMirrored){
+            orientation = @"down-mirrored";
+        }else if (imgorientation == UIImageOrientationLeftMirrored){
+            orientation = @"left-mirrored";
+        }else if (imgorientation == UIImageOrientationRightMirrored){
+            orientation = @"right-mirrored";
+        }else{
+            orientation = @"up";
+        }
+        width =[NSString stringWithFormat:@"%f", image.size.width];
+        height = [NSString stringWithFormat:@"%f", image.size.height];
+        type = [self imageFormat: UIImagePNGRepresentation(image)];
+    }
+    
+    NSMutableDictionary * results = [NSMutableDictionary new];
+    if (jdPath) {
+        [results setObject:[NSString stringWithFormat:@"file://%@", jdPath] forKey:@"path"];
+    }else{
+        [self toErrorCallback:cbId withCode:-1 withMessage:@"没有图片"];
+    }
+    
+    [results setValue:width forKey:@"width"];
+    [results setValue:height forKey:@"height"];
+    [results setValue:orientation forKey:@"orientation"];
+    [results setValue:type forKey:@"type"];
+    [self toSucessCallback:cbId withJSON:results keepCallback:YES];
+}
+- (void)imageLoaded:(id)image userInfo:(id)userInfo{
+    NSString * jdPath = userInfo[@"jdPath"];
+    NSString * path = userInfo[@"path"];
+    NSString * cbId = userInfo[@"cbId"];
+    
+    NSFileManager* pFileManger = [NSFileManager defaultManager];
+    BOOL isDirectory = NO;
+    
+    
+    if([pFileManger fileExistsAtPath:jdPath isDirectory:&isDirectory] == NO) {
+        [pFileManger createDirectoryAtPath:jdPath withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    
+    NSString *hash = [path convertToMD5];
+    if ( hash ) {
+        NSString *ext = [path pathExtension];
+        if ( ext ) {
+            hash = [hash stringByAppendingPathExtension:ext];
+        }
+        jdPath = [jdPath stringByAppendingPathComponent:hash];
+        NSData * data = UIImagePNGRepresentation(image);
+        BOOL isSucc = [data writeToFile:jdPath atomically:YES];
+        if (!isSucc) {
+            image=nil;
+        }
+        [self callbackjS:(NSString*)cbId :image :jdPath];
+    }
+}
+-(void)imageloadError:(NSError *)error imagePath:(NSString *)imgPath{
+    //    [self toErrorCallback:imgPath withCode:-1 withMessage:@"下载图片失败"];
+}
 
+-(NSString*)imageFormat:(NSData*)data{
+    uint8_t c;
+    [data getBytes:&c length:1];
+    switch (c) {
+        case 0xFF:
+        return @"JPEG";
+        case 0x89:
+        return @"PNG";
+        case 0x47:
+        return @"GIF";
+        case 0x49:
+        case 0x4D:
+        return @"TIFF";
+        case 0x52: {
+            if (data.length >= 12) {
+                //RIFF....WEBP
+                NSString *testString = [[NSString alloc] initWithData:[data subdataWithRange:NSMakeRange(0, 12)] encoding:NSASCIIStringEncoding];
+                if ([testString hasPrefix:@"RIFF"] && [testString hasSuffix:@"WEBP"]) {
+                    return @"WebP";
+                }
+            }
+            break;
+        }
+        case 0x00: {
+            if (data.length >= 12) {
+                //....ftypheic ....ftypheix ....ftyphevc ....ftyphevx
+                NSString *testString = [[NSString alloc] initWithData:[data subdataWithRange:NSMakeRange(4, 8)] encoding:NSASCIIStringEncoding];
+                if ([testString isEqualToString:@"ftypheic"]
+                    || [testString isEqualToString:@"ftypheix"]
+                    || [testString isEqualToString:@"ftyphevc"]
+                    || [testString isEqualToString:@"ftyphevx"]) {
+                    return @"HEIC";
+                }
+            }
+            break;
+        }
+        default: return @"";
+    }
+}
 /*
  *------------------------------------------------------------------
  * @Summary:
@@ -388,9 +531,9 @@
     if ( ![destRootPath isKindOfClass:[NSString class]]
         || ![srcFullPath isKindOfClass:[NSString class]]
         || ![newName isKindOfClass:[NSString class]]){
-		errCode = PGFileErrorNotFound;
-	} else {
-		NSString* newFullPath = [destRootPath stringByAppendingPathComponent: newName];
+        errCode = PGFileErrorNotFound;
+    } else {
+        NSString* newFullPath = [destRootPath stringByAppendingPathComponent: newName];
         
         if ( ! [self allowWrite:newFullPath]
             || (!bCopy && ![self allowWrite:srcFullPath])) {
@@ -477,9 +620,9 @@
                 }
             }
         }
-	}
+    }
     //如果错误
-	if (errCode > 0)
+    if (errCode > 0)
     {
         result = [PDRPluginResult resultWithStatus:PDRCommandStatusError
                               messageToErrorObject:errCode
@@ -504,38 +647,38 @@
  */
 - (void) doRemove:(NSString*)fullPath callback: (NSString*)callbackId
 {
-	BOOL bSuccess = NO;
-	NSError* __autoreleasing pError = nil;
-	NSFileManager* fileMgr = [NSFileManager defaultManager];
+    BOOL bSuccess = NO;
+    NSError* __autoreleasing pError = nil;
+    NSFileManager* fileMgr = [NSFileManager defaultManager];
     PDRPluginResult *result = nil;
-	@try {
-		bSuccess = [ fileMgr removeItemAtPath:fullPath error:&pError];
-		if (bSuccess) {
+    @try {
+        bSuccess = [ fileMgr removeItemAtPath:fullPath error:&pError];
+        if (bSuccess) {
             result = [PDRPluginResult resultWithStatus:PDRCommandStatusOK];
             [self toCallback:callbackId withReslut:[result toJSONString]];
-		} else {
-			// see if we can give a useful error
-			PGFileError errorCode = PGFileErrorAbort;
-			//NSLog(@"error getting metadata: %@", [pError localizedDescription]);
-			if ([pError code] == NSFileNoSuchFileError) {
-				errorCode = PGFileErrorNotFound;
-			} else if ([pError code] == NSFileWriteNoPermissionError) {
-				errorCode = PGFileErrorNoModificationAllowed;
-			}
+        } else {
+            // see if we can give a useful error
+            PGFileError errorCode = PGFileErrorAbort;
+            //NSLog(@"error getting metadata: %@", [pError localizedDescription]);
+            if ([pError code] == NSFileNoSuchFileError) {
+                errorCode = PGFileErrorNotFound;
+            } else if ([pError code] == NSFileWriteNoPermissionError) {
+                errorCode = PGFileErrorNoModificationAllowed;
+            }
             result = [PDRPluginResult resultWithStatus:PDRCommandStatusError
                                   messageToErrorObject:errorCode
                                            withMessage:[self getErrorMeassge:errorCode]];
             [self toCallback:callbackId withReslut:[result toJSONString]];
-		}
-	} @catch (NSException* e) {
+        }
+    } @catch (NSException* e) {
         //在这里认为路径写错
         result = [PDRPluginResult resultWithStatus:PDRCommandStatusError
                               messageToErrorObject:PGFileErrorSyntax
                                        withMessage:[self getErrorMeassge:PGFileErrorSyntax]];
-		[self toCallback:callbackId withReslut:[result toJSONString]];
-	}
-	@finally {
-	}
+        [self toCallback:callbackId withReslut:[result toJSONString]];
+    }
+    @finally {
+    }
 }
 
 #pragma mark Tool
@@ -544,45 +687,45 @@
 -(NSString*)getErrorMeassge:(PGFileError)errorCode {
     switch (errorCode) {
         case PGFileErrorNotFound:
-            return @"文件没有发现";
-            break;
+        return @"文件没有发现";
+        break;
         case PGFileErrorSecurity:
-            return @"没有获得授权";
-            break;
+        return @"没有获得授权";
+        break;
         case PGFileErrorAbort:
-            return @"取消";
-            break;
+        return @"取消";
+        break;
         case PGFileErrorNotReadable:
-            return @"不允许读";
-            break;
+        return @"不允许读";
+        break;
         case PGFileErrorEncoding:
-            return @"编码错误";
-            break;
+        return @"编码错误";
+        break;
         case PGFileErrorNoModificationAllowed:
-            return @"不允许修改";
-            break;
+        return @"不允许修改";
+        break;
         case PGFileErrorInvalidState:
-            return @"无效的状态";
-            break;
+        return @"无效的状态";
+        break;
         case PGFileErrorSyntax:
-            return @"语法错误";
-            break;
+        return @"语法错误";
+        break;
         case PGFileErrorInvalidModification:
-            return @"无效的修改";
-            break;
+        return @"无效的修改";
+        break;
         case PGFileErrorQuotaExeeded:
-            return @"执行出错";
-            break;
+        return @"执行出错";
+        break;
         case PGFileErrorTypeMismatch:
-            return @"类型不匹配";
-            break;
+        return @"类型不匹配";
+        break;
         case PGFileErrorPathExists:
-            return @"路径存在";
-            break;
+        return @"路径存在";
+        break;
         case PGFileErrorDirNotEmpty:
-            return @"目录不为空";
+        return @"目录不为空";
         default:
-            break;
+        break;
     }
     return @"未知错误";
 }
@@ -606,8 +749,8 @@
             && NSOrderedSame != [standPath compare:self.publicDocuments])
         || ([standPath hasPrefix:self.publicDownloads]
             && NSOrderedSame != [standPath compare:self.publicDownloads])) {
-        return TRUE;
-    }
+            return TRUE;
+        }
     return FALSE;
 }
 
@@ -628,17 +771,17 @@
  */
 -(NSDictionary*) getDirectoryEntry: (NSString*) fullPath  isDirectory: (BOOL) isDir
 {
-	NSMutableDictionary* dirEntry = [NSMutableDictionary dictionaryWithCapacity:4];
-	NSString* lastPart = [fullPath lastPathComponent];
-	[dirEntry setObject:[NSNumber numberWithBool: !isDir]  forKey:@"isFile"];
-	[dirEntry setObject:[NSNumber numberWithBool: isDir]  forKey:@"isDirectory"];
-	//NSURL* fileUrl = [NSURL fileURLWithPath:fullPath];
-	//[dirEntry setObject: [fileUrl absoluteString] forKey: @"fullPath"];
+    NSMutableDictionary* dirEntry = [NSMutableDictionary dictionaryWithCapacity:4];
+    NSString* lastPart = [fullPath lastPathComponent];
+    [dirEntry setObject:[NSNumber numberWithBool: !isDir]  forKey:@"isFile"];
+    [dirEntry setObject:[NSNumber numberWithBool: isDir]  forKey:@"isDirectory"];
+    //NSURL* fileUrl = [NSURL fileURLWithPath:fullPath];
+    //[dirEntry setObject: [fileUrl absoluteString] forKey: @"fullPath"];
     [dirEntry setObject: isDir?[NSString stringWithFormat:@"%@/", fullPath]:fullPath forKey: @"fullPath"];
     NSString *relative = [PTPathUtil relativePath:fullPath withContext:self.appContext];
     [dirEntry setObject:relative?relative:@"" forKey: @"remoteURL"];
-	[dirEntry setObject: lastPart forKey:@"name"];
-	return dirEntry;
+    [dirEntry setObject: lastPart forKey:@"name"];
+    return dirEntry;
 }
 
 - (void) onAppUpgradesNoClose {
@@ -692,14 +835,14 @@
     NSString *callbackId = [command.arguments objectAtIndex:0];
     NSArray *arguments = [command.arguments objectAtIndex:1];
     // arguments
-	NSString* argPath = [arguments objectAtIndex:0];
+    NSString* argPath = [arguments objectAtIndex:0];
     NSNumber *recursiveV = [arguments objectAtIndex:1];
     BOOL recursive = FALSE;
     if ( [recursiveV isKindOfClass:[NSNumber class]] ) {
         recursive = [recursiveV boolValue];
     }
     
-	NSString* testPath = argPath; //[self getFullPath: argPath];
+    NSString* testPath = argPath; //[self getFullPath: argPath];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         long long dirCount = 0;
@@ -802,33 +945,33 @@
     NSArray   *args = [command.arguments objectAtIndex:1];
     NSString *fullPath = [args objectAtIndex:0];
     PDRPluginResult *result = nil;
-	PGFileError errorCode = PGFileErrorNO;
+    PGFileError errorCode = PGFileErrorNO;
     
     //顶层目录不准许删除
     //WWW目录不允许删除
-	if (![self allowWrite:fullPath]) {
-		errorCode = PGFileErrorNoModificationAllowed;
-	} else {
-		NSFileManager* fileMgr = [ NSFileManager defaultManager];
-		BOOL bIsDir = NO;
-		BOOL bExists = [fileMgr fileExistsAtPath:fullPath isDirectory: &bIsDir];
-		if (!bExists){
-			errorCode = PGFileErrorNotFound;
-		}
+    if (![self allowWrite:fullPath]) {
+        errorCode = PGFileErrorNoModificationAllowed;
+    } else {
+        NSFileManager* fileMgr = [ NSFileManager defaultManager];
+        BOOL bIsDir = NO;
+        BOOL bExists = [fileMgr fileExistsAtPath:fullPath isDirectory: &bIsDir];
+        if (!bExists){
+            errorCode = PGFileErrorNotFound;
+        }
         if (bIsDir &&  [[fileMgr contentsOfDirectoryAtPath:fullPath error: nil] count] != 0){
-			// dir is not empty
-			errorCode = PGFileErrorDirNotEmpty;
-		}
-	}
-	if (errorCode > 0){
-		result = [PDRPluginResult resultWithStatus:PDRCommandStatusError
+            // dir is not empty
+            errorCode = PGFileErrorDirNotEmpty;
+        }
+    }
+    if (errorCode > 0){
+        result = [PDRPluginResult resultWithStatus:PDRCommandStatusError
                               messageToErrorObject: errorCode withMessage:[self getErrorMeassge:errorCode]];
         [self toCallback:callbackId withReslut:[result toJSONString]];
-	}
+    }
     else{
-		// perform actual remove
-		[self doRemove: fullPath callback: callbackId];
-	}
+        // perform actual remove
+        [self doRemove: fullPath callback: callbackId];
+    }
 }
 
 /*
@@ -855,38 +998,38 @@
     NSString *fullPath = [args objectAtIndex:0];
     PDRPluginResult *result = nil;
     
-	NSString* newPath = nil;
-	
-	if ([fullPath isEqualToString:self.privateDocuments]
+    NSString* newPath = nil;
+    
+    if ([fullPath isEqualToString:self.privateDocuments]
         || [fullPath isEqualToString:self.privateWWW]
         || [fullPath isEqualToString:self.publicDocuments]
         || [fullPath isEqualToString:self.publicDownloads]){
-		result = [PDRPluginResult resultWithStatus: PDRCommandStatusError
+        result = [PDRPluginResult resultWithStatus: PDRCommandStatusError
                               messageToErrorObject:PGFileErrorNotReadable withMessage:[self getErrorMeassge:PGFileErrorNotReadable]
                   ];
         [self toCallback:callbackId withReslut:[result toJSONString]];
         return;
-	} else {
-		NSRange range = [fullPath rangeOfString:@"/" options: NSBackwardsSearch];
-		newPath = [fullPath substringToIndex:range.location];
-	}
+    } else {
+        NSRange range = [fullPath rangeOfString:@"/" options: NSBackwardsSearch];
+        newPath = [fullPath substringToIndex:range.location];
+    }
     
-	if(newPath){
-		NSFileManager* fileMgr = [NSFileManager defaultManager];
-		BOOL bIsDir;
-		BOOL bExists = [fileMgr fileExistsAtPath: newPath isDirectory: &bIsDir];
-		if (bExists) {
-			result = [PDRPluginResult resultWithStatus: PDRCommandStatusOK messageAsDictionary: [self getDirectoryEntry:newPath isDirectory:bIsDir]];
+    if(newPath){
+        NSFileManager* fileMgr = [NSFileManager defaultManager];
+        BOOL bIsDir;
+        BOOL bExists = [fileMgr fileExistsAtPath: newPath isDirectory: &bIsDir];
+        if (bExists) {
+            result = [PDRPluginResult resultWithStatus: PDRCommandStatusOK messageAsDictionary: [self getDirectoryEntry:newPath isDirectory:bIsDir]];
             [self toCallback:callbackId withReslut:[result toJSONString]];
             return;
-		}
-	}
-	
+        }
+    }
+    
     //到这里认为无效吧
     result = [PDRPluginResult resultWithStatus: PDRCommandStatusError
                           messageToErrorObject:PGFileErrorNotFound
                                    withMessage:[self getErrorMeassge:PGFileErrorNotFound]];
-	[self toCallback:callbackId withReslut:[result toJSONString]];
+    [self toCallback:callbackId withReslut:[result toJSONString]];
 }
 @end
 
@@ -910,45 +1053,45 @@
  */
 - (void) getFileMetadata:(PGMethod*)command
 {
-	if ( !command.arguments
+    if ( !command.arguments
         && ![command.arguments isKindOfClass:[NSDictionary class]] ){
         return;
     }
     NSString *callbackId = [command.arguments objectAtIndex:0];
     NSArray *arguments = [command.arguments objectAtIndex:1];
     // arguments
-	NSString* argPath = [arguments objectAtIndex:0];
+    NSString* argPath = [arguments objectAtIndex:0];
     
-	PDRPluginResult* result = nil;
-	
-	NSString* fullPath = argPath;
-	if (fullPath) {
-		NSFileManager* fileMgr = [NSFileManager defaultManager];
-		BOOL bIsDir = NO;
-		// make sure it exists and is not a directory
-		BOOL bExists = [fileMgr fileExistsAtPath:fullPath isDirectory: &bIsDir];
-		if(!bExists || bIsDir){
-			result = [PDRPluginResult resultWithStatus:PDRCommandStatusError
+    PDRPluginResult* result = nil;
+    
+    NSString* fullPath = argPath;
+    if (fullPath) {
+        NSFileManager* fileMgr = [NSFileManager defaultManager];
+        BOOL bIsDir = NO;
+        // make sure it exists and is not a directory
+        BOOL bExists = [fileMgr fileExistsAtPath:fullPath isDirectory: &bIsDir];
+        if(!bExists || bIsDir){
+            result = [PDRPluginResult resultWithStatus:PDRCommandStatusError
                                   messageToErrorObject:PGFileErrorNotFound
                                            withMessage:[self getErrorMeassge:PGFileErrorNotFound]];
             [self toCallback:callbackId withReslut:[result toJSONString]];
-		} else {
-			// create dictionary of file info
-			NSError* error = nil;
-			NSDictionary* fileAttrs = [fileMgr attributesOfItemAtPath:fullPath error:&error];
-			NSMutableDictionary* fileInfo = [NSMutableDictionary dictionaryWithCapacity:5];
-			[fileInfo setObject: [NSNumber numberWithUnsignedLongLong:[fileAttrs fileSize]] forKey:@"size"];
-			[fileInfo setObject:argPath forKey:@"fullPath"];
+        } else {
+            // create dictionary of file info
+            NSError* error = nil;
+            NSDictionary* fileAttrs = [fileMgr attributesOfItemAtPath:fullPath error:&error];
+            NSMutableDictionary* fileInfo = [NSMutableDictionary dictionaryWithCapacity:5];
+            [fileInfo setObject: [NSNumber numberWithUnsignedLongLong:[fileAttrs fileSize]] forKey:@"size"];
+            [fileInfo setObject:argPath forKey:@"fullPath"];
             NSString *mimeType = [PTPathUtil getMimeTypeFromPath:argPath];
-			[fileInfo setObject: mimeType? mimeType:@"" forKey:@"type"];
+            [fileInfo setObject: mimeType? mimeType:@"" forKey:@"type"];
             [fileInfo setObject: [argPath lastPathComponent] forKey:@"name"];
-			NSDate* modDate = [fileAttrs fileModificationDate];
-			NSNumber* msDate = [NSNumber numberWithDouble:[modDate timeIntervalSince1970]*1000];
-			[fileInfo setObject:msDate forKey:@"lastModifiedDate"];
-			result = [PDRPluginResult resultWithStatus:PDRCommandStatusOK messageAsDictionary: fileInfo];
+            NSDate* modDate = [fileAttrs fileModificationDate];
+            NSNumber* msDate = [NSNumber numberWithDouble:[modDate timeIntervalSince1970]*1000];
+            [fileInfo setObject:msDate forKey:@"lastModifiedDate"];
+            result = [PDRPluginResult resultWithStatus:PDRCommandStatusOK messageAsDictionary: fileInfo];
             [self toCallback:callbackId withReslut:[result toJSONString]];
-		}
-	}
+        }
+    }
 }
 
 @end
@@ -1015,16 +1158,16 @@
     NSString  *callbackId = [command objectAtIndex:0];
     NSArray   *arguments = [command objectAtIndex:1];
     
-	NSString* fullPath = [arguments objectAtIndex:0];
-	NSString* requestedPath = [arguments objectAtIndex:1];
+    NSString* fullPath = [arguments objectAtIndex:0];
+    NSString* requestedPath = [arguments objectAtIndex:1];
     NSDictionary* options = [arguments objectAtIndex:2 ];
     
-	PDRPluginResult* result = nil;
-	BOOL bDirRequest = NO;
-	BOOL create = NO;
-	BOOL exclusive = NO;
-	PGFileError errorCode = PGFileErrorNO;
-	
+    PDRPluginResult* result = nil;
+    BOOL bDirRequest = NO;
+    BOOL create = NO;
+    BOOL exclusive = NO;
+    PGFileError errorCode = PGFileErrorNO;
+    
     // 可选参数
     if ( [options isKindOfClass:[NSDictionary class]] ) {
         if ([[options valueForKey:@"create"] isKindOfClass:[NSNumber class]]) {
@@ -1103,14 +1246,14 @@
             }
         }
     }
-	
-	if (errorCode > 0) {
-		// create error callback
-		result = [PDRPluginResult resultWithStatus: PDRCommandStatusError
+    
+    if (errorCode > 0) {
+        // create error callback
+        result = [PDRPluginResult resultWithStatus: PDRCommandStatusError
                               messageToErrorObject:errorCode
                                        withMessage:[self getErrorMeassge:errorCode]];
         [self toCallback:callbackId withReslut:[result toJSONString]];
-	}
+    }
 }
 
 /*
@@ -1120,7 +1263,7 @@
  * @Parameters:
  *      command [callbackId, [fullPath, path, option]]
  *      [1] callbackId 回调id
- *      [2] fullPath, 文件的全路径 
+ *      [2] fullPath, 文件的全路径
  *      [3] path 文件返回的路径
  *      [4]NSDictionary* option Flags object
  *            create == true && file not exist -> create file and return File entry
@@ -1164,15 +1307,15 @@
 - (void) removeRecursively:(PGMethod*)command
 {
     if ( !command.arguments
-       && ![command.arguments isKindOfClass:[NSDictionary class]] ){
+        && ![command.arguments isKindOfClass:[NSDictionary class]] ){
         return;
     }
     NSString *callbackId = [command.arguments objectAtIndex:0];
     NSArray *arguments = [command.arguments objectAtIndex:1];
-	NSString* fullPath = [arguments objectAtIndex:0];
-
-	
-	PDRPluginResult* result = nil;
+    NSString* fullPath = [arguments objectAtIndex:0];
+    
+    
+    PDRPluginResult* result = nil;
     NSString *standPath = [fullPath stringByStandardizingPath];
     if ( NSOrderedSame == [standPath caseInsensitiveCompare:self.publicDocuments]
         || NSOrderedSame == [standPath caseInsensitiveCompare:self.publicDownloads]
@@ -1181,15 +1324,15 @@
         [[NSFileManager defaultManager] createDirectoryAtPath:fullPath withIntermediateDirectories:YES attributes:nil error:nil];
         return;
     }
-	// error if try to remove top level (documents or tmp) dir
-	if ( ![self allowWrite:fullPath] ) {
-		result = [PDRPluginResult resultWithStatus:PDRCommandStatusError
-                                      messageToErrorObject: PGFileErrorNoModificationAllowed
+    // error if try to remove top level (documents or tmp) dir
+    if ( ![self allowWrite:fullPath] ) {
+        result = [PDRPluginResult resultWithStatus:PDRCommandStatusError
+                              messageToErrorObject: PGFileErrorNoModificationAllowed
                                        withMessage:[self getErrorMeassge:PGFileErrorNoModificationAllowed]];
-		[self toCallback:callbackId withReslut:[result toJSONString]];
-	} else {
-		[self doRemove: fullPath callback: callbackId];
-	}
+        [self toCallback:callbackId withReslut:[result toJSONString]];
+    } else {
+        [self doRemove: fullPath callback: callbackId];
+    }
 }
 
 @end
@@ -1205,7 +1348,7 @@
  * @Parameters:
  *  command [callbackId, [fullpath, encoding]]
  *  0 - NSString* fullPath
- *	1 - NSString* encoding - NOT USED,  iOS reads and writes using UTF8!
+ *    1 - NSString* encoding - NOT USED,  iOS reads and writes using UTF8!
  * @Returns:
  *    无
  * @Remark:
@@ -1221,19 +1364,19 @@
     }
     NSString *callbackId = [command.arguments objectAtIndex:0];
     NSArray *arguments = [command.arguments objectAtIndex:1];
-	NSString* argPath = [arguments objectAtIndex:0];
+    NSString* argPath = [arguments objectAtIndex:0];
     NSNumber* start  = [arguments objectAtIndex:2];
     NSNumber* end = [arguments objectAtIndex:3];
-   // NSString* encoding = [arguments objectAtIndex:1];
+    // NSString* encoding = [arguments objectAtIndex:1];
     
     PGFileError errCode =  PGFileErrorNotReadable;
-	PDRPluginResult* result = nil;
+    PDRPluginResult* result = nil;
     
-	NSFileHandle* file = [ NSFileHandle fileHandleForReadingAtPath:argPath];
-	if(!file){
-		// invalid path entry
+    NSFileHandle* file = [ NSFileHandle fileHandleForReadingAtPath:argPath];
+    if(!file){
+        // invalid path entry
         errCode = PGFileErrorNotFound;
-	} else {
+    } else {
         NSData* readData = nil;
         if ( [start isKindOfClass:[NSNumber class]]
             && [end isKindOfClass:[NSNumber class]] ) {
@@ -1246,9 +1389,9 @@
             readData = [file readDataToEndOfFile];
         }
         
-		[file closeFile];
+        [file closeFile];
         NSString* pNStrBuff = nil;
-		if (readData) {
+        if (readData) {
             pNStrBuff = [[[NSString alloc] initWithBytes: [readData bytes] length: [readData length] encoding: NSUTF8StringEncoding] autorelease];
         } else {
             // return empty string if no data
@@ -1262,8 +1405,8 @@
         } else {
             errCode = PGFileErrorEncoding;
         }
-	}
-	result = [PDRPluginResult resultWithStatus:PDRCommandStatusError messageToErrorObject:errCode
+    }
+    result = [PDRPluginResult resultWithStatus:PDRCommandStatusError messageToErrorObject:errCode
                                    withMessage:[self getErrorMeassge:errCode]];
     [self toCallback:callbackId withReslut:[result toJSONString]];
     return;
@@ -1277,22 +1420,22 @@
     }
     NSString *callbackId = [command.arguments objectAtIndex:0];
     NSArray *arguments = [command.arguments objectAtIndex:1];
-	NSString* argPath = [arguments objectAtIndex:0];
+    NSString* argPath = [arguments objectAtIndex:0];
     NSNumber* start  = [arguments objectAtIndex:1];
     NSNumber* end = [arguments objectAtIndex:2];
     
-	PGFileError errCode = PGFileErrorAbort;
-	PDRPluginResult* result = nil;
-
-	if(!argPath){
-		errCode = PGFileErrorSyntax;
-	} else {
-		NSString* mimeType = [PTPathUtil getMimeTypeFromPath:argPath];
-		if (!mimeType) {
-			// can't return as data URL if can't figure out the mimeType
-			errCode = PGFileErrorEncoding;
-		} else {
-			NSFileHandle* file = [ NSFileHandle fileHandleForReadingAtPath:argPath];
+    PGFileError errCode = PGFileErrorAbort;
+    PDRPluginResult* result = nil;
+    
+    if(!argPath){
+        errCode = PGFileErrorSyntax;
+    } else {
+        NSString* mimeType = [PTPathUtil getMimeTypeFromPath:argPath];
+        if (!mimeType) {
+            // can't return as data URL if can't figure out the mimeType
+            errCode = PGFileErrorEncoding;
+        } else {
+            NSFileHandle* file = [ NSFileHandle fileHandleForReadingAtPath:argPath];
             NSData* readData = nil;
             if ( [start isKindOfClass:[NSNumber class]]
                 && [end isKindOfClass:[NSNumber class]] ) {
@@ -1304,17 +1447,17 @@
             } else {
                 readData = [file readDataToEndOfFile];
             }
-			[file closeFile];
-			if (readData) {
-				NSString* output = [NSString stringWithFormat:@"data:%@;base64,%@", mimeType, [readData base64EncodedString]];
-				result = [PDRPluginResult resultWithStatus:PDRCommandStatusOK messageAsString: output];
+            [file closeFile];
+            if (readData) {
+                NSString* output = [NSString stringWithFormat:@"data:%@;base64,%@", mimeType, [readData base64EncodedString]];
+                result = [PDRPluginResult resultWithStatus:PDRCommandStatusOK messageAsString: output];
                 [self toCallback:callbackId withReslut:[result toJSONString]];
                 return;
-			} else {
-				errCode = PGFileErrorNotFound;
-			}
-		}
-	}
+            } else {
+                errCode = PGFileErrorNotFound;
+            }
+        }
+    }
     result = [PDRPluginResult resultWithStatus:PDRCommandStatusError messageToErrorObject:errCode
                                    withMessage:[self getErrorMeassge:errCode]];
     [self toCallback:callbackId withReslut:[result toJSONString]];
@@ -1351,8 +1494,8 @@
     // arguments
     NSArray *arguments = [command.arguments objectAtIndex:1];
     // arguments
-	NSString* argPath = [arguments objectAtIndex:0];
-	NSString* argData = [arguments objectAtIndex:1];
+    NSString* argPath = [arguments objectAtIndex:0];
+    NSString* argData = [arguments objectAtIndex:1];
     if ( ![argData isKindOfClass:[NSString class]] ) {
         PDRPluginResult *result = [PDRPluginResult resultWithStatus:PDRCommandStatusError
                                                messageToErrorObject: PGFileErrorTypeMismatch
@@ -1361,20 +1504,20 @@
         return;
     }
     
-	unsigned long long pos = (unsigned long long)[[ arguments objectAtIndex:2] longLongValue];
+    unsigned long long pos = (unsigned long long)[[ arguments objectAtIndex:2] longLongValue];
     
-	NSString* fullPath = argPath; //[self getFullPath:argPath];
-	//[self truncateFile:fullPath atPosition:pos];
-	//[self writeToFile: fullPath withData:argData append:YES callback: callbackId];
+    NSString* fullPath = argPath; //[self getFullPath:argPath];
+    //[self truncateFile:fullPath atPosition:pos];
+    //[self writeToFile: fullPath withData:argData append:YES callback: callbackId];
     
     if ( ![self allowWrite:fullPath] ) {
-		PDRPluginResult *result = [PDRPluginResult resultWithStatus:PDRCommandStatusError
-                              messageToErrorObject: PGFileErrorNoModificationAllowed
-                                       withMessage:[self getErrorMeassge:PGFileErrorNoModificationAllowed]];
-		[self toCallback:callbackId withReslut:[result toJSONString]];
-	} else {
+        PDRPluginResult *result = [PDRPluginResult resultWithStatus:PDRCommandStatusError
+                                               messageToErrorObject: PGFileErrorNoModificationAllowed
+                                                        withMessage:[self getErrorMeassge:PGFileErrorNoModificationAllowed]];
+        [self toCallback:callbackId withReslut:[result toJSONString]];
+    } else {
         [self writeToFile: fullPath withData:argData pos:pos callback: callbackId];
-
+        
     }
 }
 
@@ -1387,17 +1530,17 @@
     NSString *callbackId = [command.arguments objectAtIndex:0];
     // arguments
     NSArray *arguments = [command.arguments objectAtIndex:1];
-	NSString* argPath = [arguments objectAtIndex:0];
-	unsigned long long  size = (unsigned long long)[[arguments objectAtIndex:1] longLongValue];
-	unsigned long long  pos = (unsigned long long)[[arguments objectAtIndex:2] longLongValue];
-	NSString *appFile = argPath; //[self getFullPath:argPath];
-	
+    NSString* argPath = [arguments objectAtIndex:0];
+    unsigned long long  size = (unsigned long long)[[arguments objectAtIndex:1] longLongValue];
+    unsigned long long  pos = (unsigned long long)[[arguments objectAtIndex:2] longLongValue];
+    NSString *appFile = argPath; //[self getFullPath:argPath];
+    
     if ( ![self allowWrite:appFile] ) {
-		PDRPluginResult *result = [PDRPluginResult resultWithStatus:PDRCommandStatusError
+        PDRPluginResult *result = [PDRPluginResult resultWithStatus:PDRCommandStatusError
                                                messageToErrorObject: PGFileErrorNoModificationAllowed
                                                         withMessage:[self getErrorMeassge:PGFileErrorNoModificationAllowed]];
-		[self toCallback:callbackId withReslut:[result toJSONString]];
-	} else {
+        [self toCallback:callbackId withReslut:[result toJSONString]];
+    } else {
         unsigned long long newPos = [ self truncateFile:appFile atPosition:pos truncateSize:size];
         PDRPluginResult* result = [PDRPluginResult resultWithStatus: PDRCommandStatusOK messageAsInt:(int)newPos];
         [self toCallback:callbackId withReslut:[result toJSONString]];
@@ -1420,24 +1563,24 @@
  */
 - (unsigned long long) truncateFile:(NSString*)filePath atPosition:(unsigned long long)pos truncateSize:(unsigned long long)size
 {
-	unsigned long long newPos = 0UL;
-	NSFileHandle* file = [ NSFileHandle fileHandleForUpdatingAtPath:filePath];
-	if(file)
-	{
+    unsigned long long newPos = 0UL;
+    NSFileHandle* file = [ NSFileHandle fileHandleForUpdatingAtPath:filePath];
+    if(file)
+    {
         [file seekToFileOffset:pos];
         NSData *data =  [file readDataOfLength:size];
         [file truncateFileAtOffset:0];
         [file seekToFileOffset:0];
         [file writeData:data];
         [file truncateFileAtOffset:size];
-//
-//        [file truncateFileAtOffset:pos+size];
-//		[file truncateFileAtOffset:(unsigned long long)pos];
-		newPos = [ file offsetInFile];
-		[ file synchronizeFile];
-		[ file closeFile];
-	}
-	return newPos;
+        //
+        //        [file truncateFileAtOffset:pos+size];
+        //        [file truncateFileAtOffset:(unsigned long long)pos];
+        newPos = [ file offsetInFile];
+        [ file synchronizeFile];
+        [ file closeFile];
+    }
+    return newPos;
 }
 
 /*
@@ -1459,11 +1602,11 @@
 - (void) writeToFile:(NSString*)filePath withData:(NSString*)data pos:(unsigned long long)pos callback: (NSString*) callbackId
 //- (void) writeToFile:(NSString*)filePath withData:(NSString*)data append:(BOOL)shouldAppend callback: (NSString*) callbackId
 {
-	PDRPluginResult* result = nil;
-	PGFileError errCode =  PGFileErrorInvalidModification;
-//	int bytesWritten = 0;
-	NSData* encData = [ data dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
-	if (filePath) {
+    PDRPluginResult* result = nil;
+    PGFileError errCode =  PGFileErrorInvalidModification;
+    //    int bytesWritten = 0;
+    NSData* encData = [ data dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+    if (filePath) {
         NSFileHandle* file = [ NSFileHandle fileHandleForWritingAtPath:filePath];
         if(file) {
             NSUInteger len = [ encData length ];
@@ -1477,24 +1620,24 @@
             return;
         }
         /*
-		NSOutputStream* fileStream = [NSOutputStream outputStreamToFileAtPath:filePath append:shouldAppend ];
-		if (fileStream) {
-			NSUInteger len = [ encData length ];
-			[ fileStream open ];
-			bytesWritten = [ fileStream write:(const uint8_t *)[encData bytes] maxLength:len];
-			[ fileStream close ];
-			if (bytesWritten > 0) {
-				result = [PDRPluginResult resultWithStatus:PDRCommandStatusOK messageAsInt: bytesWritten];
-                [self toCallback:callbackId withReslut:[result toJSONString]];
-                return;
-			}
-		} // else fileStream not created return INVALID_MODIFICATION_ERR*/
-	} else {
-		// invalid filePath
-		errCode = PGFileErrorNotFound;
-	}
+         NSOutputStream* fileStream = [NSOutputStream outputStreamToFileAtPath:filePath append:shouldAppend ];
+         if (fileStream) {
+         NSUInteger len = [ encData length ];
+         [ fileStream open ];
+         bytesWritten = [ fileStream write:(const uint8_t *)[encData bytes] maxLength:len];
+         [ fileStream close ];
+         if (bytesWritten > 0) {
+         result = [PDRPluginResult resultWithStatus:PDRCommandStatusOK messageAsInt: bytesWritten];
+         [self toCallback:callbackId withReslut:[result toJSONString]];
+         return;
+         }
+         } // else fileStream not created return INVALID_MODIFICATION_ERR*/
+    } else {
+        // invalid filePath
+        errCode = PGFileErrorNotFound;
+    }
     //错误处理
-	result = [PDRPluginResult resultWithStatus:PDRCommandStatusError messageToErrorObject:errCode
+    result = [PDRPluginResult resultWithStatus:PDRCommandStatusError messageToErrorObject:errCode
                                    withMessage:[self getErrorMeassge:errCode]];
     [self toCallback:callbackId withReslut:[result toJSONString]];
 }
@@ -1528,13 +1671,13 @@
     NSArray *args = [command.arguments objectAtIndex:1];
     //文件路径
     NSString* fullPath = [args objectAtIndex:0];
-	PDRPluginResult* result = nil;
+    PDRPluginResult* result = nil;
     
     if (![self allowRead:fullPath]){
         result = [PDRPluginResult resultWithStatus:PDRCommandStatusError
                               messageToErrorObject:PGFileErrorNotReadable
                                        withMessage:[self getErrorMeassge:PGFileErrorNotReadable]];
-		[self toCallback:callbackId withReslut:[result toJSONString]];
+        [self toCallback:callbackId withReslut:[result toJSONString]];
     } else {
         NSFileManager* fileMgr = [NSFileManager defaultManager];
         NSError* __autoreleasing error = nil;

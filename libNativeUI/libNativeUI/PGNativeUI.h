@@ -1,4 +1,4 @@
-﻿
+
 
 #import "PGPlugin.h"
 #import "PGMethod.h"
@@ -6,7 +6,7 @@
 #import "PDRUIWaitingView.h"
 #import "PDRCoreAnimation.h"
 #import "H5CoreAlertViewController.h"
-
+#import "PGNativeImageSliderView.h"
 typedef NS_ENUM(NSInteger, PGPopTraceType) {
     PGPopTraceTypeAlert,
     PGPopTraceTypeConfirm,
@@ -32,12 +32,13 @@ typedef NS_ENUM(NSInteger, PGActionSheetButtonType) {
 
 @interface  PGNativeUI : PGPlugin
 <PDRUIDateTimePickerViewControllerDelegate,H5CoreAlertViewControllerDelegate,
-PDRUIWaitingViewDelegate,
+PDRUIWaitingViewDelegate,DCSlidrImageItemDelegate,
 UIActionSheetDelegate> {
     NSMutableDictionary* m_pDatePickDic;
     NSMutableDictionary *m_pPopTrace;
     PDRUIWaitingView *m_pWaitingView;
     NSMutableDictionary* m_NativeObjArray;
+    NSMutableDictionary * m_previewImgDic;
 }
 - (void) onAppFrameWillClose:(PDRCoreAppFrame*)theAppframe;
 @end

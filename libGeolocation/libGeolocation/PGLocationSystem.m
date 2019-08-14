@@ -157,16 +157,9 @@
 
 - (void)locationManager:(CLLocationManager *)manager
      didUpdateLocations:(NSArray *)locations {
-    if ( [self.delegate respondsToSelector:@selector(locationServer:didUpdateLocations:)] ) {
-        [self.delegate locationServer:self didUpdateLocations:locations];
+    if ( [self.delegate respondsToSelector:@selector(locationServer:didUpdateLocations:geocodeCompletion:)] ) {
+        [self.delegate locationServer:self didUpdateLocations:locations geocodeCompletion:nil];
     }
-}
-
-- (void)locationManager:(CLLocationManager*)manager
-    didUpdateToLocation:(CLLocation*)newLocation
-           fromLocation:(CLLocation*)oldLocation
-{
-    [self locationManager:manager didUpdateLocations:[NSArray arrayWithObjects:newLocation, nil]];
 }
 
 - (void)locationManager:(CLLocationManager*)manager didFailWithError:(NSError*)error

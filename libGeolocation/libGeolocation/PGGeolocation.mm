@@ -303,11 +303,14 @@ static NSDictionary *g_support_provider =
         if ( !providerServer ) {
             NSString *providerServerName = [g_support_provider objectForKey:provider];
             if ( providerServerName ) {
-                providerServer = [[NSClassFromString(providerServerName) alloc] init];
+                providerServer = [[[NSClassFromString(providerServerName) alloc] init] autorelease];
                 if ( providerServer ){
-                    providerServer.providerName = provider;
-                    [_locationServerProviders setObject:providerServer forKey:provider];
-                    [providerServer release];
+                    if ( [providerServer isLocationServiceValid] ) {
+                        providerServer.providerName = provider;
+                        [_locationServerProviders setObject:providerServer forKey:provider];
+                    } else {
+                        providerServer = nil;
+                    }
                 }
             }
         }
@@ -329,7 +332,7 @@ static NSDictionary *g_support_provider =
         locationServer = [self getLocationServerPorvider:@"system"];
     }
     if ( !locationServer ) {
-        [self toErrorCallback:callbackId withCode:PGLocationErrorNotSupportProvider];
+        [self toErrorCallback:callbackId withCode:-1503 withMessage:@"Not Support Provider"];
         return;
     }
     
@@ -338,12 +341,12 @@ static NSDictionary *g_support_provider =
         coorsTypeValue = [locationServer getDefalutCoorType];
     }
     if ( !coorsTypeValue ) {
-        [self toErrorCallback:callbackId withCode:PGLocationErrorNotSupportCoordType];
+        [self toErrorCallback:callbackId withCode:-1504 withMessage:@"Not Support CoordsType"];
         return;
     }
     
     if ( ![locationServer isLocationServicesEnabled] ) {
-        [self toErrorCallback:callbackId withCode:PGLocationErrorLocationNoEnabled];
+        [self toErrorCallback:callbackId withCode:-1505 withMessage:@"Location Services No Enabled"];
         return;
     }
     
@@ -365,7 +368,64 @@ static NSDictionary *g_support_provider =
     [locationServer startLocation:enableHighAccuracy];
     
 }
-
+- (void)returnResponseWithReq:(PGLocationReqest*)request
+                 withLocation:(CLLocation*)lInfo
+         withReveredPlacemark:(PGLocationAddress*)plcaemark
+              isPlacemakrNull:(BOOL)isNull error:(NSError*)error {
+    PDRPluginResult* result = nil;
+    
+    NSMutableDictionary* returnInfo = [NSMutableDictionary dictionaryWithCapacity:8];
+    NSNumber* timestamp = [NSNumber numberWithDouble:([/*lInfo.timestamp*/[NSDate date] timeIntervalSince1970] * 1000)];
+    [returnInfo setObject:timestamp forKey:g_pdr_string_timestamp];
+    if ( -1 != lInfo.speed ) {
+        [returnInfo setObject:[NSNumber numberWithDouble:lInfo.speed] forKey:g_pdr_string_velocity];
+    }
+    if ( -1 != lInfo.verticalAccuracy ) {
+        [returnInfo setObject:[NSNumber numberWithDouble:lInfo.verticalAccuracy] forKey:g_pdr_string_altitudeAccuracy];
+    }
+    [returnInfo setObject:[NSNumber numberWithDouble:lInfo.horizontalAccuracy] forKey:g_pdr_string_accuracy];
+    if ( -1 != lInfo.course ) {
+        [returnInfo setObject:[NSNumber numberWithDouble:lInfo.course] forKey:g_pdr_string_heading];
+    }
+    [returnInfo setObject:[NSNumber numberWithDouble:lInfo.altitude] forKey:g_pdr_string_altitude];
+    
+    CLLocationCoordinate2D coords = lInfo.coordinate;
+    [returnInfo setObject:request.coordType forKey:@"coordsType"];
+    [returnInfo setObject:[NSNumber numberWithDouble:coords.latitude] forKey:g_pdr_string_latitude];
+    [returnInfo setObject:[NSNumber numberWithDouble:coords.longitude] forKey:g_pdr_string_longitude];
+    
+    if ( plcaemark ) {
+        NSDictionary *address = [plcaemark toJSObject:isNull];
+        if ( [address count] ) {
+            [returnInfo addEntriesFromDictionary:address];
+        }
+    } else if ( isNull ) {
+        [returnInfo setObject:[NSNull null] forKey:@"address"];
+        [returnInfo setObject:[NSNull null] forKey:@"addresses"];
+    }
+    
+    
+    result = [PDRPluginResult resultWithStatus:PDRCommandStatusOK messageAsDictionary:returnInfo];
+    result.keepCallback = request.isWatchReq?YES:NO;
+//    [self toCallback:request.JSResponseId withReslut:[result toJSONString]];
+    [self toErrorCallback:request.JSResponseId withCode:-1501 withMessage:@"坐标地址解析失败" withResult:[result toJSONString] keepCallback:NO];
+    // LXZ 保存到 UserDefaults里
+    NSUserDefaults* pStandUserDef = [NSUserDefaults standardUserDefaults];
+    if (pStandUserDef) {
+        
+        NSMutableDictionary *adPos = [NSMutableDictionary dictionary];
+        [adPos setObject:request.coordType?:@"" forKey:@"type"];
+        [adPos setObject:@(coords.longitude) forKey:@"lon"];
+        [adPos setObject:@(coords.latitude) forKey:@"lat"];
+        CLLocationAccuracy Accuracy = MAX(lInfo.verticalAccuracy, lInfo.horizontalAccuracy);
+        [adPos setObject:@(Accuracy) forKey:@"accuracy"];
+        [adPos setObject:timestamp forKey:@"ts"];
+        [pStandUserDef setObject:adPos forKey:@"DCADPosition"];
+        
+        [pStandUserDef setObject:[result toJSONString] forKey:@"PDRPlusLastPosInfomation"];
+        [pStandUserDef synchronize];
+    }
+}
 - (void)returnResponseWithReq:(PGLocationReqest*)request
                  withLocation:(CLLocation*)lInfo
          withReveredPlacemark:(PGLocationAddress*)plcaemark
@@ -446,15 +506,15 @@ static NSDictionary *g_support_provider =
 #pragma mark
 #pragma mark delegate
 - (void)locationServer:(PGLocationServer*)manager
-    didUpdateLocations:(NSArray *)locations {
+    didUpdateLocations:(NSArray *)locations geocodeCompletion:(PGLocationAddress *) placemark {
     __block BOOL postGeo = false;
     if ( [locations count]) {
         NSArray *reqs = [_locationReqSet getLocationReq:manager.providerName];
         if ( [reqs count] ) {
             [reqs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                 PGLocationReqest *req = (PGLocationReqest*)obj;
-                if ( !req.isGeocode ) {
-                    [self returnResponseWithReq:req withLocation:[locations objectAtIndex:0] withReveredPlacemark:nil isPlacemakrNull:false];
+                if ( !req.isGeocode || placemark ) {
+                    [self returnResponseWithReq:req withLocation:[locations objectAtIndex:0] withReveredPlacemark:placemark?:nil isPlacemakrNull:false];
                     if ( !req.isWatchReq ) {
                         [_locationReqSet removeLocationRequest:req];
                     }
@@ -479,7 +539,7 @@ static NSDictionary *g_support_provider =
     if ( [reqs count] ) {
         [reqs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             PGLocationReqest *req = (PGLocationReqest*)obj;
-            [self toErrorCallback:req.JSResponseId withCode:(int)error.code];
+            [self toErrorCallback:req.JSResponseId withCode:-1502 withMessage:error.description];
             [_locationReqSet removeLocationRequest:req];
         }];
     }
@@ -517,7 +577,7 @@ static NSDictionary *g_support_provider =
     }
 }
 
-- (void)locationServer:(PGLocationServer*)manager geocodeCompletion:(PGLocationAddress *) placemark error:(NSError*)error{
+- (void)locationServer:(PGLocationServer*)manager geocodeCompletion:(PGLocationAddress *) placemark error:(NSError*)error {
     CLLocation *geoLocation = [manager getFirstLocation];
     if ( geoLocation ) {
         NSArray *reqs = [_locationReqSet getLocationReq:manager.providerName];
@@ -525,7 +585,7 @@ static NSDictionary *g_support_provider =
             [reqs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                 PGLocationReqest *req = (PGLocationReqest*)obj;
                 if ( error ) {
-                    [self toErrorCallback:req.JSResponseId withNSError:error];
+                    [self returnResponseWithReq:req withLocation:geoLocation withReveredPlacemark:placemark isPlacemakrNull:NO error:error];
                 } else {
                     [self returnResponseWithReq:req withLocation:geoLocation withReveredPlacemark:placemark isPlacemakrNull:NO];
                 }
@@ -546,6 +606,8 @@ static NSDictionary *g_support_provider =
 }
 
 - (PGPluginAuthorizeStatus)authorizeStatus {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     CLAuthorizationStatus authstatus = [CLLocationManager authorizationStatus];
     if (authstatus ==kCLAuthorizationStatusDenied
         || authstatus ==kCLAuthorizationStatusRestricted ){
@@ -558,6 +620,7 @@ static NSDictionary *g_support_provider =
         return PGPluginAuthorizeStatusAuthorized;
     }
     return PGPluginAuthorizeStatusAuthorized;
+#pragma clang diagnostic pop
 }
 
 + (BOOL)authorizeSystemStatus{

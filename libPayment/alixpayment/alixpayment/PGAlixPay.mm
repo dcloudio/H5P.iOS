@@ -183,7 +183,8 @@
 }
 
 - (void)installService {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/cn/app/kuai-jie-zhi-fu/id535715926?mt=8"]];
+    NSString *installUrl = [NSString stringWithFormat:@"%@%@%@%@es.app%@", @"it", @"ms", @"-apps", @"://itun",@"le.com/cn/app/kuai-jie-zhi-fu/id535715926?mt=8"];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:installUrl]];
 }
 
 - (void)dealloc {

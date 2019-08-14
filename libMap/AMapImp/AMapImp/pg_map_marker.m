@@ -319,7 +319,7 @@
 - (void)dealloc
 {
     self.belongWebview = nil;
-    self.belongMapview = nil;
+    self.createWebviewId = nil;
     self.animationImages = nil;
     self.baseURL = nil;
     self.label = nil;
@@ -714,7 +714,7 @@
     
     PGMapMarker *marker = [[[PGMapMarker alloc] init] autorelease];
     
-    marker.baseURL = [baseURL retain];
+    marker.baseURL = baseURL;
     
     PGMapCoordinate *point = [PGMapCoordinate pointWithJSON:[jsonObj objectAtIndex:0]];
     marker.coordinate = [point point2CLCoordinate];
@@ -1087,7 +1087,7 @@
         heightOffset += PG_MAP_MARKERVIEW_GAP;
         self.bounds = CGRectMake(0, 0, maxSize.width, heightOffset);
     }
-   // self.centerOffset = CGPointMake(0, -CGRectGetMidY(self.bounds));
+    self.centerOffset = CGPointMake(0, -CGRectGetMidY(self.bounds));
     if ( self.calloutView ) {
         self.calloutView.center = CGPointMake(CGRectGetWidth(self.bounds) / 2.f + self.calloutOffset.x,
                                               -CGRectGetHeight(self.calloutView.bounds) / 2.f + self.calloutOffset.y);
@@ -1114,8 +1114,8 @@
         if ( marker && [marker isKindOfClass:[PGMapMarker class]] )
         {
             NSString *jsObjectF =
-            @"%@.maps.__bridge__.execCallback('%@', {type:'bubbleclick'});";
-            NSString *javaScript = [NSString stringWithFormat:jsObjectF, [H5CoreJavaScriptText plusObject],marker.UUID];
+            @"plus.maps.__bridge__.execCallback('%@', {type:'bubbleclick'});";
+            NSString *javaScript = [NSString stringWithFormat:jsObjectF, marker.UUID];
             [marker.belongMapview.jsBridge asyncWriteJavascript:javaScript inWebview:marker.belongWebview];
         }
     }
@@ -1127,8 +1127,8 @@
     {
         PGMapMarker *marker = (PGMapMarker*)annotation;
         NSString * jsObjectF = @"var args = {type:'markerclick'};\
-        %@.maps.__bridge__.execCallback('%@', args);";
-        NSString *javaScript = [NSString stringWithFormat:jsObjectF, [H5CoreJavaScriptText plusObject], marker.UUID];
+        plus.maps.__bridge__.execCallback('%@', args);";
+        NSString *javaScript = [NSString stringWithFormat:jsObjectF, marker.UUID];
         [marker.belongMapview.jsBridge asyncWriteJavascript:javaScript inWebview:marker.belongWebview];
     }
 }
@@ -1174,6 +1174,8 @@
     self.name = nil;
     self.portrait = nil;
     self.calloutView = nil;
+    self.nameLabel = nil;
+    self.portraitImageView = nil;
     [super dealloc];
 }
 

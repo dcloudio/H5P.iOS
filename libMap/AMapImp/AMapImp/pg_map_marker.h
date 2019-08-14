@@ -63,6 +63,7 @@
 @property(nonatomic, assign)BOOL hidden;
 @property(nonatomic, assign)PGMapView *belongMapview;
 @property(nonatomic, retain)NSString *belongWebview;
+@property(nonatomic, retain)NSString *createWebviewId;
 @property(nonatomic, retain)NSString *baseURL;
 @property(nonatomic, retain)NSString *UUID;
 @property(nonatomic, copy)NSString *label;//标点的文本标注
@@ -79,7 +80,7 @@
 //- (void)setCoordinate:(CLLocationCoordinate2D)newCoordinate;
 - (BOOL)updateObject:(NSMutableArray*)command;
 - (NSString*)getFullPath:(NSString*)fileName;
-- (void)setBaseURL:(NSString*)baseURL;
+//- (void)setBaseURL:(NSString*)baseURL;
 
 @end
 

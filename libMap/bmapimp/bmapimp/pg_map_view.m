@@ -44,8 +44,6 @@
 
 @implementation PGBaiduMapView
 
-@synthesize jsBridge;
-@synthesize UUID;
 @synthesize mapView = _BMKMapView;
 -(void)dealloc
 {
@@ -73,10 +71,23 @@
  *@return PGMapView*
  *------------------------------------------------
  */
-- (void)close {
+- (NSArray*)close {
+    NSMutableArray *ids = [NSMutableArray array];
+    for ( PGMapMarker *marker in  _markersDict) {
+        [ids addObject:marker.UUID];
+    }
+    for ( PGMapOverlayBase *marker in  _overlaysDict) {
+        [ids addObject:marker.UUID];
+    }
+    for ( PGMapOverlayBase *marker in  _gisOverlaysDict) {
+        [ids addObject:marker.UUID];
+    }
+    
+    
     [[BMKLocationServiceWrap sharedLocationServer] removeObserver:self];
     [_BMKMapView removeFromSuperview];
     _BMKMapView.delegate = nil;
+    return ids;
 }
 
 #pragma mark - PGMAPViewDelegate
@@ -441,7 +452,7 @@
     CLLocationCoordinate2D rb = [_BMKMapView convertPoint:CGPointMake(0, _BMKMapView.bounds.size.height) toCoordinateFromView:_BMKMapView];
     PGMapBounds *bounds = [PGMapBounds boundsWithNorthEase:tl southWest:rb];
     
-    return [jsBridge resultWithJSON:[bounds toJSON]];
+    return [self.jsBridge resultWithJSON:[bounds toJSON]];
 }
 #pragma mark Map tools
 #pragma mark -----------------------------
@@ -659,7 +670,7 @@
     {
         NSString *jsObjectF =
         @"%@.maps.__bridge__.execCallback('%@', {type:'bubbleclick'});";
-        NSString *javaScript = [NSString stringWithFormat:jsObjectF, [H5CoreJavaScriptText plusObject], marker.UUID];
+        NSString *javaScript = [NSString stringWithFormat:jsObjectF, [self.jsBridge plusObject], marker.UUID];
         [self.jsBridge asyncWriteJavascript:javaScript inWebview:marker.belongWebview];
     }
 }

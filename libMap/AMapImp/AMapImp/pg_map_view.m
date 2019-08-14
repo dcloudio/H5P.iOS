@@ -55,8 +55,7 @@
 
 @implementation PGMAMapView
 
-@synthesize jsBridge;
-@synthesize UUID;
+
 
 -(void)dealloc
 {
@@ -73,13 +72,26 @@
     [_overlaysDict release];
     [_gisOverlaysDict release];
     [_jsCallbackDict release];
-
+    [_mapView release];
     [super dealloc];
 }
 
-- (void)close {
-   [self removeFromSuperview];
+- (NSArray*)close {
+    NSMutableArray *ids = [NSMutableArray array];
+    for ( PGMapMarker *marker in  _markersDict) {
+        [ids addObject:marker.UUID];
+    }
+    for ( PGMapOverlayBase *marker in  _overlaysDict) {
+        [ids addObject:marker.UUID];
+    }
+    for ( PGMapOverlayBase *marker in  _gisOverlaysDict) {
+        [ids addObject:marker.UUID];
+    }
+    
+    [_mapView removeFromSuperview];
+    [self removeFromSuperview];
     _mapView.delegate = nil;
+    return ids;
 }
 
 /*
@@ -204,7 +216,7 @@
 //        var args = new plus.maps.Point(%f,%f);\
 //        plus.maps.__bridge__.execCallback('%@', args);\
 //      }";
-//    NSString *javaScript = [NSString stringWithFormat:jsObjectF, [H5CoreJavaScriptText plusObject], coordiante.longitude, coordiante.latitude, self.UUID];
+//    NSString *javaScript = [NSString stringWithFormat:jsObjectF, [self.jsBridge plusObject], coordiante.longitude, coordiante.latitude, self.UUID];
 //    [jsBridge asyncWriteJavascript:javaScript];
 //}
 
@@ -387,7 +399,7 @@
     CLLocationCoordinate2D rb = [_mapView convertPoint:CGPointMake(0, self.bounds.size.height) toCoordinateFromView:self];
     PGMapBounds *bounds = [PGMapBounds boundsWithNorthEase:tl southWest:rb];
     
-    return [jsBridge resultWithJSON:[bounds toJSON]];
+    return [self.jsBridge resultWithJSON:[bounds toJSON]];
 }
 #pragma mark Map tools
 #pragma mark -----------------------------
@@ -871,7 +883,7 @@
 //    NSString *jsObjectF =
 //    @"{var plus = %@;var args = new plus.maps.Point(%f,%f);\
 //    plus.maps.__bridge__.execCallback('%@', {callbackType:'click',payload:args});}";
-//    NSString *javaScript = [NSString stringWithFormat:jsObjectF, [H5CoreJavaScriptText plusObject], coordinate.longitude, coordinate.latitude, self.UUID];
+//    NSString *javaScript = [NSString stringWithFormat:jsObjectF, [self.jsBridge plusObject], coordinate.longitude, coordinate.latitude, self.UUID];
 //    [jsBridge asyncWriteJavascript:javaScript];
 }
 

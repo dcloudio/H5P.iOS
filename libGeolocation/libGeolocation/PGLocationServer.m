@@ -17,6 +17,10 @@
 {
     return [CLLocationManager locationServicesEnabled];
 }
+
+- (BOOL)isLocationServiceValid{
+    return YES;
+}
 - (NSString*)getDefalutCoorType{return @"wgs84";}
 - (NSString*)getSupportCoorType:(NSString*)coorType {return nil;}
 

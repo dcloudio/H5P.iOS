@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2FAB48F221ABE49400E2ED20 /* HLBLEManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FAB48EE21ABE49400E2ED20 /* HLBLEManager.m */; };
-		2FAB48F321ABE49400E2ED20 /* libBlueTooth.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FAB48F121ABE49400E2ED20 /* libBlueTooth.m */; };
+		09DB47B721A305A400B0F15D /* libBlueTooth.m in Sources */ = {isa = PBXBuildFile; fileRef = 09DB47B621A305A400B0F15D /* libBlueTooth.m */; };
+		09DB47B821A305A400B0F15D /* libBlueTooth.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 09DB47B521A305A400B0F15D /* libBlueTooth.h */; };
+		09E4DF1921AA7323005B7935 /* HLBLEManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 09E4DF1821AA7323005B7935 /* HLBLEManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -18,6 +19,7 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
+				09DB47B821A305A400B0F15D /* libBlueTooth.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -25,12 +27,11 @@
 
 /* Begin PBXFileReference section */
 		09DB47B221A305A400B0F15D /* liblibBlueTooth.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibBlueTooth.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		2FAB48ED21ABE49400E2ED20 /* HLBLEConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLBLEConst.h; sourceTree = "<group>"; };
-		2FAB48EE21ABE49400E2ED20 /* HLBLEManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLBLEManager.m; sourceTree = "<group>"; };
-		2FAB48EF21ABE49400E2ED20 /* HLBLEManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLBLEManager.h; sourceTree = "<group>"; };
-		2FAB48F021ABE49400E2ED20 /* libBlueTooth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libBlueTooth.h; sourceTree = "<group>"; };
-		2FAB48F121ABE49400E2ED20 /* libBlueTooth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = libBlueTooth.m; sourceTree = "<group>"; };
-		2FAB48F421ABE5D000E2ED20 /* PluginConfig.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = PluginConfig.xcconfig; path = ../../xcconfig/PluginConfig.xcconfig; sourceTree = "<group>"; };
+		09DB47B521A305A400B0F15D /* libBlueTooth.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libBlueTooth.h; sourceTree = "<group>"; };
+		09DB47B621A305A400B0F15D /* libBlueTooth.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = libBlueTooth.m; sourceTree = "<group>"; };
+		09E4DF1621AA7323005B7935 /* HLBLEConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLBLEConst.h; sourceTree = "<group>"; };
+		09E4DF1721AA7323005B7935 /* HLBLEManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLBLEManager.h; sourceTree = "<group>"; };
+		09E4DF1821AA7323005B7935 /* HLBLEManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLBLEManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,20 +64,19 @@
 		09DB47B421A305A400B0F15D /* libBlueTooth */ = {
 			isa = PBXGroup;
 			children = (
-				2FAB48F421ABE5D000E2ED20 /* PluginConfig.xcconfig */,
-				2FAB48EC21ABE49400E2ED20 /* HLBluetooth */,
-				2FAB48F021ABE49400E2ED20 /* libBlueTooth.h */,
-				2FAB48F121ABE49400E2ED20 /* libBlueTooth.m */,
+				09DB47C521A3244900B0F15D /* HLBluetooth */,
+				09DB47B521A305A400B0F15D /* libBlueTooth.h */,
+				09DB47B621A305A400B0F15D /* libBlueTooth.m */,
 			);
 			path = libBlueTooth;
 			sourceTree = "<group>";
 		};
-		2FAB48EC21ABE49400E2ED20 /* HLBluetooth */ = {
+		09DB47C521A3244900B0F15D /* HLBluetooth */ = {
 			isa = PBXGroup;
 			children = (
-				2FAB48ED21ABE49400E2ED20 /* HLBLEConst.h */,
-				2FAB48EE21ABE49400E2ED20 /* HLBLEManager.m */,
-				2FAB48EF21ABE49400E2ED20 /* HLBLEManager.h */,
+				09E4DF1621AA7323005B7935 /* HLBLEConst.h */,
+				09E4DF1721AA7323005B7935 /* HLBLEManager.h */,
+				09E4DF1821AA7323005B7935 /* HLBLEManager.m */,
 			);
 			path = HLBluetooth;
 			sourceTree = "<group>";
@@ -107,7 +107,7 @@
 		09DB47AA21A305A400B0F15D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1010;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = LinXinzheng;
 				TargetAttributes = {
 					09DB47B121A305A400B0F15D = {
@@ -138,8 +138,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2FAB48F321ABE49400E2ED20 /* libBlueTooth.m in Sources */,
-				2FAB48F221ABE49400E2ED20 /* HLBLEManager.m in Sources */,
+				09DB47B721A305A400B0F15D /* libBlueTooth.m in Sources */,
+				09E4DF1921AA7323005B7935 /* HLBLEManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -160,7 +160,6 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -168,7 +167,6 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -182,6 +180,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../Pandora/libs/Universal";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -196,6 +195,24 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../libPDRCore/libPDRCore\"",
+					"\"$(SRCROOT)/../libPDRCore/libPDRCore/Feature\"",
+					"\"$(SRCROOT)/../libPDRCore/libPDRCore/tools\"",
+					"\"$(SRCROOT)/../libPDRCore/libPDRCore/Managers\"",
+					"\"$(SRCROOT)/../libPDRCore/libPDRCore/MiniServer\"",
+					"\"$(SRCROOT)/../libPDRCore/libPDRCore/WebviewEngine\"",
+					"\"$(SRCROOT)/../libPDRCore/libPDRCore/Stream\"",
+					"\"$(SRCROOT)/../libPDRCore/libPDRCore/splashAD\"",
+					"\"$(SRCROOT)/../libWeex/Sources/Model\"",
+					"\"$(SRCROOT)/../libWeex/Sources/Layout\"",
+					"\"$(SRCROOT)/../libWeex/Sources/Utility\"",
+					"\"$(SRCROOT)/../libWeex/Sources/Loader\"",
+					"\"$(SRCROOT)/../libWeex/Sources/Network\"",
+					"\"$(SRCROOT)/../libWeex/Sources/Manager\"",
+					"\"$(SRCROOT)/../libWeex/Sources/Protocol\"",
+					"\"$(SRCROOT)/../libWeex/Sources/Performance\"",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -217,7 +234,6 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -225,7 +241,6 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -239,6 +254,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../Pandora/libs/Universal";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -247,6 +263,24 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../libPDRCore/libPDRCore\"",
+					"\"$(SRCROOT)/../libPDRCore/libPDRCore/Feature\"",
+					"\"$(SRCROOT)/../libPDRCore/libPDRCore/tools\"",
+					"\"$(SRCROOT)/../libPDRCore/libPDRCore/Managers\"",
+					"\"$(SRCROOT)/../libPDRCore/libPDRCore/MiniServer\"",
+					"\"$(SRCROOT)/../libPDRCore/libPDRCore/WebviewEngine\"",
+					"\"$(SRCROOT)/../libPDRCore/libPDRCore/Stream\"",
+					"\"$(SRCROOT)/../libPDRCore/libPDRCore/splashAD\"",
+					"\"$(SRCROOT)/../libWeex/Sources/Model\"",
+					"\"$(SRCROOT)/../libWeex/Sources/Layout\"",
+					"\"$(SRCROOT)/../libWeex/Sources/Utility\"",
+					"\"$(SRCROOT)/../libWeex/Sources/Loader\"",
+					"\"$(SRCROOT)/../libWeex/Sources/Network\"",
+					"\"$(SRCROOT)/../libWeex/Sources/Manager\"",
+					"\"$(SRCROOT)/../libWeex/Sources/Protocol\"",
+					"\"$(SRCROOT)/../libWeex/Sources/Performance\"",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
@@ -256,9 +290,30 @@
 		};
 		09DB47BC21A305A400B0F15D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2FAB48F421ABE5D000E2ED20 /* PluginConfig.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/../Pandora/libs/Universal",
+				);
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../libPDRCore/libPDRCore\"",
+					"\"$(SRCROOT)/../libPDRCore/libPDRCore/Feature\"",
+					"\"$(SRCROOT)/../libPDRCore/libPDRCore/tools\"",
+					"\"$(SRCROOT)/../libPDRCore/libPDRCore/Managers\"",
+					"\"$(SRCROOT)/../libPDRCore/libPDRCore/MiniServer\"",
+					"\"$(SRCROOT)/../libPDRCore/libPDRCore/WebviewEngine\"",
+					"\"$(SRCROOT)/../libPDRCore/libPDRCore/Stream\"",
+					"\"$(SRCROOT)/../libPDRCore/libPDRCore/splashAD\"",
+					"\"$(SRCROOT)/../libWeex/Sources/Model\"",
+					"\"$(SRCROOT)/../libWeex/Sources/Layout\"",
+					"\"$(SRCROOT)/../libWeex/Sources/Utility\"",
+					"\"$(SRCROOT)/../libWeex/Sources/Loader\"",
+					"\"$(SRCROOT)/../libWeex/Sources/Network\"",
+					"\"$(SRCROOT)/../libWeex/Sources/Manager\"",
+					"\"$(SRCROOT)/../libWeex/Sources/Protocol\"",
+					"\"$(SRCROOT)/../libWeex/Sources/Performance\"",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -268,9 +323,30 @@
 		};
 		09DB47BD21A305A400B0F15D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2FAB48F421ABE5D000E2ED20 /* PluginConfig.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/../Pandora/libs/Universal",
+				);
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../libPDRCore/libPDRCore\"",
+					"\"$(SRCROOT)/../libPDRCore/libPDRCore/Feature\"",
+					"\"$(SRCROOT)/../libPDRCore/libPDRCore/tools\"",
+					"\"$(SRCROOT)/../libPDRCore/libPDRCore/Managers\"",
+					"\"$(SRCROOT)/../libPDRCore/libPDRCore/MiniServer\"",
+					"\"$(SRCROOT)/../libPDRCore/libPDRCore/WebviewEngine\"",
+					"\"$(SRCROOT)/../libPDRCore/libPDRCore/Stream\"",
+					"\"$(SRCROOT)/../libPDRCore/libPDRCore/splashAD\"",
+					"\"$(SRCROOT)/../libWeex/Sources/Model\"",
+					"\"$(SRCROOT)/../libWeex/Sources/Layout\"",
+					"\"$(SRCROOT)/../libWeex/Sources/Utility\"",
+					"\"$(SRCROOT)/../libWeex/Sources/Loader\"",
+					"\"$(SRCROOT)/../libWeex/Sources/Network\"",
+					"\"$(SRCROOT)/../libWeex/Sources/Manager\"",
+					"\"$(SRCROOT)/../libWeex/Sources/Protocol\"",
+					"\"$(SRCROOT)/../libWeex/Sources/Performance\"",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

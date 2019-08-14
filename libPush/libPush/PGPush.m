@@ -961,7 +961,7 @@ static PGPush * g_pushInstanceHandle = nil;
                  withType:(NSString*)listenType
               withMessage:(NSDictionary*)message {
     NSString *pStringFun = [NSString
-                            stringWithFormat:@"window.setTimeout(function(){window.__Mkey__Push__.execCallback_Push('%@','%@', %@ )},0);",
+                            stringWithFormat:@"setTimeout(function(){var cbHandle = plus.push.__Mkey__Push__  || __Mkey__Push__; cbHandle.execCallback_Push('%@','%@', %@ )},0);",
                             callBackId, listenType, [message JSONFragment]];
     if ( pStringFun ) {
         PDRCoreAppFrame *targetFrame = [self.appContext.appWindow getFrameByID:frameId];
@@ -980,7 +980,7 @@ static PGPush * g_pushInstanceHandle = nil;
 {
 	NSMutableData *data = [NSMutableData dataWithLength:(sizeof(id) * args.count)];
 	[args getObjects:(__unsafe_unretained id *)data.mutableBytes range:NSMakeRange(0, args.count)];
-	NSString *so = [[NSString alloc] initWithFormat:format arguments:data.mutableBytes];
+	NSString *so = [[[NSString alloc] initWithFormat:format arguments:data.mutableBytes] autorelease];
 	return so;
 }
 
@@ -1090,12 +1090,18 @@ static PGPush * g_pushInstanceHandle = nil;
             } else {
                 [javascriptPushMessage setObject:g_pdr_string_empty forKey:g_pdr_string_content];
             }
+            
             //设置payload
             NSMutableDictionary *newPayload = [messageBody objectForKey:g_pdr_string_payload];
             if ( [newPayload isKindOfClass:[NSString class]] ) {
-                newPayload = [(NSString*)newPayload JSONValue];
-            }
-            if ( [newPayload isKindOfClass:[NSDictionary class]] ) {
+                NSDictionary *playloadDic = [(NSString*)newPayload JSONValue];
+                if ([playloadDic isKindOfClass:[NSDictionary class]]) {
+                    [javascriptPushMessage setObject:playloadDic forKey:g_pdr_string_payload];
+                } else {
+                    [javascriptPushMessage setObject:newPayload forKey:g_pdr_string_payload];
+                }
+                
+            } else if ([newPayload isKindOfClass:[NSDictionary class]]) {
                [javascriptPushMessage setObject:newPayload forKey:g_pdr_string_payload];
             } else {
                 newPayload = [NSMutableDictionary dictionaryWithDictionary:messageBody];
@@ -1174,6 +1180,7 @@ static PGPush * g_pushInstanceHandle = nil;
     
     [m_pApsListenerList removeAllObjects];
     [m_pApsListenerList release];
+    self.navigationController = nil;
     [super dealloc];
 }
 

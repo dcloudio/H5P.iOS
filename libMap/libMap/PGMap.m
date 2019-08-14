@@ -44,8 +44,8 @@
     NSArray *allViews = [_nativeObjectDict allValues];
     for ( PGMapView *target in allViews ) {
         if ( [target isKindOfClass:[PGMapView class]] ) {
+            [self.JSFrameContext removedNView:target];
             [target close];
-            [target removeFromSuperview];
         }
     }
     [_nativeObjectDict release];
@@ -63,21 +63,28 @@
             }
         }
     }];
-    return [self resultWithJSON:@{@"uuid":mapview.UUID?:@""}];
+    NSMutableDictionary *newOptions = [NSMutableDictionary dictionary];
+    if ( [mapview.options isKindOfClass:[NSDictionary class]] ) {
+        [newOptions addEntriesFromDictionary:mapview.options];
+    }
+    [newOptions setObject:@(mapview.zoomLevel) forKey:@"zoom"];
+    return [self resultWithJSON:@{@"uuid":mapview.UUID?:@"",@"options":newOptions}];
 }
 
 - (void)onAppFrameWillClose:(PDRCoreAppFrame *)theAppframe {
-    NSMutableArray *removeKeys = [NSMutableArray array];
+    NSMutableArray *removeMapKeys = [NSMutableArray array];
     [_nativeObjectDict enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, PGMapView * _Nonnull mapView, BOOL * _Nonnull stop) {
         if ( [mapView isKindOfClass:[PGMapView class]] ) {
             if ( [mapView.webviewId isEqualToString:theAppframe.frameID]
                 ||(mapView.parent  && [mapView.parent isEqualToString:theAppframe.frameID])) {
-                [mapView close];
-                [removeKeys addObject:key];
+                [self.JSFrameContext removedNView:mapView];
+                NSArray *ids = [mapView close];
+                [removeMapKeys addObject:key];
+                [removeMapKeys addObjectsFromArray:ids];
             }
         }
     }];
-    [_nativeObjectDict removeObjectsForKeys:removeKeys];
+    [_nativeObjectDict removeObjectsForKeys:removeMapKeys];
 }
 
 - (PDRNView*)__getNativeViewById:(NSString*)uid {
@@ -138,6 +145,24 @@
     return nil;
 }
 
+/**
+ 动态更新地图属性
+ API: http://www.dcloud.io/docs/api/zh_cn/maps.html#plus.maps.Map.setStyles
+ */
+- (void)setStyles:(PGMethod *)command {
+    if (!command || !command.arguments) {
+        return;
+    }
+    
+    NSString *UUID = [command.arguments objectAtIndex:0];
+    if (UUID && [UUID isKindOfClass:[NSString class]]) {
+        PGMapView *obj = [_nativeObjectDict objectForKey:UUID];
+        if ([obj respondsToSelector:@selector(setStyles:)]) {
+            [obj setStyles:command.arguments[1]];
+        }
+    }
+}
+
 /*
  *------------------------------------------------------------------
  * @Summary:
@@ -169,8 +194,8 @@
                         NSString *UUID =  [args objectAtIndex:1];
                         PGMapView *map = [_nativeObjectDict objectForKey:UUID];
                         if ( [map isKindOfClass:[PGMapView class]] ) {
+                            [self.JSFrameContext removedNView:map];
                             [map close];
-                            [map removeFromSuperview];
                             [_nativeObjectDict removeObjectForKey:UUID];
                         }
                         return;
@@ -214,7 +239,7 @@
             { return; }
             if ( [type isEqualToString:@"mapview"] )
             {
-                PGMapView *mapView = [self createMapViewWithArgs:[command.arguments objectAtIndex:2]];;
+                PGMapView *mapView = [self createMapViewWithArgs:[command.arguments objectAtIndex:2]];
                 if ( mapView )
                 {
                     mapView.jsBridge = self;
@@ -224,11 +249,7 @@
                     mapView.viewName = [PGPluginParamHelper getStringValue:[command.arguments objectAtIndex:3]];
                     [mapView addEvtCallbackId:[self JSFrameContextID]];
                     if ( !mapView.viewName ) {
-                        if ( PGMapViewPositionAbsolute == mapView.positionType ) {
-                            [self.JSFrameContext.webEngine.webview addSubview:mapView];
-                        } else {
-                            [self.JSFrameContext.webEngine.scrollView addSubview:mapView];
-                        }
+                        [self.JSFrameContext appendNView:mapView forKey:mapView.viewUUID];
                     }
                     [_nativeObjectDict setObject:mapView forKey:UUID];
                 }

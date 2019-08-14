@@ -23,6 +23,11 @@
     return self;
 }
 
+
+- (BOOL)isLocationServiceValid {
+    return E_PERMISSION_OK == [PGBaiduKeyVerify Verify].errorCode;
+}
+
 - (NSString*)getSupportCoorType:(NSString*)coorType {
     if ( [coorType isKindOfClass:[NSNull class]] ) {
         coorType = @"bd09ll";
@@ -80,8 +85,8 @@
  *@param userLocation 新的用户位置
  */
 - (void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation {
-    if ( [self.delegate respondsToSelector:@selector(locationServer:didUpdateLocations:)] ) {
-        [self.delegate locationServer:self didUpdateLocations:[NSArray arrayWithObjects:userLocation.location, nil]];
+    if ( [self.delegate respondsToSelector:@selector(locationServer:didUpdateLocations:geocodeCompletion:)] ) {
+        [self.delegate locationServer:self didUpdateLocations:[NSArray arrayWithObjects:userLocation.location, nil]geocodeCompletion:nil];
     }
 }
 

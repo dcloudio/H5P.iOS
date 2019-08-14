@@ -50,6 +50,19 @@
     return [[[PGMAMapView alloc] initViewWithArray:args] autorelease];
 }
 
+- (void)onAppFrameWillClose:(PDRCoreAppFrame *)theAppframe {
+    [super onAppFrameWillClose:theAppframe];
+    NSMutableArray *removeMapKeys = [NSMutableArray array];
+    [_nativeObjectDict enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, PGMapMarker * _Nonnull marker, BOOL * _Nonnull stop) {
+        if ( [marker isKindOfClass:[PGMapMarker class]] ) {
+            if ( [marker.createWebviewId isEqualToString:theAppframe.frameID] && nil == marker.belongMapview) {
+                [removeMapKeys addObject:key];
+            }
+        }
+    }];
+    [_nativeObjectDict removeObjectsForKeys:removeMapKeys];
+}
+
 /*
  *------------------------------------------------------------------
  * @Summary:
@@ -70,6 +83,7 @@
         PGMapMarker *mapMarker = [PGMapMarker markerWithArray:args baseURL:self.JSFrameContext.baseURL];
         mapMarker.UUID = UUID;
         mapMarker.belongWebview = webviewId;
+        mapMarker.createWebviewId = webviewId;
         return mapMarker;
     }
     else if ( [type isEqualToString:@"circle"] )

@@ -13,6 +13,7 @@
 #import "PDRNView.h"
 #import "PDRCommonString.h"
 #import "PDRCoreAppFramePrivate.h"
+#import "PDRCoreAppFrame+Layout.h"
 #import "PDRCoreAppWindowPrivate.h"
 
 @interface H5VideoPlaySetting(VidePlugin)
