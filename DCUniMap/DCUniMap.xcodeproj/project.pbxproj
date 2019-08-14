@@ -1,0 +1,368 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		9704FBDE225CCC1900E32742 /* DCMapComponent.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9704FBDD225CCC1900E32742 /* DCMapComponent.mm */; };
+		9704FC2B225E1A0200E32742 /* DCMapConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = 9704FC2A225E1A0200E32742 /* DCMapConstant.m */; };
+		9704FC31225E1C5F00E32742 /* NSArray+DCExtend.m in Sources */ = {isa = PBXBuildFile; fileRef = 9704FC30225E1C5F00E32742 /* NSArray+DCExtend.m */; };
+		9704FC3B225EEEFA00E32742 /* WXConvert+DCMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 9704FC3A225EEEFA00E32742 /* WXConvert+DCMap.m */; };
+		9704FC47225EF25700E32742 /* NSDictionary+DCExtend.m in Sources */ = {isa = PBXBuildFile; fileRef = 9704FC46225EF25700E32742 /* NSDictionary+DCExtend.m */; };
+		97DB5F262272EF7D00806B6B /* DCMapModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 97DB5F252272EF7C00806B6B /* DCMapModule.m */; };
+		97E13A2F229922E2002D4C02 /* AMapFoundationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97E13A2C229922E2002D4C02 /* AMapFoundationKit.framework */; };
+		97E13A30229922E2002D4C02 /* AMapSearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97E13A2D229922E2002D4C02 /* AMapSearchKit.framework */; };
+		97E13A31229922E2002D4C02 /* MAMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97E13A2E229922E2002D4C02 /* MAMapKit.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		9704FBA6225CC7AF00E32742 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		9704FBA8225CC7AF00E32742 /* libDCUniMap.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libDCUniMap.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		9704FBDC225CCC1900E32742 /* DCMapComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DCMapComponent.h; sourceTree = "<group>"; };
+		9704FBDD225CCC1900E32742 /* DCMapComponent.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DCMapComponent.mm; sourceTree = "<group>"; };
+		9704FBE2225DAC4700E32742 /* DCMapProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DCMapProtocol.h; sourceTree = "<group>"; };
+		9704FC29225E1A0200E32742 /* DCMapConstant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DCMapConstant.h; sourceTree = "<group>"; };
+		9704FC2A225E1A0200E32742 /* DCMapConstant.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DCMapConstant.m; sourceTree = "<group>"; };
+		9704FC2F225E1C5F00E32742 /* NSArray+DCExtend.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+DCExtend.h"; sourceTree = "<group>"; };
+		9704FC30225E1C5F00E32742 /* NSArray+DCExtend.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSArray+DCExtend.m"; sourceTree = "<group>"; };
+		9704FC39225EEEFA00E32742 /* WXConvert+DCMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WXConvert+DCMap.h"; sourceTree = "<group>"; };
+		9704FC3A225EEEFA00E32742 /* WXConvert+DCMap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "WXConvert+DCMap.m"; sourceTree = "<group>"; };
+		9704FC45225EF25700E32742 /* NSDictionary+DCExtend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+DCExtend.h"; sourceTree = "<group>"; };
+		9704FC46225EF25700E32742 /* NSDictionary+DCExtend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+DCExtend.m"; sourceTree = "<group>"; };
+		97DB5F242272EF7C00806B6B /* DCMapModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DCMapModule.h; sourceTree = "<group>"; };
+		97DB5F252272EF7C00806B6B /* DCMapModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DCMapModule.m; sourceTree = "<group>"; };
+		97E13A2C229922E2002D4C02 /* AMapFoundationKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AMapFoundationKit.framework; path = ../Pandora/libs/Universal/AMapFoundationKit.framework; sourceTree = "<group>"; };
+		97E13A2D229922E2002D4C02 /* AMapSearchKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AMapSearchKit.framework; path = ../Pandora/libs/Universal/AMapSearchKit.framework; sourceTree = "<group>"; };
+		97E13A2E229922E2002D4C02 /* MAMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MAMapKit.framework; path = ../Pandora/libs/Universal/MAMapKit.framework; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9704FBA5225CC7AF00E32742 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				97E13A2F229922E2002D4C02 /* AMapFoundationKit.framework in Frameworks */,
+				97E13A30229922E2002D4C02 /* AMapSearchKit.framework in Frameworks */,
+				97E13A31229922E2002D4C02 /* MAMapKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9704FB9F225CC7AF00E32742 = {
+			isa = PBXGroup;
+			children = (
+				9704FBAA225CC7AF00E32742 /* DCUniMap */,
+				9704FBA9225CC7AF00E32742 /* Products */,
+				9704FC10225DEBAD00E32742 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		9704FBA9225CC7AF00E32742 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9704FBA8225CC7AF00E32742 /* libDCUniMap.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9704FBAA225CC7AF00E32742 /* DCUniMap */ = {
+			isa = PBXGroup;
+			children = (
+				9704FC42225EF1EA00E32742 /* DCExtend */,
+				9704FBDC225CCC1900E32742 /* DCMapComponent.h */,
+				9704FBDD225CCC1900E32742 /* DCMapComponent.mm */,
+				97DB5F242272EF7C00806B6B /* DCMapModule.h */,
+				97DB5F252272EF7C00806B6B /* DCMapModule.m */,
+				9704FBE2225DAC4700E32742 /* DCMapProtocol.h */,
+				9704FC29225E1A0200E32742 /* DCMapConstant.h */,
+				9704FC2A225E1A0200E32742 /* DCMapConstant.m */,
+			);
+			path = DCUniMap;
+			sourceTree = "<group>";
+		};
+		9704FC10225DEBAD00E32742 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				97E13A2C229922E2002D4C02 /* AMapFoundationKit.framework */,
+				97E13A2D229922E2002D4C02 /* AMapSearchKit.framework */,
+				97E13A2E229922E2002D4C02 /* MAMapKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9704FC42225EF1EA00E32742 /* DCExtend */ = {
+			isa = PBXGroup;
+			children = (
+				9704FC45225EF25700E32742 /* NSDictionary+DCExtend.h */,
+				9704FC46225EF25700E32742 /* NSDictionary+DCExtend.m */,
+				9704FC2F225E1C5F00E32742 /* NSArray+DCExtend.h */,
+				9704FC30225E1C5F00E32742 /* NSArray+DCExtend.m */,
+				9704FC39225EEEFA00E32742 /* WXConvert+DCMap.h */,
+				9704FC3A225EEEFA00E32742 /* WXConvert+DCMap.m */,
+			);
+			path = DCExtend;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9704FBA7225CC7AF00E32742 /* DCUniMap */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9704FBB1225CC7AF00E32742 /* Build configuration list for PBXNativeTarget "DCUniMap" */;
+			buildPhases = (
+				9704FBA4225CC7AF00E32742 /* Sources */,
+				9704FBA5225CC7AF00E32742 /* Frameworks */,
+				9704FBA6225CC7AF00E32742 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DCUniMap;
+			productName = libWeexMap;
+			productReference = 9704FBA8225CC7AF00E32742 /* libDCUniMap.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9704FBA0225CC7AF00E32742 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1020;
+				ORGANIZATIONNAME = DCloud;
+				TargetAttributes = {
+					9704FBA7225CC7AF00E32742 = {
+						CreatedOnToolsVersion = 10.2;
+					};
+				};
+			};
+			buildConfigurationList = 9704FBA3225CC7AF00E32742 /* Build configuration list for PBXProject "DCUniMap" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 9704FB9F225CC7AF00E32742;
+			productRefGroup = 9704FBA9225CC7AF00E32742 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9704FBA7225CC7AF00E32742 /* DCUniMap */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9704FBA4225CC7AF00E32742 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9704FC47225EF25700E32742 /* NSDictionary+DCExtend.m in Sources */,
+				97DB5F262272EF7D00806B6B /* DCMapModule.m in Sources */,
+				9704FBDE225CCC1900E32742 /* DCMapComponent.mm in Sources */,
+				9704FC2B225E1A0200E32742 /* DCMapConstant.m in Sources */,
+				9704FC31225E1C5F00E32742 /* NSArray+DCExtend.m in Sources */,
+				9704FC3B225EEEFA00E32742 /* WXConvert+DCMap.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		9704FBAF225CC7AF00E32742 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		9704FBB0225CC7AF00E32742 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		9704FBB2225CC7AF00E32742 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../Pandora/libs/Universal\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../libWeex/Sources\"/**",
+					"\"$(SRCROOT)/DCUniAmap/DCUniAmap\"/**",
+					"\"$(SRCROOT)/DCUniBMap/DCUniBMap\"/**",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		9704FBB3225CC7AF00E32742 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../Pandora/libs/Universal\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../libWeex/Sources\"/**",
+					"\"$(SRCROOT)/DCUniAmap/DCUniAmap\"/**",
+					"\"$(SRCROOT)/DCUniBMap/DCUniBMap\"/**",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9704FBA3225CC7AF00E32742 /* Build configuration list for PBXProject "DCUniMap" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9704FBAF225CC7AF00E32742 /* Debug */,
+				9704FBB0225CC7AF00E32742 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9704FBB1225CC7AF00E32742 /* Build configuration list for PBXNativeTarget "DCUniMap" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9704FBB2225CC7AF00E32742 /* Debug */,
+				9704FBB3225CC7AF00E32742 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9704FBA0225CC7AF00E32742 /* Project object */;
+}

@@ -1,0 +1,376 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		672B148722FC4E390099DDF5 /* WXH5VideoVolumeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 672B148622FC4E390099DDF5 /* WXH5VideoVolumeView.m */; };
+		6752102222649B600033C796 /* PGWXVideoComponent.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6752102122649B600033C796 /* PGWXVideoComponent.mm */; };
+		675210352264AD520033C796 /* WXH5VideoBrightnessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 675210232264AD500033C796 /* WXH5VideoBrightnessView.m */; };
+		675210362264AD520033C796 /* WXH5VideoContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 675210282264AD510033C796 /* WXH5VideoContext.m */; };
+		675210372264AD520033C796 /* WXH5DanmuSwitchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6752102B2264AD510033C796 /* WXH5DanmuSwitchView.m */; };
+		675210382264AD520033C796 /* WXH5VideoPlaySetting.m in Sources */ = {isa = PBXBuildFile; fileRef = 6752102D2264AD510033C796 /* WXH5VideoPlaySetting.m */; };
+		675210392264AD520033C796 /* WXH5VideoPlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6752102E2264AD510033C796 /* WXH5VideoPlayView.m */; };
+		6752103A2264AD520033C796 /* WXH5DanmakuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6752102F2264AD510033C796 /* WXH5DanmakuManager.m */; };
+		6752103B2264AD520033C796 /* UIImageView+WXVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 675210312264AD520033C796 /* UIImageView+WXVideo.m */; };
+		6752103C2264AD520033C796 /* WXH5DirectionGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 675210322264AD520033C796 /* WXH5DirectionGestureRecognizer.m */; };
+		6752103D2264AD520033C796 /* WXH5VideoPlayOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 675210342264AD520033C796 /* WXH5VideoPlayOverlayView.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		67520FEF22648CE60033C796 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		672B148522FC4E390099DDF5 /* WXH5VideoVolumeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WXH5VideoVolumeView.h; sourceTree = "<group>"; };
+		672B148622FC4E390099DDF5 /* WXH5VideoVolumeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WXH5VideoVolumeView.m; sourceTree = "<group>"; };
+		67520FF122648CE60033C796 /* libDCUniVideo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libDCUniVideo.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		6752102022649B600033C796 /* PGWXVideoComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGWXVideoComponent.h; sourceTree = "<group>"; };
+		6752102122649B600033C796 /* PGWXVideoComponent.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PGWXVideoComponent.mm; sourceTree = "<group>"; };
+		675210232264AD500033C796 /* WXH5VideoBrightnessView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXH5VideoBrightnessView.m; sourceTree = "<group>"; };
+		675210242264AD510033C796 /* WXH5VideoPlayOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXH5VideoPlayOverlayView.h; sourceTree = "<group>"; };
+		675210252264AD510033C796 /* WXH5VideoPlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXH5VideoPlayView.h; sourceTree = "<group>"; };
+		675210262264AD510033C796 /* WXH5VideoBrightnessView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXH5VideoBrightnessView.h; sourceTree = "<group>"; };
+		675210272264AD510033C796 /* WXH5DanmakuManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXH5DanmakuManager.h; sourceTree = "<group>"; };
+		675210282264AD510033C796 /* WXH5VideoContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXH5VideoContext.m; sourceTree = "<group>"; };
+		675210292264AD510033C796 /* UIImageView+WXVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+WXVideo.h"; sourceTree = "<group>"; };
+		6752102A2264AD510033C796 /* WXH5DirectionGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXH5DirectionGestureRecognizer.h; sourceTree = "<group>"; };
+		6752102B2264AD510033C796 /* WXH5DanmuSwitchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXH5DanmuSwitchView.m; sourceTree = "<group>"; };
+		6752102C2264AD510033C796 /* WXH5VideoContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXH5VideoContext.h; sourceTree = "<group>"; };
+		6752102D2264AD510033C796 /* WXH5VideoPlaySetting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXH5VideoPlaySetting.m; sourceTree = "<group>"; };
+		6752102E2264AD510033C796 /* WXH5VideoPlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXH5VideoPlayView.m; sourceTree = "<group>"; };
+		6752102F2264AD510033C796 /* WXH5DanmakuManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXH5DanmakuManager.m; sourceTree = "<group>"; };
+		675210302264AD510033C796 /* WXH5DanmuSwitchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXH5DanmuSwitchView.h; sourceTree = "<group>"; };
+		675210312264AD520033C796 /* UIImageView+WXVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WXVideo.m"; sourceTree = "<group>"; };
+		675210322264AD520033C796 /* WXH5DirectionGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXH5DirectionGestureRecognizer.m; sourceTree = "<group>"; };
+		675210332264AD520033C796 /* WXH5VideoPlaySetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXH5VideoPlaySetting.h; sourceTree = "<group>"; };
+		675210342264AD520033C796 /* WXH5VideoPlayOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXH5VideoPlayOverlayView.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		67520FEE22648CE60033C796 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		67520FE822648CE60033C796 = {
+			isa = PBXGroup;
+			children = (
+				67520FF322648CE60033C796 /* DCUniVideo */,
+				67520FF222648CE60033C796 /* Products */,
+				6752100622648FAA0033C796 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		67520FF222648CE60033C796 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				67520FF122648CE60033C796 /* libDCUniVideo.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		67520FF322648CE60033C796 /* DCUniVideo */ = {
+			isa = PBXGroup;
+			children = (
+				6752102022649B600033C796 /* PGWXVideoComponent.h */,
+				6752102122649B600033C796 /* PGWXVideoComponent.mm */,
+				675210272264AD510033C796 /* WXH5DanmakuManager.h */,
+				6752102F2264AD510033C796 /* WXH5DanmakuManager.m */,
+				675210302264AD510033C796 /* WXH5DanmuSwitchView.h */,
+				6752102B2264AD510033C796 /* WXH5DanmuSwitchView.m */,
+				6752102A2264AD510033C796 /* WXH5DirectionGestureRecognizer.h */,
+				675210322264AD520033C796 /* WXH5DirectionGestureRecognizer.m */,
+				675210262264AD510033C796 /* WXH5VideoBrightnessView.h */,
+				675210232264AD500033C796 /* WXH5VideoBrightnessView.m */,
+				672B148522FC4E390099DDF5 /* WXH5VideoVolumeView.h */,
+				672B148622FC4E390099DDF5 /* WXH5VideoVolumeView.m */,
+				6752102C2264AD510033C796 /* WXH5VideoContext.h */,
+				675210282264AD510033C796 /* WXH5VideoContext.m */,
+				675210242264AD510033C796 /* WXH5VideoPlayOverlayView.h */,
+				675210342264AD520033C796 /* WXH5VideoPlayOverlayView.m */,
+				675210332264AD520033C796 /* WXH5VideoPlaySetting.h */,
+				6752102D2264AD510033C796 /* WXH5VideoPlaySetting.m */,
+				675210252264AD510033C796 /* WXH5VideoPlayView.h */,
+				6752102E2264AD510033C796 /* WXH5VideoPlayView.m */,
+				675210292264AD510033C796 /* UIImageView+WXVideo.h */,
+				675210312264AD520033C796 /* UIImageView+WXVideo.m */,
+			);
+			path = DCUniVideo;
+			sourceTree = "<group>";
+		};
+		6752100622648FAA0033C796 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		67520FF022648CE60033C796 /* DCUniVideo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 67520FFA22648CE60033C796 /* Build configuration list for PBXNativeTarget "DCUniVideo" */;
+			buildPhases = (
+				67520FED22648CE60033C796 /* Sources */,
+				67520FEE22648CE60033C796 /* Frameworks */,
+				67520FEF22648CE60033C796 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DCUniVideo;
+			productName = libWXVideoComponent;
+			productReference = 67520FF122648CE60033C796 /* libDCUniVideo.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		67520FE922648CE60033C796 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = Dcloud;
+				TargetAttributes = {
+					67520FF022648CE60033C796 = {
+						CreatedOnToolsVersion = 10.1;
+					};
+				};
+			};
+			buildConfigurationList = 67520FEC22648CE60033C796 /* Build configuration list for PBXProject "DCUniVideo" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 67520FE822648CE60033C796;
+			productRefGroup = 67520FF222648CE60033C796 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				67520FF022648CE60033C796 /* DCUniVideo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		67520FED22648CE60033C796 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6752103D2264AD520033C796 /* WXH5VideoPlayOverlayView.m in Sources */,
+				675210352264AD520033C796 /* WXH5VideoBrightnessView.m in Sources */,
+				675210392264AD520033C796 /* WXH5VideoPlayView.m in Sources */,
+				675210372264AD520033C796 /* WXH5DanmuSwitchView.m in Sources */,
+				6752102222649B600033C796 /* PGWXVideoComponent.mm in Sources */,
+				6752103B2264AD520033C796 /* UIImageView+WXVideo.m in Sources */,
+				672B148722FC4E390099DDF5 /* WXH5VideoVolumeView.m in Sources */,
+				675210382264AD520033C796 /* WXH5VideoPlaySetting.m in Sources */,
+				675210362264AD520033C796 /* WXH5VideoContext.m in Sources */,
+				6752103A2264AD520033C796 /* WXH5DanmakuManager.m in Sources */,
+				6752103C2264AD520033C796 /* WXH5DirectionGestureRecognizer.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		67520FF822648CE60033C796 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		67520FF922648CE60033C796 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		67520FFB22648CE60033C796 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../Pandora/libs/Universal";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					MAS_SHORTHAND_GLOBALS,
+				);
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../libWeex/Sources\"/**",
+					"\"$(SRCROOT)/../libPDRCore/libPDRCore\"/**",
+					"\"$(SRCROOT)/../DCUniVideoPublic/DCUniVideoPublic\"/**",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		67520FFC22648CE60033C796 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../Pandora/libs/Universal";
+				GCC_PREPROCESSOR_DEFINITIONS = MAS_SHORTHAND_GLOBALS;
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../libWeex/Sources\"/**",
+					"\"$(SRCROOT)/../libPDRCore/libPDRCore\"/**",
+					"\"$(SRCROOT)/../DCUniVideoPublic/DCUniVideoPublic\"/**",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		67520FEC22648CE60033C796 /* Build configuration list for PBXProject "DCUniVideo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				67520FF822648CE60033C796 /* Debug */,
+				67520FF922648CE60033C796 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		67520FFA22648CE60033C796 /* Build configuration list for PBXNativeTarget "DCUniVideo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				67520FFB22648CE60033C796 /* Debug */,
+				67520FFC22648CE60033C796 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 67520FE922648CE60033C796 /* Project object */;
+}
