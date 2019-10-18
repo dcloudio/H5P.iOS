@@ -26,6 +26,8 @@
 - (NSDictionary *)getUserLocation {return @{};}
 - (NSDictionary *)getRegion {return @{};}
 - (NSDictionary *)getScale {return @{};}
+- (NSDictionary *)getSkew {return @{};}
+- (NSDictionary *)getRotate {return @{};}
 - (NSDictionary *)setIncludePoints:(NSDictionary *)info {return @{};}
 - (NSDictionary *)moveToLocation:(NSDictionary *)info {return @{};}
 - (void)translateMarker:(NSDictionary *)info block:(void(^)(NSDictionary *))block {}

@@ -380,9 +380,12 @@ NSString* g_PDR_Localization_Cancel = @"取消";
     PGNativeImageSliderView* pImageSlider = [[PGNativeImageSliderView alloc] initWithOptions:@{@"loop":@(bLoop),
                                                                                                @"fullscreen":@(true),
                                                                                                g_pdr_string_baseURL:self.JSFrameContext.baseURL?self.JSFrameContext.baseURL:@"",
-                                                                                               @"images":pImages}];
+                                                                                               @"images":pImages,
+                                                                                               @"current":@(current),
+                                                                                               @"indicator":@(indType)
+                                                                                               }];
     pImageSlider.delegate = self;
-    
+    pImageSlider.context = self;
     if(pImageSlider){
         pImageSlider.belongTo = PDRNViewInWindow;
         if(pBgColor && [pBgColor isKindOfClass:[NSString class]]){
@@ -392,12 +395,8 @@ NSString* g_PDR_Localization_Cancel = @"取消";
             [pImageSlider setSliderBgColor:[UIColor blackColor]];
         }
         
-        if(current != 0){
-            [pImageSlider setCurrentPerviewIndex:current];
-        }
         pImageSlider.isPreviewImage = YES;
         [pImageSlider setItemsCanZooming:YES];
-        [pImageSlider setIndicatorType:indType];
         pImageSlider.frame = self.appContext.appWindow.bounds;
         [self.appContext.appWindow  addSubview:pImageSlider];
         [pImageSlider release];

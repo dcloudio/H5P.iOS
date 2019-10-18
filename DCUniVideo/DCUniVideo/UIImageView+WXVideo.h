@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface UIImageView(WXH5Video)
--(void)h5Video_setImageUrl:(NSString*)url;
+#import "H5CoreImageLoader.h"
+@interface UIImageView(WXH5Video)<H5CoreImageLoaderDelegate>
+-(void)wxh5Video_setImageUrl:(NSString*)url;
 @end

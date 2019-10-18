@@ -34,7 +34,7 @@
 		1766DB8618ED2D690066C448 /* PGPushActualize.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGPushActualize.m; sourceTree = "<group>"; };
 		2F1BBE041D3F6D1500970C76 /* PGPushServerAct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGPushServerAct.h; sourceTree = "<group>"; };
 		2F1BBE051D3F6D1500970C76 /* PGPushServerAct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGPushServerAct.m; sourceTree = "<group>"; };
-		2FEBD04B1D337B61002D862B /* GeTuiSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GeTuiSdk.h; path = ../../../Pandora/inc/GeTuiPush/GeTuiSdk.h; sourceTree = "<group>"; };
+		6735C38423292B3700CAC47B /* GeTuiSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GeTuiSdk.h; path = ../../../Pandora/inc/GeTuiPush/GeTuiSdk.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,7 +77,7 @@
 		1766DB8118ED2D690066C448 /* GeTuiPush */ = {
 			isa = PBXGroup;
 			children = (
-				2FEBD04B1D337B61002D862B /* GeTuiSdk.h */,
+				6735C38423292B3700CAC47B /* GeTuiSdk.h */,
 				1766DB8418ED2D690066C448 /* PGPushActualize.h */,
 				1766DB8618ED2D690066C448 /* PGPushActualize.m */,
 				2F1BBE041D3F6D1500970C76 /* PGPushServerAct.h */,
@@ -121,15 +121,16 @@
 		1766DB7418ED2D690066C448 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1100;
 				ORGANIZATIONNAME = DCloud;
 			};
 			buildConfigurationList = 1766DB7718ED2D690066C448 /* Build configuration list for PBXProject "GeTuiPush" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 1766DB7318ED2D690066C448;
 			productRefGroup = 1766DB7D18ED2D690066C448 /* Products */;
@@ -200,9 +201,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				VALID_ARCHS = "arm64 arm64e armv7 armv7s x86_64";
 			};
 			name = Debug;
 		};
@@ -245,9 +247,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "arm64 arm64e armv7 armv7s x86_64";
 			};
 			name = Release;
 		};
@@ -258,6 +261,7 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				DSTROOT = /tmp/GeTuiPush.dst;
 				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../Pandora/libs/Universal";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GeTuiPush/GeTuiPush-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -286,6 +290,7 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				DSTROOT = /tmp/GeTuiPush.dst;
 				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../Pandora/libs/Universal";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GeTuiPush/GeTuiPush-Prefix.pch";
 				HEADER_SEARCH_PATHS = (

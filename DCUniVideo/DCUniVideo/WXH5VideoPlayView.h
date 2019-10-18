@@ -15,9 +15,8 @@
 @required
 - (void)playerViewEnterFullScreen:(WXH5VideoPlayView *)playerView interfaceOrientation:(UIInterfaceOrientation)interfaceOrientation;
 - (void)playerViewEnterFullScreenNoDelay:(WXH5VideoPlayView *)playerView interfaceOrientation:(UIInterfaceOrientation)interfaceOrientation;
-- (void)playerViewExitFullScreen:(WXH5VideoPlayView *)playerView;
-- (void)playerViewExitFullScreenNoDelay:(WXH5VideoPlayView *)playerView;
-- (void)onLayout_:(WXH5VideoPlayView *)playerView;
+- (NSInteger)playerViewExitFullScreen:(WXH5VideoPlayView *)playerView;
+- (void)playerViewExitFullScreenNoDelay:(WXH5VideoPlayView *)playerView interfaceOrientation:(UIInterfaceOrientation)interfaceOrientation;
 @optional
 - (void)playerViewPlay:(WXH5VideoPlayView *)playerView;
 - (void)playerViewPause:(WXH5VideoPlayView *)playerView;
@@ -42,6 +41,4 @@
 - (void)clearDanmaku;
 - (void)setControlValue:(id)value forKey:(NSString*)key;
 - (void)destroy;
-- (void)updateLayout;
-- (void)dc_setHidden:(BOOL)isHidden;
 @end

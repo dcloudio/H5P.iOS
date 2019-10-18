@@ -174,7 +174,7 @@ static PGPush * g_pushInstanceHandle = nil;
 //}
 - (void) onRegRemoteNotificationsError:(NSError *)error {}
 /// @brief DeviceToken获取成功
-- (void) onRevDeviceToken:(NSString *)deviceToken {}
+- (void) onRevDeviceToken:(NSData *)deviceToken {}
 - (void)onDidBecomeActive:(NSNotification *)notification
 {
     bIsDeactivate = NO;
@@ -341,10 +341,19 @@ static PGPush * g_pushInstanceHandle = nil;
     NSMutableDictionary *clientInfo = [self getClientInfoJSObjcet];
     return [self resultWithJSON:clientInfo];
 }
-
+-(NSString*)getHexStringForData:(NSData*)data{
+    NSUInteger len = [data length];
+    char *chars = (char *)[data bytes];
+    NSMutableString * hexString = [[NSMutableString alloc]init];
+    for (NSUInteger i=0; i<len; i++) {
+        [hexString appendString:[NSString stringWithFormat:@"%0.2hhx",chars[i]]];
+    }
+    return hexString;
+}
 - (NSMutableDictionary*)getClientInfoJSObjcet {
     NSMutableDictionary *clientInfo = [NSMutableDictionary dictionary];
-    NSString* pToken = [PDRCore Instance].deviceToken;
+    
+    NSString *pToken = [self getHexStringForData:[PDRCore Instance].deviceToken];
     if ( pToken )  {
         [clientInfo setObject:pToken forKey:g_pdr_string_token];
     } else {
@@ -423,6 +432,8 @@ static PGPush * g_pushInstanceHandle = nil;
     NSString* pPayload = nil;
     NSString* sound = nil;
     NSString* image = nil;
+    NSString* title = nil;
+    NSString* subtitle = nil;
     
     pMessage = [PGPluginParamHelper getStringValue:[pMethod getArgumentAtIndex:0]];
     pPayload = [PGPluginParamHelper getStringValue:[pMethod getArgumentAtIndex:1]];
@@ -430,7 +441,8 @@ static PGPush * g_pushInstanceHandle = nil;
     fDelay = [PGPluginParamHelper getFloatValueInDict:options forKey:g_pdr_string_delay defalut:0.0f];
     sound = [PGPluginParamHelper getStringValueInDict:options forKey:@"sound" defalut:g_pdr_string_system];
     image = [PGPluginParamHelper getStringValueInDict:options forKey:@"icon"];
-    
+    title = [PGPluginParamHelper getStringValueInDict:options forKey:@"title"];
+    subtitle = [PGPluginParamHelper getStringValueInDict:options forKey:@"subtitle"];
     
 
     if(kCFCoreFoundationVersionNumber > kCFCoreFoundationVersionNumber_iOS_9_x_Max)
@@ -460,7 +472,12 @@ static PGPush * g_pushInstanceHandle = nil;
                 if ( !(sound && NSOrderedSame == [sound caseInsensitiveCompare:g_pdr_string_none])){
                     content.sound = [UNNotificationSound defaultSound];//系统的声音
                 }
-                
+                if (title) {
+                    content.title = title;
+                }
+                if (subtitle) {
+                    content.subtitle = subtitle;
+                }
                 if(image && [image isKindOfClass:[NSString class]] && image.length)
                 {
                     NSString *localPath = nil;
@@ -891,8 +908,14 @@ static PGPush * g_pushInstanceHandle = nil;
 - (BOOL)processLocalMessage:(UILocalNotification *)pUserInfo type:(NSString*)pType {
     BOOL bProcess = false;
     BOOL isNotificationContent = NO;
+    
+    NSString *title = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"];
+    NSString *subtitle = nil;
+    
     if ( [pUserInfo isKindOfClass:[UNNotificationContent class]] ) {
         isNotificationContent = YES;
+        title = ((UNNotificationContent *)pUserInfo).title ?: title;
+        subtitle = ((UNNotificationContent *)pUserInfo).subtitle;
     }
     
     if(isNotificationContent && [((UNNotificationContent*)pUserInfo).categoryIdentifier isEqualToString:g_pdr_string_adpushaction]){
@@ -917,7 +940,6 @@ static PGPush * g_pushInstanceHandle = nil;
         }
     }
     
-    NSString *title = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"];
     NSString* pMessage = isNotificationContent? ((UNNotificationContent*)pUserInfo).body : pUserInfo.alertBody;
    // NSString* pPayload = pUserInfo.alertAction;
     id pPayload = [pUserInfo.userInfo objectForKey:@"payload"];
@@ -927,6 +949,9 @@ static PGPush * g_pushInstanceHandle = nil;
     [message setObject:pMessage forKey:g_pdr_string_content];
     [message setObject:pPayload?pPayload:[NSNull null] forKey:g_pdr_string_payload];
     [message setObject:[NSNull null] forKey:g_pdr_string_aps];
+    if (subtitle) {
+        [message setObject:subtitle forKey:@"subtitle"];
+    }
 
     for (NSMutableDictionary* pDic in m_pApsListenerList)
     {

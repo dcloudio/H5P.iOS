@@ -901,4 +901,13 @@
 //    [jsBridge asyncWriteJavascript:javaScript];
 //}
 
+/**
+ *  @brief 当plist配置NSLocationAlwaysUsageDescription或者NSLocationAlwaysAndWhenInUseUsageDescription，并且[CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined，会调用代理的此方法。
+ 此方法实现调用后台权限API即可（ 该回调必须实现 [locationManager requestAlwaysAuthorization] ）; since 6.8.0
+ *  @param locationManager  地图的CLLocationManager。
+ */
+- (void)mapViewRequireLocationAuth:(CLLocationManager *)locationManager {
+    [locationManager requestAlwaysAuthorization];
+}
+
 @end

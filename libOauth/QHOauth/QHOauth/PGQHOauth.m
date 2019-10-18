@@ -82,7 +82,7 @@ static PGQHOauth* g_sQHOAuthHandle = nil;
 
 #define DeviceId ([UIDevice currentDevice].identifierForVendor.UUIDString)
 
-- (id)init
+- (PGPlugin*) initWithWebView:(PDRCoreAppFrame*)theWebView withAppContxt:(PDRCoreApp*)app
 {
     if (self = [super init])
     {

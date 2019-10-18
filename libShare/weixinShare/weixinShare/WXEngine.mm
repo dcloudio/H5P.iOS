@@ -19,13 +19,23 @@
 @synthesize expireTime;
 
 
-- (id)initWithAppid:(NSString*)appid {
+- (id)initWithAppid:(NSString*)appid universalLinks:(NSString*)universalLinks{
     if (self = [super init]){
        // [self readAuthorizeDataFromKeychain];
-        self.isAppidValid = [WXApi registerApp:appid];
+#if defined(DEBUG)
+        [WXApi startLogByLevel:WXLogLevelDetail logBlock:^(NSString *log) {
+            NSLog(@"log : %@", log);
+        }];
+#endif
+        
+        self.isAppidValid = [WXApi registerApp:appid universalLink:universalLinks];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(handleOpenURLNotification:)
                                                      name:PDRCoreOpenUrlNotification
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(handleUniversalLinkNotification:)
+                                                     name:PDRCoreOpenUniversalLinksNotification
                                                    object:nil];
     }
     return self;
@@ -129,7 +139,10 @@
     launchMiniProgramReq.userName = miniAppId;  //拉起的小程序的username
     launchMiniProgramReq.path = path;    //拉起小程序页面的可带参路径，不填默认拉起小程序首页
     launchMiniProgramReq.miniProgramType = (WXMiniProgramType)verType; //拉起小程序的类型
-    return [WXApi sendReq:launchMiniProgramReq];
+    [WXApi sendReq:launchMiniProgramReq completion:^(BOOL success) {
+        
+    }];
+    return YES;
 }
 
 //发表一条带图片的微博
@@ -147,8 +160,6 @@
                            delegate:(id)requestDelegate
                           onSuccess:(SEL)successCallback
                           onFailure:(SEL)failuerCallback {
-    BOOL ret = FALSE;
-    
     if ( !self.isAppidValid ) {
         NSError *error = [self getErrorWithCode:WXEngineErrorInvaildAppid withMessage:nil];
         [requestDelegate performSelector:failuerCallback withObject:error];
@@ -252,18 +263,18 @@
             }
             req.message = message;
         }
-        ret = [WXApi sendReq:req];
-    }
-
-    if ( !ret ) {
-        if ( [requestDelegate respondsToSelector:failuerCallback] ) {
-            NSError *error = [self getErrorWithCode:WXEngineErrorUnknow withMessage:@"未知错误"];
-            [requestDelegate performSelector:failuerCallback withObject:error];
-        }
-    } else {
-        temp_send_delegate = requestDelegate;
-        onSendSuccessCallback = successCallback;
-        onSendFailureCallback = failuerCallback;
+        [WXApi sendReq:req completion:^(BOOL success) {
+            if ( !success ) {
+                if ( [requestDelegate respondsToSelector:failuerCallback] ) {
+                    NSError *error = [self getErrorWithCode:WXEngineErrorUnknow withMessage:@"未知错误"];
+                    [requestDelegate performSelector:failuerCallback withObject:error];
+                }
+            } else {
+                temp_send_delegate = requestDelegate;
+                onSendSuccessCallback = successCallback;
+                onSendFailureCallback = failuerCallback;
+            }
+        }];
     }
 }
 
@@ -337,6 +348,10 @@
 
 - (void)handleOpenURLNotification:(NSNotification*)notification {
     [self handleOpenURL:[notification object]];
+}
+
+- (void)handleUniversalLinkNotification:(NSNotification*)notification {
+    [WXApi handleOpenUniversalLink:[notification object] delegate:self];
 }
 
 - (void)handleOpenURL:(NSURL*)url {

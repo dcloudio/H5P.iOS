@@ -49,16 +49,19 @@
         NSDictionary *dict = [self supportShare];
         NSString *className = [dict objectForKey:shareName];
         if ( [className isKindOfClass:[NSString class]] ) {
-            PGShare *share = [[NSClassFromString(className) alloc] init];
-            if ( [share isKindOfClass:[PGShare class]] ) {
-                share.JSFrameContext = self.JSFrameContext;
-                share.appContext = self.appContext;
-                share.errorURL = self.errorURL;
-                [share doInit];
-                share.name = self.name;
-                share.content = share.note;
-                [_shareServices addObject:share];
-                [share autorelease];
+            Class cls = NSClassFromString(className);
+            if (cls) {
+                PGShare *share = [[NSClassFromString(className) alloc] init];
+                if ( [share isKindOfClass:[PGShare class]] ) {
+                    share.JSFrameContext = self.JSFrameContext;
+                    share.appContext = self.appContext;
+                    share.errorURL = self.errorURL;
+                    [share doInit];
+                    share.name = self.name;
+                    share.content = share.note;
+                    [_shareServices addObject:share];
+                    [share autorelease];
+                }
             }
         }
     }

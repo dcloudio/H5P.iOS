@@ -183,12 +183,6 @@ WX_EXPORT_METHOD(@selector(stopPreview:))
         }
 }
 
-//- (void)setOptions:(NSDictionary*)pMethod{
-//    NSDictionary* pOptions = pMethod;
-//        if (upYunPusher) {
-//            [upYunPusher setVideoOption:pOptions];
-//        }
-//}
 - (void)switchCamera:(WXModuleKeepAliveCallback)callback{
         if (upYunPusher) {
             [upYunPusher switchCamera];

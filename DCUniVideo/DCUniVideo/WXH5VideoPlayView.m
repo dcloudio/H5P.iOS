@@ -18,7 +18,7 @@
 #import "UIImageView+WXVideo.h"
 #import "SVProgressHUD.h"
 #import <IJKMediaFramework/IJKMediaFramework.h>
-
+#import "WXConvert.h"
 #define wxkH5VidelPlayViewAutoHideBarTimerinterval 8
 #define wxkH5VidelPlayViewBottomButtonSpace 5
 
@@ -53,6 +53,7 @@
 @property (nonatomic, strong) UIButton *centerPlayButton;
 
 @property (nonatomic, assign) UIInterfaceOrientation afterInterfaceOrientation;
+@property (nonatomic, assign) UIInterfaceOrientation oldinterfaceOrientation;
 @property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
 @property (nonatomic, strong) WXH5UIDirectionGestureRecognizer *directionGesture;
 @property (nonatomic, strong) WXH5VideoPlayOverlayView *videoPlayOverlayView;
@@ -74,8 +75,8 @@
 - (void)creatWithFrame:(CGRect)frame withSetting:(WXH5VideoPlaySetting*)setting withStyles:(NSDictionary*)styles{
 //    if (  [super initWithFrame:frame withOptions:styles withJsContext:nil] ) {
         self.clipsToBounds = YES;
+        self.frame = frame;
         [self appendDuma:setting.danmuList];
-//        self.backgroundColor = [UIColor blackColor];
         self.setting = setting;
     
         [self initBottomBar];
@@ -87,7 +88,7 @@
         [self initOtherView];
 
         self.afterInterfaceOrientation = UIInterfaceOrientationUnknown;
-       // [self transformWithOrientation:UIDeviceOrientationPortrait];
+        self.oldinterfaceOrientation = UIInterfaceOrientationLandscapeRight;
         self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTap:)];
         self.tapGesture.delegate = self;
         [self addGestureRecognizer:self.tapGesture];
@@ -96,7 +97,6 @@
 //        [self addOrientationChangeNotify];
         self.isFirst = YES;
         self.isPlayLoopRun = NO;
-        [self onLayout_];
 //    }
     return ;
 }
@@ -115,28 +115,17 @@
 - (void)createPlayView {
 
     IJKFFOptions * options = [IJKFFOptions optionsByDefault];
-
-//    [options setPlayerOptionIntValue:0 forKey:@"no-time-adjust"];
-//    [options setPlayerOptionIntValue:1 forKey:@"audio_disable"];
-//    [options setPlayerOptionIntValue:1 forKey:@"infbuf"];
-//    [options setPlayerOptionIntValue:0 forKey:@"framedrop"];
-//    [options setPlayerOptionIntValue:30 forKey:@"max-fps"];
-//    [options setFormatOptionIntValue:0  forKey:@"auto_convert"];
-//    [options setFormatOptionIntValue:3 forKey:@"reconnect"];
-//    [options setFormatOptionIntValue:30 * 1000 * 1000 forKey:@"timeout"];
-//    [options setFormatOptionValue:@"ijkplayer" forKey:@"user-agent"];
-//    // -vol——设置音量大小，256为标准音量。（要设置成两倍音量时则输入512，依此类推
-//    [options setPlayerOptionIntValue:512 forKey:@"vol"];
-//    [options setFormatOptionIntValue:1 forKey:@"dns_cache_clear"];
-    
-//    self.setting.url = @"rtsp://184.72.239.149/vod/mp4://BigBuckBunny_175k.mov";//[[NSBundle mainBundle]pathForResource:@"testqqq" ofType:@"mp4"];
+//    self.setting.url = @"rtsp://admin:123456789a@222.185.24.2:1554/h264/ch40/sub/av_stream";//[[NSBundle mainBundle]pathForResource:@"testqqq" ofType:@"mp4"];
 //    @"rtsp://184.72.239.149/vod/mp4://BigBuckBunny_175k.mov"
 //    self.setting.url = @"rtmp://58.200.131.2:1935/livetv/hunantv";
 //    self.setting.url =@"https://img.cdn.aliyun.dcloud.net.cn/guide/uniapp/%E7%AC%AC1%E8%AE%B2%EF%BC%88uni-app%E4%BA%A7%E5%93%81%E4%BB%8B%E7%BB%8D%EF%BC%89-%20DCloud%E5%AE%98%E6%96%B9%E8%A7%86%E9%A2%91%E6%95%99%E7%A8%8B@20181126.mp4";
 //    IJKMediaUrlOpenData * data = [[IJKMediaUrlOpenData alloc]initWithUrl:self.setting.url event:IJKMediaEvent_WillHttpOpen segmentIndex:0 retryCounter:3];
     NSURL *testURL = [NSURL URLWithString:self.setting.url];
-    if ( testURL && testURL.scheme &&[testURL.scheme isEqualToString:@"rtmp"]) {
+    if ( testURL && testURL.scheme &&([testURL.scheme isEqualToString:@"rtmp"]||[testURL.scheme isEqualToString:@"rtsp"])) {
         self.isStreamVideo = YES;
+        if ([testURL.scheme isEqualToString:@"rtsp"]) {
+            [options setFormatOptionValue:@"tcp" forKey:@"rtsp_transport"];
+        }
     }
     self.videoPlayer = [[IJKFFMoviePlayerController alloc]initWithContentURL:[NSURL URLWithString:self.setting.url]withOptions:options];
     if (self.setting.objectFit == WXH5VideObjectFitContain) {
@@ -153,8 +142,6 @@
         self.showMuteButton.on = YES;
         self.videoPlayer.playbackVolume = 0;
     }
-//    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_INFO];
-//    [IJKFFMoviePlayerController setLogReport:YES];
     self.videoPlayer.view.autoresizingMask = UIViewAutoresizingFlexibleWidth
         | UIViewAutoresizingFlexibleTopMargin
         | UIViewAutoresizingFlexibleRightMargin
@@ -202,19 +189,12 @@
     }
     
     [super setFrame:frame];
-    [self onLayout_];
+    [self.videoPlayer.view setFrame:self.bounds];
     if (self.isShowBuffingView) {
         [self dismissBuffuingView];
         [self showBuffuingView];
     }
 }
-
-- (void)onLayout_{
-    [self.videoPlayer.view setFrame:self.bounds];
-//    [self.videoPlayer setFrame:self.bounds];
-    [self.delegate onLayout_:self];
-}
-
 
 - (void)didMoveToSuperview {
     [self prepareAutoPlay];
@@ -297,23 +277,23 @@
     }
 }
 
--(void)addOrientationChangeNotify {
+//-(void)addOrientationChangeNotify {
 //    [self removeFullStreenNotify];
 //     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(onStatusBarOrientationChange)
-                                                 name:UIApplicationWillChangeStatusBarOrientationNotification
-                                               object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(onStatusBarOrientationChange)
+//                                                 name:UIApplicationWillChangeStatusBarOrientationNotification
+//                                               object:nil];
 //    [[NSNotificationCenter defaultCenter] addObserver:self
 //                                             selector:@selector(onDeviceOrientationChange)
 //                                                 name:UIDeviceOrientationDidChangeNotification
 //                                               object:nil];
-}
+//}
 
--(void)removeOrientationChangeNotify{
+//-(void)removeOrientationChangeNotify{
   //  [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillChangeStatusBarOrientationNotification object:nil];
-}
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillChangeStatusBarOrientationNotification object:nil];
+//}
 
 - (void)sendDanmaku:(NSString*)sender withColor:(UIColor*)color {
     if ( self.setting.enableDanmu ) {
@@ -345,74 +325,57 @@
 }
 
 - (void)setControlValue:(id)value forKey:(NSString*)key {
-    if ( [key isEqualToString:wxkH5VideoPlaySettingKeyUrl] ) {
-        NSString *newUrl = (NSString*)value;
-        if ( [newUrl isKindOfClass:[NSString class]] && ![newUrl isEqualToString:self.setting.url]) {
-//            IJKMPMoviePlaybackState oldStatus = _videoPlayer.playbackState;
-            self.setting.url = newUrl;
-            [self stop];
-//            if ( IJKMPMoviePlaybackStateStopped == oldStatus ){
-                if ( self.setting.isAutoplay ) {
-                    [self play];
-                }
-//            }
-        }
-    } else if ( [key isEqualToString:wxkH5VideoPlaySettingKeyPoster] ) {
+   if ( [key isEqualToString:wxkH5VideoPlaySettingKeyPoster] ) {
         NSString *newPoster = (NSString*)value;
         if ( [newPoster isKindOfClass:[NSString class]] && NSOrderedSame != [newPoster caseInsensitiveCompare:self.setting.poster]) {
             if ( [newPoster length] > 0 ) {
                 self.setting.poster = newPoster;
                 [self createThumbImageView];
                 if ( self.thumbImageView ) {
-                    [self.thumbImageView h5Video_setImageUrl:self.setting.poster];
+                    [self.thumbImageView wxh5Video_setImageUrl:self.setting.poster];
                 }
             }
         }
     } else if ( [key isEqualToString:wxkH5VideoPlaySettingKeyShowProgressGresture] ) {
-        NSNumber *newValue = (NSNumber*)value;
-        if ( [newValue isKindOfClass:[NSNumber class]] ) {
-            self.setting.isEnableProgressGesture = [newValue boolValue];
+        if ( [value isKindOfClass:[NSNumber class]] ||[value isKindOfClass:[NSString class]]) {
+            self.setting.isEnableProgressGesture = [WXConvert BOOL:value];
         }
     } else if ( [key isEqualToString:wxkH5VideoPlaySettingKeyShowCenterPlayBtn] ) {
-        NSNumber *newValue = (NSNumber*)value;
-        if ( [newValue isKindOfClass:[NSNumber class]] ) {
-            self.setting.isShowCenterPlayBtn = [newValue boolValue];
+        if ( [value isKindOfClass:[NSNumber class]] ||[value isKindOfClass:[NSString class]]) {
+            self.setting.isShowCenterPlayBtn = [WXConvert BOOL:value];
             if ( self.videoPlayer.playableDuration == 0 ){
                 self.centerPlayButton.hidden = !self.setting.isShowCenterPlayBtn;
             }
         }
     } else if ( [key isEqualToString:wxkH5VideoPlaySettingKeyShowPlayBtn] ) {
-        NSNumber *newValue = (NSNumber*)value;
-        if ( [newValue isKindOfClass:[NSNumber class]] ) {
-            if ( self.setting.isShowPlayBtn != [newValue boolValue]) {
-                self.setting.isShowPlayBtn = [newValue boolValue];
+        if ( [value isKindOfClass:[NSNumber class]] ||[value isKindOfClass:[NSString class]]) {
+            if ( self.setting.isShowPlayBtn != [WXConvert BOOL:value]) {
+                self.setting.isShowPlayBtn = [WXConvert BOOL:value];
                 self.playAndPauseButton.hidden = !self.setting.isShowPlayBtn;
                 [self doBottomBarConstraint];
             }
         }
     }else if ( [key isEqualToString:wxkH5VideoPlaySettingKeyShowMuteBtn] ) {
-        NSNumber *newValue = (NSNumber*)value;
-        if ( [newValue isKindOfClass:[NSNumber class]] ) {
-            if ( self.setting.isShowMuteBtn != [newValue boolValue]) {
-                self.setting.isShowMuteBtn = [newValue boolValue];
+
+        if ( [value isKindOfClass:[NSNumber class]] ||[value isKindOfClass:[NSString class]]) {
+            if ( self.setting.isShowMuteBtn != [WXConvert BOOL:value]) {
+                self.setting.isShowMuteBtn = [WXConvert BOOL:value];
                 self.showMuteButton.hidden = !self.setting.isShowMuteBtn;
                 [self doBottomBarConstraint];
             }
         }
     }else if ( [key isEqualToString:wxkH5VideoPlaySettingKeyShowFullScreenBtn] ) {
-        NSNumber *newValue = (NSNumber*)value;
-        if ( [newValue isKindOfClass:[NSNumber class]] ) {
-            if ( self.setting.isShowFullscreenBtn != [newValue boolValue]) {
-                self.setting.isShowFullscreenBtn = [newValue boolValue];
+        if ( [value isKindOfClass:[NSNumber class]] ||[value isKindOfClass:[NSString class]]) {
+            if ( self.setting.isShowFullscreenBtn != [WXConvert BOOL:value]) {
+                self.setting.isShowFullscreenBtn = [WXConvert BOOL:value];
                 self.fullScreenSwitchButton.hidden = !self.setting.isShowFullscreenBtn;
                 [self doBottomBarConstraint];
             }
         }
     } else if ( [key isEqualToString:wxkH5VideoPlaySettingKeyShowProgress] ) {
-        NSNumber *newValue = (NSNumber*)value;
-        if ( [newValue isKindOfClass:[NSNumber class]] ) {
-            if ( self.setting.isShowProgress != [newValue boolValue]) {
-                self.setting.isShowProgress = [newValue boolValue];
+        if ( [value isKindOfClass:[NSNumber class]] ||[value isKindOfClass:[NSString class]]) {
+            if ( self.setting.isShowProgress != [WXConvert BOOL:value]) {
+                self.setting.isShowProgress = [WXConvert BOOL:value];
                 self.slider.hidden = !self.setting.isShowProgress;
                 self.durationLabel.hidden = self.slider.hidden;
                 self.playTimeLabel.hidden = self.slider.hidden;
@@ -420,71 +383,84 @@
             }
         }
     } else if ( [key isEqualToString:wxkH5VideoPlaySettingKeyControls] ) {
-        NSNumber *newValue = (NSNumber*)value;
-        if ( [newValue isKindOfClass:[NSNumber class]] ) {
-            if ( self.setting.isShowControls != [newValue boolValue]) {
-                self.setting.isShowControls = [newValue boolValue];
+        if ( [value isKindOfClass:[NSNumber class]] ||[value isKindOfClass:[NSString class]]) {
+            if ( self.setting.isShowControls != [WXConvert BOOL:value]) {
+                self.setting.isShowControls = [WXConvert BOOL:value];
                 self.bottomBarBackView.hidden = !self.setting.isShowControls;
                 [self doBottomBarConstraint];
             }
         }
     } else if ( [key isEqualToString:wxkH5VideoPlaySettingKeyPageGesture] ) {
-        NSNumber *newValue = (NSNumber*)value;
-        if ( [newValue isKindOfClass:[NSNumber class]] ) {
-            self.setting.isEnablePageGesture = [newValue boolValue];
+        if ( [value isKindOfClass:[NSNumber class]] ||[value isKindOfClass:[NSString class]]) {
+            self.setting.isEnablePageGesture = [WXConvert BOOL:value];
         }
     } else if ( [key isEqualToString:wxkH5VideoPlaySettingKeyLoop] ) {
-        NSNumber *newValue = (NSNumber*)value;
-        if ( [newValue isKindOfClass:[NSNumber class]] ) {
-            self.setting.isLoop = [newValue boolValue];
+        if ( [value isKindOfClass:[NSNumber class]] ||[value isKindOfClass:[NSString class]]) {
+            self.setting.isLoop = [WXConvert BOOL:value];
         }
-    }  else if ( [key isEqualToString:wxkH5VideoPlaySettingKeyAutoPlay] ) {
-        NSNumber *newValue = (NSNumber*)value;
-        if ( [newValue isKindOfClass:[NSNumber class]] ) {
-            self.setting.isAutoplay = [newValue boolValue];
+    } else if ( [key isEqualToString:wxkH5VideoPlaySettingKeyInitialTime] ) {
+
+        if ( [value isKindOfClass:[NSNumber class]] ||[value isKindOfClass:[NSString class]]) {
+            self.setting.initialTime = [value floatValue];
+        }
+    }else if ( [key isEqualToString:wxkH5VideoPlaySettingKeyAutoPlay] ) {
+        if ( [value isKindOfClass:[NSNumber class]] ||[value isKindOfClass:[NSString class]]) {
+            self.setting.isAutoplay = [WXConvert BOOL:value];
         }
     } else if ( [key isEqualToString:wxkH5VideoPlaySettingKeyMuted] ) {
-        NSNumber *newValue = (NSNumber*)value;
-        if ( [newValue isKindOfClass:[NSNumber class]] ) {
-            self.setting.isMuted = [newValue boolValue];
+        if ( [value isKindOfClass:[NSNumber class]] ||[value isKindOfClass:[NSString class]]) {
+            self.setting.isMuted = [WXConvert BOOL:value];
             if (self.setting.isMuted == YES) {
                 _videoPlayer.playbackVolume = 0;
             }
         }
     } else if ( [key isEqualToString:wxkH5VideoPlaySettingKeyDirection] ) {
-        NSNumber *newValue = (NSNumber*)value;
-        if ( [newValue isKindOfClass:[NSNumber class]] ) {
-            self.setting.direction = [newValue integerValue];
+        if ( [value isKindOfClass:[NSNumber class]] ||[value isKindOfClass:[NSString class]]) {
+            self.setting.direction = [value integerValue];
         }
     } else if ( [key isEqualToString:wxkH5VideoPlaySettingKeyDuration] ) {
-        NSNumber *newValue = (NSNumber*)value;
-        if ( [newValue isKindOfClass:[NSNumber class]] ) {
-            self.setting.duration = [newValue integerValue];
+        if ( [value isKindOfClass:[NSNumber class]] ||[value isKindOfClass:[NSString class]]) {
+            self.setting.duration = [value floatValue];
             self.durationLabel.text = [self foramtStringByPosition:self.setting.duration ];
         }
-    }
+    } else  if ( [key isEqualToString:wxkH5VideoPlaySettingKeyUrl] ) {
+            NSString *newUrl = (NSString*)value;
+            if ( [newUrl isKindOfClass:[NSString class]] && ![newUrl isEqualToString:self.setting.url]) {
+                self.setting.url = newUrl;
+                [self stop];
+                if ( !self.setting.isAutoplay ) {
+                    if ( self.setting.poster && !self.thumbImageView ) {
+                        [self createThumbImageView];
+                        [self.thumbImageView wxh5Video_setImageUrl:self.setting.poster];
+                    }
+                }
+                if ( self.setting.isAutoplay ) {
+                    [self play];
+                }
+            }
+        }
 }
 
 
 #pragma mark - life cycle
-- (void)dc_setHidden:(BOOL)isHidden {
-    self.hidden = isHidden;
-    if ( self.hidden ) {
-        if ( IJKMPMoviePlaybackStatePlaying == self.videoPlayer.playbackState ) {
-            [self pause];
-            self.isPlayAfterShow = YES;
-        }
-    } else {
-        if ( self.isPlayAfterShow ) {
-            [self play];
-        }
-        self.isPlayAfterShow = NO;
-    }
-}
+//- (void)dc_setHidden:(BOOL)isHidden {
+//    self.hidden = isHidden;
+//    if ( self.hidden ) {
+//        if ( IJKMPMoviePlaybackStatePlaying == self.videoPlayer.playbackState ) {
+//            [self pause];
+//            self.isPlayAfterShow = YES;
+//        }
+//    } else {
+//        if ( self.isPlayAfterShow ) {
+//            [self play];
+//        }
+//        self.isPlayAfterShow = NO;
+//    }
+//}
 
-- (void)updateLayout {
-    [self doBottomBarConstraint];
-}
+//- (void)updateLayout {
+//    [self doBottomBarConstraint];
+//}
 
 - (void)resetUI {
     self.slider.enabled = NO;
@@ -502,16 +478,8 @@
 - (void)dealloc {
     
 }
-//-(void)resetPlayView{
-//    [self resetUI];
-//    [self destroyPlayView];
-//    [self createPlayView];
-//    self.isPlayAfterShow = NO;
-//}
+
 - (void)stop {
-//    [self resetUI];
-//    [self.videoPlayer stop];
-//    self.isPlayAfterShow = NO;
     [self resetUI];
     [self destroyPlayView];
     [self createPlayView];
@@ -581,18 +549,16 @@
     if (!(IJKMPMoviePlaybackStatePlaying == self.videoPlayer.playbackState)) {
         if (self.isPlayError == YES) {
             self.isPlayError= NO;
-//            [self resetPlayView];
             [self stop];
         }else {//if(IJKMPMoviePlaybackStateStopped == self.videoPlayer.playbackRate)
-//            [self resetPlayView];
+
         }
         if (self.videoPlayer.isPreparedToPlay == NO) {
             [self showBuffuingView];
             [self.videoPlayer prepareToPlay];
         }
-//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self.videoPlayer play];
-//        });
+
+        [self.videoPlayer play];
         
         if ( self.isFirst ) {
             self.isFirst = NO;
@@ -770,31 +736,30 @@
     if ( !self.isFullScreen ) {
         [PDRCore lockScreen];
         self.isFullScreen = YES;
-        UIInterfaceOrientation interfaceOrientation = UIInterfaceOrientationLandscapeRight;
+//        UIInterfaceOrientation interfaceOrientation = UIInterfaceOrientationLandscapeRight;
         if ( H5VideoPlayDirectionAuto == direction ) {
             if (UIDeviceOrientationLandscapeRight == [[UIDevice currentDevice]orientation]) {
-                interfaceOrientation = UIInterfaceOrientationLandscapeRight;
+                _oldinterfaceOrientation = UIInterfaceOrientationLandscapeRight;
                 // [self transformWithOrientation:UIInterfaceOrientationLandscapeRight];
             } else {
-                interfaceOrientation = UIInterfaceOrientationLandscapeLeft;
+                _oldinterfaceOrientation = UIInterfaceOrientationLandscapeLeft;
                 //  [self transformWithOrientation:UIInterfaceOrientationLandscapeLeft];
             }
         } else if ( H5VideoPlayDirectionLeft == direction ) {
-            interfaceOrientation = UIInterfaceOrientationLandscapeLeft;
+            _oldinterfaceOrientation = UIInterfaceOrientationLandscapeLeft;
             //  [self transformWithOrientation:UIInterfaceOrientationLandscapeLeft];
         } else if (  H5VideoPlayDirectionRight == direction  ){
-            interfaceOrientation = UIInterfaceOrientationLandscapeRight;
+            _oldinterfaceOrientation = UIInterfaceOrientationLandscapeRight;
             // [self transformWithOrientation:UIInterfaceOrientationLandscapeRight];
         } else {
-            interfaceOrientation = UIInterfaceOrientationPortrait;
+            _oldinterfaceOrientation = UIInterfaceOrientationPortrait;
             // [self transformWithOrientation:UIInterfaceOrientationPortrait];
         }
         self.afterInterfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
-        [self setFullScreenLayout:interfaceOrientation];
-        [self transformWithOrientation:interfaceOrientation];
+        [self setFullScreenLayout:_oldinterfaceOrientation];
+        [self transformWithOrientation:_oldinterfaceOrientation];
         [[PDRCore Instance] setHomeIndicatorAutoHidden:YES];
-        [self.delegate playerViewEnterFullScreenNoDelay:self interfaceOrientation:interfaceOrientation];
-//        [self.delegate playerViewEnterFullScreen:self interfaceOrientation:interfaceOrientation];
+        [self.delegate playerViewEnterFullScreenNoDelay:self interfaceOrientation:_oldinterfaceOrientation];
     } else {
         [[PDRCore Instance] setHomeIndicatorAutoHidden:NO];
         [self exitFullScreen];
@@ -810,9 +775,10 @@
 - (void)exitFullScreen {
     [self setExitFullScreenLayout];
     self.isFullScreen = NO;
-    [self transformWithOrientationWithExitFullScreen:self.afterInterfaceOrientation];
-    [self.delegate playerViewExitFullScreen:self];
-    [self.delegate playerViewExitFullScreenNoDelay:self];
+    NSInteger index = [self.delegate playerViewExitFullScreen:self];
+    [self transformWithOrientationWithExitFullScreen:self.afterInterfaceOrientation index:index];
+    
+    [self.delegate playerViewExitFullScreenNoDelay:self interfaceOrientation:self.afterInterfaceOrientation];
 }
 
 - (void)setFullScreenLayout:(UIInterfaceOrientation)orientation {
@@ -844,6 +810,10 @@
         make.width.height.mas_equalTo(155);
     }];
     
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
 }
 
 - (void)setExitFullScreenLayout {
@@ -905,12 +875,36 @@
     [[UIApplication sharedApplication] setStatusBarOrientation:newOrientation animated:NO];
 }
 
-- (void)transformWithOrientationWithExitFullScreen:(UIInterfaceOrientation)newOrientation {
-    UIInterfaceOrientation currentOrientation = [UIApplication sharedApplication].statusBarOrientation;
-    if ( newOrientation == currentOrientation ) return;
+- (void)transformWithOrientationWithExitFullScreen:(UIInterfaceOrientation)newOrientation index:(NSInteger)index{
+//    UIInterfaceOrientation currentOrientation = [UIApplication sharedApplication].statusBarOrientation;
+    
+    if ( newOrientation == _oldinterfaceOrientation ){
+        if(self.superview.superview.subviews.count>0){
+            UIView * tsupview = self.superview.superview;
+            for (UIView* view in self.superview.subviews) {
+                if ([view isKindOfClass:[self.superview class]]) {
+                    [self.superview removeFromSuperview];
+                    [tsupview insertSubview:self.superview atIndex:index];
+                }
+            }
+        }
+      return;
+    }
+    
     [UIView animateWithDuration:.3 animations:^{
         self.transform = CGAffineTransformIdentity;
+    } completion:^(BOOL finished) {        
+        if(self.superview.superview.subviews.count>0){
+            UIView * tsupview = self.superview.superview;
+            for (UIView* view in self.superview.subviews) {
+                if ([view isKindOfClass:[self.superview class]]) {
+                    [self.superview removeFromSuperview];
+                    [tsupview insertSubview:self.superview atIndex:index];
+                }
+            }
+        }
     }];
+    
     [[UIApplication sharedApplication] setStatusBarOrientation:newOrientation animated:NO];
 }
 
@@ -950,7 +944,7 @@
 #pragma mark - otherView
 - (void)createThumbImageView {
     if ( !self.setting.isAutoplay ) {
-        if ( !self.thumbImageView ) {
+        if ( !self.thumbImageView&&self.videoPlayer.view) {
             self.thumbImageView = [[UIImageView alloc] init];
             self.thumbImageView.contentMode = UIViewContentModeScaleAspectFill;
             self.clipsToBounds = YES;
@@ -966,7 +960,7 @@
     if ( !self.setting.isAutoplay ) {
         if ( self.setting.poster ) {
             [self createThumbImageView];
-            [self.thumbImageView h5Video_setImageUrl:self.setting.poster];
+            [self.thumbImageView wxh5Video_setImageUrl:self.setting.poster];
         }
         
         self.centerPlayButton = [UIButton buttonWithType:(UIButtonTypeSystem)];

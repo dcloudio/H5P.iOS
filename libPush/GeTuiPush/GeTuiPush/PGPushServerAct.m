@@ -41,15 +41,15 @@
 }
 
 - (void) onRegRemoteNotificationsError:(NSError *)error {
-    [GeTuiSdk registerDeviceToken:@""];
+    [GeTuiSdk registerDeviceTokenData:nil];
 }
 
-- (void) onRevDeviceToken:(NSString *)deviceToken {
+- (void) onRevDeviceToken:(NSData *)deviceToken {
     NSLog(@"GeTuiSdk--onRevDeviceToken[%@]", deviceToken);
     if ( deviceToken ) {
-        [GeTuiSdk registerDeviceToken:deviceToken];
+        [GeTuiSdk registerDeviceTokenData:deviceToken];
     } else {
-        [GeTuiSdk registerDeviceToken:@""];
+        [GeTuiSdk registerDeviceTokenData:nil];
     }
 }
 

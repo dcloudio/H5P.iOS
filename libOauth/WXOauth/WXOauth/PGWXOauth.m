@@ -37,11 +37,13 @@ NSString *kPGWXApiKeyScope = @"scope";
 @synthesize userInfo;
 @synthesize authResult;
 @synthesize isRevOpenUrl;
+@synthesize universalLink;
 
 @synthesize callbackId, extra;
 
-- (id) init {
-    if ( self = [super init] ) {
+- (PGPlugin*) initWithWebView:(PDRCoreAppFrame*)theWebView withAppContxt:(PDRCoreApp*)app {
+    if ( self = [super initWithWebView:theWebView withAppContxt:app] ) {
+        NSString *universalLink = [self getUniversalLink];
         NSDictionary *dhDict = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"weixinoauth"];
         if ( [dhDict isKindOfClass:[NSDictionary class]] ) {
             self.appId = [dhDict objectForKey:@"appid"];
@@ -49,8 +51,9 @@ NSString *kPGWXApiKeyScope = @"scope";
         }
         self.identify = @"weixin";
         self.note = @"微信";
+        self.universalLink = universalLink;
         if ( self.appId && self.appSecret ) {
-            [WXApi registerApp:self.appId];
+            [WXApi registerApp:self.appId universalLink:universalLink];
         }
     }
     return self;
@@ -73,6 +76,7 @@ NSString *kPGWXApiKeyScope = @"scope";
     NSString *scope = [params objectForKey:kPGWXApiKeyScope];
     NSString *state = [params objectForKey:@"state"];
     NSString *userAppid = [params objectForKey:@"appid"];
+    NSString *universalLink = [params objectForKey:@"universalLink"];
   //  NSString *optAppSecret = [params objectForKey:@"appsecret"];
     if ( ![scope isKindOfClass:[NSString class]]
         || 0 == scope.length ) {
@@ -100,8 +104,9 @@ NSString *kPGWXApiKeyScope = @"scope";
         return YES;
     }
     if ( [userAppid isKindOfClass:[NSString class]] ) {
-        [WXApi registerApp:userAppid];
+        [WXApi registerApp:userAppid universalLink:universalLink];
     }
+    self.universalLink = universalLink;
     self.extra = state;
     BOOL ret = [self loginWithScope:scope state:state];
     if ( !ret ) {
@@ -116,6 +121,7 @@ NSString *kPGWXApiKeyScope = @"scope";
     NSString *scope = [params objectForKey:kPGWXApiKeyScope];
     NSString *state = [params objectForKey:@"state"];
     NSString *optAppSecret = [params objectForKey:@"appsecret"];
+    
     if ( ![scope isKindOfClass:[NSString class]]
         || 0 == scope.length ) {
         scope = @"snsapi_userinfo";
@@ -136,7 +142,7 @@ NSString *kPGWXApiKeyScope = @"scope";
         [self executeJSErrorCallback:PGPluginErrorInvalidArgument];
         return;
     }
-    [WXApi registerApp:self.appId];
+    [WXApi registerApp:self.appId universalLink:self.universalLink];
    // if ( ![WXApi isWXAppInstalled] ){
        // [self executeJSErrorCallback:PGOauthErrorNotInstall];
        // return;
@@ -288,6 +294,7 @@ NSString *kPGWXApiKeyScope = @"scope";
 }
 
 -(BOOL)loginWithScope:(NSString*)scope state:(NSString*)state {
+    __block BOOL ret = YES;
     SendAuthReq* req =[[[SendAuthReq alloc ] init ] autorelease ];
     req.scope = scope;
     req.state = state;
@@ -295,9 +302,15 @@ NSString *kPGWXApiKeyScope = @"scope";
     
     if ( [WXApi isWXAppInstalled] ) {
         self.isRevOpenUrl = true;
-        return [WXApi sendReq:req];
+        [WXApi sendReq:req completion:^(BOOL success) {
+            ret = success;
+        }];
+        return ret;
     } else {
-        return [WXApi sendAuthReq:req viewController:[self rootViewController] delegate:self];
+        [WXApi sendAuthReq:req viewController:[self rootViewController] delegate:self completion:^(BOOL success) {
+            ret = success;
+        }];
+        return ret;
     }
     
     //if ( [WXApi isWXAppSupportApi] ) {
@@ -405,6 +418,13 @@ NSString *kPGWXApiKeyScope = @"scope";
 - (void)handleOpenURL:(NSNotification*)notification {
     if ( self.isRevOpenUrl ) {
         [WXApi handleOpenURL:[notification object] delegate:self];
+        self.isRevOpenUrl = false;
+    }
+}
+
+- (void) handleUniversalLink:(NSNotification*)notification {
+    if ( self.isRevOpenUrl ) {
+        [WXApi handleOpenUniversalLink:[notification object] delegate:self];
         self.isRevOpenUrl = false;
     }
 }

@@ -128,6 +128,7 @@
     self.mapView.rotateEnabled = NO;
     self.mapView.rotateCameraEnabled = NO;
     self.mapView.showTraffic = NO;
+    self.mapView.showsScale = NO;
     
     self.mapView.zoomEnabled = YES;
     self.mapView.scrollEnabled = YES;
@@ -154,47 +155,51 @@
     // 显示带有方向的当前定位点
     if (attributes[dc_map_showlocation]) {
         [self.mapView setUserTrackingMode:MAUserTrackingModeNone animated:YES];
-        self.mapView.showsUserLocation = [[attributes dc_safeObjectForKey:dc_map_showlocation] boolValue];
+        self.mapView.showsUserLocation = [WXConvert BOOL:attributes[dc_map_showlocation]];
     }
     
     // 展示3D楼块
     if (attributes[dc_map_enable3D]) {
-        self.mapView.showsBuildings = [[attributes dc_safeObjectForKey:dc_map_enable3D] boolValue];
+        self.mapView.showsBuildings = [WXConvert BOOL:attributes[dc_map_enable3D]];
     }
     
     // 显示指南针
     if (attributes[dc_map_showCompass]) {
-        self.mapView.showsCompass = [[attributes dc_safeObjectForKey:dc_map_showCompass] boolValue];
+        self.mapView.showsCompass = [WXConvert BOOL:attributes[dc_map_showCompass]];
+    }
+    
+    if (attributes[dc_map_showScale]) {
+        self.mapView.showsScale = [WXConvert BOOL:attributes[dc_map_showScale]];
     }
     
     // 开启俯视
     if (attributes[dc_map_enableOverlooking]) {
-        self.mapView.rotateCameraEnabled = [[attributes dc_safeObjectForKey:dc_map_enableOverlooking] boolValue];
+        self.mapView.rotateCameraEnabled = [WXConvert BOOL:attributes[dc_map_enableOverlooking]];
     }
     
     // 是否支持缩放
     if (attributes[dc_map_enableZoom]) {
-        self.mapView.zoomEnabled = [[attributes dc_safeObjectForKey:dc_map_enableZoom] boolValue];
+        self.mapView.zoomEnabled = [WXConvert BOOL:attributes[dc_map_enableZoom]];
     }
     
     // 是否支持拖动
     if (attributes[dc_map_enableScroll]) {
-        self.mapView.scrollEnabled = [[attributes dc_safeObjectForKey:dc_map_enableScroll] boolValue];
+        self.mapView.scrollEnabled = [WXConvert BOOL:attributes[dc_map_enableScroll]];
     }
     
     // 是否支持旋转
     if (attributes[dc_map_enableRotate]) {
-        self.mapView.rotateEnabled = [[attributes dc_safeObjectForKey:dc_map_enableRotate] boolValue];
+        self.mapView.rotateEnabled = [WXConvert BOOL:attributes[dc_map_enableRotate]];
     }
     
     // 是否开卫星图
     if (attributes[dc_map_enableSatellite]) {
-        self.mapView.mapType = [attributes[dc_map_enableSatellite] boolValue] ? MAMapTypeSatellite : MAMapTypeStandard;
+        self.mapView.mapType = [WXConvert BOOL:attributes[dc_map_enableSatellite]] ? MAMapTypeSatellite : MAMapTypeStandard;
     }
     
     // 是否显示实时交通路况
     if (attributes[dc_map_enableTraffic]) {
-        self.mapView.showTraffic = [attributes[dc_map_enableTraffic] boolValue];
+        self.mapView.showTraffic = [WXConvert BOOL:attributes[dc_map_enableTraffic]];
     }
     
     // 设置旋转角度
@@ -341,7 +346,7 @@
 
 /** 点击控件回调 */
 - (void)mapControlClicked:(DCMapControl *)control {
-    [self handleMapEvent:dc_map_bindregionchange params:@{dc_map_id: @(control._id)}];
+    [self handleMapEvent:dc_map_bindcontroltap params:@{dc_map_id: @(control._id)}];
 }
 
 /** 缩放地图以显示所有点 */
@@ -547,12 +552,12 @@
     }
     
     DCMapMarker *marker = (DCMapMarker *)view.annotation;
-    [self handleMapEvent:dc_map_bindmarkertap params:@{dc_map_id: @(marker._id)}];
+    [self handleMapEvent:dc_map_bindmarkertap params:@{dc_map_markerId: @(marker._id)}];
 }
 
 /** 点击标注气泡回调 */
 - (void)calloutViewDidClicked:(DCMapMarker *)marker {
-    [self handleMapEvent:dc_map_bindcallouttap params:@{dc_map_id: @(marker._id)}];
+    [self handleMapEvent:dc_map_bindcallouttap params:@{dc_map_markerId: @(marker._id)}];
 }
 
 /**
@@ -597,7 +602,6 @@
  * @param wasUserAction 标识是否是用户动作
  */
 - (void)mapView:(MAMapView *)mapView mapDidMoveByUser:(BOOL)wasUserAction {
-    NSLog(@"mapDidMoveByUser");
     [self handleMapEvent:dc_map_bindregionchange params:@{
                                                           @"type" : @"end",
                                                           @"causedBy" : @"drag"
@@ -647,6 +651,9 @@
     [self handleMapEvent:dc_map_bindpoitap params:@{@"datail":data}];
 }
 
+- (void)mapViewRequireLocationAuth:(CLLocationManager *)locationManager {
+    [locationManager requestAlwaysAuthorization];
+}
 
 #pragma mark - Component Method
 - (NSDictionary *)getCenterLocation {
@@ -697,6 +704,20 @@
     NSDictionary *data= @{
                           dc_map_scale: @(self.mapView.zoomLevel)
                           };
+    return [DCUniCallbackUtility successResult:data];
+}
+
+- (NSDictionary *)getSkew {
+    NSDictionary *data = @{
+        dc_map_skew: @(self.mapView.cameraDegree)
+    };
+    return [DCUniCallbackUtility successResult:data];
+}
+
+- (NSDictionary *)getRotate {
+    NSDictionary *data = @{
+        dc_map_rotate: @(self.mapView.rotationDegree)
+    };
     return [DCUniCallbackUtility successResult:data];
 }
 

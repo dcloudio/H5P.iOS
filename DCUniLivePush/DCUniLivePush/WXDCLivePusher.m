@@ -49,12 +49,15 @@
 - (void)prepareLiveOptions{
 }
 
-//- (void)addEventListener:(PDRCoreAppFrame*)pFrame{
-//}
 
 - (void)switchCamera{
 }
+- (void)orientChange:(AVCaptureVideoOrientation)captureOri{
+    
+}
 
+- (void)snapshot:(void(^)(UIImage *photo))completion{
+}
 - (void)setVideoOption:(NSDictionary*)options{
     if (options && [options isKindOfClass:[NSDictionary class]]) {
         
@@ -70,32 +73,29 @@
             self.bSilence = [WXConvert BOOL:options[@"muted"]];
         }
         if ([options objectForKey:@"enableCamera"]) {
-//            self.bCameraEnable = [[options objectForKey:@"enableCamera"] boolValue];
             self.bCameraEnable = [WXConvert BOOL:options[@"enableCamera"]];
         }
         if ([options objectForKey:@"autoFocus"]) {
-//            self.bAutoFocus = [[options objectForKey:@"autoFocus"] boolValue];
             self.bAutoFocus = [WXConvert BOOL:options[@"autoFocus"]];
         }
         if ([options objectForKey:@"orientation"]) {
             NSString* strOrientaion = [options objectForKey:@"orientation"];
-            if ([[strOrientaion lowercaseString] compare:@"vertical"]) {
+            if ([[strOrientaion lowercaseString] compare:@"vertical"]==NSOrderedSame) {
                 self.liveOri = VERTIAL;
-            }else{
+            }else if([[strOrientaion lowercaseString] compare:@"horizontal"]==NSOrderedSame){
                 self.liveOri = HORIZONTAL;
             }
         }
         if ([options objectForKey:@"beauty"]) {
-//            self.bBeauty = [[options objectForKey:@"beauty"] boolValue];
             self.bBeauty =  [WXConvert BOOL:options[@"beauty"]];
         }
         
         if ([options objectForKey:@"whiteness"]) {
-//            self.bWhiteCat = [[options objectForKey:@"whiteness"] boolValue];
-            self.bWhiteCat = [WXConvert BOOL:options[@"whiteness"]];
+            self.bWhiteness = [WXConvert BOOL:options[@"whiteness"]];
         }
         
         if ([options objectForKey:@"aspect"]) {
+            self.bAspect = [options objectForKey:@"aspect"];
         }
         
         if ([options objectForKey:@"minBitrate"]){
@@ -115,28 +115,10 @@
         if ([options objectForKey:@"background-mute"]){
             // unsupport
         }
-        
-//        self.isDivLayout = true;
-        
-        // 位置属性
-//        if ([options objectForKey:g_pdr_string_left] ||
-//            [options objectForKey:g_pdr_string_top] ||
-//            [options objectForKey:g_pdr_string_width] ||
-//            [options objectForKey:g_pdr_string_height]) {
-////            self.isDivLayout = NO;
-//        }
-        
-//        if ([options objectForKey:@"position"]) {
-//            self.lpPosition = [options objectForKey:@"position"];
-//        }
     }
 }
 
-- (void)orientChange:(AVCaptureVideoOrientation)captureOri{
-}
 
-- (void)snapshot:(void(^)(UIImage *photo))completion{
-}
 
 
 - (BOOL)urlMatch:(NSString*)prtmpURL{

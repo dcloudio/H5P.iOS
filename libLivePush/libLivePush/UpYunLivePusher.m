@@ -34,12 +34,14 @@
         if (_upavCapturehandle) {
             _livePushView = [_upavCapturehandle previewWithFrame:self.bounds
                                                         contentMode:UIViewContentModeScaleAspectFit];
+            
             if (_livePushView) {
                 [self addSubview:_livePushView];
             }
             _upavCapturehandle.delegate = self;
             self.bIsPlaying = NO;
         }
+        self.bCameraEnable = YES;
         [self setVideoOption:optionObject];
         
     }
@@ -114,33 +116,6 @@
     }
 }
 
-
-
-- (void)setVideoOption:(NSDictionary*)pOptions{
-    [super setVideoOption:pOptions];
-    
-    if (nil != _upavCapturehandle ) {
-        if ([pOptions objectForKey:@"mode"]) {
-            NSString* pModeType = [pOptions objectForKey:@"mode"];
-            if ([[pModeType lowercaseString] compare:@"SD"]) {
-                self.liveMode = EDCLiveMode_SD;
-                self.upavCapturehandle.capturerPresetLevel = UPAVCapturerPreset_480x360;
-            }else if ([[pModeType lowercaseString] compare:@"HD"]){
-                self.liveMode = EDCLiveMode_HD;
-                self.upavCapturehandle.capturerPresetLevel = UPAVCapturerPreset_640x480;
-            }else if ([[pModeType lowercaseString] compare:@"FHD"]){
-                self.liveMode = EDCLiveMode_FHD;
-                self.upavCapturehandle.capturerPresetLevel = UPAVCapturerPreset_960x540;
-            }else if ([[pModeType lowercaseString] compare:@"RTC"]){
-                self.liveMode = EDCLiveMode_RTC;
-                self.upavCapturehandle.capturerPresetLevel = UPAVCapturerPreset_640x480;
-            }
-        }
-        
-        [self prepareLiveOptions];
-    }
-}
-
 - (void)addEventListener:(PDRCoreAppFrame*)pFrame{
     if(self.pListneerArray == nil){
         self.pListneerArray = [[NSMutableArray alloc] initWithCapacity:0];
@@ -161,6 +136,62 @@
     }];
 }
 
+- (void)setVideoOption:(NSDictionary*)pOptions{
+    [super setVideoOption:pOptions];
+    
+    if (nil != _upavCapturehandle ) {
+        if ([pOptions objectForKey:@"mode"]) {
+            NSString* pModeType = [pOptions objectForKey:@"mode"];
+            if ([pModeType caseInsensitiveCompare:@"SD"]==NSOrderedSame) {
+                self.liveMode = EDCLiveMode_SD;
+            }else if ([pModeType caseInsensitiveCompare:@"HD"]==NSOrderedSame){
+                self.liveMode = EDCLiveMode_HD;
+            }else if ([pModeType caseInsensitiveCompare:@"FHD"]==NSOrderedSame){
+                self.liveMode = EDCLiveMode_FHD;
+            }else if ([pModeType caseInsensitiveCompare:@"RTC"]==NSOrderedSame){
+                self.liveMode = EDCLiveMode_RTC;
+            }else{
+                self.liveMode = EDCLiveMode_HD;
+            }
+        }
+        
+        [self prepareLiveOptions];
+    }
+}
+-(void)changeMode{
+    if ([self.bAspect isEqualToString:@"3:4"]) {
+        switch (_upavCapturehandle.capturerPresetLevel) {
+            case UPAVCapturerPreset_480x360:
+                _upavCapturehandle.capturerPresetLevelFrameCropSize = CGSizeMake(360, 480);
+                break;
+            case UPAVCapturerPreset_640x480:
+                _upavCapturehandle.capturerPresetLevelFrameCropSize= CGSizeMake(480, 640);
+                break;
+            case UPAVCapturerPreset_960x540:
+                _upavCapturehandle.capturerPresetLevelFrameCropSize = CGSizeMake(540, 720);
+                break;
+            case UPAVCapturerPreset_1280x720:
+                _upavCapturehandle.capturerPresetLevelFrameCropSize = CGSizeMake(720, 960);
+                break;
+        }
+    }else if([self.bAspect isEqualToString:@"9:16"]){// 要调节成 16:9 的比例, 可以自行调整要裁剪的大小
+        switch (_upavCapturehandle.capturerPresetLevel) {
+            case UPAVCapturerPreset_480x360:
+                _upavCapturehandle.capturerPresetLevelFrameCropSize = CGSizeMake(270, 480);
+                break;
+            case UPAVCapturerPreset_640x480:
+                //剪裁为 16 : 9, 注意：横屏时候需要设置为 CGSizeMake(640, 360)
+                _upavCapturehandle.capturerPresetLevelFrameCropSize= CGSizeMake(360, 640);
+                break;
+            case UPAVCapturerPreset_960x540:
+                _upavCapturehandle.capturerPresetLevelFrameCropSize = CGSizeMake(540, 960);
+                break;
+            case UPAVCapturerPreset_1280x720:
+                _upavCapturehandle.capturerPresetLevelFrameCropSize = CGSizeMake(720, 1280);
+                break;
+        }
+    }
+}
 - (void)prepareLiveOptions
 {
     _upavCapturehandle.outStreamPath = self.pushStreamURL;
@@ -176,19 +207,23 @@
             _upavCapturehandle.capturerPresetLevel = UPAVCapturerPreset_1280x720;
             break;
         case EDCLiveMode_RTC:
-            _upavCapturehandle.capturerPresetLevel = UPAVCapturerPreset_640x480;
+            _upavCapturehandle.capturerPresetLevel = UPAVCapturerPreset_960x540;
             break;
         default:
+            _upavCapturehandle.capturerPresetLevel = UPAVCapturerPreset_640x480;
             break;
     }
-    
+    [self changeMode];
     _upavCapturehandle.beautifyOn = self.bBeauty;
-    
     _upavCapturehandle.audioMute = self.bSilence;
-    
-    _upavCapturehandle.audioOnly = self.bCameraEnable;
-    
+    _upavCapturehandle.audioOnly = !self.bCameraEnable;
     _upavCapturehandle.bitrate = (self.maxbitrate + self.minbitrate)/2;
+//    if (self.bBeauty) {
+//        _upavCapturehandle.beautifyFilter.level = 1;
+//        _upavCapturehandle.beautifyFilter.bilateralLevel = 1;
+//        _upavCapturehandle.beautifyFilter.saturationLevel = 1;
+//        _upavCapturehandle.beautifyFilter.brightnessLevel = 1;
+//    }
     
     __block typeof (self) weakself = self;
     _upavCapturehandle.networkSateBlock = ^(UPAVStreamerNetworkState level) {
@@ -205,7 +240,7 @@
     };
     
     // 设置美白需要写一个过滤器
-    if (self.bWhiteCat){
+    if (self.bWhiteness){
         GPUImageBrightnessFilter* filter = [[GPUImageBrightnessFilter alloc] init];
         if (filter){
             filter.brightness = 0.3f;

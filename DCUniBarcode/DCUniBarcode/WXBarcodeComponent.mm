@@ -249,17 +249,19 @@ WX_EXPORT_METHOD(@selector(setFlash:))
 
 
 - (NSDictionary*)decodeResutWithText:(NSString*)text format:(PGWXBarcodeFormat)barcodeFormat file:(NSString*)filePath {
-    return [NSDictionary dictionaryWithObjectsAndKeys:text, @"message",
-            [NSNumber numberWithLong:barcodeFormat], @"code",
-            filePath?filePath:[NSNull null] , @"file",
-            @"success",@"type",
-            nil];
+    NSDictionary * dic = [NSDictionary dictionaryWithObjectsAndKeys:text, @"message",
+    [NSNumber numberWithLong:barcodeFormat], @"code",
+    filePath?filePath:[NSNull null] , @"file",
+    @"success",@"type",
+    nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys:dic, @"detail",nil];
 }
 -(NSDictionary *)errorWithid:(NSNumber*)Errorid errorMes:(NSString*)mes{
-    return [NSDictionary dictionaryWithObjectsAndKeys:mes, @"message",
-            Errorid, @"code",
-            @"fail",@"type",
-            nil];
+    NSDictionary * dic = [NSDictionary dictionaryWithObjectsAndKeys:mes, @"message",
+    Errorid, @"code",
+    @"fail",@"type",
+    nil];
+   return [NSDictionary dictionaryWithObjectsAndKeys:dic, @"detail",nil];
 }
 @end
 

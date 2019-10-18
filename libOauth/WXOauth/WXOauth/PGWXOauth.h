@@ -21,6 +21,7 @@
 @property(nonatomic, retain)NSString *appSecret;
 @property(nonatomic, retain)NSString *accessToken;
 @property(nonatomic, retain)NSString *refreshToken;
+@property(nonatomic, retain)NSString *universalLink;
 @property(nonatomic, assign)NSTimeInterval expireTime;
 @property(nonatomic, retain)NSDictionary *userInfo;
 @property(nonatomic, retain)NSDictionary *authResult;

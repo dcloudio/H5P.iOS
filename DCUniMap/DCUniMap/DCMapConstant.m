@@ -15,6 +15,7 @@ NSString *const dc_map_scale = @"scale";
 NSString *const dc_map_showlocation = @"showLocation";
 NSString *const dc_map_enable3D = @"enable3D";
 NSString *const dc_map_showCompass = @"showCompass";
+NSString *const dc_map_showScale = @"showScale";
 NSString *const dc_map_enableOverlooking = @"enableOverlooking";
 NSString *const dc_map_enableZoom = @"enableZoom";
 NSString *const dc_map_enableScroll = @"enableScroll";

@@ -29,7 +29,7 @@
         NSArray *allValues = [dict allValues];
         for ( NSString *className in allValues ) {
             if ( [className isKindOfClass:[NSString class]] ) {
-                PGOauth *oauth = [[NSClassFromString(className) alloc] init];
+                PGOauth *oauth = [[NSClassFromString(className) alloc] initWithWebView:self.JSFrameContext withAppContxt:self.appContext];
                 if ( [oauth isKindOfClass:[PGOauth class]] ) {
                     oauth.JSFrameContext = self.JSFrameContext;
                     oauth.appContext = self.appContext;

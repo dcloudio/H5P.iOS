@@ -141,6 +141,11 @@
     [self hideProgressHUD];
 }
 
+- (BOOL)shouldAutorotate{
+    return NO;
+}
+
+
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return self.statusBarStyle;
 }
@@ -749,6 +754,10 @@
         DCTZImagePickerController *imagePickerVc = (DCTZImagePickerController *)self.navigationController;
         [[TZImageManager manager] getAllAlbums:imagePickerVc.allowPickingVideo allowPickingImage:imagePickerVc.allowPickingImage needFetchAssets:!self.isFirstAppear completion:^(NSArray<DCTZAlbumModel *> *models) {
             dispatch_async(dispatch_get_main_queue(), ^{
+                if (models.count == 0) {
+                    [imagePickerVc hideProgressHUD];
+                    return ;
+                }
                 self->_albumArr = [NSMutableArray arrayWithArray:models];
                 for (DCTZAlbumModel *albumModel in self->_albumArr) {
                     albumModel.selectedModels = imagePickerVc.selectedModels;

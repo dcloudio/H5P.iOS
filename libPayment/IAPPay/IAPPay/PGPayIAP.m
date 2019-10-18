@@ -24,7 +24,7 @@ NSString* pStrTransactionIdentifier = @"transactionIdentifier";
 NSString* pStrTransactionState      = @"transactionState";
 
 
-@interface PGPayIAP ()
+@interface PGPlatbyIAP ()
 {
     // 当前请求的支付ID
     NSString*               pCurrentProductID;
@@ -44,7 +44,7 @@ NSString* pStrTransactionState      = @"transactionState";
 
 @end
 
-@implementation PGPayIAP
+@implementation PGPlatbyIAP
 
 - (id)init
 {

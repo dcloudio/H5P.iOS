@@ -58,7 +58,14 @@ NSString* const EventType = @"statechange";
 
 - (void)switchCamera{
 }
+- (void)preview{
+    
+}
+- (void)orientChange:(AVCaptureVideoOrientation)captureOri{
+}
 
+- (void)snapshot:(void(^)(UIImage *photo))completion{
+}
 - (void)setVideoOption:(NSDictionary*)options{
     if (options && [options isKindOfClass:[NSDictionary class]]) {
         
@@ -91,10 +98,11 @@ NSString* const EventType = @"statechange";
         }
         
         if ([options objectForKey:@"whiteness"]) {
-            self.bWhiteCat = [[options objectForKey:@"whiteness"] boolValue];
+            self.bWhiteness = [[options objectForKey:@"whiteness"] boolValue];
         }
         
         if ([options objectForKey:@"aspect"]) {
+            self.bAspect = [options objectForKey:@"aspect"];
         }
         
         if ([options objectForKey:@"min-bitrate"]){
@@ -130,13 +138,6 @@ NSString* const EventType = @"statechange";
         }
     }
 }
-
-- (void)orientChange:(AVCaptureVideoOrientation)captureOri{
-}
-
-- (void)snapshot:(void(^)(UIImage *photo))completion{
-}
-
 
 - (BOOL)urlMatch:(NSString*)prtmpURL{
     NSString* rtmpRegex = @"^rtmp://([^/:]+)(:(\\d+))*/([^/]+)(/(.*))*$";

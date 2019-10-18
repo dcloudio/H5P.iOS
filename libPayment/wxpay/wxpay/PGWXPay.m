@@ -22,6 +22,7 @@
 @synthesize callBackID;
 @synthesize isRevOpenUrl;
 @synthesize urlScheme;
+@synthesize universalLink;
 - (id)init {
     if ( self = [super init] ) {
         self.type = @"wxpay";
@@ -38,12 +39,17 @@
             }
         }
         if ( self.urlScheme ) {
-            [WXApi registerApp:self.urlScheme];
+            self.universalLink = [self getUniversalLink];
+            [WXApi registerApp:self.urlScheme universalLink:self.universalLink];
             self.serviceReady = [WXApi isWXAppInstalled];
         }
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(handleOpenURL:)
                                                      name:PDRCoreOpenUrlNotification
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(handleUniversalLinks:)
+                                                     name:PDRCoreOpenUniversalLinksNotification
                                                    object:nil];
     }
     return self;
@@ -96,7 +102,7 @@
                 [self toErrorCallback:cbID withCode:PGPluginErrorNoInstall];
                 return;
             }
-            PayReq *request = [[[PayReq alloc] init] autorelease];
+            PayReq *request = [[PayReq alloc] init];
             request.openID = openid;
             request.partnerId = partnerId;
             request.prepayId= prepayId;
@@ -104,17 +110,16 @@
             request.nonceStr= nonceStr;
             request.timeStamp= timeStamp;
             request.sign= sign;
-            BOOL ok = [WXApi sendReq:request];
-            if ( !ok ) {
-                [self toErrorCallback:cbID withCode:PGPluginErrorUnknown];
-                return;
-            }
-            self.isRevOpenUrl = true;
-            self.callBackID = [cbID isKindOfClass:[NSString class]]?cbID:nil;
-            return;
+            [WXApi sendReq:request completion:^(BOOL success) {
+                if ( success ) {
+                    self.isRevOpenUrl = true;
+                    self.callBackID = [cbID isKindOfClass:[NSString class]]?cbID:nil;
+                } else {
+                    [self toErrorCallback:cbID withCode:PGPluginErrorInvalidArgument];
+                }
+            }];
         }
     }
-    [self toErrorCallback:cbID withCode:PGPluginErrorInvalidArgument];
 }
 
 - (void)installService {
@@ -130,7 +135,7 @@
 - (NSDictionary*)JSDict {
     // 重新检查当前service可用性
     if ( self.urlScheme ) {
-        [WXApi registerApp:self.urlScheme];
+        [WXApi registerApp:self.urlScheme universalLink:self.universalLink];
         self.serviceReady = [WXApi isWXAppInstalled];
     }
     return [super JSDict];
@@ -192,14 +197,19 @@
         self.isRevOpenUrl = false;
     }
 }
-
+- (void)handleUniversalLinks:(NSNotification*)notification {
+    if ( self.isRevOpenUrl ) {
+        [WXApi handleOpenUniversalLink:[notification object] delegate:self];
+        self.isRevOpenUrl = false;
+    }
+}
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:PDRCoreOpenUrlNotification
                                                   object:nil];
-    self.urlScheme = nil;
-    self.callBackID = nil;
-    [super dealloc];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:PDRCoreOpenUniversalLinksNotification
+                                                  object:nil];
 }
 
 @end

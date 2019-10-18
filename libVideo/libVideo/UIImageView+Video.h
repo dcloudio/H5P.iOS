@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface UIImageView(H5Video)
+#import "H5CoreImageLoader.h"
+@interface UIImageView(H5Video)<H5CoreImageLoaderDelegate>
 -(void)h5Video_setImageUrl:(NSString*)url;
 @end

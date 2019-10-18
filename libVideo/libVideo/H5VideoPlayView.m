@@ -52,6 +52,7 @@
 @property (nonatomic, strong) UIButton *centerPlayButton;
 
 @property (nonatomic, assign) UIInterfaceOrientation afterInterfaceOrientation;
+@property (nonatomic, assign) UIInterfaceOrientation oldinterfaceOrientation;
 @property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
 @property (nonatomic, strong) H5UIDirectionGestureRecognizer *directionGesture;
 @property (nonatomic, strong) H5VideoPlayOverlayView *videoPlayOverlayView;
@@ -86,6 +87,7 @@
         [self initOtherView];
 
         self.afterInterfaceOrientation = UIInterfaceOrientationUnknown;
+        self.oldinterfaceOrientation = UIInterfaceOrientationLandscapeRight;
        // [self transformWithOrientation:UIDeviceOrientationPortrait];
         self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTap:)];
         self.tapGesture.delegate = self;
@@ -112,11 +114,15 @@
 
 - (void)createPlayView {
 //    self.setting.url = @"https://img.cdn.aliyun.dcloud.net.cn/guide/uniapp/%E7%AC%AC1%E8%AE%B2%EF%BC%88uni-app%E4%BA%A7%E5%93%81%E4%BB%8B%E7%BB%8D%EF%BC%89-%20DCloud%E5%AE%98%E6%96%B9%E8%A7%86%E9%A2%91%E6%95%99%E7%A8%8B@20181126.mp4";
-    NSURL *testURL = [NSURL URLWithString:self.setting.url];
-    if ( testURL && testURL.scheme &&[testURL.scheme isEqualToString:@"rtmp"]) {
-        self.isStreamVideo = YES;
-    }
     IJKFFOptions * options = [IJKFFOptions optionsByDefault];
+    NSURL *testURL = [NSURL URLWithString:self.setting.url];
+    if ( testURL && testURL.scheme &&([testURL.scheme isEqualToString:@"rtmp"]||[testURL.scheme isEqualToString:@"rtsp"])) {
+        self.isStreamVideo = YES;
+        if ([testURL.scheme isEqualToString:@"rtsp"]) {
+            [options setFormatOptionValue:@"tcp" forKey:@"rtsp_transport"];
+        }
+    }
+    
     self.videoPlayer = [[IJKFFMoviePlayerController alloc]initWithContentURL:[NSURL URLWithString:self.setting.url]withOptions:options];
     if (self.setting.objectFit == H5VideObjectFitContain) {
         self.videoPlayer.scalingMode = IJKMPMovieScalingModeAspectFit;
@@ -176,6 +182,7 @@
     [self.videoPlayer.view setFrame:self.bounds];
    // [self.videoPlayer setFrame:self.bounds];
     [self.delegate onLayout_:self];
+    [self prepareAutoPlay];
 }
 
 - (void)destroyPlayView {
@@ -185,7 +192,7 @@
 }
 
 - (void)didMoveToSuperview {
-    [self prepareAutoPlay];
+//    [self prepareAutoPlay];
 }
 
 - (void)prepareAutoPlay {
@@ -331,6 +338,12 @@
 //            IJKMPMoviePlaybackState oldStatus = _videoPlayer.playbackState;
             self.setting.url = newUrl;
             [self stop];
+                if ( !self.setting.isAutoplay ) {
+                    if ( self.setting.poster && !self.thumbImageView ) {
+                        [self createThumbImageView];
+                        [self.thumbImageView h5Video_setImageUrl:self.setting.poster];
+                    }
+                }
 //            if ( IJKMPMoviePlaybackStateStopped == oldStatus ){
                 if ( self.setting.isAutoplay ) {
                     [self play];
@@ -700,28 +713,28 @@
     if ( !self.isFullScreen ) {
         [PDRCore lockScreen];
         self.isFullScreen = YES;
-        UIInterfaceOrientation interfaceOrientation = UIInterfaceOrientationLandscapeRight;
+//        UIInterfaceOrientation interfaceOrientation = UIInterfaceOrientationLandscapeRight;
         if ( H5VideoPlayDirectionAuto == direction ) {
             if (UIDeviceOrientationLandscapeRight == [[UIDevice currentDevice]orientation]) {
-                interfaceOrientation = UIInterfaceOrientationLandscapeRight;
+                _oldinterfaceOrientation = UIInterfaceOrientationLandscapeRight;
                 // [self transformWithOrientation:UIInterfaceOrientationLandscapeRight];
             } else {
-                interfaceOrientation = UIInterfaceOrientationLandscapeLeft;
+                _oldinterfaceOrientation = UIInterfaceOrientationLandscapeLeft;
                 //  [self transformWithOrientation:UIInterfaceOrientationLandscapeLeft];
             }
         } else if ( H5VideoPlayDirectionLeft == direction ) {
-            interfaceOrientation = UIInterfaceOrientationLandscapeLeft;
+            _oldinterfaceOrientation = UIInterfaceOrientationLandscapeLeft;
             //  [self transformWithOrientation:UIInterfaceOrientationLandscapeLeft];
         } else if (  H5VideoPlayDirectionRight == direction  ){
-            interfaceOrientation = UIInterfaceOrientationLandscapeRight;
+            _oldinterfaceOrientation = UIInterfaceOrientationLandscapeRight;
             // [self transformWithOrientation:UIInterfaceOrientationLandscapeRight];
         } else {
-            interfaceOrientation = UIInterfaceOrientationPortrait;
+            _oldinterfaceOrientation = UIInterfaceOrientationPortrait;
             // [self transformWithOrientation:UIInterfaceOrientationPortrait];
         }
         self.afterInterfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
-        [self setFullScreenLayout:interfaceOrientation];
-        [self transformWithOrientation:interfaceOrientation];
+        [self setFullScreenLayout:_oldinterfaceOrientation];
+        [self transformWithOrientation:_oldinterfaceOrientation];
         [[PDRCore Instance] setHomeIndicatorAutoHidden:YES];
 //        [self.delegate playerViewEnterFullScreen:self interfaceOrientation:interfaceOrientation];
     } else {
@@ -828,8 +841,8 @@
 }
 
 - (void)transformWithOrientationWithExitFullScreen:(UIInterfaceOrientation)newOrientation {
-    UIInterfaceOrientation currentOrientation = [UIApplication sharedApplication].statusBarOrientation;
-    if ( newOrientation == currentOrientation ) return;
+//    UIInterfaceOrientation currentOrientation = [UIApplication sharedApplication].statusBarOrientation;
+    if ( newOrientation == _oldinterfaceOrientation ) return;
     [UIView animateWithDuration:.3 animations:^{
         self.transform = CGAffineTransformIdentity;
     }];
@@ -873,7 +886,7 @@
 #pragma mark - otherView
 - (void)createThumbImageView {
     if ( !self.setting.isAutoplay ) {
-        if ( !self.thumbImageView ) {
+        if ( !self.thumbImageView &&self.videoPlayer.view) {
             self.thumbImageView = [[UIImageView alloc] init];
             self.thumbImageView.contentMode = UIViewContentModeScaleAspectFill;
             self.clipsToBounds = YES;

@@ -23,8 +23,9 @@ enum {
 
 @interface  PGWXPay : PGPlatby <WXApiDelegate>{
 }
-@property(nonatomic, copy)NSString *callBackID;
+@property(nonatomic, strong)NSString *callBackID;
 @property(nonatomic, assign)BOOL isRevOpenUrl;
-@property(nonatomic, copy)NSString *urlScheme;
+@property(nonatomic, strong)NSString *urlScheme;
+@property(nonatomic, strong)NSString *universalLink;
 - (void)request:(PGMethod*)command;
 @end

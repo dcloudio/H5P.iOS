@@ -10,12 +10,7 @@
 #import "Masonry.h"
 #import "PDRCorePrivate.h"
 
-@interface WXH5VideoContext()<WXH5VideoPlayViewDelegate> {
-//    NSMutableDictionary *_listeners;
-}
-@property(nonatomic, strong)WXH5VideoPlayView *videoPlayView;
-@property(nonatomic, weak)UIView *hostedView;
-@property(nonatomic, assign)CGRect hostedFrame;
+@interface WXH5VideoContext()<WXH5VideoPlayViewDelegate>
 @property(nonatomic, assign)float curretTime;
 @property(nonatomic, assign)BOOL fullScreen;
 @end
@@ -25,58 +20,50 @@
     if ( self = [super init] ) {        
         _videoPlayView = [[WXH5VideoPlayView alloc] init];   
         _videoPlayView.delegate = self;
+        _tVideoPlayView = [[UIView alloc]init];
     }
     return self;
 }
 - (void)creatFrame:(CGRect)frame withSetting:(WXH5VideoPlaySetting *)setting withStyles:(NSDictionary *)styles{
-     [_videoPlayView  creatWithFrame:frame withSetting:setting withStyles:styles];
-    
-    self.hostedFrame = _videoPlayView.frame;
-}
-- (void)setHostedView:(UIView*)hostedView {
-    if ( self.videoPlayView.superview ) {
-        [self.videoPlayView removeFromSuperview];
-    }
-    _hostedView = hostedView;
-    [_hostedView addSubview:self.videoPlayView];
+    _tVideoPlayView.frame = frame;
+    [_videoPlayView  creatWithFrame:frame withSetting:setting withStyles:styles];
+    [_tVideoPlayView addSubview:_videoPlayView];
 }
 
-- (void)onLayout_:(WXH5VideoPlayView *)playerView {
-     _hostedView = playerView.superview;
-    self.hostedFrame = playerView.frame;
+-(void)dealloc{
+    _tVideoPlayView = nil;
+    _videoPlayView = nil;
 }
-
-- (void)setFrame:(CGRect)frame {
-    self.hostedFrame = frame;
-    [_videoPlayView setFrame:frame];
-    [_videoPlayView updateLayout];
-}
-
-- (void)playerViewExitFullScreen:(WXH5VideoPlayView*)playerView{
+- (NSInteger)playerViewExitFullScreen:(WXH5VideoPlayView*)playerView{
     [playerView removeFromSuperview];
-    [self.hostedView addSubview:playerView];
+    [self.tVideoPlayView addSubview:playerView];
+    
+    NSInteger index = 0;
+    if(self.tVideoPlayView.superview.subviews.count>0){
+        index = self.tVideoPlayView.superview.subviews.count-1;
+        UIView * tsupview = self.tVideoPlayView.superview;
+        for(int i=0; i<self.tVideoPlayView.subviews.count; i++) {
+            UIView * view = self.tVideoPlayView.subviews[i];
+            if ([view isKindOfClass:[self.tVideoPlayView class]]) {
+                [self.tVideoPlayView removeFromSuperview];
+                [tsupview addSubview:self.tVideoPlayView];
+                index = i;
+                break;
+            }
+        }
+    }
     if ( self.fullScreen ) {
         [PDRCore setFullScreen:NO];
         self.fullScreen = NO;
     }
     
     [playerView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.hostedFrame.origin.x);
-        make.top.equalTo(self.hostedFrame.origin.y);
-        make.size.equalTo(self.hostedFrame.size);
-    }];
-    
-    [self.hostedView setNeedsUpdateConstraints];
-    [self.hostedView updateConstraintsIfNeeded];
-    
-    [UIView animateWithDuration:.3 animations:^{
-        [self.hostedView layoutIfNeeded];
+        make.left.equalTo(self.tVideoPlayView.frame.origin.x);
+        make.top.equalTo(self.tVideoPlayView.frame.origin.y);
+        make.size.equalTo(self.tVideoPlayView.frame.size);
     }];
     [self sendFullscreenchangeEvtWithStatus:NO withDirection:UIInterfaceOrientationPortrait];
-}
-
-- (void)setHidden:(BOOL)isHidden {
-    [self.videoPlayView dc_setHidden:isHidden];
+    return index;
 }
 
 - (void)destroy {
@@ -95,14 +82,15 @@
 
 - (void)playerViewEnterFullScreenNoDelay:(WXH5VideoPlayView *)playerView
                     interfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(videoPlayerEnterFullScreen)]) {
-        [self.delegate videoPlayerEnterFullScreen];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(videoPlayerEnterFullScreen:)]) {
+        [self.delegate videoPlayerEnterFullScreen:interfaceOrientation];
     }
 }
 
-- (void)playerViewExitFullScreenNoDelay:(WXH5VideoPlayView *)playerView {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(videoPlayerExitFullScreen)]) {
-        [self.delegate videoPlayerExitFullScreen];
+- (void)playerViewExitFullScreenNoDelay:(WXH5VideoPlayView *)playerView
+                   interfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(videoPlayerExitFullScreen:)]) {
+        [self.delegate videoPlayerExitFullScreen:interfaceOrientation];
     }
 }
 

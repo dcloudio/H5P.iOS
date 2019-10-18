@@ -500,10 +500,8 @@
     int errorCode = PGPluginOK;
     
     if ( [arg0 isKindOfClass:[NSString class]] ) {
-        PDRCoreApp *application = self.appContext;
-        
         NSURL *url = nil;
-        ALAssetsLibrary *assertLibrary = [[ALAssetsLibrary alloc] init];
+        
         
         if ( ![arg0 isAbsolutePath] ) {
             if([self isValidUrl:arg0]){
@@ -524,31 +522,47 @@
         }
         
         if ( url ) {
-            ALAssetsLibraryWriteVideoCompletionBlock result = ^(NSURL *assetURL, NSError *error) {
-                if ( error || !assetURL) {
-                    [self toErrorCallback:callBackID withNSError:error];
-                } else {
-                    [self toSucessCallback:callBackID withJSON:@{@"path":[assetURL absoluteString]}];
+            
+            PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];
+            switch (status) {
+                    // 未授权
+                case PHAuthorizationStatusNotDetermined:
+                {
+                    [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+                        switch (status) {
+                            case PHAuthorizationStatusDenied:
+                                [self toErrorCallback:callBackID withCode:2 withMessage:@"无访问权限：PHAuthorizationStatusDenied"];
+                                break;
+                            case PHAuthorizationStatusAuthorized:
+                                [self saveImageToPhotosAlbum:url sysPath:arg0 callbackId:callBackID];
+                                break;
+                            default:
+                                break;
+                        }
+                    }];
+                    break;
                 }
-#if !__has_feature(objc_arc)
-                [assertLibrary release];
-#endif
-            };
-            if ( [assertLibrary videoAtPathIsCompatibleWithSavedPhotosAlbum:url] ){
-                [assertLibrary writeVideoAtPathToSavedPhotosAlbum:url completionBlock:result];
-            } else {
-                if( !url.isFileURL && [self isValidUrl:arg0]){
-                    [[[PDRCore Instance] imageLoader] loadImage:[url absoluteString]
-                                                   withDelegate:self
-                                                    withContext:@{@"cbid":[NSString stringWithString:callBackID],@"alasslib":assertLibrary}];
-                }else{
-                    
-                    NSData *imgdata = [NSData dataWithContentsOfURL:url];
-                    if ( imgdata ) {
-                        [assertLibrary writeImageDataToSavedPhotosAlbum:imgdata metadata:nil completionBlock:result];
-                    }
+                    // 受限制
+                case PHAuthorizationStatusRestricted:
+                {
+                    [self toErrorCallback:callBackID withCode:1 withMessage:@"无访问权限：PHAuthorizationStatusRestricted"];
+                    break;
                 }
+                    // 拒绝访问
+                case PHAuthorizationStatusDenied:
+                {
+                    [self toErrorCallback:callBackID withCode:2 withMessage:@"无访问权限：PHAuthorizationStatusDenied"];
+                    break;
+                }
+                    // 允许访问
+                case PHAuthorizationStatusAuthorized:
+                {
+                    [self saveImageToPhotosAlbum:url sysPath:arg0 callbackId:callBackID];
+                }
+                default:
+                    break;
             }
+            
         } else {
             errorCode = PGPluginErrorNotSupport;
         }
@@ -559,6 +573,40 @@
                                                         withMessage:[self errorMsgWithCode:errorCode]];
         [self toCallback:callBackID  withReslut:[result toJSONString]];
     }
+}
+
+- (void)saveImageToPhotosAlbum:(NSURL *)url sysPath:(NSString *)arg0 callbackId:(NSString *)callBackID {
+    ALAssetsLibrary *assertLibrary = [[ALAssetsLibrary alloc] init];
+    ALAssetsLibraryWriteVideoCompletionBlock result = ^(NSURL *assetURL, NSError *error) {
+                    if ( error || !assetURL) {
+                        [self toErrorCallback:callBackID withNSError:error];
+                    } else {
+                        [self toSucessCallback:callBackID withJSON:@{@"path":[assetURL absoluteString]}];
+                    }
+#if !__has_feature(objc_arc)
+                    [assertLibrary release];
+#endif
+                };
+                if ( [assertLibrary videoAtPathIsCompatibleWithSavedPhotosAlbum:url] ){
+                    [assertLibrary writeVideoAtPathToSavedPhotosAlbum:url completionBlock:result];
+                } else {
+                    if( !url.isFileURL && [self isValidUrl:arg0]){
+                        [[[PDRCore Instance] imageLoader] loadImage:[url absoluteString]
+                                                       withDelegate:self
+                                                        withContext:@{@"cbid":[NSString stringWithString:callBackID],@"alasslib":assertLibrary}];
+                    } else {
+                        NSError *error = nil;
+                        [[PHPhotoLibrary sharedPhotoLibrary] performChangesAndWait:^{
+                            [PHAssetCreationRequest creationRequestForAssetFromImageAtFileURL:url];
+                        } error:&error];
+
+                        if (error) {
+                            [self toErrorCallback:callBackID withNSError:error];
+                        } else {
+                            [self toSucessCallback:callBackID withJSON:@{@"path":[url absoluteString]}];
+                        }
+                    }
+                }
 }
 
 /**

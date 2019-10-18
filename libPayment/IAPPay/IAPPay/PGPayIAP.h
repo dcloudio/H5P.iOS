@@ -10,6 +10,6 @@
 #import <UIKit/UIKit.h>
 #import <StoreKit/StoreKit.h>
 
-@interface PGPayIAP : PGPlatby <SKProductsRequestDelegate,SKPaymentTransactionObserver>
+@interface PGPlatbyIAP : PGPlatby <SKProductsRequestDelegate,SKPaymentTransactionObserver>
 
 @end

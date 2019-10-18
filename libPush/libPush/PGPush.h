@@ -41,7 +41,7 @@
 /// @brief APS注册失败缺少权限或包配置错误
 - (void) onRegRemoteNotificationsError:(NSError *)error;
 /// @brief DeviceToken获取成功
-- (void) onRevDeviceToken:(NSString *)deviceToken;
+- (void) onRevDeviceToken:(NSData *)deviceToken;
 /**
  @brief 收到APS推送 <br/>
  调用[PDRCore handleSysEvent:PDRCoreSysEventRevRemoteNotification withObject:userInfo];<br/>

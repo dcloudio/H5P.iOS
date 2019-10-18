@@ -27,19 +27,19 @@ typedef void (^DCLivePushHandle)(NSString* result, NSString* callbackID);
 @property (nonatomic, assign) EDCLiveOrientation liveOri;
 @property (nonatomic, assign) int maxbitrate;
 @property (nonatomic, assign) int minbitrate;
-@property (nonatomic, retain) UIImage* waittingImage;
-@property (nonatomic, retain) NSString* waittingImageHash;
+//@property (nonatomic, retain) UIImage* waittingImage;
+//@property (nonatomic, retain) NSString* waittingImageHash;
 @property (nonatomic, retain) NSMutableArray* pListneerArray;
 
 
-@property (nonatomic, assign) BOOL hHasActivePusher;
-@property (nonatomic, assign) BOOL bInLiveing;
+//@property (nonatomic, assign) BOOL hHasActivePusher;
+//@property (nonatomic, assign) BOOL bInLiveing;
 @property (nonatomic, assign) BOOL bBeauty;
 @property (nonatomic, assign) BOOL bCameraEnable;
-@property (nonatomic, assign) BOOL bWhiteCat;
+@property (nonatomic, assign) BOOL bWhiteness;
 @property (nonatomic, assign) BOOL bAutoFocus;
 @property (nonatomic, assign) BOOL bSilence;
-
+@property (nonatomic,copy)NSString * bAspect;
 @property (nonatomic, assign) BOOL bIsPlaying;
 
 @property (nonatomic, assign) BOOL isDivLayout;

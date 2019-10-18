@@ -36,7 +36,7 @@ typedef enum {
 @property (nonatomic, retain) NSString          *name;
 @property (nonatomic, assign) NSTimeInterval    expireTime;
 
-- (id)initWithAppid:(NSString*)appid;
+- (id)initWithAppid:(NSString*)appid universalLinks:(NSString*)universalLinks;
 + (BOOL)isAppInstalled;
 - (BOOL)isAuthorizeExpired;
 - (BOOL)logOut;

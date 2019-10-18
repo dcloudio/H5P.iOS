@@ -20,8 +20,21 @@
 }
 */
 -(void)imageLoaded:(id)image userInfo:(id)userInfo {
-    self.image = image;
+    if ([image isKindOfClass:[UIImage class]]) {
+        self.image = image;
+    }else if([image isKindOfClass:[NSData class]]){
+        self.image = [UIImage imageWithData:image];
+    }
 }
+
+- (void)imageLoaded:(id)image type:(PTImageType)type userInfo:(id)userInfo {
+    if ([image isKindOfClass:[UIImage class]]) {
+        self.image = image;
+    }else if([image isKindOfClass:[NSData class]]){
+        self.image = [UIImage imageWithData:image];
+    }
+}
+
 
 -(void)h5Video_setImageUrl:(NSString*)url {
 //    [[[NSURLSession sharedSession] dataTaskWithURL:[NSURL URLWithString:self.setting.poster] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {

@@ -1,5 +1,6 @@
 #import "PGStatistic.h"
-#import <UMMobClick/MobClick.h>
+#import <UMAnalytics/MobClick.h>
+#import <UMCommon/UMCommon.h>
 #import <Foundation/Foundation.h>
 #import "PTLog.h"
 #import "PDRCoreDefs.h"
@@ -13,24 +14,27 @@
     NSDictionary *infoPlist = [[NSBundle mainBundle] infoDictionary];
     NSDictionary *dict = [infoPlist objectForKey:@"umeng"];
     if ( [dict isKindOfClass:[NSDictionary class]] ) {
+        [MobClick setScenarioType:E_UM_NORMAL];
         NSString *appKey = [dict objectForKey:@"appkey"];
         if ( appKey ) {
-            UMConfigInstance.appKey = appKey;
+//          UMConfigInstance.appKey = appKey;
             NSString *channel = [dict objectForKey:@"channel"];
             if ( [channel isKindOfClass:[NSString class]] ) {
-                UMConfigInstance.channelId = channel;
+//                UMConfigInstance.channelId = channel;
+                [UMConfigure initWithAppkey:appKey channel:channel];
+            }else{
+                [UMConfigure initWithAppkey:appKey channel:nil];
             }
-            //  [MobClick startWithAppkey:appKey];
         } else {
-            UMConfigInstance.appKey = @"55b1b68ae0f55a9898002723";
-            UMConfigInstance.channelId = [NSBundle mainBundle].bundleIdentifier;
-            //            [MobClick startWithAppkey:@"55b1b68ae0f55a9898002723"
-            //                         reportPolicy:BATCH channelId:[NSBundle mainBundle].bundleIdentifier];
+//            UMConfigInstance.appKey = @"55b1b68ae0f55a9898002723";
+//            UMConfigInstance.channelId = [NSBundle mainBundle].bundleIdentifier;
+            [UMConfigure initWithAppkey:@"55b1b68ae0f55a9898002723" channel:[NSBundle mainBundle].bundleIdentifier];
         }
-        UMConfigInstance.ePolicy = BATCH;
+//        UMConfigInstance.ePolicy = BATCH;
         //[MobClick setBackgroundTaskEnabled:NO];
-        [MobClick startWithConfigure:UMConfigInstance];
+//        [MobClick startWithConfigure:UMConfigInstance];
     }
+    
 }
 
 @end

@@ -98,7 +98,6 @@ NSString *kPGQQApiKeyScope = @"scope";
     self.callbackId = cbId;
    // [[self getWXAPI] cancelPreConn];
     [_tencentOAuth logout:nil];
-    [_tencentOAuth release];
     _tencentOAuth = nil;
     _tencentOAuth = [[TencentOAuth alloc] initWithAppId:self.appId
                                             andDelegate:self];
@@ -210,6 +209,13 @@ NSString *kPGQQApiKeyScope = @"scope";
     }
 }
 
+- (void) handleUniversalLink:(NSNotification*)notification {
+    NSUserActivity *activity = [notification object];
+    if ( [TencentOAuth CanHandleUniversalLink:activity.webpageURL] ) {
+        [TencentOAuth HandleUniversalLink:activity.webpageURL];
+    }
+}
+
 -(NSDictionary*)getSaveDict {
     NSMutableDictionary *output = [NSMutableDictionary dictionary];
     if ( self.openid ) {
@@ -270,8 +276,5 @@ NSString *kPGQQApiKeyScope = @"scope";
 
 - (void)dealloc {
     [self clear];
-    self.appId = nil;
-    [_tencentOAuth release];
-    [super dealloc];
 }
 @end

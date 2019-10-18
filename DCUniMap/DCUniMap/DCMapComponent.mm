@@ -11,6 +11,18 @@
 #import "DCMapConstant.h"
 #import "WXComponent+Layout.h"
 
+
+@interface DCMapContainerView : WXView
+@end
+
+@implementation DCMapContainerView
+@end
+
+
+
+
+
+
 @interface DCMapComponent ()
 //{
 //    CGRect _lastViewFrame;  /**< 记录上一次 self.view 的frame */
@@ -56,13 +68,21 @@
 
 - (UIView *)loadView
 {
-    return [self.map creatMapview];
+    UIView *view = [[DCMapContainerView alloc] init];
+    [view addSubview:[self.map creatMapview]];
+    return view;
+}
+
+- (void)layoutDidFinish {
+    self.map.mapView.frame = self.view.bounds;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
+    self.map.mapView.frame = self.view.bounds;
+
     // 设置默认宽高
     [self dc_setDefaultWidthPixel:300 defaultHeightPixel:150];
     
@@ -79,6 +99,12 @@
 {
 //    NSLog(@"updateAttributes: %@",attributes);
     [self.map setMapAttribute:attributes];
+}
+
+- (void)insertSubview:(WXComponent *)subcomponent atIndex:(NSInteger)index {
+    
+    [super insertSubview:subcomponent atIndex:index];
+    [self.view bringSubviewToFront:subcomponent.view];
 }
 
 - (void)addEvent:(NSString *)eventName {
@@ -139,6 +165,7 @@
 - (void)onMapEventHandle {
     __weak __typeof(self)weakSelf = self;
     self.map.eventHandle = ^(NSString * _Nullable eventName, NSDictionary * _Nullable params) {
+        params = @{@"detail":(params?:@{})};
         if ([eventName isEqualToString:dc_map_bindtap] && self.bindtap) {
             [weakSelf fireEvent:dc_map_bindtap params:params];
         }
@@ -172,10 +199,13 @@ WX_EXPORT_METHOD(@selector(getCenterLocation:))
 WX_EXPORT_METHOD(@selector(getUserLocation:))
 WX_EXPORT_METHOD(@selector(getRegion:))
 WX_EXPORT_METHOD(@selector(getScale:))
+WX_EXPORT_METHOD(@selector(getSkew:))
+WX_EXPORT_METHOD(@selector(getRotate:))
 WX_EXPORT_METHOD(@selector(includePoints::))
 WX_EXPORT_METHOD(@selector(moveToLocation:))
 WX_EXPORT_METHOD(@selector(translateMarker::))
 
+/** 获取当前地图中心的经纬度 */
 - (void)getCenterLocation:(WXKeepAliveCallback)callback {
     if (callback) {
         NSDictionary *res = [self.map getCenterLocation];
@@ -183,12 +213,14 @@ WX_EXPORT_METHOD(@selector(translateMarker::))
     }
 }
 
+/** 获取当前位置 */
 - (void)getUserLocation:(WXKeepAliveCallback)callback {
     if (callback) {
         callback([self.map getUserLocation],NO);
     }
 }
 
+/** 获取当前地图的视野范围 */
 - (void)getRegion:(WXKeepAliveCallback)callback {
     if (callback) {
         NSDictionary *res = [self.map getRegion];
@@ -196,6 +228,7 @@ WX_EXPORT_METHOD(@selector(translateMarker::))
     }
 }
 
+/** 获取当前地图的缩放级别 */
 - (void)getScale:(WXKeepAliveCallback)callback {
     if (callback) {
         NSDictionary *res = [self.map getScale];
@@ -204,6 +237,23 @@ WX_EXPORT_METHOD(@selector(translateMarker::))
     
 }
 
+/** 获取当前地图的倾斜角 */
+- (void)getSkew:(WXKeepAliveCallback)callback {
+    if (callback) {
+        NSDictionary *res = [self.map getSkew];
+        callback(res,NO);
+    }
+}
+
+/** 获取当前地图的旋转角 */
+- (void)getRotate:(WXKeepAliveCallback)callback {
+    if (callback) {
+        NSDictionary *res = [self.map getRotate];
+        callback(res,NO);
+    }
+}
+
+/** 缩放视野展示所有经纬度 */
 - (void)includePoints:(NSDictionary *)info :(WXKeepAliveCallback)callback {
     if (callback) {
         NSDictionary *res = [self.map setIncludePoints:info];
@@ -211,10 +261,12 @@ WX_EXPORT_METHOD(@selector(translateMarker::))
     }
 }
 
+/** 将地图中心移置当前定位点 */
 - (void)moveToLocation:(NSDictionary *)info {
     [self.map moveToLocation:info];
 }
 
+/** 平移marker，带动画 */
 - (void)translateMarker:(NSDictionary *)info :(WXKeepAliveCallback)callback {
     [self.map translateMarker:info block:^(NSDictionary * res) {
         if (callback) {

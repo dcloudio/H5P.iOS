@@ -391,29 +391,29 @@ static BOOL isConfigRemoteCommandCenter = NO;
         // 播放事件
         MPRemoteCommand *playCommand = remoteCommandCenter.playCommand;
         playCommand.enabled = YES;
-        [playCommand addTarget:self action:@selector(remoteCommandPlay)];
+        [playCommand addTarget:self action:@selector(remoteCommandPlay:)];
         // 暂停事件
         MPRemoteCommand *pauseCommand = remoteCommandCenter.pauseCommand;
         pauseCommand.enabled = YES;
-        [pauseCommand addTarget:self action:@selector(remoteCommandPause)];
+        [pauseCommand addTarget:self action:@selector(remoteCommandPause:)];
         // 下一曲
         MPRemoteCommand *nextTrack = remoteCommandCenter.nextTrackCommand;
         nextTrack.enabled = YES;
-        [nextTrack addTarget:self action:@selector(remoteCommandNextTrack)];
+        [nextTrack addTarget:self action:@selector(remoteCommandNextTrack:)];
         // 上一曲
         MPRemoteCommand *previousTrack = remoteCommandCenter.previousTrackCommand;
         previousTrack.enabled = YES;
-        [previousTrack addTarget:self action:@selector(remoteCommandPreviousTrack)];
+        [previousTrack addTarget:self action:@selector(remoteCommandPreviousTrack:)];
         // 线控
         MPRemoteCommand *togglePlayPause = remoteCommandCenter.togglePlayPauseCommand;
         togglePlayPause.enabled = YES;
-        [togglePlayPause addTarget:self action:@selector(remoteCommandTogglePlayPause)];
+        [togglePlayPause addTarget:self action:@selector(remoteCommandTogglePlayPause:)];
         
         [playerContext setPlayingCenterInfoWithRate:[playerContext isCacheFinish] ? 1 : 0 delay:NO newInfo:YES];
     });
 }
 
-- (void)remoteCommandPlay {
+- (MPRemoteCommandHandlerStatus)remoteCommandPlay:(MPRemoteCommandEvent *)event {
     [m_pPlayerDic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
         PGPlayerContext *pPlayerContext = (PGPlayerContext*)obj;
         pPlayerContext.isNeedPlay = YES;
@@ -421,9 +421,10 @@ static BOOL isConfigRemoteCommandCenter = NO;
         [pPlayerContext setPlayingCenterInfoWithRate:[pPlayerContext isCacheFinish] ? 1 : 0 delay:NO];
         [self sendEventListener:kPGPlayerEventOnPlay message:nil playerContext:pPlayerContext];
     }];
+    return MPRemoteCommandHandlerStatusSuccess;
 }
 
-- (void)remoteCommandPause {
+- (MPRemoteCommandHandlerStatus)remoteCommandPause:(MPRemoteCommandEvent *)event {
     [m_pPlayerDic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
         PGPlayerContext *pPlayerContext = (PGPlayerContext*)obj;
         pPlayerContext.isNeedPlay = NO;
@@ -432,32 +433,37 @@ static BOOL isConfigRemoteCommandCenter = NO;
         [pPlayerContext setPlayingCenterInfoWithRate:0 delay:NO];
         [self sendEventListener:kPGPlayerEventOnPause message:nil playerContext:pPlayerContext];
     }];
+    return MPRemoteCommandHandlerStatusSuccess;
 }
 
-- (void)remoteCommandNextTrack {
+- (MPRemoteCommandHandlerStatus)remoteCommandNextTrack:(MPRemoteCommandEvent *)event {
     [m_pPlayerDic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
         PGPlayerContext *pPlayerContext = (PGPlayerContext*)obj;
         [self sendEventListener:kPGPlayerEventOnNext message:nil playerContext:pPlayerContext];
     }];
+    return MPRemoteCommandHandlerStatusSuccess;
 }
 
-- (void)remoteCommandPreviousTrack {
+- (MPRemoteCommandHandlerStatus)remoteCommandPreviousTrack:(MPRemoteCommandEvent *)event {
     [m_pPlayerDic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
         PGPlayerContext *pPlayerContext = (PGPlayerContext*)obj;
         [self sendEventListener:kPGPlayerEventOnPrev message:nil playerContext:pPlayerContext];
     }];
+    return MPRemoteCommandHandlerStatusSuccess;
 }
-- (void)remoteCommandTogglePlayPause {
+
+- (MPRemoteCommandHandlerStatus)remoteCommandTogglePlayPause:(MPRemoteCommandEvent *)event {
     __weak __typeof(self)weakSelf = self;
     [m_pPlayerDic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
         PGPlayerContext *pPlayerContext = (PGPlayerContext*)obj;
         // 线控如果在播放 调用暂停 反之调用播放
         if (pPlayerContext.isNeedPlay) {
-            [weakSelf remoteCommandPause];
+            [weakSelf remoteCommandPause:nil];
         } else {
-            [weakSelf remoteCommandPlay];
+            [weakSelf remoteCommandPlay:nil];
         }
     }];
+    return MPRemoteCommandHandlerStatusSuccess;
 }
 
 /*
@@ -548,6 +554,42 @@ static BOOL isConfigRemoteCommandCenter = NO;
     NSString* pRecorderUdid = [pMethod objectAtIndex:0];
     NSString* pCallBackID = [pMethod objectAtIndex:1];
     NSDictionary* pRecOption = [pMethod objectAtIndex:2];
+    
+    
+    // 权限判断
+    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeAudio];
+    switch (authStatus) {
+        case AVAuthorizationStatusNotDetermined:{
+            //没有询问是否开启麦克风
+            [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
+                if (!granted) {
+                    PDRPluginResult *result = [PDRPluginResult resultWithStatus:PDRCommandStatusError messageToErrorObject:2 withMessage:@"未授权"];
+                    [self toCallback:pCallBackID withReslut:[result toJSONString]];
+                    return;
+                }
+            }];
+            break;
+        }
+        case AVAuthorizationStatusRestricted:{
+            //未授权，家长限制
+            PDRPluginResult *result = [PDRPluginResult resultWithStatus:PDRCommandStatusError messageToErrorObject:1 withMessage:@"未授权，访问限制"];
+            [self toCallback:pCallBackID withReslut:[result toJSONString]];
+            return;
+        }
+        case AVAuthorizationStatusDenied:{
+            //未授权
+            PDRPluginResult *result = [PDRPluginResult resultWithStatus:PDRCommandStatusError messageToErrorObject:2 withMessage:@"未授权"];
+            [self toCallback:pCallBackID withReslut:[result toJSONString]];
+            return;
+        }
+        
+        case AVAuthorizationStatusAuthorized:
+        //已授权
+            break;
+        default:
+            break;
+    }
+    
     
     if (m_pRecorderDic == nil) {
         m_pRecorderDic = [[NSMutableDictionary alloc] init];
@@ -1471,7 +1513,7 @@ static BOOL isConfigRemoteCommandCenter = NO;
 /**
  获取当前是否已暂停播放
  */
-- (NSData *)Player_Sync_isPaused:(NSArray *)pMethod
+- (NSData *)Player_Sync_getPaused:(NSArray *)pMethod
 {
     NSData *pDataRet = [self resultWithBool:YES];
     if (pMethod && [pMethod count]) {
@@ -1539,12 +1581,18 @@ static BOOL isConfigRemoteCommandCenter = NO;
                 pPlayer.loadError = PGPluginOK;
                 pPlayer.ready = NO;
                 pPlayer.buffered = 0;
+                pPlayer.startTime = 0;
                 [pPlayer removePlayerObservers];
                 
                 // 处理PlayingCenter Info
                 PGPlayerItemInfo *itemInfo = [[PGPlayerItemInfo alloc] initWithInfo:option];
                 pPlayer.itemInfo = itemInfo;
                 [pPlayer setPlayingCenterInfoWithRate:0 delay:NO newInfo:YES];
+                
+                // 处理 startTime
+                if (option[kPGAudioPlayerKey_startTime]) {
+                    pPlayer.startTime = [option[kPGAudioPlayerKey_startTime] integerValue];
+                }
                 
                 __weak __typeof(self)weakSelf = self;
                 [self getPlayURLWithPlayerContext:pPlayer handleBlock:^(NSURL *playURL) {
@@ -1574,10 +1622,6 @@ static BOOL isConfigRemoteCommandCenter = NO;
             // 处理 volume
             if (option[kPGAudioPlayerKey_volume] && [option[kPGAudioPlayerKey_volume] isKindOfClass:[NSNumber class]]) {
                 [pPlayer.player setVolume:[option[kPGAudioPlayerKey_volume] floatValue]];
-            }
-            // 处理 startTime
-            if (option[kPGAudioPlayerKey_startTime]) {
-                pPlayer.startTime = [option[kPGAudioPlayerKey_startTime] integerValue];
             }
             // 处理 backgroundControl
             if (option[kPGAudioPlayerKey_backgroundControl]) {

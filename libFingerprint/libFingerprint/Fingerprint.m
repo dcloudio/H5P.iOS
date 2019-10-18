@@ -19,7 +19,9 @@
 
 @implementation Fingerprint
 - (NSData*)isSupport:(PGMethod*)method {
-    return [self resultWithBool:[self judueIPhonePlatformSupportTouchID]];
+    
+    BOOL isTouchID = [self fingerprintDeviceSupport];
+    return [self resultWithBool:isTouchID];
 }
 
 - (NSData*)isKeyguardSecure:(PGMethod*)method {
@@ -43,7 +45,7 @@
         }
     }
     
-    if (![self judueIPhonePlatformSupportTouchID]) {
+    if (![self fingerprintDeviceSupport]) {
         [self toErrorCallback:cbId withCode:1 withMessage:@"No Touch ID Device"];
         return;
     }
@@ -81,7 +83,7 @@
             if (success) {
                 [self toSucessCallback:cbId withString:@"suceess"];
             }else {
-                NSString* message = @"";
+//                NSString* message = @"";
                 int errorCode = 4;
                 switch (error.code) {
                     case LAErrorSystemCancel:
@@ -102,8 +104,8 @@
                 [self toErrorCallback:cbId withCode:errorCode withMessage:error.localizedDescription ];
             }
             
-            [_context invalidate];
-            _context = nil;
+            [self->_context invalidate];
+            self->_context = nil;
         });
     }];
 }
@@ -111,22 +113,31 @@
 - (BOOL)fingerprintDeviceSupport
 {
     LAContext *context = [self getLAContext];
-    if ( [context respondsToSelector:@selector(biometryType)] ) {
-        LABiometryType biometryType = [self getLAContext].biometryType;
-        if ( LABiometryTypeTouchID == biometryType ) {
-            return true;
-        }else{
-            NSError *error = nil;
-            return [[self getLAContext] canEvaluatePolicy:[self getLAPolicy] error:&error];
+    [[self getLAContext] canEvaluatePolicy:[self getLAPolicy] error:nil];
+    //判断是支持touchid还是faceid
+    if (@available(iOS 11.0, *)) {
+        switch (context.biometryType) {
+            case LABiometryNone:
+//                NSLog(@"-----------touchid，faceid都不支持");
+                return NO;
+                break;
+            case LABiometryTypeTouchID:
+//                NSLog(@"-----------touchid支持");
+                return YES;
+                break;
+            case LABiometryTypeFaceID:
+//                NSLog(@"-----------faceid支持");
+                return NO;
+                break;
+            default:
+                return NO;
+                break;
         }
+    } else {
+        return [self judueIPhonePlatformSupportTouchID];
+//        NSLog(@"-----------iOS11之前的版本，不做id判断");
     }
-    else{
-        //TODO.. device list ??
-        NSError *error = nil;
-        BOOL support = [[self getLAContext] canEvaluatePolicy:[self getLAPolicy] error:&error];
-        return support;
-    }
-    return false;
+    return NO;
 }
 
 

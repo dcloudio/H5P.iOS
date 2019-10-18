@@ -48,16 +48,16 @@
 WX_EXPORT_METHOD(@selector(play))
 WX_EXPORT_METHOD(@selector(pause))
 WX_EXPORT_METHOD(@selector(stop))
-//WX_EXPORT_METHOD(@selector(hide))
-//WX_EXPORT_METHOD(@selector(show))
 WX_EXPORT_METHOD(@selector(playbackRate:))
 WX_EXPORT_METHOD(@selector(seek:))
 WX_EXPORT_METHOD(@selector(sendDanmu:))
 WX_EXPORT_METHOD(@selector(requestFullScreen:))
 WX_EXPORT_METHOD(@selector(exitFullScreen))
+//WX_EXPORT_METHOD(@selector(hide))
+//WX_EXPORT_METHOD(@selector(show))
 //WX_EXPORT_METHOD(@selector(close))
 //WX_EXPORT_METHOD(@selector(setOptions:))
-//WX_EXPORT_METHOD(@selector(setStyles:))
+
 
 
 - (instancetype)initWithRef:(NSString *)ref type:(NSString *)type styles:(NSDictionary *)styles attributes:(NSDictionary *)attributes events:(NSArray *)events weexInstance:(WXSDKInstance *)weexInstance {
@@ -70,8 +70,8 @@ WX_EXPORT_METHOD(@selector(exitFullScreen))
 -(UIView *)loadView{
     if (!_videoContext) {
         _videoContext = [self VideoPlayer];
-    }    
-    return _videoContext.videoPlayView;
+    }
+    return _videoContext.tVideoPlayView;
 }
 - (void)viewDidLoad{
     
@@ -81,22 +81,29 @@ WX_EXPORT_METHOD(@selector(exitFullScreen))
     [self dc_setDefaultWidthPixel:300 defaultHeightPixel:225];
     
     [_videoContext creatFrame:self.view.frame withSetting:_setting withStyles:nil];
-    if (self.weexInstance.rootView.subviews.count>0) {
-        [_videoContext setHostedView:self.weexInstance.rootView.subviews[0]];
-    }
 }
 
 // 全屏切换的时候动态调整 u-scalable 子标签以适应新的布局
-- (void)fullscreenchange:(BOOL)isFullScreen {
+- (void)fullscreenchange:(BOOL)isFullScreen interfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
     
     if (!self.subCoverView) {
         return;
     }
     
     if (isFullScreen) {
+        CGSize size = [UIScreen mainScreen].bounds.size;
+        CGFloat width = 0;
+        CGFloat height = 0;
+        if (interfaceOrientation == UIInterfaceOrientationPortrait) {
+            width = MIN(size.width,size.height);
+            height = MAX(size.width,size.height);
+        } else {
+            width = MAX(size.width,size.height);
+            height = MIN(size.width,size.height);
+        }
         [self.subCoverView dc_updateStyles:@{
-                                @"width" : @([UIScreen mainScreen].bounds.size.width),
-                                @"height" : @([UIScreen mainScreen].bounds.size.height)
+                                @"width" : @(width),
+                                @"height" : @(height)
                                 }];
     } else {
         [self.subCoverView dc_updateStyles:@{
@@ -114,11 +121,12 @@ WX_EXPORT_METHOD(@selector(exitFullScreen))
     }
     
     // 记录 u-scalable
-    [super insertSubview:subcomponent atIndex:index];
+//    [super insertSubview:subcomponent atIndex:index];
+    [self.videoContext.videoPlayView addSubview:subcomponent.view];
     self.subCoverView = subcomponent;
     _initViewSize = self.calculatedFrame.size;
-    [self fullscreenchange:NO];
-    [self.view bringSubviewToFront:subcomponent.view];
+    [self fullscreenchange:NO interfaceOrientation:UIInterfaceOrientationPortrait];
+    [self.videoContext.videoPlayView bringSubviewToFront:subcomponent.view];
 }
 
 - (void)updateAttributes:(NSDictionary *)attributes{
@@ -191,15 +199,19 @@ WX_EXPORT_METHOD(@selector(exitFullScreen))
 }
 
 #pragma mark - export
-- (void)show{
-    [_videoContext setHidden:NO];
-}
-
-- (void)hide{
-      [_videoContext.videoPlayView pause];
-    [_videoContext setHidden:YES];
-}
-
+//- (void)show{
+//    [_videoContext setHidden:NO];
+//}
+//
+//- (void)hide{
+//      [_videoContext.videoPlayView pause];
+//    [_videoContext setHidden:YES];
+//}
+//- (void)close {
+//    if ( _videoContext ) {
+//        [_videoContext destroy];
+//    }
+//}
 - (void)play{
     [_videoContext.videoPlayView play];
 }
@@ -207,13 +219,6 @@ WX_EXPORT_METHOD(@selector(exitFullScreen))
 - (void)pause {
     [_videoContext.videoPlayView pause];
 }
-
-- (void)close {
-    if ( _videoContext ) {
-        [_videoContext destroy];
-    }
-}
-
 - (void)stop {
     if ( _videoContext ) {
         [_videoContext.videoPlayView stop];
@@ -265,7 +270,6 @@ WX_EXPORT_METHOD(@selector(exitFullScreen))
     if ( [options isKindOfClass:[NSMutableDictionary class]] && [options count] ) {
         [options enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
             if ( [key isKindOfClass:[NSString class]] ) {
-                key = [key lowercaseString];
                 if ( [key isEqualToString:wxkH5VideoPlaySettingKeyDirection]) {
                     obj = @([WXH5VideoPlaySetting directionFromObject:obj]);
                     [self.videoContext.videoPlayView setControlValue:obj forKey:key];
@@ -284,12 +288,12 @@ WX_EXPORT_METHOD(@selector(exitFullScreen))
     }
 }
 
-- (void)videoPlayerEnterFullScreen {
-    [self fullscreenchange:YES];
+- (void)videoPlayerEnterFullScreen:(UIInterfaceOrientation)interfaceOrientation {
+    [self fullscreenchange:YES interfaceOrientation:interfaceOrientation];
 }
 
-- (void)videoPlayerExitFullScreen {
-    [self fullscreenchange:NO];
+- (void)videoPlayerExitFullScreen:(UIInterfaceOrientation)interfaceOrientation {
+    [self fullscreenchange:NO interfaceOrientation:interfaceOrientation];
 }
 
 -(void)sendEvent:(NSString*)type withParams:(NSDictionary *)params{
@@ -356,6 +360,7 @@ WX_EXPORT_METHOD(@selector(exitFullScreen))
             self.isShowMuteBtn = [PGPluginParamHelper getBoolValueInDict:options forKey:wxkH5VideoPlaySettingKeyShowMuteBtn defalut:self.isShowMuteBtn];
             self.isShowCenterPlayBtn = [PGPluginParamHelper getBoolValueInDict:options forKey:wxkH5VideoPlaySettingKeyShowCenterPlayBtn defalut:self.isShowCenterPlayBtn];
             self.isEnableProgressGesture = [PGPluginParamHelper getBoolValueInDict:options forKey:wxkH5VideoPlaySettingKeyShowProgressGresture defalut:self.isEnableProgressGesture];
+            self.isShowProgress= [PGPluginParamHelper getBoolValueInDict:options forKey:wxkH5VideoPlaySettingKeyShowProgress defalut:self.isShowProgress];
             self.objectFit = [PGPluginParamHelper getEnumValue:[options objectForKey:wxkH5VideoPlaySettingKeyObjectFit] inMap:@{@"contain":@(WXH5VideObjectFitContain),@"fill":@(WXH5VideObjectFitFill),@"cover":@(WXH5VideObjectFitCover)} defautValue:WXH5VideObjectFitContain];
             
             self.poster = [PGPluginParamHelper getStringValueInDict:options forKey:wxkH5VideoPlaySettingKeyPoster defalut:nil];

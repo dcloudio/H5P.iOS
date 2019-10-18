@@ -48,6 +48,10 @@
                                                      selector:@selector(handleOpenURL:)
                                                          name:PDRCoreOpenUrlNotification
                                                        object:nil];
+            [[NSNotificationCenter defaultCenter] addObserver:self
+                                                            selector:@selector(handleUniversalLinkNotification:)
+                                                                name:PDRCoreOpenUniversalLinksNotification
+                                                              object:nil];
             return self;
         }
     }
@@ -202,6 +206,12 @@
 - (void)handleOpenURL:(NSNotification*)notification {
     [QQApiInterface handleOpenURL:[notification object] delegate:self];
 }
+
+- (void)handleUniversalLinkNotification:(NSNotification*)notification{
+    NSUserActivity *userActivity = [notification object];
+    [QQApiInterface handleOpenUniversallink:userActivity.webpageURL delegate:self];
+}
+
 /**
     处理来至QQ的响应
     */
@@ -235,8 +245,7 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PDRCoreOpenUrlNotification object:nil];
-    [_tencentOAuth release];
-    [super dealloc];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PDRCoreOpenUniversalLinksNotification object:nil];
 }
 
 @end

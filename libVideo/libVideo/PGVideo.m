@@ -319,7 +319,7 @@
             
             self.direction = [H5VideoPlaySetting directionFromObject:[options objectForKey:kH5VideoPlaySettingKeyDirection]];
             self.isEnablePageGesture = [PGPluginParamHelper getBoolValueInDict:options forKey:kH5VideoPlaySettingKeyShowProgress defalut:self.isEnablePageGesture];
-            
+            self.isShowProgress= [PGPluginParamHelper getBoolValueInDict:options forKey:kH5VideoPlaySettingKeyShowProgress defalut:self.isShowProgress];
             self.isShowFullscreenBtn = [PGPluginParamHelper getBoolValueInDict:options forKey:kH5VideoPlaySettingKeyShowFullScreenBtn defalut:self.isShowFullscreenBtn];
             self.isShowPlayBtn = [PGPluginParamHelper getBoolValueInDict:options forKey:kH5VideoPlaySettingKeyShowPlayBtn defalut:self.isShowPlayBtn];
             self.isShowCenterPlayBtn = [PGPluginParamHelper getBoolValueInDict:options forKey:kH5VideoPlaySettingKeyShowCenterPlayBtn defalut:self.isShowCenterPlayBtn];

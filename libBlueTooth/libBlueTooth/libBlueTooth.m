@@ -17,8 +17,9 @@
 @property (nonatomic, strong)DCHLBLEManager * mBleManager;
 @property (nonatomic, strong)NSMutableDictionary* connectDeviceArray;
 @property (strong, nonatomic)NSMutableDictionary* deviceArray;
+@property (strong, nonatomic)NSMutableDictionary* tmpDeviceArray;
 @property (strong, nonatomic)NSMutableDictionary* rssiArray;
-@property (strong, nonatomic)PDRCoreAppFrame* m_evalFrame;
+
 
 @property (strong, nonatomic)NSString* onBluetoothAdapterStateChangeCbid;
 @property (strong, nonatomic)NSString* onBluetoothDeviceFoundCbid;
@@ -36,7 +37,9 @@
         
         if (_deviceArray == nil)
             _deviceArray = [NSMutableDictionary dictionaryWithCapacity:0];
-        
+        if (_tmpDeviceArray ==nil) {
+            _tmpDeviceArray = [NSMutableDictionary dictionaryWithCapacity:0];
+        }
         if (_rssiArray == nil) {
             _rssiArray = [NSMutableDictionary dictionaryWithCapacity:0];
         }
@@ -115,6 +118,7 @@
         }
         [_connectDeviceArray removeAllObjects];
         [_deviceArray removeAllObjects];
+        [_tmpDeviceArray removeAllObjects];
         [_mBleManager stopScan];
         _mBleManager = nil;
 
@@ -328,22 +332,41 @@
                                                  NSNumber *RSSI) {
             
             BOOL bHasNewObj = false;
-            if (weakself.deviceArray.allKeys.count == 0) {
+            if (weakself.deviceArray.allKeys.count == 0 ||weakself.tmpDeviceArray.allKeys.count == 0) {
                 NSDictionary* itemObj = @{@"CBPeripheral":peripheral,@"advNode":advertisementData};
-                [weakself.deviceArray setObject:itemObj forKey:peripheral.identifier.UUIDString];
+                if (weakself.deviceArray.allKeys.count == 0) {
+                    [weakself.deviceArray setObject:itemObj forKey:peripheral.identifier.UUIDString];
+                }
+                [weakself.tmpDeviceArray setObject:itemObj forKey:peripheral.identifier.UUIDString];
                 bHasNewObj = true;
             } else {
+                
+                BOOL istmpExist  = NO;
+                NSArray* tmpAllKeys = [weakself.tmpDeviceArray allKeys];
+                for (NSString *key in tmpAllKeys) {
+                    if ([key isEqualToString:peripheral.identifier.UUIDString]) {
+                        istmpExist = YES;
+                    }
+                }
+                if (!istmpExist) {
+                    NSDictionary* itemObj = @{@"CBPeripheral":peripheral,@"advNode":advertisementData};
+                    [weakself.tmpDeviceArray setObject:itemObj forKey:peripheral.identifier.UUIDString];
+                    bHasNewObj = true;
+                }
+                
                 BOOL isExist = NO;
-                for (int i = 0; i < weakself.deviceArray.count; i++) {
-                    NSArray* allKeys = [weakself.deviceArray allKeys];
-                    if([allKeys containsObject:peripheral.identifier.UUIDString]){
+                NSArray* allKeys = [weakself.deviceArray allKeys];
+                for (NSString *key in allKeys) {
+                    if ([key isEqualToString:peripheral.identifier.UUIDString]) {
                         isExist = YES;
                     }
                 }
-                
                 if (!isExist) {
                     NSDictionary* itemObj = @{@"CBPeripheral":peripheral,@"advNode":advertisementData};
                     [weakself.deviceArray setObject:itemObj forKey:peripheral.identifier.UUIDString];
+                }
+                
+                if (allowDuplicatesKey) {
                     bHasNewObj = true;
                 }
             }
@@ -355,23 +378,25 @@
 
             if (bHasNewObj) {
                 NSMutableArray* results = [NSMutableArray arrayWithCapacity:0];
-                if (allowDuplicatesKey) {
-                    NSArray* allKeys = [weakself.deviceArray allKeys];
-                    for (NSString* uuid in allKeys) {
-                        NSDictionary* itemInfo = [[weakself deviceArray] objectForKey:uuid];
-                        if (itemInfo) {
-                            CBPeripheral* serv =[itemInfo objectForKey:@"CBPeripheral"];
-                            NSDictionary* advNode = [itemInfo objectForKey:@"advNode"];
-                            NSNumber* nrssi = [weakself.rssiArray objectForKey:uuid];
-                            //[itemInfo objectForKey:@"RSSI"];
-                            NSDictionary* resultItem = [weakself getPeripherInfo:serv AndAdvInfo:advNode RSSI:nrssi];
-                            [results addObject:resultItem];
-                        }
-                    }
-                }else{
+//                if (allowDuplicatesKey) {
+//                    NSArray* allKeys = [weakself.deviceArray allKeys];
+//                    for (NSString* uuid in allKeys) {
+//                        NSDictionary* itemInfo = [[weakself deviceArray] objectForKey:uuid];
+//                        if (itemInfo) {
+//                            CBPeripheral* serv =[itemInfo objectForKey:@"CBPeripheral"];
+//                            NSDictionary* advNode = [itemInfo objectForKey:@"advNode"];
+//                            NSNumber* nrssi = [weakself.rssiArray objectForKey:uuid];
+//                            //[itemInfo objectForKey:@"RSSI"];
+//                            NSDictionary* resultItem = [weakself getPeripherInfo:serv AndAdvInfo:advNode RSSI:nrssi];
+//                            [results addObject:resultItem];
+//                        }
+//                    }
+//                }else{
                     NSDictionary* resultItem = [weakself getPeripherInfo:peripheral AndAdvInfo:advertisementData RSSI:RSSI];
-                    [results addObject:resultItem];
-                }
+                    if (resultItem) {
+                        [results addObject:resultItem];
+                    }
+//                }
                 
                 if (weakself.onBluetoothDeviceFoundCbid) {
                     [weakself toSucessCallback:weakself.onBluetoothDeviceFoundCbid withJSON:@{@"devices":results} keepCallback:YES];
@@ -469,15 +494,20 @@
     NSString* cbid = [pMethod.arguments objectAtIndex:0];
     if (_mBleManager) {
         if([_mBleManager isScaning]){
-            NSLog(@"stopScan");
             [_mBleManager stopScan];
+            [_tmpDeviceArray removeAllObjects];
             [self toSucessCallback:cbid withJSON:@{@"code":@(0),@"message":@"ok"}];
             [self toSucessCallback:self.onBluetoothAdapterStateChangeCbid withJSON:@{@"available":[NSNumber numberWithBool:true],@"discovering":[NSNumber numberWithBool:false]} keepCallback:YES];        }
     }else{
         [self toErrorCallback:cbid withCode:10000 withMessage:@"not init"];
     }
 }
-
+-(void)dealloc{
+    if(_mBleManager &&[_mBleManager isScaning]){
+        [_mBleManager stopScan];
+        [_tmpDeviceArray removeAllObjects];        
+    }
+}
 
 - (void)onBluetoothAdapterStateChange:(PGMethod*)pMethod{
     NSString* pCbid = [pMethod.arguments objectAtIndex:0];

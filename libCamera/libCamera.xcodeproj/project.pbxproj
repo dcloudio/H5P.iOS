@@ -212,11 +212,12 @@
 			};
 			buildConfigurationList = 17F5CD971727938B00356EE5 /* Build configuration list for PBXProject "libCamera" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				ja,
+				Base,
 			);
 			mainGroup = 17F5CD931727938B00356EE5;
 			productRefGroup = 17F5CD9D1727938B00356EE5 /* Products */;
@@ -303,6 +304,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				VALID_ARCHS = "arm64 arm64e armv7 armv7s x86_64";
 			};
 			name = Debug;
 		};
@@ -344,6 +346,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "arm64 arm64e armv7 armv7s x86_64";
 			};
 			name = Release;
 		};

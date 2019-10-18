@@ -14,10 +14,9 @@
 
 @protocol WXH5VideoContextDelegate<NSObject>
 @optional
-//-(void)sendEvent:(NSString*)type toJsCallback:(NSString*)cbId withParams:(NSDictionary*)params inWebview:(NSString*)webId;
 -(void)sendEvent:(NSString*)type withParams:(NSDictionary*)params;
-- (void)videoPlayerEnterFullScreen;
-- (void)videoPlayerExitFullScreen;
+- (void)videoPlayerEnterFullScreen:(UIInterfaceOrientation)interfaceOrientation;
+- (void)videoPlayerExitFullScreen:(UIInterfaceOrientation)interfaceOrientation;
 @end
 
 @interface WXH5VideoContext :NSObject
@@ -25,12 +24,9 @@
 @property(nonatomic, strong)NSString *userId;
 @property(nonatomic, strong)NSString *webviewId;
 @property(nonatomic, weak)id<WXH5VideoContextDelegate> delegate;
-@property(nonatomic, readonly)WXH5VideoPlayView *videoPlayView;
+@property(nonatomic, strong)WXH5VideoPlayView *videoPlayView;
+@property(nonatomic, strong)UIView *tVideoPlayView;
 - (id)initWithFrame:(CGRect)frame;
 -(void)creatFrame:(CGRect)frame withSetting:(WXH5VideoPlaySetting*)setting withStyles:(NSDictionary *)styles;
-
-- (void)setHostedView:(UIView*)hostedView;
-- (void)setFrame:(CGRect)frame;
 - (void)destroy;
-- (void)setHidden:(BOOL)isHidden;
 @end

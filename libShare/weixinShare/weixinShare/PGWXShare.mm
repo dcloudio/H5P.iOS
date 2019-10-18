@@ -43,7 +43,7 @@
             self.type = @"weixin";
             self.note = @"微信";
             self.sdkErrorURL = @"http://ask.dcloud.net.cn/article/287";
-            _engine = [[WXEngine alloc] initWithAppid:appid];
+            _engine = [[WXEngine alloc] initWithAppid:appid universalLinks:[self getUniversalLink]];
             _engine.wxDelegate = self;
             self.nativeClient = [WXEngine isAppInstalled];
             self.accessToken = nil;

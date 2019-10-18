@@ -31,6 +31,10 @@
                                              selector:@selector(handleOpenURL:)
                                                  name:PDRCoreOpenUrlNotification
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleUniversalLink:)
+                                                 name:PDRCoreOpenUniversalLinksNotification
+                                               object:nil];
 }
 
 - (void)login:(NSString*)cbId withParams:(NSDictionary*)params {
@@ -102,6 +106,10 @@
 
 }
 
+- (void) handleUniversalLink:(NSNotification*)notification {
+
+}
+
 -(NSString*)getAesKey {
     return nil;
 }
@@ -117,6 +125,8 @@
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PDRCoreOpenUrlNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PDRCoreOpenUniversalLinksNotification object:nil];
+  
     [super dealloc];
 }
 

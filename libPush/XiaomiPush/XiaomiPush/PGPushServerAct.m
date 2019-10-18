@@ -51,8 +51,8 @@ extern NSData* Global_TokeData;
 }
 
 
-- (void) onRevDeviceToken:(NSString *)deviceToken {
-    [MiPushSDK bindDeviceToken:[self convertHexStrToData:deviceToken]];
+- (void) onRevDeviceToken:(NSData *)deviceToken {
+    [MiPushSDK bindDeviceToken:deviceToken];
 }
 
 // 当同时启动APNs与内部长连接时, 把两处收到的消息合并. 通过miPushReceiveNotification返回

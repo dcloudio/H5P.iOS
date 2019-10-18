@@ -187,7 +187,7 @@ typedef NS_ENUM(NSInteger, MKeyPushRunState) {
 
 - (void)setDelegate:(id)delegate;
 - (void)initWithAppid:(NSString*)appid withOption:(NSDictionary *)launchingOption;
-- (void)registerDeviceToken:(NSString *)deviceToken toServer:(NSString*)url;
+- (void)registerDeviceToken:(NSData *)deviceToken toServer:(NSString*)url;
 - (void)handleRemoteNotification:(NSDictionary*)remoteInfo;
 
 @end
@@ -227,20 +227,29 @@ typedef NS_ENUM(NSInteger, MKeyPushRunState) {
         { NSLog(@"appid--[%@]--", self.appID);}
     }
 }
-
+-(NSString*)getHexStringForData:(NSData*)data{
+    NSUInteger len = [data length];
+    char *chars = (char *)[data bytes];
+    NSMutableString * hexString = [[NSMutableString alloc]init];
+    for (NSUInteger i=0; i<len; i++) {
+        [hexString appendString:[NSString stringWithFormat:@"%0.2hhx",chars[i]]];
+    }
+    return hexString;
+}
 // 向服务器上报Device Token
-- (void)registerDeviceToken:(NSString *)token toServer:(NSString*)url {
+- (void)registerDeviceToken:(NSData *)token toServer:(NSString*)url {
+    NSString *tokens = [self getHexStringForData:token];
     if ( _state == MKeyPushRunStateInit ) {
         BOOL report = FALSE;
         if ( self.debug )
-        { NSLog(@"设备token--[%@]--post url--[%@]", token, url);}
-        if ( token && url ) {
+        { NSLog(@"设备token--[%@]--post url--[%@]", tokens, url);}
+        if ( tokens && url ) {
             if ( _config.runFirst
-                || NSOrderedSame != [_config.deviceToken compare:token]
+                || NSOrderedSame != [_config.deviceToken compare:tokens]
                 || NSOrderedSame != [_config.url compare:url]
                 || NSOrderedSame != [_config.appID compare:self.appID])
             {
-                _config.deviceToken = token;
+                _config.deviceToken = tokens;
                 _config.url = url;
                 _config.runFirst = NO;
                 _config.appID = self.appID;
@@ -253,7 +262,7 @@ typedef NS_ENUM(NSInteger, MKeyPushRunState) {
                 MKeyPushUtil *util = [MKeyPushUtil util];
                 NSString *body = [NSString stringWithFormat:bodyF,
                                   self.appID,
-                                  token,
+                                  tokens,
                                   util.model,
                                   util.UDID,
                                   (int)util.resolutionHeight,
@@ -477,7 +486,7 @@ willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challe
 }
 
 // 向服务器上报Device Token
-- (void)registerMkeyPushUseDeviceToken:(NSString *)deviceToken toServer:(NSString*)url {
+- (void)registerMkeyPushUseDeviceToken:(NSData *)deviceToken toServer:(NSString*)url {
     [_internal registerDeviceToken:deviceToken toServer:url];
 }
 

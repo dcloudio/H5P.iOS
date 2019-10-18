@@ -351,8 +351,7 @@
         NSLog(@"caches:%@",[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]);
         UIImage* image = [[UIImage alloc]initWithContentsOfFile:jdPath];
         [self callbackjS:cbId :image :jdPath];
-    }
-    
+    }    
 }
 -(void)callbackjS:(NSString *)cbId :(UIImage*)image :(NSString*)jdPath{
     NSString * orientation = @"";
@@ -382,7 +381,7 @@
         }
         width =[NSString stringWithFormat:@"%f", image.size.width];
         height = [NSString stringWithFormat:@"%f", image.size.height];
-        type = [self imageFormat: UIImagePNGRepresentation(image)];
+        type = [NSData dc_imageFormatStr:[UIImagePNGRepresentation(image) dc_imageFormat]];
     }
     
     NSMutableDictionary * results = [NSMutableDictionary new];
@@ -402,15 +401,23 @@
     NSString * jdPath = userInfo[@"jdPath"];
     NSString * path = userInfo[@"path"];
     NSString * cbId = userInfo[@"cbId"];
-    
+    NSData * data = nil;
+    UIImage * newimage =nil;
+    if (image && [image isKindOfClass:[NSData class]]) {
+        data = image;
+        newimage = [UIImage imageWithData: data];
+    }else if(image && [image isKindOfClass:[UIImage class]]){
+        data = UIImagePNGRepresentation(image);
+        newimage = image;
+    }else{
+        [self callbackjS:(NSString*)cbId :newimage :nil];
+        return;
+    }
     NSFileManager* pFileManger = [NSFileManager defaultManager];
     BOOL isDirectory = NO;
-    
-    
     if([pFileManger fileExistsAtPath:jdPath isDirectory:&isDirectory] == NO) {
         [pFileManger createDirectoryAtPath:jdPath withIntermediateDirectories:YES attributes:nil error:nil];
     }
-    
     NSString *hash = [path convertToMD5];
     if ( hash ) {
         NSString *ext = [path pathExtension];
@@ -418,57 +425,15 @@
             hash = [hash stringByAppendingPathExtension:ext];
         }
         jdPath = [jdPath stringByAppendingPathComponent:hash];
-        NSData * data = UIImagePNGRepresentation(image);
-        BOOL isSucc = [data writeToFile:jdPath atomically:YES];
-        if (!isSucc) {
-            image=nil;
-        }
-        [self callbackjS:(NSString*)cbId :image :jdPath];
+        [data writeToFile:jdPath atomically:YES];
+        [self callbackjS:(NSString*)cbId :newimage :jdPath];
     }
 }
--(void)imageloadError:(NSError *)error imagePath:(NSString *)imgPath{
-    //    [self toErrorCallback:imgPath withCode:-1 withMessage:@"下载图片失败"];
+-(void)imageloadError:(NSError *)error userInfo:(id)userInfo{
+    NSString * cbId = userInfo[@"cbId"];
+    [self toErrorCallback:cbId withCode:-1 withMessage:@"下载图片失败"];
 }
 
--(NSString*)imageFormat:(NSData*)data{
-    uint8_t c;
-    [data getBytes:&c length:1];
-    switch (c) {
-        case 0xFF:
-        return @"JPEG";
-        case 0x89:
-        return @"PNG";
-        case 0x47:
-        return @"GIF";
-        case 0x49:
-        case 0x4D:
-        return @"TIFF";
-        case 0x52: {
-            if (data.length >= 12) {
-                //RIFF....WEBP
-                NSString *testString = [[NSString alloc] initWithData:[data subdataWithRange:NSMakeRange(0, 12)] encoding:NSASCIIStringEncoding];
-                if ([testString hasPrefix:@"RIFF"] && [testString hasSuffix:@"WEBP"]) {
-                    return @"WebP";
-                }
-            }
-            break;
-        }
-        case 0x00: {
-            if (data.length >= 12) {
-                //....ftypheic ....ftypheix ....ftyphevc ....ftyphevx
-                NSString *testString = [[NSString alloc] initWithData:[data subdataWithRange:NSMakeRange(4, 8)] encoding:NSASCIIStringEncoding];
-                if ([testString isEqualToString:@"ftypheic"]
-                    || [testString isEqualToString:@"ftypheix"]
-                    || [testString isEqualToString:@"ftyphevc"]
-                    || [testString isEqualToString:@"ftyphevx"]) {
-                    return @"HEIC";
-                }
-            }
-            break;
-        }
-        default: return @"";
-    }
-}
 /*
  *------------------------------------------------------------------
  * @Summary:

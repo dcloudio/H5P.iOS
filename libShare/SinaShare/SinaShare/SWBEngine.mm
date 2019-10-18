@@ -5,7 +5,7 @@
 #import "WeiboSDK.h"
 static NSString *kWBAuthorizeURL = @"https://api.weibo.com/oauth2/authorize";
 static NSString *kPGWBApiKeyAccessToken = @"access_token";
-static NSString *kPGWBApiKeyRrefreshToken = @"refresh_token";
+//static NSString *kPGWBApiKeyRrefreshToken = @"refresh_token";
 static NSString *kPGWBApiKeyExpriesin = @"expires_in";
 #define kRedirectURI    @"https://www.sina.com"
 

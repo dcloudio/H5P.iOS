@@ -22,6 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDictionary *)getUserLocation;
 - (NSDictionary *)getRegion;
 - (NSDictionary *)getScale;
+- (NSDictionary *)getSkew;
+- (NSDictionary *)getRotate;
 - (NSDictionary *)setIncludePoints:(NSDictionary *)info;
 - (NSDictionary *)moveToLocation:(NSDictionary *)info;
 - (void)translateMarker:(NSDictionary *)info block:(void(^)(NSDictionary *))block;

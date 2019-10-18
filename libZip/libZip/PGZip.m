@@ -13,6 +13,7 @@
 #import "PTPathUtil.h"
 #import "PDRCommonString.h"
 #import "PDRToolSystemEx.h"
+#import "UIImage+DCImageExtend.h"
 
 typedef enum {
     PGZCompressImgOutputFormatJPG,
@@ -213,44 +214,26 @@ Error :
                 [weakSelf toErrorCallback:cbId withCode:PGPluginErrorFileNotFound];
                 return;
             }
-            inputImg = [inputImg adjustOrientationToup];
-            [compressParams parseScaleSize:inputImg.size];
-            switch ( compressParams.transform ) {
-                case 90:
-                case 270:
-                    UIGraphicsBeginImageContext(CGSizeMake(compressParams.outputSize.height, compressParams.outputSize.width));
-                    break;
-                default:
-                    UIGraphicsBeginImageContext(compressParams.outputSize);
-                    break;
+            
+            // 图片太大先压缩一下
+            if ([inputImg shouldCompress]) {
+                NSData *imgData = [NSData dataWithContentsOfFile:compressParams.inputPath];
+                inputImg = [UIImage imageFromeData:imgData scaleToWidth:4096];
             }
             
-            CGRect imageRect = CGRectMake(0.0, 0.0, compressParams.outputSize.width, compressParams.outputSize.height);
-            CGContextRef contextRef = UIGraphicsGetCurrentContext();
-            CGImageRef img = inputImg.CGImage;
-            if ( img ) {
-                CGContextTranslateCTM(contextRef, 0, imageRect.size.height);
-                CGContextScaleCTM(contextRef, 1.0, -1.0);
-                switch ( compressParams.transform ) {
-                    case 90:
-                        CGContextTranslateCTM(contextRef, 0, imageRect.size.height);
-                        CGContextRotateCTM(contextRef, 270*M_PI/180);
-                        break;
-                    case 180:
-                        CGContextTranslateCTM(contextRef, imageRect.size.width, imageRect.size.height);
-                        CGContextRotateCTM(contextRef, compressParams.transform*M_PI/180);
-                        break;
-                    case 270:
-                        CGContextTranslateCTM(contextRef, imageRect.size.height,imageRect.size.height-imageRect.size.width);
-                        CGContextRotateCTM(contextRef, 90*M_PI/180);
-                        break;
-                    default:
-                        break;
-                }
-                CGContextDrawImage( contextRef, imageRect, img);
-                outThubmnailImg = UIGraphicsGetImageFromCurrentImageContext();
-            }
-            UIGraphicsEndImageContext();
+            // 矫正图片方向
+            inputImg = [inputImg adjustOrientationUp];
+            
+            [compressParams parseScaleSize:inputImg.size];
+            
+            // 0 不需要旋转
+//            if ( 0 == compressParams.transform) {
+//                outThubmnailImg = inputImg;
+//            } else {
+//                // 旋转图片
+//
+ //           }
+             outThubmnailImg = [inputImg rotationWithAngle:compressParams.transform withZoom:compressParams.outputSize];
             
             // clip image
             if ( outThubmnailImg )
@@ -275,6 +258,7 @@ Error :
                     CGImageRelease(clipImgRef);
                 }
             }
+            
             if ( outThubmnailImg ) {
                 if ( PGZCompressImgOutputFormatJPG == compressParams.outputFormat ) {
                     output = UIImageJPEGRepresentation(outThubmnailImg, compressParams.outputQuality);

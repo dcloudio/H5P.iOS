@@ -10,31 +10,27 @@
 #import <AVFoundation/AVCaptureSession.h>
 #import "PGWXLivePusherComponent.h"
 
-typedef void (^DCLivePushHandle)(NSDictionary* result);
+typedef void (^DCLivePushHandle)(NSDictionary* _Nullable result);
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WXDCLivePusher : PDRNView
 
-@property (nonatomic, retain) NSString* belongFrameID;
-
-@property (nonatomic, strong) NSString*  pushStreamURL;
+@property (nonatomic, copy) NSString*  pushStreamURL;
 @property (nonatomic, assign) WXEDCLiveMode liveMode;
 @property (nonatomic, assign) WXEDCLiveOrientation liveOri;
 @property (nonatomic, assign) int maxbitrate;
 @property (nonatomic, assign) int minbitrate;
-@property (nonatomic, retain) UIImage* waittingImage;
-@property (nonatomic, retain) NSString* waittingImageHash;
-@property (nonatomic, retain) NSMutableArray* pListneerArray;
+//@property (nonatomic, retain) UIImage* waittingImage;
+//@property (nonatomic, retain) NSString* waittingImageHash;
 
-
-@property (nonatomic, assign) BOOL hHasActivePusher;
-@property (nonatomic, assign) BOOL bInLiveing;
+//@property (nonatomic, assign) BOOL hHasActivePusher;
+//@property (nonatomic, assign) BOOL bInLiveing;
 @property (nonatomic, assign) BOOL bBeauty;
 @property (nonatomic, assign) BOOL bCameraEnable;
-@property (nonatomic, assign) BOOL bWhiteCat;
+@property (nonatomic, assign) BOOL bWhiteness;
 @property (nonatomic, assign) BOOL bAutoFocus;
 @property (nonatomic, assign) BOOL bSilence;
-
+@property (nonatomic,copy) NSString * bAspect;
 @property (nonatomic, assign) BOOL bIsPlaying;
 
 
@@ -49,7 +45,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)stop;
 - (void)close;
 - (void)switchCamera;
-- (void)setParentView:(PDRCoreAppFrame*)pFrame;
 - (void)resize:(NSArray*)sizeArg;
 - (void)snapshot:(void(^)(UIImage *photo))completion;
 - (void)orientChange:(AVCaptureVideoOrientation)captureOri;

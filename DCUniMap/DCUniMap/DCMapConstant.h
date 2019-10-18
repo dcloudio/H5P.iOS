@@ -23,6 +23,7 @@ extern NSString *const dc_map_scale;
 extern NSString *const dc_map_showlocation;
 extern NSString *const dc_map_enable3D;
 extern NSString *const dc_map_showCompass;
+extern NSString *const dc_map_showScale;
 extern NSString *const dc_map_enableOverlooking;
 extern NSString *const dc_map_enableZoom;
 extern NSString *const dc_map_enableScroll;
