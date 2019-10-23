@@ -14,7 +14,7 @@
 #import "H5VideoVolumeView.h"
 #import "H5DanmuSwitchView.h"
 #import "H5DanmakuManager.h"
-#import "PDRCorePrivate.h"
+#import "PDRCore.h"
 #import "UIImageView+Video.h"
 #import "SVProgressHUD.h"
 #import <IJKMediaFramework/IJKMediaFramework.h>

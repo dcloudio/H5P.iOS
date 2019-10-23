@@ -14,10 +14,10 @@
  *------------------------------------------------------------------
  */
 #import "PGShareManager.h"
-#import "PDRCoreAppPrivate.h"
+#import "PDRCoreApp.h"
 #import "PDRCoreFeature.h"
 #import "PGShareControl.h"
-#import "PDRCoreAppFramePrivate.h"
+#import "PDRCoreAppFrame.h"
 #import "PDRCommonString.h"
 #import "PTPathUtil.h"
 

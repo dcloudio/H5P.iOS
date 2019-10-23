@@ -14,7 +14,7 @@
  *------------------------------------------------------------------
  */
 #import "PGOauthManager.h"
-#import "PDRCoreAppPrivate.h"
+#import "PDRCoreApp.h"
 #import "PDRCoreFeature.h"
 #import  "PDRCoreAppFrame.h"
 #import  "PDRCommonString.h"

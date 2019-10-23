@@ -18,7 +18,8 @@
 #import "PGMap.h"
 #import "PGObject.h"
 #import "PGMapView.h"
-#import "PDRCoreAppFramePrivate.h"
+#import "PDRCoreAppFrame.h"
+
 
 @implementation PGMapGeoReq
 @synthesize reqType;

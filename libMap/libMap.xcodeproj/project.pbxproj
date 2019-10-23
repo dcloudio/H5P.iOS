@@ -257,13 +257,7 @@
 				ENABLE_BITCODE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "libMap/libMap-Prefix.pch";
-				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Tools",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Managers",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/MiniServer",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/WebviewEngine",
-				);
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../SDK/inc\"";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "-ObjC";
@@ -280,13 +274,7 @@
 				ENABLE_BITCODE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "libMap/libMap-Prefix.pch";
-				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Tools",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Managers",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/MiniServer",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/WebviewEngine",
-				);
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../SDK/inc\"";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "-ObjC";

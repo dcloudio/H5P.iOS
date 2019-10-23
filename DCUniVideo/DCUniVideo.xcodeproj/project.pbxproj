@@ -315,16 +315,16 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../Pandora/libs/Universal";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../SDK/Libs\"/**";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 					MAS_SHORTHAND_GLOBALS,
 				);
 				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../libWeex/Sources\"/**",
-					"\"$(SRCROOT)/../libPDRCore/libPDRCore\"/**",
 					"\"$(SRCROOT)/../DCUniVideoPublic/DCUniVideoPublic\"/**",
+					"\"$(SRCROOT)/../../SDK/inc\"/**",
+					"\"$(SRCROOT)/../../../SDK/inc\"/**",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -338,12 +338,12 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../Pandora/libs/Universal";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../SDK/Libs\"/**";
 				GCC_PREPROCESSOR_DEFINITIONS = MAS_SHORTHAND_GLOBALS;
 				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../libWeex/Sources\"/**",
-					"\"$(SRCROOT)/../libPDRCore/libPDRCore\"/**",
 					"\"$(SRCROOT)/../DCUniVideoPublic/DCUniVideoPublic\"/**",
+					"\"$(SRCROOT)/../../SDK/inc\"/**",
+					"\"$(SRCROOT)/../../../SDK/inc\"/**",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";

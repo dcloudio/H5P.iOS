@@ -521,17 +521,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../Pandora/libs/Universal";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../SDK/Libs\"/**";
 				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../Oauth",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Managers",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/MiniServer",
+					"\"$(SRCROOT)/../../../SDK/inc\"/**",
 				);
-				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../Pandora/libs/Universal";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../SDK/Libs\"/**";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lcrypto",
@@ -546,17 +541,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../Pandora/libs/Universal";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../SDK/Libs\"/**";
 				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../Oauth",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Managers",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/MiniServer",
+					"\"$(SRCROOT)/../../../SDK/inc\"/**",
 				);
-				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../Pandora/libs/Universal";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../SDK/Libs\"/**";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lcrypto",

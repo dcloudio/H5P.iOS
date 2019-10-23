@@ -241,14 +241,10 @@
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				ENABLE_BITCODE = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../Pandora/libs/Universal\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../SDK/Libs\"/**";
 				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
 					"\"$(SRCROOT)/../Oauth\"",
-					"\"$(SRCROOT)/../../libPDRCore/libPDRCore\"/**",
+					"\"$(SRCROOT)/../../../SDK/inc\"/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "-ObjC";
@@ -263,14 +259,10 @@
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				ENABLE_BITCODE = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../Pandora/libs/Universal\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../SDK/Libs\"/**";
 				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
 					"\"$(SRCROOT)/../Oauth\"",
-					"\"$(SRCROOT)/../../libPDRCore/libPDRCore\"/**",
+					"\"$(SRCROOT)/../../../SDK/inc\"/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "-ObjC";

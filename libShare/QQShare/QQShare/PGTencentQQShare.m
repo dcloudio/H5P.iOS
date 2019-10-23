@@ -10,7 +10,7 @@
 #import "PTPathUtil.h"
 #import "PDRCore.h"
 #import <TencentOpenAPI/TencentOAuth.h>
-#import "PDRCoreAppPrivate.h"
+#import "PDRCoreApp.h"
 
 #define kQQShareImageMaxSize 5*1024*1024
 #define kQQSharethumbImageMaxSize 1024*1024

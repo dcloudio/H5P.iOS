@@ -8,7 +8,7 @@
 
 #import "WXH5VideoContext.h"
 #import "Masonry.h"
-#import "PDRCorePrivate.h"
+#import "PDRCore.h"
 
 @interface WXH5VideoContext()<WXH5VideoPlayViewDelegate>
 @property(nonatomic, assign)float curretTime;

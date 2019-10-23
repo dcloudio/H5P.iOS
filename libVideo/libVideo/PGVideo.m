@@ -9,12 +9,12 @@
 #import "PGVideo.h"
 #import "PGMethod.h"
 #import "H5VideoContext.h"
-#import "PDRCoreAppFramePrivate.h"
+#import "PDRCoreAppFrame.h"
 #import "PDRNView.h"
 #import "PDRCommonString.h"
-#import "PDRCoreAppFramePrivate.h"
+
 #import "PDRCoreAppFrame+Layout.h"
-#import "PDRCoreAppWindowPrivate.h"
+#import "PDRCoreAppWindow.h"
 
 @interface H5VideoPlaySetting(VidePlugin)
 -(instancetype)initWithOptions:(NSDictionary*)options;

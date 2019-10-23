@@ -247,18 +247,12 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				DSTROOT = /tmp/iflySpeech.dst;
 				ENABLE_BITCODE = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/../../Pandora/libs/Universal",
-				);
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../SDK/Libs\"/**";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iflySpeech/iflySpeech-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Managers",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/MiniServer",
 					"$(SRCROOT)/../libSpeech",
+					"\"$(SRCROOT)/../../../SDK/inc\"/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "-ObjC";
@@ -275,18 +269,12 @@
 				CONFIGURATION_TEMP_DIR = "$(PROJECT_TEMP_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				DSTROOT = /tmp/iflySpeech.dst;
 				ENABLE_BITCODE = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/../../Pandora/libs/Universal",
-				);
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../SDK/Libs\"/**";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iflySpeech/iflySpeech-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Managers",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/MiniServer",
 					"$(SRCROOT)/../libSpeech",
+					"\"$(SRCROOT)/../../../SDK/inc\"/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "-ObjC";

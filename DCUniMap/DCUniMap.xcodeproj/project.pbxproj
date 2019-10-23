@@ -304,14 +304,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../Pandora/libs/Universal\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../SDK/Libs\"/**";
 				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../libWeex/Sources\"/**",
 					"\"$(SRCROOT)/DCUniAmap/DCUniAmap\"/**",
 					"\"$(SRCROOT)/DCUniBMap/DCUniBMap\"/**",
+					"\"$(SRCROOT)/../../SDK/inc\"/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "-ObjC";
@@ -326,14 +323,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../Pandora/libs/Universal\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../SDK/Libs\"/**";
 				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../libWeex/Sources\"/**",
 					"\"$(SRCROOT)/DCUniAmap/DCUniAmap\"/**",
 					"\"$(SRCROOT)/DCUniBMap/DCUniBMap\"/**",
+					"\"$(SRCROOT)/../../SDK/inc\"/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "-ObjC";

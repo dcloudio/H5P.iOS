@@ -711,7 +711,12 @@
     } else if ( UIImagePickerControllerQualityType640x480 == cameraOptions.resolution ){
         afterSize = 640;
     } else  {
-        return image;
+        if (image.imageOrientation == UIImageOrientationUp) return image;
+        UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
+        [image drawInRect:(CGRect){0, 0, image.size}];
+        UIImage *normalizedImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        return normalizedImage;
     }
     
     CGFloat factor = afterSize/imageSize;

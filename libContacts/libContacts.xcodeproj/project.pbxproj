@@ -251,10 +251,7 @@
 				ENABLE_BITCODE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "libContacts/libContacts-Prefix.pch";
-				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Tools",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
-				);
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../SDK/inc\"/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -270,10 +267,7 @@
 				ENABLE_BITCODE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "libContacts/libContacts-Prefix.pch";
-				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Tools",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
-				);
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../SDK/inc\"/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";

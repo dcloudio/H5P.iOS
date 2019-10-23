@@ -16,7 +16,7 @@
 #import "PGSpeech.h"
 #import <Foundation/Foundation.h>
 #import "PDRCoreFeature.h"
-#import "PDRCoreAppPrivate.h"
+#import "PDRCoreApp.h"
 
 @implementation PGSpeechImp
 

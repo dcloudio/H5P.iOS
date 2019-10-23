@@ -243,15 +243,7 @@
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				ENABLE_BITCODE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"$(SRCROOT)/../libPDRCore/libPDRCore/tools",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Managers",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/MiniServer",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/stream",
-				);
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../SDK/inc\"/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = libOauth;
@@ -265,15 +257,7 @@
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				ENABLE_BITCODE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"$(SRCROOT)/../libPDRCore/libPDRCore/tools",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Managers",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/MiniServer",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/stream",
-				);
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../SDK/inc\"/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = libOauth;

@@ -46,7 +46,8 @@
 @property (copy, nonatomic) HLDisconnectBlock                       disconnectBlock;
 
 @property (strong, nonatomic)   CBCentralManager            *centralManager;        /**< 中心管理器 */
-
+@property (nonatomic, assign)int  mBlueToothState;
+@property (nonatomic,assign)BOOL isFirst;
 /**
  * 每次发送的最大数据长度，因为部分型号的蓝牙打印机一次写入数据过长，会导致打印乱码。
  * iOS 9之后，会调用系统的API来获取特性能写入的最大数据长度。

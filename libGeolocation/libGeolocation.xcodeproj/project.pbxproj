@@ -284,11 +284,7 @@
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "libGeolocation/libGeolocation-Prefix.pch";
-				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Tools",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Managers",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
-				);
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../SDK/inc\"/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -305,11 +301,7 @@
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "libGeolocation/libGeolocation-Prefix.pch";
-				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Tools",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Managers",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
-				);
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../SDK/inc\"/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";

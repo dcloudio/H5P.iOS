@@ -245,15 +245,7 @@
 				ENABLE_BITCODE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "libZip/libZip-Prefix.pch";
-				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Tools",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Managers",
-					"$(SRCROOT)/../libPDRCore/coreSupport/coreSupport/zip",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/MiniServer",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Tools/zip/minizip",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Tools/zip",
-				);
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../SDK/inc\"/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -269,15 +261,7 @@
 				ENABLE_BITCODE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "libZip/libZip-Prefix.pch";
-				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Tools",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Managers",
-					"$(SRCROOT)/../libPDRCore/coreSupport/coreSupport/zip",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/MiniServer",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Tools/zip/minizip",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Tools/zip",
-				);
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../SDK/inc\"/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";

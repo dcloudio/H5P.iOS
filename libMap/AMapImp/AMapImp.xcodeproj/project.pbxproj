@@ -379,21 +379,13 @@
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				ENABLE_BITCODE = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SRCROOT)/../../Pandora/libs/Universal",
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../SDK/Libs\"/**";
 				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Managers",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/MiniServer",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Tools",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/WebviewEngine",
-					"$(SRCROOT)/../libMap/",
+					"$(SRCROOT)/../libMap/**",
+					"\"$(SRCROOT)/../../../SDK/inc\"/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../SDK/Libs\"/**";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -406,21 +398,13 @@
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				ENABLE_BITCODE = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SRCROOT)/../../Pandora/libs/Universal",
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../SDK/Libs\"/**";
 				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Managers",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/MiniServer",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Tools",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/WebviewEngine",
-					"$(SRCROOT)/../libMap/",
+					"$(SRCROOT)/../libMap/**",
+					"\"$(SRCROOT)/../../../SDK/inc\"/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../SDK/Libs\"/**";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

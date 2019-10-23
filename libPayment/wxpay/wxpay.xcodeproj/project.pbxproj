@@ -28,9 +28,9 @@
 		1713AD4A1A3AC182005D1FEE /* libwxpay.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libwxpay.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		1713AD4D1A3AC183005D1FEE /* PGWXPay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGWXPay.h; sourceTree = "<group>"; };
 		1713AD4F1A3AC183005D1FEE /* PGWXPay.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGWXPay.m; sourceTree = "<group>"; };
-		2FACF5891CEED2A70072B954 /* WechatAuthSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WechatAuthSDK.h; sourceTree = "<group>"; };
-		2FACF58A1CEED2A70072B954 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
-		2FACF58B1CEED2A70072B954 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
+		67E584E8236039C6007E6832 /* WechatAuthSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WechatAuthSDK.h; sourceTree = "<group>"; };
+		67E584E9236039C7007E6832 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
+		67E584EA236039C7007E6832 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,22 +63,13 @@
 		1713AD4C1A3AC183005D1FEE /* wxpay */ = {
 			isa = PBXGroup;
 			children = (
-				2FACF5881CEED2A70072B954 /* weixin */,
 				1713AD4D1A3AC183005D1FEE /* PGWXPay.h */,
 				1713AD4F1A3AC183005D1FEE /* PGWXPay.m */,
+				67E584E8236039C6007E6832 /* WechatAuthSDK.h */,
+				67E584E9236039C7007E6832 /* WXApi.h */,
+				67E584EA236039C7007E6832 /* WXApiObject.h */,
 			);
 			path = wxpay;
-			sourceTree = "<group>";
-		};
-		2FACF5881CEED2A70072B954 /* weixin */ = {
-			isa = PBXGroup;
-			children = (
-				2FACF5891CEED2A70072B954 /* WechatAuthSDK.h */,
-				2FACF58A1CEED2A70072B954 /* WXApi.h */,
-				2FACF58B1CEED2A70072B954 /* WXApiObject.h */,
-			);
-			name = weixin;
-			path = ../../../Pandora/inc/weixin;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -255,14 +246,8 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Managers",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/MiniServer",
 					"$(SRCROOT)/../libPayment",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools/json",
+					"\"$(SRCROOT)/../../../SDK/inc\"/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "-ObjC";
@@ -278,14 +263,8 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Managers",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/MiniServer",
 					"$(SRCROOT)/../libPayment",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools/json",
+					"\"$(SRCROOT)/../../../SDK/inc\"/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "-ObjC";

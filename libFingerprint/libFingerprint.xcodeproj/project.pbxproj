@@ -241,7 +241,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ENABLE_BITCODE = NO;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../libPDRCore/libPDRCore\"/**";
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../libPDRCore/libPDRCore\"/**",
+					"\"$(SRCROOT)/../../SDK/inc\"",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -252,7 +255,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ENABLE_BITCODE = NO;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../libPDRCore/libPDRCore\"/**";
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../libPDRCore/libPDRCore\"/**",
+					"\"$(SRCROOT)/../../SDK/inc\"",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

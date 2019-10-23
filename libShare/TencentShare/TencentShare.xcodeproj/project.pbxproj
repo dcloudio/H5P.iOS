@@ -271,17 +271,15 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				DSTROOT = /tmp/TencentShare.dst;
 				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../SDK/Libs\"/**";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TencentShare/TencentShare-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Managers",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/MiniServer",
 					"$(SRCROOT)/../libShare/SBJSON",
 					"$(SRCROOT)/../libShare/SFHFKeychainUtils",
 					"$(SRCROOT)/../libShare/tool",
 					"$(SRCROOT)/../libShare",
+					"\"$(SRCROOT)/../../../SDK/inc\"/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "-ObjC";
@@ -297,17 +295,15 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				DSTROOT = /tmp/TencentShare.dst;
 				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../SDK/Libs\"/**";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TencentShare/TencentShare-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Managers",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/MiniServer",
 					"$(SRCROOT)/../libShare/SBJSON",
 					"$(SRCROOT)/../libShare/SFHFKeychainUtils",
 					"$(SRCROOT)/../libShare/tool",
 					"$(SRCROOT)/../libShare",
+					"\"$(SRCROOT)/../../../SDK/inc\"/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "-ObjC";

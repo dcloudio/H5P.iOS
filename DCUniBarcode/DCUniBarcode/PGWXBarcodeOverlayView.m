@@ -151,7 +151,7 @@ static CGFloat kLineColor[] = {1.0f, 0.0f, 0.0f, 1.0f};
     animation.duration=3.0;//动画持续时间
     animation.autoreverses = YES;
     animation.repeatCount = 99999999;
-    _scanLineLayer.scanbarColor = self.style.scanbarColor;
+//    _scanLineLayer.scanbarColor = self.style.scanbarColor;
     [self.layer insertSublayer:_scanLineLayer atIndex:0];
     [_scanLineLayer addAnimation:animation forKey:@"animation"];
 }
@@ -321,6 +321,7 @@ static CGFloat kLineColor[] = {1.0f, 0.0f, 0.0f, 1.0f};
     _scanLineLayer.frame = CGRectMake(padding.x, padding.y,
                                       cropsize-2*kBorderwidth-2*kScanLineWidth,
                                       kScanLineWidth);
+    _scanLineLayer.scanbarColor = self.style.scanbarColor;
 }
 
 @end

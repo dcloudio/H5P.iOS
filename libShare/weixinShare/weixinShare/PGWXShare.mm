@@ -16,8 +16,8 @@
 #import "PGWXShare.h"
 #import <GameKit/GameKit.h>
 #import "PTPathUtil.h"
-#import "PDRCorePrivate.h"
-#import "PDRCoreAppPrivate.h"
+#import "PDRCore.h"
+#import "PDRCoreApp.h"
 #import "PDRCommonString.h"
 
 @interface  PGWXShare()<WXEngineDelegate>
