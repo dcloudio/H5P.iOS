@@ -32,8 +32,6 @@
 		176C0914182746DB008683DC /* SinaShare-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SinaShare-Prefix.pch"; sourceTree = "<group>"; };
 		176C093A182747FE008683DC /* PGSinaShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSinaShare.h; sourceTree = "<group>"; };
 		176C093B182747FE008683DC /* PGSinaShare.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PGSinaShare.mm; sourceTree = "<group>"; };
-		2FEBD0221D337602002D862B /* WBHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBHttpRequest.h; sourceTree = "<group>"; };
-		2FEBD0271D337602002D862B /* WeiboSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiboSDK.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,7 +74,6 @@
 		176C0912182746DB008683DC /* SinaShare */ = {
 			isa = PBXGroup;
 			children = (
-				2FEBD01D1D337602002D862B /* weibo */,
 				174416BB1B0995FD00E11882 /* SWBEngine.h */,
 				174416BC1B0995FD00E11882 /* SWBEngine.mm */,
 				176C093A182747FE008683DC /* PGSinaShare.h */,
@@ -92,16 +89,6 @@
 				176C0914182746DB008683DC /* SinaShare-Prefix.pch */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		2FEBD01D1D337602002D862B /* weibo */ = {
-			isa = PBXGroup;
-			children = (
-				2FEBD0221D337602002D862B /* WBHttpRequest.h */,
-				2FEBD0271D337602002D862B /* WeiboSDK.h */,
-			);
-			name = weibo;
-			path = ../../../Pandora/inc/weibo;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -262,18 +249,16 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				DSTROOT = /tmp/SinaShare.dst;
 				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../SDK/Libs\"/**";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SinaShare/SinaShare-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Managers",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/MiniServer",
 					"$(SRCROOT)/../libShare/SBJSON",
 					"$(SRCROOT)/../libShare/SFHFKeychainUtils",
 					"$(SRCROOT)/../libShare/tool",
 					"$(SRCROOT)/../libShare",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools/json",
+					"\"$(SRCROOT)/../../../SDK/inc\"/**",
+					"\"$(SRCROOT)/../../SDK/inc\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "-ObjC";
@@ -289,18 +274,16 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				DSTROOT = /tmp/SinaShare.dst;
 				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../SDK/Libs\"/**";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SinaShare/SinaShare-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Managers",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/MiniServer",
 					"$(SRCROOT)/../libShare/SBJSON",
 					"$(SRCROOT)/../libShare/SFHFKeychainUtils",
 					"$(SRCROOT)/../libShare/tool",
 					"$(SRCROOT)/../libShare",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/tools/json",
+					"\"$(SRCROOT)/../../../SDK/inc\"/**",
+					"\"$(SRCROOT)/../../SDK/inc\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "-ObjC";

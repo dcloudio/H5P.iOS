@@ -308,22 +308,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../Pandora/libs/Universal";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../SDK/Libs\"/**";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 					MAS_SHORTHAND_GLOBALS,
 				);
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/tools",
+					"\"$(SRCROOT)/../../SDK/inc\"/**",
 					"\"$(SRCROOT)/../DCUniVideoPublic/DCUniVideoPublic\"/**",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Managers",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/MiniServer",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/WebviewEngine",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/stream",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/nativeview",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/ui",
+					"\"$(SRCROOT)/../../../SDK/inc\"/**",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -336,18 +330,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../Pandora/libs/Universal";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../SDK/Libs\"/**";
 				GCC_PREPROCESSOR_DEFINITIONS = MAS_SHORTHAND_GLOBALS;
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Feature",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/tools",
+					"\"$(SRCROOT)/../../SDK/inc\"/**",
 					"\"$(SRCROOT)/../DCUniVideoPublic/DCUniVideoPublic\"/**",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/Managers",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/MiniServer",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/WebviewEngine",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/stream",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/nativeview",
-					"$(SRCROOT)/../libPDRCore/libPDRCore/ui",
+					"\"$(SRCROOT)/../../../SDK/inc\"/**",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";

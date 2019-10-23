@@ -281,12 +281,10 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../Pandora/libs/Universal";
+				FRAMEWORK_SEARCH_PATHS = "";
 				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../libWeex/Sources\"/**",
-					"\"$(SRCROOT)/../libWeex/WeexPluginManger\"/**",
-					"\"$(SRCROOT)/../libPDRCore/libPDRCore\"/**",
 					"\"$(SRCROOT)/../DCUniZXing/DCUniZXing/ZXingObjC\"/**",
+					"\"$(SRCROOT)/../../SDK/inc\"/**",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -301,12 +299,10 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../Pandora/libs/Universal";
+				FRAMEWORK_SEARCH_PATHS = "";
 				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../libWeex/Sources\"/**",
-					"\"$(SRCROOT)/../libWeex/WeexPluginManger\"/**",
-					"\"$(SRCROOT)/../libPDRCore/libPDRCore\"/**",
 					"\"$(SRCROOT)/../DCUniZXing/DCUniZXing/ZXingObjC\"/**",
+					"\"$(SRCROOT)/../../SDK/inc\"/**",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";

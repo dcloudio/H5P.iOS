@@ -15,8 +15,7 @@
  */
 #import "PDRCoreFeature.h"
 #import "PGPlatbyManager.h"
-#import "PDRCoreAppPrivate.h"
-#import "PDRCoreAppFramePrivate.h"
+#import "PDRCore.h"
 
 @implementation PGPlatbyManager
 

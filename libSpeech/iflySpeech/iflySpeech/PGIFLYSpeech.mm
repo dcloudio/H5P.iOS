@@ -14,7 +14,7 @@
  */
 #import "PGIFLYSpeech.h"
 #import "PDRCore.h"
-#import "PDRCorePrivate.h"
+#import "PDRCore.h"
 #import <iflyMSC/IFlySpeechRecognizer.h>
 
 // 控件的位置

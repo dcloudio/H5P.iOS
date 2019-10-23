@@ -275,12 +275,9 @@
 					PDR_PLUS_SINAWEIBO,
 					PDR_PLUS_TENCENTWEIBO,
 				);
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../libPDRCore/libPDRCore/**";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../SDK/inc\"/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/libShare/sina/sdk\"",
-				);
+				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -299,12 +296,9 @@
 					PDR_PLUS_SINAWEIBO,
 					PDR_PLUS_TENCENTWEIBO,
 				);
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../libPDRCore/libPDRCore/**";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../SDK/inc\"/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/libShare/sina/sdk\"",
-				);
+				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

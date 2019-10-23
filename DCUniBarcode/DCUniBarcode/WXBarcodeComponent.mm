@@ -66,6 +66,8 @@ WX_EXPORT_METHOD(@selector(setFlash:))
     _pattributes = attributes;
     if ( _pattributes && [_pattributes isKindOfClass:[NSDictionary class]]) {
         _barcodeView.overlayView.style = [self JSStyle2Native:_pattributes];
+        [_barcodeView.overlayView setNeedsLayout];
+        [_barcodeView.overlayView setNeedsDisplay];
     }
 }
 - (void)addEvent:(NSString *)eventName {

@@ -318,6 +318,7 @@
 					"\"$(SRCROOT)/../libWeex/Sources/Manager\"",
 					"\"$(SRCROOT)/../libWeex/Sources/Protocol\"",
 					"\"$(SRCROOT)/../libWeex/Sources/Performance\"",
+					"\"$(SRCROOT)/../../SDK/inc\"/**",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -352,6 +353,7 @@
 					"\"$(SRCROOT)/../libWeex/Sources/Manager\"",
 					"\"$(SRCROOT)/../libWeex/Sources/Protocol\"",
 					"\"$(SRCROOT)/../libWeex/Sources/Performance\"",
+					"\"$(SRCROOT)/../../SDK/inc\"/**",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";

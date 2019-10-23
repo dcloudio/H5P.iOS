@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "WXH5VideoPlaySetting.h"
-#import "PDRNView.h"
+
 
 @class WXH5VideoPlayView;
 @protocol WXH5VideoPlayViewDelegate <NSObject>

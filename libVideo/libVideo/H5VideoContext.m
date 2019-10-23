@@ -8,7 +8,7 @@
 
 #import "H5VideoContext.h"
 #import "Masonry.h"
-#import "PDRCorePrivate.h"
+#import "PDRCore.h"
 
 @interface H5VideoContext()<H5VideoPlayViewDelegate> {
     NSMutableDictionary *_listeners;

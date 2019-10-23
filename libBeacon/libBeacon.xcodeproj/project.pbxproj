@@ -28,7 +28,6 @@
 		2FAA59A02175C381004283A6 /* liblibBeacon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibBeacon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FAA59A32175C381004283A6 /* libBeacon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libBeacon.h; sourceTree = "<group>"; };
 		2FAA59A42175C381004283A6 /* libBeacon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = libBeacon.m; sourceTree = "<group>"; };
-		2FAA59FD2175C7D4004283A6 /* PluginConfig.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = PluginConfig.xcconfig; path = ../xcconfig/PluginConfig.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,7 +44,6 @@
 		2FAA59972175C381004283A6 = {
 			isa = PBXGroup;
 			children = (
-				2FAA59FD2175C7D4004283A6 /* PluginConfig.xcconfig */,
 				2FAA59A22175C381004283A6 /* libBeacon */,
 				2FAA59A12175C381004283A6 /* Products */,
 			);
@@ -134,7 +132,6 @@
 /* Begin XCBuildConfiguration section */
 		2FAA59A72175C381004283A6 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2FAA59FD2175C7D4004283A6 /* PluginConfig.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -194,7 +191,6 @@
 		};
 		2FAA59A82175C381004283A6 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2FAA59FD2175C7D4004283A6 /* PluginConfig.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -248,11 +244,12 @@
 		};
 		2FAA59AA2175C381004283A6 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2FAA59FD2175C7D4004283A6 /* PluginConfig.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_STYLE = Automatic;
 				ENABLE_BITCODE = NO;
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../SDK/inc\"";
+				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -267,6 +264,8 @@
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_STYLE = Automatic;
 				ENABLE_BITCODE = NO;
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../SDK/inc\"";
+				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

@@ -12,7 +12,7 @@
 #import "PDRToolSystemEx.h"
 #import "H5CoreJavaScriptText.h"
 #import "PGMap.h"
-#import "PDRCoreAppFramePrivate.h"
+#import "PDRCoreAppFrame.h"
 
 //缩放控件距离地图边界值
 #define PG_MAP_ZOOMCONTROL_GAP 3

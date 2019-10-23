@@ -14,11 +14,13 @@
 #import "WXH5VideoVolumeView.h"
 #import "WXH5DanmuSwitchView.h"
 #import "WXH5DanmakuManager.h"
-#import "PDRCorePrivate.h"
+#import "PDRCore.h"
+#import "PGPlugin.h"
 #import "UIImageView+WXVideo.h"
 #import "SVProgressHUD.h"
 #import <IJKMediaFramework/IJKMediaFramework.h>
 #import "WXConvert.h"
+
 #define wxkH5VidelPlayViewAutoHideBarTimerinterval 8
 #define wxkH5VidelPlayViewBottomButtonSpace 5
 
@@ -1426,7 +1428,9 @@
             [self dismissBuffuingView];
             break;
         }
-        case IJKMPMoviePlaybackStateSeekingForward:{}
+        case IJKMPMoviePlaybackStateSeekingForward:{
+            break;
+        }
         case IJKMPMoviePlaybackStateSeekingBackward: {
             break;
         }

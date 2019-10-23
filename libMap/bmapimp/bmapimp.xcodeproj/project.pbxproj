@@ -287,28 +287,15 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				DSTROOT = /tmp/libMap.dst;
 				ENABLE_BITCODE = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"<Multiple",
-					"values>",
-					"$(PROJECT_DIR)/../../Pandora/libs/Universal",
-				);
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../SDK/Libs\"/**";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "bmapimp/bmapimp-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Tools",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Managers",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/MiniServer",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/WebviewEngine",
 					"$(SRCROOT)/../libMap/",
+					"\"$(SRCROOT)/../../../SDK/inc\"/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/bmapimp/libs/Debug-iphoneos",
-					"$(PROJECT_DIR)/bmapimp/libs/Debug-iphonesimulator",
-					"$(PROJECT_DIR)/bmapimp/libs/Release-iphoneos",
-					"$(PROJECT_DIR)/bmapimp/libs/Release-iphonesimulator",
-				);
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../SDK/Libs\"/**";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = bmapimp;
 				SKIP_INSTALL = YES;
@@ -321,28 +308,15 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				DSTROOT = /tmp/libMap.dst;
 				ENABLE_BITCODE = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"<Multiple",
-					"values>",
-					"$(PROJECT_DIR)/../../Pandora/libs/Universal",
-				);
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../SDK/Libs\"/**";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "bmapimp/bmapimp-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Tools",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Managers",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/MiniServer",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/WebviewEngine",
 					"$(SRCROOT)/../libMap/",
+					"\"$(SRCROOT)/../../../SDK/inc\"/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/bmapimp/libs/Debug-iphoneos",
-					"$(PROJECT_DIR)/bmapimp/libs/Debug-iphonesimulator",
-					"$(PROJECT_DIR)/bmapimp/libs/Release-iphoneos",
-					"$(PROJECT_DIR)/bmapimp/libs/Release-iphonesimulator",
-				);
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../SDK/Libs\"/**";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = bmapimp;
 				SKIP_INSTALL = YES;

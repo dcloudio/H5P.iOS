@@ -11,9 +11,6 @@
 		97C5DD1D22A22BDD00972B5F /* DCMapPosition.m in Sources */ = {isa = PBXBuildFile; fileRef = 97C5DD1C22A22BDD00972B5F /* DCMapPosition.m */; };
 		97C5DD2022A26AED00972B5F /* DCMapLabelModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 97C5DD1F22A26AED00972B5F /* DCMapLabelModel.m */; };
 		97C5DD2322A27C6C00972B5F /* DCMapLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 97C5DD2222A27C6C00972B5F /* DCMapLabel.m */; };
-		97E13A33229923B8002D4C02 /* MAMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97E13A32229923B8002D4C02 /* MAMapKit.framework */; };
-		97E13A36229923C9002D4C02 /* AMapFoundationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97E13A34229923C9002D4C02 /* AMapFoundationKit.framework */; };
-		97E13A37229923C9002D4C02 /* AMapSearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97E13A35229923C9002D4C02 /* AMapSearchKit.framework */; };
 		97F25374229699D800FAE50A /* DCMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 97F2535F229699D700FAE50A /* DCMap.m */; };
 		97F25375229699D800FAE50A /* DCPolygon.m in Sources */ = {isa = PBXBuildFile; fileRef = 97F25361229699D700FAE50A /* DCPolygon.m */; };
 		97F25376229699D800FAE50A /* DCAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97F25363229699D700FAE50A /* DCAnnotationView.m */; };
@@ -25,7 +22,6 @@
 		97F2537C229699D800FAE50A /* DCMapCalloutModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 97F2536D229699D800FAE50A /* DCMapCalloutModel.m */; };
 		97F2537D229699D800FAE50A /* DCPolyline.m in Sources */ = {isa = PBXBuildFile; fileRef = 97F2536F229699D800FAE50A /* DCPolyline.m */; };
 		97F2537E229699D800FAE50A /* DCMapCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97F25371229699D800FAE50A /* DCMapCalloutView.m */; };
-		97F2539022969C2A00FAE50A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97F2538F22969C2A00FAE50A /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -83,10 +79,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				97E13A36229923C9002D4C02 /* AMapFoundationKit.framework in Frameworks */,
-				97E13A37229923C9002D4C02 /* AMapSearchKit.framework in Frameworks */,
-				97E13A33229923B8002D4C02 /* MAMapKit.framework in Frameworks */,
-				97F2539022969C2A00FAE50A /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -352,11 +344,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../Pandora/libs/Universal\"";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../SDK/Libs\"";
 				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../../libWeex/Sources\"/**",
 					"\"$(SRCROOT)/../DCUniMap\"/**",
 					"\"$(SRCROOT)/../../DCUniVideoPublic/DCUniVideoPublic/Masonry\"/**",
+					"\"$(SRCROOT)/../../../SDK/inc\"/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "-ObjC";
@@ -370,11 +362,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../Pandora/libs/Universal\"";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../SDK/Libs\"";
 				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../../libWeex/Sources\"/**",
 					"\"$(SRCROOT)/../DCUniMap\"/**",
 					"\"$(SRCROOT)/../../DCUniVideoPublic/DCUniVideoPublic/Masonry\"/**",
+					"\"$(SRCROOT)/../../../SDK/inc\"/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "-ObjC";

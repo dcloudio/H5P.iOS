@@ -7,7 +7,7 @@
 //
 
 #import "PGBaiduKeyVerify.h"
-#import "PDRCorePrivate.h"
+#import "PDRCore.h"
 #import "PDRCoreAppManager.h"
 #import "PDRCoreAppInfo.h"
 #import "PGPlugin.h"

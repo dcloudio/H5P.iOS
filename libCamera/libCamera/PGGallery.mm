@@ -20,7 +20,7 @@
 #import "PDRCoreWindowManager.h"
 #import "PTPathUtil.h"
 #import "PDRCoreAppInfo.h"
-#import "PDRCorePrivate.h"
+#import "PDRCore.h"
 #import "PDRCoreAppWindow.h"
 #import "PDRCommonString.h"
 #import "PGGalleryProgressHUD.h"

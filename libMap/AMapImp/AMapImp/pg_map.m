@@ -23,7 +23,7 @@
 #import "pg_gis_overlay.h"
 #import "pg_gis_search.h"
 #import "PGObject.h"
-#import "PDRCoreAppFramePrivate.h"
+#import "PDRCoreAppFrame.h"
 
 #import <Mapkit/MKGeometry.h>
 

@@ -8,7 +8,7 @@
 
 #import "UIImageView+WXVideo.h"
 #import "H5CoreImageLoader.h"
-#import "PDRCorePrivate.h"
+#import "PDRCore.h"
 
 @implementation UIImageView(WXH5Video)
 

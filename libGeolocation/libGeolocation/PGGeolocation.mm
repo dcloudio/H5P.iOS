@@ -15,7 +15,6 @@
 */
 #import "PGGeolocation.h"
 #import "PDRCoreWindowManager.h"
-#import "PTLog.h"
 #import "PDRCommonString.h"
 #import <CoreLocation/CoreLocation.h>
 #pragma mark Constants

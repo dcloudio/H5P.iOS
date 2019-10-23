@@ -340,8 +340,8 @@
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = NO;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../libSpeech\"",
-					"\"$(SRCROOT)/../../libPDRCore\"/**",
 					"\"$(SRCROOT)/baiduSpeech/BDSClientHeaders\"/**",
+					"\"$(SRCROOT)/../../../SDK/inc\"/**",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -356,8 +356,8 @@
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = NO;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../libSpeech\"",
-					"\"$(SRCROOT)/../../libPDRCore\"/**",
 					"\"$(SRCROOT)/baiduSpeech/BDSClientHeaders\"/**",
+					"\"$(SRCROOT)/../../../SDK/inc\"/**",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
