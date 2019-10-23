@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript">
+// 页面初始化操作 
+document.addEventListener('plusready', function(e){
+	// 监听iBeacon服务状态变化 
+	plus.ibeacon.onBeaconServiceChange(function(e){
+		outLine('onBeaconServiceChange: available='+e.available+', discovering='+e.discovering);
+	});
+	// 监听iBeacon设备更新 
+	plus.ibeacon.onBeaconUpdate(function(e){
+		var beacons = e.beacons;
+		for(var i in beacons){
+			outLine('onBeaconUpdate: '+beacons[i].uuid);
+		}
+	});
+}, false);
+
+// 开始搜索iBeacon 
+function startDiscovery(){
+	outSet('开始搜索附近的iBeacon设备：');
+	plus.ibeacon.startBeaconDiscovery({
+		success: function(e){
+			outLine('开始搜索成功!');
+		},
+		fail: function(e){
+			outLine('开始搜索失败! '+JSON.stringify(e));
+		}
+	});
+}
+
+// 获取iBeacon设备 
+function getBeacons(){
+	outSet('获取已搜索到的iBeacon设备：');
+	plus.ibeacon.getBeacons({
+		success: function(e){
+			var beacons = e.beacons;
+			outLine('获取iBeacon设备成功! '+beacons.length);
+			for(var i in beacons){
+				outLine(JSON.stringify(beacons[i]));
+			}
+		},
+		failed: function(e){
+			outLine('获取iBeacon设备失败! '+JSON.stringify(e));
+		}
+	});
+}
+
+// 停止搜索iBeacon
+function stopDiscovery(){
+	outSet('停止搜索附近的iBeacon设备：');
+	plus.ibeacon.stopBeaconDiscovery({
+		success: function(e){
+			outLine('停止搜索成功!');
+		},
+		fail: function(e){
+			outLine('停止搜索失败! '+JSON.stringify(e));
+		}
+	});
+}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+	</head>
+	<body>
+		<br/>
+		<div class="button" onclick="startDiscovery()">开始搜索iBeacon</div>
+		<div class="button" onclick="getBeacons()">获取iBeacon设备</div>
+		<div class="button" onclick="stopDiscovery()">停止搜索iBeacon</div>
+		<p class="des">
+			请到存在iBeacon设备环境中测试，或者使用iBeacon设备模拟工具（如<a href="#" onclick="plus.runtime.openWeb('https://app.brtbeacon.com/brightbeacon')">BrightBeacon</a>）。
+		</p>
+		<div id="outpos"/>
+		<div id="output">
+iBeacon可使用低功耗蓝牙搜索附件的iBeacon设备进行微定位等。
+		</div>
+	</body>
+</html>

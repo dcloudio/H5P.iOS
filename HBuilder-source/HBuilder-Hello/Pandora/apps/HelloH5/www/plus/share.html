@@ -1,0 +1,125 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript">
+var shares=null;
+// H5 plus事件处理
+function plusReady(){
+	// 延时获取服务列表，避免影响窗口动画
+	setTimeout(updateSerivces, 500);
+}
+if(window.plus){
+	plusReady();
+}else{
+	document.addEventListener('plusready', plusReady, false);
+}
+/**
+ * 更新分享服务
+ */
+function updateSerivces(){
+	plus.share.getServices(function(s){
+		shares={};
+		for(var i in s){
+			var t=s[i];
+			shares[t.id]=t;
+		}
+	}, function(e){
+		outSet('获取分享服务列表失败：'+e.message);
+	});
+}
+/**
+ * 调用系统分享
+  */
+function shareSystem(){
+	outSet('调用系统分享');
+	var msg={content:sharecontent.value};
+	if('iOS'==plus.os.name){//iOS平台添加链接地址
+		msg.href='http://www.dcloud.io/';
+	}
+	outLine(JSON.stringify(msg));
+	plus.share.sendWithSystem?plus.share.sendWithSystem(msg, function(){
+		outLine('Success');
+		console.log('Success');
+	}, function(e){
+		outLine('Failed: '+JSON.stringify(e));
+		console.log('Failed: '+JSON.stringify(e));
+	}):shareSystemNativeJS();
+}
+function shareSystemNativeJS() {
+	if(plus.os.name!=='Android'){
+		plus.nativeUI.alert('此平台暂不支持系统分享功能!');
+		return;
+	}
+	var intent=new Intent(Intent.ACTION_SEND);
+  intent.setType('text/plain');
+	intent.putExtra(Intent.EXTRA_SUBJECT,'HelloH5');
+	intent.putExtra(Intent.EXTRA_TEXT,sharecontent.value);
+	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	main.startActivity(Intent.createChooser(intent,'系统分享HelloH5'));
+}
+
+// 调用小程序
+function launchMiniProgram(){
+	if(!shares['weixin']){
+		plus.nativeUI.toast('未配置微信分享模块!');
+		return;
+	}
+	shares['weixin'].launchMiniProgram({
+		id: 'gh_33446d7f7a26',		// 小程序原始ID
+		type: 0										// 正式版
+	});
+}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+		<style type="text/css">
+#sharecontent{
+	width:80%;
+	-webkit-user-select:text;
+	border: 1px solid #6C6C6C;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+}
+#pic{
+	width:100px;
+	height:100px;
+	/*border: 1px dashed #CCCCCC;*/
+}
+.sharehref{
+	width:80%;
+	-webkit-user-select:text;
+	border: 1px solid #6C6C6C;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+	margin-bottom: .5em;
+}
+		</style>
+	</head>
+	<body>
+		<br/>
+		<div class="button" onclick="clicked('share_weixin.html')">微信分享</div>
+		<div class="button" onclick="clicked('share_qq.html')">QQ分享</div>
+		<div class="button" onclick="clicked('share_sinaweibo.html')">微博分享</div>
+		<br/>
+		<hr color="#EEE"/>
+		<br/>
+		<p class="heading">分享内容：</p>
+		<textarea id="sharecontent" rows="3">我正在使用HBuilder+HTML5开发移动应用，赶紧跟我一起来体验！</textarea>
+		<br/><br/>
+		<div class="button" onclick="shareSystem()">系统分享</div>
+		<br/>
+		<hr color="#EEE"/>
+		<br/>
+		<p class="heading">需在微信开放平台将应用关联小程序才能正常调用</p>
+		<div class="button" onclick="launchMiniProgram()">调用微信小程序</div>
+		<div id="outpos"/>
+		<div id="output">
+Share模块管理客户端的社交分享功能，提供调用终端社交软件的分享能力。通过plus.share可获取社交分享管理对象。
+		</div>
+	</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+		<meta name="misapplication-tap-highlight" content="no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript">
+// H5 plus事件处理
+var ws=null;
+function plusReady(){
+	ws=plus.webview.currentWebview();
+}
+if(window.plus){
+	plusReady();
+}else{
+	document.addEventListener('plusready', plusReady, false);
+}
+// 设置系统状态栏为深色前景色（黑色文字）
+function darkStyle(){
+	plus.navigator.setStatusBarStyle('dark');
+}
+// 设置系统状态栏为浅色前景色（白色文字）
+function lightStyle(){
+	plus.navigator.setStatusBarStyle('light');
+}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+	</head>
+	<body>
+		<br/>
+		<p class="des">
+			Android平台需要5.0及以上版本支持设置系统状态栏背景颜色。
+		</p>
+		<div class="button" onclick="darkStyle()">系统状态栏黑色样式</div>
+		<div class="button" onclick="lightStyle()">系统状态栏白色样式</div>
+	</body>
+</html>

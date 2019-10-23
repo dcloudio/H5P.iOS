@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript">
+function fullscreen(){
+	outSet( "应用全屏显示！" );
+	plus.navigator.setFullscreen(true);
+}
+function unfullscreen(){
+	outSet( "应用非全屏显示！" );
+	plus.navigator.setFullscreen(false);
+}
+function isfullscreen(){
+	outSet( "是否全屏："+(plus.navigator.isFullscreen()?"是":"否") );
+}
+
+function customerNavigator(){
+	var wn=clicked('navigator_status.html');
+	var bcolor=plus.navigator.getStatusBarBackground();
+	var bstyle=plus.navigator.getStatusBarStyle();
+	wn.addEventListener('close',function(){
+		//页面关闭后状态栏重置回以前的颜色
+		plus.navigator.setStatusBarBackground(bcolor);
+		//页面关闭后状态栏重置回以前的样式
+		plus.navigator.setStatusBarStyle(bstyle);
+	},false);
+}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+	</head>
+	<body>
+		<br/>
+		<ul class="dlist">
+			<li class="ditem" onclick="fullscreen()">全屏显示</li>
+			<li class="ditem" onclick="unfullscreen()">非全屏显示</li>
+			<li class="ditem" onclick="isfullscreen()">是否全屏</li>
+		</ul>
+		<br/>
+		<div class="button" onclick="customerNavigator()">状态栏样式</div>
+		<div id="outpos"/>
+		<div id="output">
+Navigator用于管理浏览器运行环境信息，可用于设置应用全屏显示等。
+		</div>
+	</body>
+</html>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HBuilder debug="true" version="2.3.6.70402">
+	
+	
+	
+	
+	
+	
+	<!--应用节点-->
+	
+	
+	
+	
+	
+	
+	<apps>
+		
+		
+		
+		
+		
+		
+		<app appid="HelloH5" appver="1.0.1"/>
+		
+		
+		
+	
+	
+	
+	</apps>
+	
+	
+	
+
+
+
+</HBuilder>

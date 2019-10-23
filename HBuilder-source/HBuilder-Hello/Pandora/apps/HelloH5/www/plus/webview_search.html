@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>TitleNView Search</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+		<script>
+var ws = null;
+// H5 plus事件处理
+function plusReady(){
+	ws = plus.webview.currentWebview();
+	ws.addEventListener('titleNViewSearchInputChanged', function(e){
+		console.log('titleNViewSearchInputChanged: '+JSON.stringify(e));
+	}, false);
+	ws.addEventListener('titleNViewSearchInputConfirmed', function(e){
+		console.log('titleNViewSearchInputConfirmed: '+JSON.stringify(e));
+	});
+	ws.addEventListener('titleNViewSearchInputClicked', function(e){
+		clickedSearch();
+	}, false);
+}
+document.addEventListener('plusready', plusReady, false);
+
+// 更新按钮文字
+var bSwitch = false;
+function changeButton() {
+	var t = bSwitch?'呼和浩特市':'北京市';
+	bSwitch = !bSwitch;
+	ws.setTitleNViewButtonStyle(1, {text:t});
+}
+
+// 打开搜索界面
+var wsearch = null;
+function clickedSearch(){
+	if(wsearch){	// 避免快速点击打开
+		return;
+	}
+	wsearch = plus.webview.create('webview_searchInput.html', 'searchinput', {
+		scrollIndicator: 'none',
+		backButtonAutoControl: 'close',
+		titleNView: {
+			autoBackButton: false,
+			'padding': '5px',
+			backgroundColor: '#D74B28',
+			buttons: [{
+				text: '取消',
+				color: '#00CCCC',
+				fontSize: '16px',
+				width: '50px',
+				onclick: 'javascript:plus.webview.currentWebview().close("none")'
+			}],
+			searchInput: {
+				align: 'left',
+				backgroundColor: '#EEEEEE',
+				borderRadius: '15px',
+				placeholder: '点击搜索',
+				placeholderColor: '#FF0000',
+				autoFocus: true
+			}
+		}
+	});
+	wsearch.addEventListener('close', function(){
+		wsearch = null;
+	}, false);
+	wsearch.show('fade-in', 300);
+}
+
+// 点击按钮
+function clickedButton(){
+	plus.nativeUI.toast('clicked button!');
+	console.log('clicked button!');
+}
+		</script>
+	</head>
+	<body>
+        <div style="display:flex;">
+			<div style="background-color: #CC0000;width:25%;height:200px;"></div>
+			<div style="background-color: #00CC00;width:25%;height:200px;"></div>
+			<div style="background-color: #0000CC;width:25%;height:200px;"></div>
+			<div style="background-color: #ff8800;width:25%;height:200px;"></div>
+		</div>
+		<br/>
+		<br/>
+		<p>原生标题栏titleNView搜索框示例</p>
+		<br/>
+		<div class="button" onclick="changeButton()">修改标题栏按钮文本</div>
+		<br/>
+		<div style="width:100%;height:1000px"></div>
+	</body>
+</html>

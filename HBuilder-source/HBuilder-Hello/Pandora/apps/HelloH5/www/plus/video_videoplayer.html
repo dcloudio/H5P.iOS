@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript">
+var video = null;
+var playing = false;
+// H5 plus事件处理
+function plusReady(){
+	// 创建视频播放控件
+	video = new plus.video.VideoPlayer('video',{
+		src:'http://hd.yinyuetai.com/uploads/videos/common/0D7601345B999963CD41FB5D5CF356C0.flv'
+	});
+	video.addEventListener('play', function(){
+		updatePlaying(true);
+	}, false);
+	video.addEventListener('pause', function(){
+		updatePlaying(false);
+	}, false);
+}
+document.addEventListener('plusready', plusReady, false);
+// 播放
+function playVideo1() {
+	var path = document.getElementById('path1').value;
+	if(path&&path.length>0) {
+		video.setOptions({src:path});
+		video.play();
+	}
+}
+function playVideo2() {
+	var path = document.getElementById('path2').value;
+	if(path&&path.length>0) {
+		video.setOptions({src:path});
+		video.play();
+	}
+}
+// 更新为播放状态
+function updatePlaying(play) {
+	playing = play;
+	document.getElementById('pp').innerText = playing?'暂停':'播放';
+}
+// 播放/暂停
+function ppVideo() {
+	playing?video.pause():video.play();
+}
+// 全屏
+function fullscreenVideo() {
+	video.requestFullScreen(-90);
+}
+// 创建子创建覆盖在视频控件上
+var wsub = null;
+function createSubview(){
+	if(!wsub) {
+		var topoffset = document.getElementById('video').offsetTop;
+		wsub=plus.webview.create('video_videoplayer_sub.html','sub',{top:topoffset,height:'300px',position:'static',scrollIndicator:'none',background:'transparent'});
+		plus.webview.currentWebview().append(wsub);
+	}
+	wsub.isVisible()?wsub.hide():wsub.show();
+}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+		<style type="text/css">
+input {
+	width:70%;
+	font-size: 16px;
+	padding: .2em .2em;
+	border: 1px solid #00B100;
+	-webkit-user-select: text;
+}
+button {
+	width:20%;
+	margin:6px 0 6px 6px;
+	font-size: 16px;
+	color: #FFF;
+	background-color: #00CC00;
+	border: 1px solid #00B100;
+	padding: .2em 0em;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+
+		</style>
+	</head>
+	<body>
+		<br/>
+		<div id="video" style="width:98%;height:300px;background-color:#000000;margin:auto"></div>
+		<br/>
+		<div style="text-align:center; margin:auto;">
+			<!--<input id="path1" type="text" value="http://vjs.zencdn.net/v/oceans.mp4" placeholder="请输入视频地址，支持mp4/flv格式"/>-->
+			<input id="path1" type="text" value="http://hd.yinyuetai.com/uploads/videos/common/0D7601345B999963CD41FB5D5CF356C0.flv" placeholder="请输入视频地址，支持mp4/flv格式"/>
+			<button onclick="playVideo1()">播放</button>
+			<br/>
+			<input id="path2" type="text" value="rtmp://live.hkstv.hk.lxdns.com/live/hks" placeholder="请输入视频地址，支持rtmp直播"/>
+			<button onclick="playVideo2()">直播</button>
+		</div>
+		<div id="pp" class="button" onclick="ppVideo()">播放</div>
+		<div class="button" onclick="fullscreenVideo()">全屏</div>
+		<div class="button" onclick="createSubview()">控件上内容显示/隐藏</div>
+	</body>
+</html>

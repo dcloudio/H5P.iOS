@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>Search Input</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+		<script>
+var ws = null;
+// H5 plus事件处理
+function plusReady(){
+	ws = plus.webview.currentWebview();
+	ws.addEventListener('titleNViewSearchInputChanged', function(e){
+		console.log('titleNViewSearchInputChanged: '+JSON.stringify(e));
+		document.getElementById('search').innerText = e.text;
+	}, false);
+	ws.addEventListener('titleNViewSearchInputConfirmed', function(e){
+		console.log('titleNViewSearchInputConfirmed: '+JSON.stringify(e));
+		doSearch(e.text);
+	});
+}
+document.addEventListener('plusready', plusReady, false);
+
+// 执行搜索操作
+var wbaidu = null;
+function doSearch(txt){
+	if(wbaidu){	// 避免快速点击打开
+		return;
+	}
+	var url = 'https://m.baidu.com/s?word='+txt;
+	wbaidu = plus.webview.create('https://m.baidu.com/s?word='+txt, 'baidu', {
+		backButtonAutoControl: 'close',
+		popGesture: 'close',
+		progress: {
+			color: '#00CC00',
+			height: '3px'
+		},
+		titleNView: {
+			autoBackButton: true,
+			backgroundColor: '#D74B28',
+			titleText: txt,
+			titleColor: '#CCCCCC'
+		}
+	});
+	wbaidu.addEventListener('close', function(e){
+		wbaidu = false;
+		ws.setTitleNViewSearchInputFocus(true);
+	}, false);
+	ws.setTitleNViewSearchInputFocus(false);
+	wbaidu.show('pop-in');
+}
+		</script>
+	</head>
+	<body>
+		<br/>
+		<p>搜索示例页面</p>
+		<br/>
+		<p style="color:#FF0000;" id="search"></p>
+		<br/>
+	</body>
+</html>

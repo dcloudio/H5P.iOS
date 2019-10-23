@@ -1,0 +1,100 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript">
+var server='http://demo.dcloud.net.cn/helloh5/uploader/upload.php';
+var files=[];
+// 上传文件
+function upload(){
+	if(files.length<=0){
+		plus.nativeUI.alert('没有添加上传文件！');
+		return;
+	}
+	outSet('开始上传：');
+	var wt=plus.nativeUI.showWaiting();
+	var task=plus.uploader.createUpload(server,
+		{method:'POST'},
+		function(t,status){ //上传完成
+			plus.nativeUI.closeWaiting();
+			if(status==200){
+				outLine('上传成功：'+t.responseText);
+				plus.storage.setItem('uploader', t.responseText);
+				clicked('uploader_ret.html');
+			}else{
+				outLine('上传失败：'+status);
+				wt.close();
+			}
+		}
+	);
+	task.addData('client', 'HelloH5+');
+	task.addData('uid', getUid());
+	for(var i=0;i<files.length;i++){
+		var f=files[i];
+		task.addFile(f.path, {key:f.name});
+	}
+	task.start();
+}
+// 拍照添加文件
+function appendByCamera(){
+	plus.camera.getCamera().captureImage(function(p){
+		appendFile(p);
+	});	
+}
+// 从相册添加文件
+function appendByGallery(){
+	plus.gallery.pick(function(p){
+        appendFile(p);
+    });
+}
+// 添加文件
+var index=1;
+function appendFile(p){
+	var fe=document.getElementById("files");
+	var li=document.createElement("li");
+	var n=p.substr(p.lastIndexOf('/')+1);
+	li.innerText=n;
+	fe.appendChild(li);
+	files.push({name:"uploadkey"+index,path:p});
+	index++;
+	empty.style.display="none";
+}
+// 产生一个随机数
+function getUid(){
+	return Math.floor(Math.random()*100000000+10000000).toString();
+}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+	</head>
+	<body>
+		<br/>
+		<p class="heading">上传文件列表：</p>
+		<ul id="files" style="text-align:left;">
+			<p id="empty" style="font-size:12px;color:#C6C6C6;">无上传文件</p>
+		</ul>
+		<table style="width:100%;">
+			<tbody>
+				<tr>
+					<td style="width:40%"><div class="button button-select" onclick="appendByCamera()">拍照</div></td>
+					<td style="width:40%"><div class="button button-select" onclick="appendByGallery()">相册选取</div></td>
+				</tr>
+			</tbody>
+		</table>
+		<br/>
+		<div class="button" onclick="upload()">上 传</div>
+		<br/>
+		<!--<ul class="dlist">
+			<li class="ditem" onclick="appendByCamera()">拍照添加文件</li>
+			<li class="ditem" onclick="appendByGallery()">相册添加文件</li>
+		</ul>-->
+		<div id="outpos"/>
+		<div id="output">
+Uploader用于管理文件的上传，用于从本地上传各种文件到网络服务器，支持跨域访问操作。
+		</div>
+	</body>
+</html>

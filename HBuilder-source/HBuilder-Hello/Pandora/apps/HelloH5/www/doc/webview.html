@@ -1,0 +1,2171 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="HandheldFriendly" content="true">
+<meta name="MobileOptimized" content="320">
+<title>Webview Document</title>
+<link rel="stylesheet" type="text/css" href="res/doc.css" charset="utf-8">
+<link rel="stylesheet" type="text/css" href="res/prettify.sons.css" charset="utf-8">
+<script type="text/javascript" src="res/doc.js" charset="utf-8"></script><script type="text/javascript" src="res/prettify.js" charset="utf-8"></script>
+</head>
+<body><div id="content" class="content">
+<h1><a name="plus.webview">webview</a></h1>
+<p>Webview模块管理应用窗口界面，实现多窗口的逻辑控制管理操作。通过plus.webview可获取应用界面管理对象。</p>
+<h2>方法：</h2>
+<ul>
+<li>
+<a href="#plus.webview.all">all</a>: 获取所有Webview窗口</li>
+<li>
+<a href="#plus.webview.close">close</a>: 关闭Webview窗口</li>
+<li>
+<a href="#plus.webview.create">create</a>: 创建新的Webview窗口</li>
+<li>
+<a href="#plus.webview.currentWebview">currentWebview</a>: 获取当前窗口的WebviewObject对象</li>
+<li>
+<a href="#plus.webview.getDisplayWebview">getDisplayWebview</a>: 获取屏幕所有可视的Webview窗口</li>
+<li>
+<a href="#plus.webview.getWebviewById">getWebviewById</a>: 查找指定标识的WebviewObject窗口</li>
+<li>
+<a href="#plus.webview.getLaunchWebview">getLaunchWebview</a>: 获取应用首页WebviewObject窗口对象</li>
+<li>
+<a href="#plus.webview.getSecondWebview">getSecondWebview</a>: 获取应用第二个首页WebviewObject窗口对象</li>
+<li>
+<a href="#plus.webview.getTopWebview">getTopWebview</a>: 获取应用显示栈顶的WebviewObject窗口对象</li>
+<li>
+<a href="#plus.webview.hide">hide</a>: 隐藏Webview窗口</li>
+<li>
+<a href="#plus.webview.open">open</a>: 创建并打开Webview窗口</li>
+<li>
+<a href="#plus.webview.prefetchURL">prefetchURL</a>: 预载网络页面</li>
+<li>
+<a href="#plus.webview.prefetchURLs">prefetchURLs</a>: 预载网络页面（多个地址）</li>
+<li>
+<a href="#plus.webview.show">show</a>: 显示Webview窗口</li>
+<li>
+<a href="#plus.webview.startAnimation">startAnimation</a>: Webview窗口组合动画</li>
+<li>
+<a href="#plus.webview.defaultHardwareAccelerated">defaultHardwareAccelerated</a>: 获取Webview默认是否开启硬件加速</li>
+</ul>
+<h2>对象：</h2>
+<ul>
+<li>
+<a href="#plus.webview.AnimationTypeShow">AnimationTypeShow</a>: 一组用于定义页面或控件显示动画效果</li>
+<li>
+<a href="#plus.webview.AnimationTypeClose">AnimationTypeClose</a>: 一组用于定义页面或控件关闭的动画效果</li>
+<li>
+<a href="#plus.webview.WebviewObject">WebviewObject</a>: Webview窗口对象，用于操作加载HTML页面的窗口</li>
+<li>
+<a href="#plus.webview.WebviewAnimationOptions">WebviewAnimationOptions</a>: Webview窗口动画参数</li>
+<li>
+<a href="#plus.webview.WebviewAnimationStyles">WebviewAnimationStyles</a>: Webview窗口动画样式</li>
+<li>
+<a href="#plus.webview.WebviewBounceStyle">WebviewBounceStyle</a>: Webview窗口回弹样式</li>
+<li>
+<a href="#plus.webview.WebviewContentAnimationOptions">WebviewContentAnimationOptions</a>: Webview窗口内容动画参数</li>
+<li>
+<a href="#plus.webview.WebviewDock">WebviewDock</a>: 原生控件在窗口中停靠的方式</li>
+<li>
+<a href="#plus.webview.WebviewDragEvent">WebviewDragEvent</a>: Webview窗口滑动事件数据</li>
+<li>
+<a href="#plus.webview.WebviewDragOptions">WebviewDragOptions</a>: 窗口手势操作参数</li>
+<li>
+<a href="#plus.webview.WebviewDragOtherViewOptions">WebviewDragOtherViewOptions</a>: 手势操作关联对象参数</li>
+<li>
+<a href="#plus.webview.WebviewDrawOptions">WebviewDrawOptions</a>: 截屏绘制操作参数</li>
+<li>
+<a href="#plus.webview.WebviewFavoriteOptions">WebviewFavoriteOptions</a>: 窗口收藏参数</li>
+<li>
+<a href="#plus.webview.WebviewLoadDataOptions">WebviewLoadDataOptions</a>: 创建加载HTML数据参数</li>
+<li>
+<a href="#plus.webview.WebviewShareOptions">WebviewShareOptions</a>: 窗口的分享参数</li>
+<li>
+<a href="#plus.webview.WebviewSubNViewStyles">WebviewSubNViewStyles</a>: 窗口原生子View控件样式</li>
+<li>
+<a href="#plus.webview.WebviewTitleNViewStyles">WebviewTitleNViewStyles</a>: 窗口标题栏控件样式</li>
+<li>
+<a href="#plus.webview.WebviewTitleNViewButtonStyles">WebviewTitleNViewButtonStyles</a>: 窗口标题栏自定义按钮样式</li>
+<li>
+<a href="#plus.webview.WebviewProgressStyles">WebviewProgressStyles</a>: 标题栏控件的进度条样式</li>
+<li>
+<a href="#plus.webview.WebviewSplitLineStyles">WebviewSplitLineStyles</a>: 窗口标题栏控件的分割线样式</li>
+<li>
+<a href="#plus.webview.WebviewEvent">WebviewEvent</a>: Webview窗口事件</li>
+<li>
+<a href="#plus.webview.WebviewExtraOptions">WebviewExtraOptions</a>: JSON对象，原生窗口扩展参数</li>
+<li>
+<a href="#plus.webview.WebviewPosition">WebviewPosition</a>: 原生控件在窗口中显示的位置</li>
+<li>
+<a href="#plus.webview.WebviewPullToRefreshStyles">WebviewPullToRefreshStyles</a>: Webview窗口下拉刷新样式</li>
+<li>
+<a href="#plus.webview.WebviewRenderedEventOptions">WebviewRenderedEventOptions</a>: Webview窗口rendered事件参数</li>
+<li>
+<a href="#plus.webview.WebviewReplaceWebApiOptions">WebviewReplaceWebApiOptions</a>: 替换H5标准API配置信息</li>
+<li>
+<a href="#plus.webview.WebviewStatusbarStyles">WebviewStatusbarStyles</a>: JSON对象，Webview窗口的系统状态栏区域样式</li>
+<li>
+<a href="#plus.webview.WebviewStyles">WebviewStyles</a>: JSON对象，Webview窗口对象的样式</li>
+<li>
+<a href="#plus.webview.WebviewTransform">WebviewTransform</a>: 一组用于定义页面或控件变形的属性</li>
+<li>
+<a href="#plus.webview.WebviewTransition">WebviewTransition</a>: 一组用于定义页面或控件转换效果的属性</li>
+<li>
+<a href="#plus.webview.WebviewOverrideResourceOptions">WebviewOverrideResourceOptions</a>: 拦截Webview窗口资源请求的参数</li>
+<li>
+<a href="#plus.webview.WebviewOverrideUrlOptions">WebviewOverrideUrlOptions</a>: 拦截Webview窗口URL请求的属性</li>
+<li>
+<a href="#plus.webview.WebviewListenResourceOptions">WebviewListenResourceOptions</a>: 监听Webview窗口资源加载的属性</li>
+</ul>
+<h2>回调方法：</h2>
+<ul>
+<li>
+<a href="#plus.webview.BounceEventCallback">BounceEventCallback</a>: Webview窗口回弹事件的回调函数</li>
+<li>
+<a href="#plus.webview.EventCallback">EventCallback</a>: Webview窗口事件的回调函数</li>
+<li>
+<a href="#plus.webview.PopGestureCallback">PopGestureCallback</a>: Webview窗口侧滑事件的回调函数</li>
+<li>
+<a href="#plus.webview.HistoryQueryCallback">HistoryQueryCallback</a>: 历史记录查询的回调函数</li>
+<li>
+<a href="#plus.webview.ListenResourceLoadingCallback">ListenResourceLoadingCallback</a>: Webview窗口加载资源事件的回调函数</li>
+<li>
+<a href="#plus.webview.OverrideUrlLoadingCallback">OverrideUrlLoadingCallback</a>: Webview窗口拦截URL链接跳转的回调函数</li>
+<li>
+<a href="#plus.webview.TitleUpdateCallback">TitleUpdateCallback</a>: Webview窗口加载页面标题更新的回调函数</li>
+<li>
+<a href="#plus.webview.WebviewAnimationCallback">WebviewAnimationCallback</a>: Webview窗口组合动画回调函数</li>
+<li>
+<a href="#plus.webview.WebviewDragCallback">WebviewDragCallback</a>: Webview窗口滑屏操作事件回调函数</li>
+<li>
+<a href="#plus.webview.WebviewCustomButtonCallback">WebviewCustomButtonCallback</a>: Webview窗口标题栏上自定义按钮点击事件回调函数</li>
+<li>
+<a href="#plus.webview.SuccessCallback">SuccessCallback</a>: Webview窗口操作成功回调函数</li>
+<li>
+<a href="#plus.webview.ErrorCallback">ErrorCallback</a>: Webview窗口操作失败回调函数</li>
+</ul>
+<h2>权限：</h2>
+<p>5+功能模块（permissions）</p>
+<pre class="prettyprint linenums">
+{
+// ...
+"permissions":{
+	// ...
+	"Webview": {
+		"description": "窗口管理"
+	}
+}
+}
+			</pre>
+<h1><a name="plus.webview.AnimationTypeShow">AnimationTypeShow</a></h1>
+<p>一组用于定义页面或控件显示动画效果</p>
+<h2>常量：</h2>
+<ul>
+<li>"auto": <em>(<font class="type">String</font>
+	类型
+)</em>自动选择动画效果<br><p>
+	自动选择动画效果，使用上次显示窗口设置的动画效果，如果是第一次显示则默认动画效果“none”。
+						</p>
+</li>
+<li>"none": <em>(<font class="type">String</font>
+	类型
+)</em>无动画效果<br><p>
+	立即显示页面，无任何动画效果，页面显示默认的动画效果。
+	此效果忽略动画时间参数，立即显示。
+	对应关闭动画"none"。
+						</p>
+</li>
+<li>"slide-in-right": <em>(<font class="type">String</font>
+	类型
+)</em>从右侧横向滑动效果<br><p>
+	页面从屏幕右侧外向内横向滑动显示。
+	对应关闭动画"slide-out-right"。
+						</p>
+</li>
+<li>"slide-in-left": <em>(<font class="type">String</font>
+	类型
+)</em>从左侧横向滑动效果<br><p>
+	页面从屏幕左侧向右横向滑动显示。
+	对应关闭动画"slide-out-left"。
+						</p>
+</li>
+<li>"slide-in-top": <em>(<font class="type">String</font>
+	类型
+)</em>从上侧竖向滑动效果<br><p>
+	页面从屏幕上侧向下竖向滑动显示。
+	对应关闭动画"slide-out-top"。
+						</p>
+</li>
+<li>"slide-in-bottom": <em>(<font class="type">String</font>
+	类型
+)</em>从下侧竖向滑动效果<br><p>
+	页面从屏幕下侧向上竖向滑动显示。
+	对应关闭动画"slide-out-bottom"。
+						</p>
+</li>
+<li>"fade-in": <em>(<font class="type">String</font>
+	类型
+)</em>从透明到不透明逐渐显示效果<br><p>
+	页面从完全透明到不透明逐渐显示。
+	对应关闭动画"fade-out"。
+						</p>
+</li>
+<li>"zoom-out": <em>(<font class="type">String</font>
+	类型
+)</em>从小到大逐渐放大显示效果<br><p>
+	页面在屏幕中间从小到大逐渐放大显示。
+	对应关闭动画"zoom-in"。
+						</p>
+</li>
+<li>"zoom-fade-out": <em>(<font class="type">String</font>
+	类型
+)</em>从小到大逐渐放大并且从透明到不透明逐渐显示效果<br><p>
+	页面在屏幕中间从小到大逐渐放大并且从透明到不透明逐渐显示。
+	对应关闭动画"zoom-fade-in"。
+						</p>
+</li>
+<li>"pop-in": <em>(<font class="type">String</font>
+	类型
+)</em>从右侧平移入栈动画效果<br><p>
+	页面从屏幕右侧滑入显示，同时上一个页面带阴影效果从屏幕左侧滑出隐藏。
+	对应关闭动画"pop-out"。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.webview.AnimationTypeClose">AnimationTypeClose</a></h1>
+<p>一组用于定义页面或控件关闭的动画效果</p>
+<h2>常量：</h2>
+<ul>
+<li>"auto": <em>(<font class="type">String</font>
+	类型
+)</em>自动选择动画效果<br><p>
+	自动选择显示窗口相对于的动画效果。
+						</p>
+</li>
+<li>"none": <em>(<font class="type">String</font>
+	类型
+)</em>无动画<br><p>
+	立即关闭页面，无任何动画效果。
+	此效果忽略动画时间参数，立即关闭。
+						</p>
+</li>
+<li>"slide-out-right": <em>(<font class="type">String</font>
+	类型
+)</em>横向向右侧滑出屏幕动画<br><p>
+	页面从屏幕中横向向右侧滑动到屏幕外关闭。
+						</p>
+</li>
+<li>"slide-out-left": <em>(<font class="type">String</font>
+	类型
+)</em>横向向左侧滑出屏幕动画<br><p>
+	页面从屏幕中横向向左侧滑动到屏幕外关闭。
+						</p>
+</li>
+<li>"slide-out-top": <em>(<font class="type">String</font>
+	类型
+)</em>竖向向上侧滑出屏幕动画<br><p>
+	页面从屏幕中竖向向上侧滑动到屏幕外关闭。
+						</p>
+</li>
+<li>"slide-out-bottom": <em>(<font class="type">String</font>
+	类型
+)</em>竖向向下侧滑出屏幕动画<br><p>
+	页面从屏幕中竖向向下侧滑动到屏幕外关闭。
+						</p>
+</li>
+<li>"fade-out": <em>(<font class="type">String</font>
+	类型
+)</em>从不透明到透明逐渐隐藏动画<br><p>
+	页面从不透明到透明逐渐隐藏关闭。
+						</p>
+</li>
+<li>"zoom-in": <em>(<font class="type">String</font>
+	类型
+)</em>从大逐渐缩小关闭动画<br><p>
+	页面逐渐向页面中心缩小关闭。
+						</p>
+</li>
+<li>"zoom-fade-in": <em>(<font class="type">String</font>
+	类型
+)</em>从大逐渐缩小并且从不透明到透明逐渐隐藏关闭动画<br><p>
+	页面逐渐向页面中心缩小并且从不透明到透明逐渐隐藏关闭。
+						</p>
+</li>
+<li>"pop-out": <em>(<font class="type">String</font>
+	类型
+)</em>从右侧平移出栈动画效果<br><p>
+	页面从屏幕右侧滑出消失，同时上一个页面带阴影效果从屏幕左侧滑入显示。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.webview.WebviewObject">WebviewObject</a></h1>
+<p>Webview窗口对象，用于操作加载HTML页面的窗口</p>
+<h2>属性：</h2>
+<ul><li>
+<a href="#plus.webview.WebviewObject.id">id</a>: Webview窗口的标识</li></ul>
+<h2>方法：</h2>
+<ul>
+<li>
+<a href="#plus.webview.WebviewObject.addEventListener">addEventListener</a>: 添加事件监听器</li>
+<li>
+<a href="#plus.webview.WebviewObject.append">append</a>: 在Webview窗口中添加子窗口</li>
+<li>
+<a href="#plus.webview.WebviewObject.appendJsFile">appendJsFile</a>: 添加Webview窗口预加载js文件</li>
+<li>
+<a href="#plus.webview.WebviewObject.animate">animate</a>: Webview窗口内容动画</li>
+<li>
+<a href="#plus.webview.WebviewObject.back">back</a>: 后退到上次加载的页面</li>
+<li>
+<a href="#plus.webview.WebviewObject.beginPullToRefresh">beginPullToRefresh</a>: 开始Webview窗口的下拉刷新</li>
+<li>
+<a href="#plus.webview.WebviewObject.canBack">canBack</a>: 查询Webview窗口是否可后退</li>
+<li>
+<a href="#plus.webview.WebviewObject.canForward">canForward</a>: 查询Webview窗口是否可前进</li>
+<li>
+<a href="#plus.webview.WebviewObject.checkRenderedContent">checkRenderedContent</a>: 检测Webview窗口是否渲染完成</li>
+<li>
+<a href="#plus.webview.WebviewObject.children">children</a>: 获取Webview窗口的所有子Webview窗口</li>
+<li>
+<a href="#plus.webview.WebviewObject.clear">clear</a>: 清空原生Webview窗口加载的内容</li>
+<li>
+<a href="#plus.webview.WebviewObject.close">close</a>: 关闭Webview窗口</li>
+<li>
+<a href="#plus.webview.WebviewObject.drag">drag</a>: 设置Webview窗口的滑屏操作手势</li>
+<li>
+<a href="#plus.webview.WebviewObject.draw">draw</a>: 截屏绘制</li>
+<li>
+<a href="#plus.webview.WebviewObject.endPullToRefresh">endPullToRefresh</a>: 结束Webview窗口的下拉刷新</li>
+<li>
+<a href="#plus.webview.WebviewObject.evalJS">evalJS</a>: 在Webview窗口中执行JS脚本</li>
+<li>
+<a href="#plus.webview.WebviewObject.forward">forward</a>: 前进到上次加载的页面</li>
+<li>
+<a href="#plus.webview.WebviewObject.getFavoriteOptions">getFavoriteOptions</a>: 获取Webview窗口的收藏参数</li>
+<li>
+<a href="#plus.webview.WebviewObject.getShareOptions">getShareOptions</a>: 获取Webview窗口的分享参数</li>
+<li>
+<a href="#plus.webview.WebviewObject.getStyle">getStyle</a>: 获取Webview窗口的样式</li>
+<li>
+<a href="#plus.webview.WebviewObject.getSubNViews">getSubNViews</a>: 获取Webview窗口的原生子View控件对象</li>
+<li>
+<a href="#plus.webview.WebviewObject.getTitle">getTitle</a>: 获取Webview窗口加载HTML页面的标题</li>
+<li>
+<a href="#plus.webview.WebviewObject.getTitleNView">getTitleNView</a>: 获取Webview窗口的标题栏控件对象</li>
+<li>
+<a href="#plus.webview.WebviewObject.getURL">getURL</a>: 获取Webview窗口加载HTML页面的地址</li>
+<li>
+<a href="#plus.webview.WebviewObject.hide">hide</a>: 隐藏Webview窗口</li>
+<li>
+<a href="#plus.webview.WebviewObject.interceptTouchEvent">interceptTouchEvent</a>: 是否拦截Webview窗口的触屏事件</li>
+<li>
+<a href="#plus.webview.WebviewObject.isHardwareAccelerated">isHardwareAccelerated</a>: 查询Webview窗口是否开启硬件加速</li>
+<li>
+<a href="#plus.webview.WebviewObject.isVisible">isVisible</a>: 查询Webview窗口是否可见</li>
+<li>
+<a href="#plus.webview.WebviewObject.listenResourceLoading">listenResourceLoading</a>: 监听页面开始加载资源</li>
+<li>
+<a href="#plus.webview.WebviewObject.loadData">loadData</a>: 加载新HTML数据</li>
+<li>
+<a href="#plus.webview.WebviewObject.loadURL">loadURL</a>: 加载新URL页面</li>
+<li>
+<a href="#plus.webview.WebviewObject.nativeInstanceObject">nativeInstanceObject</a>: 获取Webview窗口对象的原生（Native.JS）实例对象</li>
+<li>
+<a href="#plus.webview.WebviewObject.opened">opened</a>: 获取在当前Webview窗口中创建的所有窗口</li>
+<li>
+<a href="#plus.webview.WebviewObject.opener">opener</a>: 获取当前Webview窗口的创建者</li>
+<li>
+<a href="#plus.webview.WebviewObject.overrideResourceRequest">overrideResourceRequest</a>: 拦截Webview窗口的资源加载</li>
+<li>
+<a href="#plus.webview.WebviewObject.overrideUrlLoading">overrideUrlLoading</a>: 拦截Webview窗口的URL请求</li>
+<li>
+<a href="#plus.webview.WebviewObject.parent">parent</a>: 获取当前Webview窗口的父窗口</li>
+<li>
+<a href="#plus.webview.WebviewObject.reload">reload</a>: 重新加载Webview窗口显示的HTML页面</li>
+<li>
+<a href="#plus.webview.WebviewObject.resetBounce">resetBounce</a>: 重置Webview窗口的回弹位置</li>
+<li>
+<a href="#plus.webview.WebviewObject.restore">restore</a>: 恢复Webview控件显示内容</li>
+<li>
+<a href="#plus.webview.WebviewObject.remove">remove</a>: 移除子Webview窗口</li>
+<li>
+<a href="#plus.webview.WebviewObject.removeEventListener">removeEventListener</a>: 移除Webview窗口事件监听器</li>
+<li>
+<a href="#plus.webview.WebviewObject.removeFromParent">removeFromParent</a>: 从父窗口中移除</li>
+<li>
+<a href="#plus.webview.WebviewObject.setBounce">setBounce</a>: 设置Webview窗口的回弹效果</li>
+<li>
+<a href="#plus.webview.WebviewObject.setBlockNetworkImage">setBlockNetworkImage</a>: 设置Webview窗口是否阻塞加载页面中使用的网络图片</li>
+<li>
+<a href="#plus.webview.WebviewObject.setContentVisible">setContentVisible</a>: 设置HTML内容是否可见</li>
+<li>
+<a href="#plus.webview.WebviewObject.setFavoriteOptions">setFavoriteOptions</a>: 设置Webview窗口的收藏参数</li>
+<li>
+<a href="#plus.webview.WebviewObject.setPullToRefresh">setPullToRefresh</a>: 设置Webview窗口的下拉刷新效果</li>
+<li>
+<a href="#plus.webview.WebviewObject.setRenderedEventOptions">setRenderedEventOptions</a>: 设置Webview窗口rendered事件参数</li>
+<li>
+<a href="#plus.webview.WebviewObject.setStyle">setStyle</a>: 设置Webview窗口的样式</li>
+<li>
+<a href="#plus.webview.WebviewObject.setShareOptions">setShareOptions</a>: 设置Webview窗口的分享参数</li>
+<li>
+<a href="#plus.webview.WebviewObject.setJsFile">setJsFile</a>: 设置预加载的JS文件</li>
+<li>
+<a href="#plus.webview.WebviewObject.setCssFile">setCssFile</a>: 设置预加载的CSS文件</li>
+<li>
+<a href="#plus.webview.WebviewObject.setCssText">setCssText</a>: 设置预加载的CSS内容</li>
+<li>
+<a href="#plus.webview.WebviewObject.setVisible">setVisible</a>: 设置Webview窗口是否可见</li>
+<li>
+<a href="#plus.webview.WebviewObject.setFixBottom">setFixBottom</a>: 设置Webview窗口底部修复区域高度</li>
+<li>
+<a href="#plus.webview.WebviewObject.show">show</a>: 显示Webview窗口</li>
+<li>
+<a href="#plus.webview.WebviewObject.showBehind">showBehind</a>: 在指定Webview窗口后显示</li>
+<li>
+<a href="#plus.webview.WebviewObject.stop">stop</a>: 停止加载HTML页面内容</li>
+<li>
+<a href="#plus.webview.WebviewObject.updateSubNViews">updateSubNViews</a>: 更新Webview窗口的原生子View控件对象</li>
+</ul>
+<h2>事件：</h2>
+<ul>
+<li>
+<a href="#plus.webview.WebviewObject.onclose">onclose</a>: Webview窗口关闭事件</li>
+<li>
+<a href="#plus.webview.WebviewObject.onerror">onerror</a>: Webview窗口错误事件</li>
+<li>
+<a href="#plus.webview.WebviewObject.onloaded">onloaded</a>: Webview窗口页面加载完成事件</li>
+<li>
+<a href="#plus.webview.WebviewObject.onloading">onloading</a>: Webview窗口页面开始加载事件</li>
+</ul>
+<h1><a name="plus.webview.WebviewAnimationOptions">WebviewAnimationOptions</a></h1>
+<p>Webview窗口动画参数</p>
+<pre class="prettyprint linenums">
+interface WebviewAnimationOptions {
+	attribute WebviewObject view;
+	attribute WebviewAnimationStyles styles;
+	attribute String action;
+}				</pre>
+<h2>说明：</h2>
+<p class="des">
+	用于指定动画目标窗口，起始位置、目标位置等信息。
+				</p>
+<h2>属性：</h2>
+<ul>
+<li>view: <em>(<a href="#plus.webview.WebviewObject">WebviewObject</a>
+	类型
+)</em>执行动画的窗口对象<br><p>
+	可取值Webview窗口对象、Webview窗口的id（String类型）、原生View窗口对象（plus.nativeObj.View）。
+						</p>
+</li>
+<li>styles: <em>(<a href="#plus.webview.WebviewAnimationStyles">WebviewAnimationStyles</a>
+	类型
+)</em>动画样式<br><p>
+	用于指定动画窗口的起始位置，目标位置等。
+						</p>
+</li>
+<li>action: <em>(<font class="type">String</font>
+	类型
+)</em>窗口动画完成后的行为<br><p>
+	可取值：
+	"none" - 动画完成后不做任何操作；
+	"hide" - 动画完成后隐藏窗口；
+	"close" - 动画完成后关闭窗口。
+	默认值为"none"。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.webview.WebviewAnimationStyles">WebviewAnimationStyles</a></h1>
+<p>Webview窗口动画样式</p>
+<pre class="prettyprint linenums">
+interface WebviewAnimationStyles {
+	attribute String fromLeft;
+	attribute String toLeft;
+}				</pre>
+<h2>说明：</h2>
+<p class="des">
+	用于指定动画窗口的起始位置、目标位置等信息。
+				</p>
+<h2>属性：</h2>
+<ul>
+<li>fromLeft: <em>(<font class="type">String</font>
+	类型
+)</em>画窗口的起始左侧位置<br><p>
+	支持百分比、像素值，默认值为当前窗口的位置。
+						</p>
+</li>
+<li>toLeft: <em>(<font class="type">String</font>
+	类型
+)</em>画窗口的目标左侧位置<br><p>
+	持百分比、像素值。
+	注意：如果设置的位置与起始位置一直，则无动画效果。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.webview.WebviewBounceStyle">WebviewBounceStyle</a></h1>
+<p>Webview窗口回弹样式</p>
+<h2>属性：</h2>
+<ul>
+<li>position: <em>(<font class="type">JSON</font>
+	类型
+)</em>Webview窗口支持回弹效果的方向<br><p>
+	可通过此参数设置开启Webview哪个方向支持回弹效果。
+	支持以下属性：
+	top：表示窗口顶部支持回弹效果；
+	left：表示窗口左侧支持回弹效果；
+	right：表示窗口右侧支持回弹效果；
+	bottom：表示窗口底部支持回弹效果。
+	**目前仅支持top属性**
+	属性值：用于指定可拖拽的范围，可取百分比，如"10%"；像素值，如"100px"；自动计算值，如"auto"；无回弹效果值，如"none"；
+						</p>
+</li>
+<li>changeoffset: <em>(<font class="type">JSON</font>
+	类型
+)</em>Webview窗口回弹时停靠的位置<br><p>
+	开启窗口回弹效果后，当窗口中展现的内容滚动到头（顶部或底部）时，再拖拽时窗口整体内容将跟随移动，拖拽过程中将触发"dragBounce"事件，松开后自动回弹到停靠位置。
+	支持以下属性：
+	top：表示窗口顶部回弹时停靠的位置。
+	属性值：用于指定窗口回弹的位置，可取百分比，如"5%"；像素值，如"100px"；自动计算值，如"auto"，默认为可拖拽的范围值的一半；
+						</p>
+</li>
+<li>slideoffset: <em>(<font class="type">JSON</font>
+	类型
+)</em>Webview窗口侧滑时停靠的位置<br><p>
+	开启窗口回弹效果后，当窗口中展现的内容滚动到头（左侧或右侧）时，在拖拽时窗口整体内容将跟随移动，松开后自动停靠的侧滑位置，并触发"slideBounce"事件。
+	支持以下属性：
+	left：表示窗口左侧侧滑的位置；
+	right：表示窗口右侧侧滑的位置。
+	属性值：用于指定滑动后停靠的距离，可取百分比（left/right相对于窗口的宽度，top/bottom相对于窗口的高度），如"30%"；像素值，如"100px"；自动计算值，为可拖拽范围，如"auto"。
+						</p>
+</li>
+<li>offset: <em>(<font class="type">JSON</font>
+	类型
+)</em>Webview窗口拖拽偏移的位置<br><p>
+	开启窗口回弹效果后，可以通过此属性值来主动设置拖拽的偏移位置，与手动操作拖拽至此偏移位置松开后的逻辑一致。
+	支持以下属性：
+	top：表示窗口顶部偏移的位置；
+	left：表示窗口左侧偏移的位置；
+	right：表示窗口右侧偏移的位置；
+	bottom：表示窗口底部偏移的位置。
+	属性值：用于指定偏移的位置，可取百分比，如"5%"；像素值，如"100px"；有效值范围为0到position属性定义的位置。
+						</p>
+</li>
+<li>preventTouchEvent: <em>(<font class="type">Boolean</font>
+	类型
+)</em>Webview窗口是否阻止touch事件传递给DOM元素<br><p>
+	设置为true表示阻止touch事件，设置为false表示不阻止touch事件。当开启侧滑功能（左侧滑和右侧滑）时默认值为true，否则为false。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.webview.WebviewContentAnimationOptions">WebviewContentAnimationOptions</a></h1>
+<p>Webview窗口内容动画参数</p>
+<pre class="prettyprint linenums">
+interface WebviewAnimationOptions {
+	attribute String type;
+	attribute Number duration;
+	attribute Number frames;
+	attribute Rect region;
+}				</pre>
+<h2>说明：</h2>
+<p class="des">
+	指定动画的类型、持续时间等信息。
+				</p>
+<h2>属性：</h2>
+<ul>
+<li>type: <em>(<font class="type">String</font>
+	类型
+)</em>动画类型<br><p>
+	可取值："shrink" - 从上到下分块收缩清除窗口动画。
+						</p>
+</li>
+<li>duration: <em>(<font class="type">Number</font>
+	类型
+)</em>动画持续时间<br><p>
+	单位为毫秒，默认值为200ms。
+						</p>
+</li>
+<li>frames: <em>(<font class="type">Number</font>
+	类型
+)</em>动画帧数<br><p>
+	必须为大于0的整数，默认值为12。
+						</p>
+</li>
+<li>region: <em>(<font class="type">json</font>
+	类型
+)</em>动画作用区域<br><p>
+	支持以下属性：
+	top - 区域距离控件顶部的偏移量，属性值可取像素值（如"100px"），百分比（如"10%"，相对于控件的高度）,默认值为'0px'；
+	bottom - 区域距离控件底部的偏移量，属性值可取像素值（如"100px"），百分比（如"10%"，相对于控件的高度）,默认值为'0px'；
+	left - 区域距离控件左侧的偏移量，属性值可取像素值（如"100px"），百分比（如"10%"，相对于控件的宽度）,默认值为'0px'；
+	right - 区域距离控件右侧的偏移量，属性值可取像素值（如"100px"），百分比（如"10%"，相对于控件的宽度）,默认值为'0px'。
+	如“{top:'44px',bottom:'48px'}”。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.webview.WebviewDock">WebviewDock</a></h1>
+<p>原生控件在窗口中停靠的方式</p>
+<h2>常量：</h2>
+<ul>
+<li>"top": <em>(<font class="type">String</font>
+	类型
+)</em>控件停靠则页面顶部<br>
+</li>
+<li>"bottom": <em>(<font class="type">String</font>
+	类型
+)</em>控件停靠在页面底部<br>
+</li>
+<li>"right": <em>(<font class="type">String</font>
+	类型
+)</em>控件停靠在页面右侧<br>
+</li>
+<li>"left": <em>(<font class="type">String</font>
+	类型
+)</em>控件停靠在页面左侧<br>
+</li>
+</ul>
+<h1><a name="plus.webview.WebviewDragEvent">WebviewDragEvent</a></h1>
+<p>Webview窗口滑动事件数据</p>
+<h2>属性：</h2>
+<ul>
+<li>direction: <em>(<font class="type">String</font>
+	类型
+)</em>手势类型<br><p>
+	可取值：
+	"rtl" - 从右向左滑动手势；
+	"left" - 向左滑动手势，与rtl一致；
+	"ltr" - 从左向右滑动手势；
+	"right" - 向右滑动手势，与ltr一致。
+						</p>
+</li>
+<li>type: <em>(<font class="type">String</font>
+	类型
+)</em>窗口滑动类型<br><p>
+	可取值：
+	"start" - 表示开始滑动操作；
+	"move" - 表示正在滑动；
+	"end" - 表示滑动操作结束。
+						</p>
+</li>
+<li>result: <em>(<font class="type">String</font>
+	类型
+)</em>窗口滑动结果<br><p>
+	可取值：
+	"true" - 表示滑动操作成功；
+	"false" - 表示滑动操作失败（恢复到滑动前的状态）；
+	"undefined" - 无状态值（当type值为"end"时返回此值）。
+						</p>
+</li>
+<li>id: <em>(<font class="type">String</font>
+	类型
+)</em>当前操作窗口标识<br><p>
+	当type值为"start"/"move"时，保存当前操作窗口（或View控件）的标识；
+	当type值为"end"时保存滑动操作后显示窗口（或View控件）的标识（即result值为"true"则认为关联窗口显示，result值为false则认为主窗口显示）。
+						</p>
+</li>
+<li>otherId: <em>(<font class="type">String</font>
+	类型
+)</em>关联窗口标识<br><p>
+	滑动操作关联窗口（或View控件）的标识。
+						</p>
+</li>
+<li>targetId: <em>(<font class="type">String</font>
+	类型
+)</em>主窗口标识<br><p>
+	滑动操作主窗口（或View控件）的标识。
+						</p>
+</li>
+<li>progress: <em>(<font class="type">Number</font>
+	类型
+)</em>滑动进度<br><p>
+	滑动进度位置信息，取值范围为0-100，如20表示滑动了总距离的20%：
+	当type值为"start"时progress值为0；
+	当type值为"end"时如果result为true则progress值为0，如果result为false则progress值为100；
+	当type值为"move"时，保存当前滑动的进度信息（注：多次触发move事件）。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.webview.WebviewDragOptions">WebviewDragOptions</a></h1>
+<p>窗口手势操作参数</p>
+<h2>属性：</h2>
+<ul>
+<li>callbackStep: <em>(<font class="type">Number</font>
+	类型
+)</em>滑屏操作回调事件触发步长<br><p>
+	用于设置滑屏回调事件触发频率，取值范围为1-100，值越小触发频率越高，值越大触发频率越小，默认值为20。
+	如设置值为20，则表示滑屏操作移动距离超过可移动范围的20%则触发一次回调事件，可通过回调函数参数（WebviewDragEvent）的progress属性获取。
+	注意：触发频率过大会影响效率，开发者需谨慎设置此值。
+						</p>
+</li>
+<li>direction: <em>(<font class="type">String</font>
+	类型
+)</em>设置的手势类型<br><p>
+	可取值：
+	可取值：
+	"rtl" - 从右向左滑动手势；
+	"left" - 向左滑动手势，与rtl一致；
+	"ltr" - 从左向右滑动手势；
+	"right" - 向右滑动手势，与ltr一致。
+						</p>
+</li>
+<li>moveMode: <em>(<font class="type">String</font>
+	类型
+)</em>滑动手势模式<br><p>
+	可取值：
+	"followFinger" - 当前Webview窗口跟随手指滑动；
+	"silent" - 当前Webview窗口不跟随手指滑动；
+	"bounce" - 当前Webview窗口自动回弹（松手后窗口恢复到拖动前的位置）,通常可通过设置此模式来实现Tab项无法继续滑动切换自动回弹效果。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.webview.WebviewDragOtherViewOptions">WebviewDragOtherViewOptions</a></h1>
+<p>手势操作关联对象参数</p>
+<h2>属性：</h2>
+<ul>
+<li>view: <em>(<font class="type">String</font>
+	类型
+)</em>手势关联对象<br><p>
+	可取值Webview窗口的id（String类型）、Webview窗口对象、原生View窗口对象（plus.nativeObj.View）。
+						</p>
+</li>
+<li>moveMode: <em>(<font class="type">String</font>
+	类型
+)</em>滑动模式<br><p>
+	可取值：
+	"follow" - 同步跟随主Webview窗口滑动；
+	"silent" - 不跟随主Webview窗口滑动。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.webview.WebviewDrawOptions">WebviewDrawOptions</a></h1>
+<p>截屏绘制操作参数</p>
+<h2>属性：</h2>
+<ul>
+<li>bit: <em>(<font class="type">String</font>
+	类型
+)</em>截屏图片的位深<br><p>
+	可取值：
+		"RGB565" - RGB565彩色模式,一个像素占两个字节；
+		"ARGB" - ARGB彩色模式,保存透明度信息。
+						</p>
+</li>
+<li>check: <em>(<font class="type">Boolean</font>
+	类型
+)</em>是否检测截屏图片是否为空白<br><p>
+	可取值：
+		true - 表示检测到截屏到空白图片时认为操作失败（触发错误回调函数）；
+		false - 表示不检测，即使为空白图片仍然返回成功。
+	默认值为false。
+						</p>
+</li>
+<li>clip: <em>(<a href="#href.plus.nativeObj">plus.nativeObj</a>
+	类型
+)</em>设置截屏区域<br><p>
+	相对于Webview窗口的区域信息，默认值为{top:'0px',left:'0px',width:'100%',height:'100%'}。
+						</p>
+</li>
+<li>checkKeyboard: <em>(<font class="type">Boolean</font>
+	类型
+)</em>是否检测当前是否弹出软键盘<br><p>
+	可取值：
+		true - 表示检测到弹出软键盘是认为截屏操作失败（触发错误回调函数）；
+		false - 表示不检测软键盘状态，直接截屏。
+	默认值为false。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.webview.WebviewFavoriteOptions">WebviewFavoriteOptions</a></h1>
+<p>窗口收藏参数</p>
+<h2>说明：</h2>
+<p class="des">
+	在流应用环境中调用收藏功能时使用的参数。
+				</p>
+<h2>属性：</h2>
+<ul>
+<li>icon: <em>(<font class="type">String</font>
+	类型
+)</em>收藏时显示的图标<br><p>
+	在收藏列表中显示的图标，默认使用应用图标。
+						</p>
+</li>
+<li>title: <em>(<font class="type">String</font>
+	类型
+)</em>收藏时显示的标题<br><p>
+	在收藏列表中显示的标题字符串。
+						</p>
+</li>
+<li>href: <em>(<font class="type">String</font>
+	类型
+)</em>收藏的页面地址<br><p>
+	必须是网络地址。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.webview.WebviewLoadDataOptions">WebviewLoadDataOptions</a></h1>
+<p>创建加载HTML数据参数</p>
+<h2>属性：</h2>
+<ul>
+<li>baseURL: <em>(<font class="type">String</font>
+	类型
+)</em>页面的Base URL<br>
+</li>
+<li>mimeType: <em>(<font class="type">String</font>
+	类型
+)</em>HTML数据的数据类型<br><p>
+	默认值为"text/html"。
+						</p>
+</li>
+<li>encoding: <em>(<font class="type">String</font>
+	类型
+)</em>HTML数据的编码类型<br><p>
+	默认值为"utf-8"。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.webview.WebviewShareOptions">WebviewShareOptions</a></h1>
+<p>窗口的分享参数</p>
+<h2>说明：</h2>
+<p class="des">
+	在流应用环境中调用分享功能时使用的参数。
+				</p>
+<h2>属性：</h2>
+<ul>
+<li>icon: <em>(<font class="type">String</font>
+	类型
+)</em>分享时使用的图标<br><p>
+	默认使用应用图标。
+						</p>
+</li>
+<li>title: <em>(<font class="type">String</font>
+	类型
+)</em>分享时使用的标题<br>
+</li>
+<li>href: <em>(<font class="type">String</font>
+	类型
+)</em>分享时使用的链接地址<br><p>
+	必须是网络地址。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.webview.WebviewSubNViewStyles">WebviewSubNViewStyles</a></h1>
+<p>窗口原生子View控件样式</p>
+<h2>说明：</h2>
+<p class="des">
+	可设置原生控件的标识、大小、位置以及绘制的内容等。
+				</p>
+<h2>属性：</h2>
+<ul>
+<li>id: <em>(<font class="type">String</font>
+	类型
+)</em>原生子View控件的标识<br><p>
+	可通过plus.nativeObj.View.getViewById(id)方法传入此标识来获取子View控件对象。
+						</p>
+</li>
+<li>type: <em>(<font class="type">String</font>
+	类型
+)</em>原生子View控件类型<br><p>
+	可取值：
+		"NView" - 原生子View控件（plus.nativeObj.NView）；
+		"ImageSlider" - 原生图片轮播控件（plus.nativeObj.ImageSlider）。
+	默认值为"NView"。
+						</p>
+</li>
+<li>styles: <em>(<a href="#href.ViewStyles">ViewStyles</a>
+	类型
+)</em>原生子View控件的样式<br><p>
+	可设置原生控件的位置、大小等信息。
+						</p>
+</li>
+<li>tags: <em>(<font class="type">Array</font>[
+				<a href="#href.ViewDrawTagStyles">ViewDrawTagStyles</a>
+				]
+			
+	类型
+)</em>原生子View控件初始绘制内容<br><p>
+	可设置绘制图片、矩形区域、文本等内容。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.webview.WebviewTitleNViewStyles">WebviewTitleNViewStyles</a></h1>
+<p>窗口标题栏控件样式</p>
+<h2>说明：</h2>
+<p class="des">
+	标题栏控件固定高度为44px,可通过Webview窗口对象的getTitleNView方法获取标题栏原生控件对象动态绘制内容。
+	可以通过WebviewObject对象的getTitleNView()获取标题栏的NView对象，然后调用其setStyle方法更新样式。
+				</p>
+<h2>属性：</h2>
+<ul>
+<li>autoBackButton: <em>(<font class="type">Boolean</font>
+	类型
+)</em>标题栏控件是否显示左侧返回按钮<br><p>
+	可取值：
+		"true" - 显示返回按钮；
+		"false" - 不显示返回按钮。
+	默认值为"false"。
+	返回按钮的颜色为窗口标题文字颜色，按下时颜色自动调整透明度为0.3。
+	点击返回按钮的逻辑与按下系统返回键逻辑一致。
+						</p>
+</li>
+<li>backgroundColor: <em>(<font class="type">String</font>
+	类型
+)</em>标题栏控件的背景颜色<br><p>
+	颜色值格式为"#RRGGBB"，如"#FF0000"表示为红色背景，默认值为"#F7F7F7"。
+						</p>
+</li>
+<li>buttons: <em>(<font class="type">Array</font>[
+				<a href="#plus.webview.WebviewTitleNViewButtonStyles">WebviewTitleNViewButtonStyles</a>
+				]
+			
+	类型
+)</em>标题栏上的自定义按钮<br><p>
+	创建的自定义按钮数目不限制，实际应用中建议最多设置4个按钮（包括左侧返回按钮）。
+	注意：此属性不支持动态修改，仅在创建titleNView时设置有效。
+						</p>
+</li>
+<li>coverage: <em>(<font class="type">String</font>
+	类型
+)</em>标题栏控件变化作用范围<br><p>
+	仅在type值为transparent时有效，页面滚动时标题栏背景透明度将发生变化。
+	当页面滚动到指定偏移量时标题栏背景变为完全不透明。
+	支持百分比、像素值，默认为'132px'。
+						</p>
+</li>
+<li>homeButton: <em>(<font class="type">Boolean</font>
+	类型
+)</em>标题栏控件是否显示Home按钮<br><p>
+	可取值：
+		"true" - 显示Home按钮；
+		"false" - 不显示Home按钮。
+	默认值为"false"。
+	Home按钮的颜色为窗口标题文字颜色，按下时颜色自动调整透明度为0.3。
+	点击Home按钮的逻辑为关闭所有非首页窗口，显示首页窗口。
+						</p>
+</li>
+<li>padding: <em>(<font class="type">String</font>
+	类型
+)</em>内边距<br><p>
+	标题栏左右的内边距，单位为px（逻辑像素值），如"10px"表示10逻辑像素值。
+	默认值为"0px"。
+						</p>
+</li>
+<li>padding-right: <em>(<font class="type">String</font>
+	类型
+)</em>右内边距<br><p>
+	标题栏右侧内边距，单位为px（逻辑像素值），如"10px"表示10逻辑像素值。
+	默认值为"0px"，优先级padding-right &gt; padding。
+						</p>
+</li>
+<li>padding-left: <em>(<font class="type">String</font>
+	类型
+)</em>左内边距<br><p>
+	标题栏左侧内边距，单位为px（逻辑像素值），如"10px"表示10逻辑像素值。
+	默认值为"0px"，优先级padding-left &gt; padding。
+						</p>
+</li>
+<li>progress: <em>(<a href="#plus.webview.WebviewProgressStyles">WebviewProgressStyles</a>
+	类型
+)</em>标题栏控件的进度条样式<br><p>
+	设置此属性则在标题栏控件的底部显示进度条，可配置进度条颜色值即高度。
+	设置此属性值为undefined或null则隐藏进度条。
+	默认不显示底部进度条。
+	注意：此属性将废弃，推荐使用WebviewStyles的progress。
+						</p>
+</li>
+<li>splitLine: <em>(<a href="#plus.webview.WebviewSplitLineStyles">WebviewSplitLineStyles</a>
+	类型
+)</em>标题栏控件的底部分割线<br><p>
+	设置此属性则在标题栏控件的底部显示分割线，可配置颜色值及高度。
+	设置此属性值为undefined或null则隐藏分割线。
+	默认不显示底部分割线。
+						</p>
+</li>
+<li>tags: <em>(<font class="type">Array</font>[
+				<a href="#href.ViewDrawTagStyles">ViewDrawTagStyles</a>
+				]
+			
+	类型
+)</em>标题栏上初始自定义绘制内容<br><p>
+	可用于设置自定义绘制图片、矩形区域、文本等内容。
+	注意：此属性不支持动态修改，仅在创建titleNView时设置有效，如果需要更新绘制内容可根据tags的id调用draw方法操作。
+						</p>
+</li>
+<li>titleColor: <em>(<font class="type">String</font>
+	类型
+)</em>标题栏控件的标题文字颜色<br><p>
+	颜色值格式为"#RRGGBB"，如"#FF0000"表示标题文字颜色为红色，默认值为"#000000"。
+						</p>
+</li>
+<li>titleOverflow: <em>(<font class="type">String</font>
+	类型
+)</em>标题栏控件的标题文字超出显示区域时处理方式<br><p>
+	可取值：
+		"clip" - 超出显示区域时内容裁剪；
+		"ellipsis" - 超出显示区域时尾部显示省略标记（...）。
+	默认值为"ellipsis"。
+						</p>
+</li>
+<li>titleText: <em>(<font class="type">String</font>
+	类型
+)</em>标题栏控件的标题文字内容<br><p>
+	在标题栏控件居中（水平和垂直）显示，左右边距为88px，如果文本过长则尾部裁剪（加三个点"..."）显示。
+	当不设置titleText属性或属性值为undefined/null时，使用当前Webview窗口加载页面的标题，并自动同步更新页面的标题。
+						</p>
+</li>
+<li>titleSize: <em>(<font class="type">String</font>
+	类型
+)</em>标题栏控件的标题文字字体大小<br><p>
+	字体大小单位为像素，如"20px"表示字体大小为20像素，默认值为17像素。
+						</p>
+</li>
+<li>type: <em>(<font class="type">String</font>
+	类型
+)</em>标题栏控件样式<br><p>
+	可取值：
+		"default" - 默认样式，顶部停靠显示，挤压Webview页面内容显示区域；
+		"transparent" - 透明样式，顶部沉浸式显示覆盖Webview页面内容，标题栏上内容（除按钮外）全部透明，当页面滚动时透明度逐渐变化，直到不透明显示。
+	默认值为"default"。
+	注意：此属性不支持动态更新。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.webview.WebviewTitleNViewButtonStyles">WebviewTitleNViewButtonStyles</a></h1>
+<p>窗口标题栏自定义按钮样式</p>
+<h2>属性：</h2>
+<ul>
+<li>type: <em>(<font class="type">String</font>
+	类型
+)</em>按钮样式<br><p>
+	运行环境中内置按钮样式直接使用，内置样式忽略fontSrc和text属性。
+	可取值：
+		"forward" - 前进按钮；
+		"back" - 后退按钮；
+		"share" - 分享按钮；
+		"favorite" - 收藏按钮；
+		"home" - 主页按钮；
+		"menu" - 菜单按钮；
+		"close" - 关闭按钮；
+		"none" - 无样式。
+	默认值为无样式（"none"），需通过text属性设置按钮上显示的内容、通过fontSrc属性设置使用的字体库。
+						</p>
+</li>
+<li>color: <em>(<font class="type">String</font>
+	类型
+)</em>按钮上文字颜色<br><p>
+	可取值： "#RRGGBB"格式字符串，如"#FF0000"表示绘制红色返回键；
+	"rgba(R,G,B,A)"，其中R/G/B分别代表红色值/绿色值/蓝色值，正整数类型，取值范围为0-255，A为透明度，浮点数类型，取值范围为0-1（0为全透明，1为不透明），如"rgba(255,0,0,0.5)"，表示红色半透明。
+	默认值为窗口标题栏控件的标题文字颜色。
+						</p>
+</li>
+<li>colorPressed: <em>(<font class="type">String</font>
+	类型
+)</em>按下状态按钮文字颜色<br><p>
+	可取值： "#RRGGBB"格式字符串，如"#FF0000"表示绘制红色返回键；
+	"rgba(R,G,B,A)"，其中R/G/B分别代表红色值/绿色值/蓝色值，正整数类型，取值范围为0-255，A为透明度，浮点数类型，取值范围为0-1（0为全透明，1为不透明），如"rgba(255,0,0,0.5)"，表示红色半透明。
+	默认值为color属性值自动调整透明度为0.3。
+						</p>
+</li>
+<li>float: <em>(<font class="type">String</font>
+	类型
+)</em>按钮在标题栏上的显示位置<br><p>
+	可取值：
+		"right" - 在标题栏中靠右排列显示；
+		"left" - 在标题栏中靠左侧排列显示（在返回键后）。
+		默认值为"right"。
+						</p>
+</li>
+<li>fontWeight: <em>(<font class="type">String</font>
+	类型
+)</em>按钮上文字的粗细<br><p>
+	可取值：
+		"normal" - 标准字体；
+		"bold" - 加粗字体。
+	默认值为"normal"。
+						</p>
+</li>
+<li>fontSize: <em>(<font class="type">String</font>
+	类型
+)</em>按钮上文字大小<br><p>
+	可取值：字体高度像素值，数字加"px"格式字符串，如"22px"。 
+	窗口标题栏为透明样式（type="transparent"）时，默认值为"22px"；
+	窗口标题栏为默认样式（type="default"）时，默认值为"27px"。
+						</p>
+</li>
+<li>fontSrc: <em>(<font class="type">String</font>
+	类型
+)</em>按钮上文字使用的字体文件路径<br><p>
+	字体文件路径支持以下类型：
+		相对路径 - 相对于当前页面的host位置，如"a.ttf"，注意当前页面为网络地址则不支持；
+		绝对路径 - 系统绝对路径，如Android平台"/sdcard/a.ttf"，此类路径通常通过其它5+ API获取的；
+		扩展相对路径URL(RelativeURL) - 以"_"开头的相对路径，如"_www/a.ttf"；
+		本地路径URL - 以“file://”开头，后面跟随系统绝对路径。
+						</p>
+</li>
+<li>onclick: <em>(<font class="type">WebviewCustomButtonCallback</font>
+	类型
+)</em>按钮点击后触发的回调函数<br><p>
+	回调函数中将返回此JSON对象。
+						</p>
+</li>
+<li>text: <em>(<font class="type">String</font>
+	类型
+)</em>按钮上显示的文字<br><p>
+	推荐使用一个字符，超过一个字符可能无法正常显示，使用字体图标时unicode字符表示必须'\u'开头，如"\ue123"（注意不能写成"\e123"）。
+						</p>
+</li>
+<li>width: <em>(<font class="type">String</font>
+	类型
+)</em>按钮的宽度<br><p>
+	可取值：
+		"*px" - 逻辑像素值，如"10px"表示10逻辑像素值，按钮的内容居中显示；
+		"auto" - 自定计算宽度，根据内容自动调整按钮宽度。
+	默认值为"44px"（适合字体图标）。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.webview.WebviewProgressStyles">WebviewProgressStyles</a></h1>
+<p>标题栏控件的进度条样式</p>
+<h2>说明：</h2>
+<p class="des">
+	显示在标题栏控件底部。
+				</p>
+<h2>属性：</h2>
+<ul>
+<li>color: <em>(<font class="type">String</font>
+	类型
+)</em>进度条颜色<br><p>
+	可取值： "#RRGGBB"格式字符串，如"#FF0000"表示绘制红色分割线；
+	"rgba(R,G,B,A)"，其中R/G/B分别代表红色值/绿色值/蓝色值，正整数类型，取值范围为0-255，A为透明度，浮点数类型，取值范围为0-1（0为全透明，1为不透明），如"rgba(255,0,0,0.5)"，表示红色半透明。
+	默认值为"#00FF00"。
+						</p>
+</li>
+<li>height: <em>(<font class="type">String</font>
+	类型
+)</em>进度条高度<br><p>
+	可取值：像素值（逻辑像素），支持小数点，如"1px"表示1像素高；百分比，如"1%"，相对于标题栏控件的高度。
+	默认值为"2px"。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.webview.WebviewSplitLineStyles">WebviewSplitLineStyles</a></h1>
+<p>窗口标题栏控件的分割线样式</p>
+<h2>说明：</h2>
+<p class="des">
+	显示在标题栏控件底部。
+				</p>
+<h2>属性：</h2>
+<ul>
+<li>color: <em>(<font class="type">String</font>
+	类型
+)</em>底部分割线颜色<br><p>
+	可取值： "#RRGGBB"格式字符串，如"#FF0000"表示绘制红色分割线；
+	"rgba(R,G,B,A)"，其中R/G/B分别代表红色值/绿色值/蓝色值，正整数类型，取值范围为0-255，A为透明度，浮点数类型，取值范围为0-1（0为全透明，1为不透明），如"rgba(255,0,0,0.5)"，表示红色半透明。
+	默认值为"#CCCCCC"。
+						</p>
+</li>
+<li>height: <em>(<font class="type">String</font>
+	类型
+)</em>底部分割线高度<br><p>
+	可取值：像素值（逻辑像素），支持小数点，如"1px"表示1像素高；百分比，如"1%"，相对于标题栏控件的高度。
+	默认值为"1px"。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.webview.WebviewEvent">WebviewEvent</a></h1>
+<p>Webview窗口事件</p>
+<h2>常量：</h2>
+<ul>
+<li>"close": <em>(<font class="type">String</font>
+	类型
+)</em>Webview窗口关闭事件<br><p>
+	通过WebviewObject对象的addEventListener方法添加事件监听函数，当Webview窗口关闭时触发此事件，回调函数类型为EventCallback。
+						</p>
+</li>
+<li>"dragBounce": <em>(<font class="type">String</font>
+	类型
+)</em>Webview窗口回弹事件<br><p>
+	通过WebviewObject对象的setBounce方法开启回弹效果设置顶部下拉回弹changeoffset属性后，当用户向下拖拽窗口时触发发此事件，回调函数类型为BounceEventCallback。
+						</p>
+</li>
+<li>"slideBounce": <em>(<font class="type">String</font>
+	类型
+)</em>Webview窗口回弹事件<br><p>
+	通过WebviewObject对象的setBounce方法开启回弹效果设置左右侧侧滑slideoffset属性后，当用户向左右侧拖拽窗口侧滑时触发发此事件，回调函数类型为BounceEventCallback。
+						</p>
+</li>
+<li>"error": <em>(<font class="type">String</font>
+	类型
+)</em>Webview窗口加载错误事件<br><p>
+	通过WebviewObject对象的addEventListener方法添加事件监听函数，当Webview窗口加载错误时触发此事件，回调函数类型为EventCallback。
+						</p>
+</li>
+<li>"hide": <em>(<font class="type">String</font>
+	类型
+)</em>Webview窗口隐藏事件<br><p>
+	通过WebviewObject对象的addEventListener方法添加事件监听函数，当Webview窗口隐藏（窗口动画完成后）时触发此事件，回调函数类型为EventCallback。
+						</p>
+</li>
+<li>"loading": <em>(<font class="type">String</font>
+	类型
+)</em>Webview窗口页面开始加载事件<br><p>
+	通过WebviewObject对象的addEventListener方法添加事件监听函数，当Webview窗口开始加载新页面时触发此事件，回调函数类型为EventCallback。
+						</p>
+</li>
+<li>"loaded": <em>(<font class="type">String</font>
+	类型
+)</em>Webview窗口页面加载完成事件<br><p>
+	通过WebviewObject对象的addEventListener方法添加事件监听函数，当Webview窗口页面加载完成时触发此事件，回调函数类型为EventCallback。
+						</p>
+</li>
+<li>"maskClick": <em>(<font class="type">String</font>
+	类型
+)</em>Webview窗口显示遮罩层时点击事件<br><p>
+	通过WebviewObject对象的addEventListener方法添加事件监听函数，当Webview窗口通过mask属性设置显示遮罩层并且点击时触发此事件，回调函数类型为EventCallback。
+						</p>
+</li>
+<li>"rendering": <em>(<font class="type">String</font>
+	类型
+)</em>Webview窗口开始渲染事件<br><p>
+	通过WebviewObject对象的addEventListener方法添加事件监听函数，当Webview窗口开始渲染内容时触发此事件，回调函数类型为EventCallback。
+						</p>
+</li>
+<li>"rendered": <em>(<font class="type">String</font>
+	类型
+)</em>Webview窗口渲染完成事件<br><p>
+	通过WebviewObject对象的addEventListener方法添加事件监听函数，当Webview窗口渲染完成时触发此事件，回调函数类型为EventCallback。
+						</p>
+</li>
+<li>"show": <em>(<font class="type">String</font>
+	类型
+)</em>Webview窗口显示事件<br><p>
+	通过WebviewObject对象的addEventListener方法添加事件监听函数，当Webview窗口显示（窗口动画完成后）时触发此事件，回调函数类型为EventCallback。
+						</p>
+</li>
+<li>"titleUpdate": <em>(<font class="type">String</font>
+	类型
+)</em>Webview加载页面标题更新事件<br><p>
+	通过WebviewObject对象的addEventListener方法添加事件监听函数，当Webview窗口加载新页面更新标题时触发此事件，回调函数类型为SuccessCallback。
+	注意：此事件会先于loaded事件触发，通常在加载网络页面时通过此事件可更快获取到页面的标题。
+						</p>
+</li>
+<li>"touchstart": <em>(<font class="type">String</font>
+	类型
+)</em>Webview窗口接收到触屏事件<br><p>
+	通过WebviewObject对象的addEventListener方法添加事件监听函数，当用户操作按下到Webview窗口时触发此事件，回调函数类型为SuccessCallback。
+	注意：每按下屏幕触发一次此事件。
+						</p>
+</li>
+<li>"popGesture": <em>(<font class="type">String</font>
+	类型
+)</em>Webview窗口侧滑返回事件<br><p>
+	通过WebviewObject对象的addEventListener方法添加事件监听函数，当Webview窗口侧滑返回时触发此事件，回调函数类型为PopGestureCallback。
+						</p>
+</li>
+<li>"progressChanged": <em>(<font class="type">String</font>
+	类型
+)</em>Webview窗口加载进度变化事件<br><p>
+	通过WebviewObject对象的addEventListener方法添加事件监听函数，当Webview窗口加载页面进度变化时触发此事件。
+	回调函数原型为void PorgressCandedCallback(Event e),可通过e.progress获取窗口加载进度，取值范围为0-100。
+						</p>
+</li>
+<li>"pullToRefresh": <em>(<font class="type">String</font>
+	类型
+)</em>Webview窗口下拉刷新事件<br><p>
+	Webview窗口打开下拉刷新功能后，用户操作下拉刷新时或调用beginPullToRefresh方法时触发，用于通知业务逻辑可以开始执行刷新操作。
+	更新操作完成后调用窗口的endPullToRefresh方法结束下拉刷新。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.webview.WebviewExtraOptions">WebviewExtraOptions</a></h1>
+<p>JSON对象，原生窗口扩展参数</p>
+<h2>属性：</h2>
+<ul>
+<li>acceleration: <em>(<font class="type">String</font>
+	类型
+)</em>窗口动画加速<br><p>
+	开启窗口动画加速功能可优化窗口动画效果，提升动画流程度，可避免部分设备上打开（关闭）窗口闪屏的问题。
+	可取值：
+	"auto" - 自动优化窗口动画；
+	"none" - 关闭窗口动画加速功能；
+	"capture" - 使用截屏方式加速窗口动画。
+	默认值为"auto"。
+						</p>
+</li>
+<li>capture: <em>(<a href="#href.Bitmap">Bitmap</a>
+	类型
+)</em>窗口动画加速时使用的图片<br><p>
+	当使用截屏方式加速窗口动画时，可设置已经创建好的截屏图片，此时不会进行实时截屏操作，加速窗口动画响应时间，提升用户体验。
+	如果未指定截屏图片，则实时截取当前Webview窗口对象的图片进行动画操作。
+	如果窗口未使用截屏方式加速动画，则忽略此参数。
+						</p>
+</li>
+<li>otherCapture: <em>(<a href="#href.Bitmap">Bitmap</a>
+	类型
+)</em>关联窗口动画使用的图片<br><p>
+	当使用截屏方式加速窗口动画时，可设置已经创建好的截屏图片，此时不会进行实时截屏操作，加速关联窗口动画响应时间，提升用户体验。
+	如果未指定截屏图片，则实时截取关联Webview窗口对象的图片进行动画操作。
+	如果窗口未使用截屏方式加速动画，则忽略此参数。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.webview.WebviewPosition">WebviewPosition</a></h1>
+<p>原生控件在窗口中显示的位置</p>
+<h2>常量：</h2>
+<ul>
+<li>"static": <em>(<font class="type">String</font>
+	类型
+)</em>控件在页面中正常定位，如果页面存在滚动条则随窗口内容滚动<br>
+</li>
+<li>"absolute": <em>(<font class="type">String</font>
+	类型
+)</em>控件在页面中绝对定位，如果页面存在滚动条不随窗口内容滚动<br>
+</li>
+<li>"dock": <em>(<font class="type">String</font>
+	类型
+)</em>控件在页面中停靠，停靠的位置通过dock属性进行定义<br>
+</li>
+</ul>
+<h1><a name="plus.webview.WebviewPullToRefreshStyles">WebviewPullToRefreshStyles</a></h1>
+<p>Webview窗口下拉刷新样式</p>
+<h2>属性：</h2>
+<ul>
+<li>support: <em>(<font class="type">Boolean</font>
+	类型
+)</em>是否开启Webview窗口的下拉刷新功能<br><p>
+	true表示开启窗口的下拉刷新功能；
+	false表示关闭窗口的下拉刷新功能。
+						</p>
+</li>
+<li>color: <em>(<font class="type">String</font>
+	类型
+)</em>下拉刷新控件颜色<br><p>
+	颜色值格式为"#RRGGBB"，如"#FF0000"为设置下拉属性控件为红色，默认值为"#2BD009"。
+						</p>
+</li>
+<li>style: <em>(<font class="type">String</font>
+	类型
+)</em>下拉刷新样式<br><p>
+	用于定义下拉刷新风格样式，可取值：
+	"default" - 经典下拉刷新样式（下拉拖动时页面内容跟随）；
+	"circle" - 圆圈样式下拉刷新控件样式（下拉拖动时仅刷新控件跟随）。
+	默认值为"default"。
+						</p>
+</li>
+<li>height: <em>(<font class="type">String</font>
+	类型
+)</em>窗口的下拉刷新控件进入刷新状态的拉拽高度<br><p>
+	支持百分比，如"10%"；像素值，如"50px"。
+						</p>
+</li>
+<li>range: <em>(<font class="type">String</font>
+	类型
+)</em>窗口可下拉拖拽的范围<br><p>
+	支持百分比，如"10%"；像素值，如"50px"。
+						</p>
+</li>
+<li>offset: <em>(<font class="type">String</font>
+	类型
+)</em>下拉刷新控件的起始位置<br><p>
+	仅对"circle"样式下拉刷新控件有效，用于定义刷新控件下拉时的起始位置。
+	相对于Webview的顶部偏移量，支持百分比，如"10%"；像素值，如"50px"。
+	默认值为"0px"。
+						</p>
+</li>
+<li>contentdown: <em>(<font class="type">JSON</font>
+	类型
+)</em>在下拉可刷新状态时显示的内容<br><p>
+	支持以下属性：
+	caption：在下拉可刷新状态时下拉刷新控件上显示的标题内容。
+						</p>
+</li>
+<li>contentover: <em>(<font class="type">JSON</font>
+	类型
+)</em>在释放可刷新状态时显示的内容<br><p>
+	支持以下属性：
+	caption：在释放可刷新状态时下拉刷新控件上显示的标题内容。
+						</p>
+</li>
+<li>contentrefresh: <em>(<font class="type">JSON</font>
+	类型
+)</em>在正在刷新状态时显示的内容<br><p>
+	支持以下属性：
+	caption：在正在刷新状态时下拉刷新控件上显示的标题内容。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.webview.WebviewRenderedEventOptions">WebviewRenderedEventOptions</a></h1>
+<p>Webview窗口rendered事件参数</p>
+<h2>属性：</h2>
+<ul>
+<li>type: <em>(<font class="type">String</font>
+	类型
+)</em>判断窗口渲染完成类型<br><p>
+	可取值：
+	"top"-从顶部向下偏移22px横线截屏检测渲染是否完成；
+	"bottom"-从底部向上偏移25px横线检测渲染是否完成；
+	"center"-从中间横线检测渲染是否完成；
+	"auto"为全屏检测（左、中、右三条竖线）。
+	默认值为"auto"。
+						</p>
+</li>
+<li>interval: <em>(<font class="type">Number</font>
+	类型
+)</em>判断窗口渲染完成间隔时间<br><p>
+	单位为ms（毫秒），默认值为150ms。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.webview.WebviewReplaceWebApiOptions">WebviewReplaceWebApiOptions</a></h1>
+<p>替换H5标准API配置信息</p>
+<h2>说明：</h2>
+<p class="des">
+	目前仅支持替换H5标准定位接口
+				</p>
+<h2>属性：</h2>
+<ul><li>geolocation: <em>(<font class="type">String</font>
+	类型
+)</em>替换H5标准定位接口(navigator.geolocation.*)<br><p>
+	由于网络原因，在部分手机上可能无法调用标准H5定位接口(navigator.geolocation.*)获取定位数据，此时可以通过此属性配置使用原生定位模块替换标准H5定位接口，可取值：
+		"alldevice" - 在所有设备上替换标准H5定位接口(navigator.geolocation.*)；
+		"auto" - 自动替换H5标准定位接口，仅在调用标准H5定位接口无法获取数据的设备上替换；
+		"none" - 不替换H5标准定位接口(navigator.geolocation.*)。
+	默认值为"none"。
+	注意：替换H5标准定位接口，会导致页面加载速度延迟100ms左右，推荐使用"auto"模式。
+						</p>
+</li></ul>
+<h1><a name="plus.webview.WebviewStatusbarStyles">WebviewStatusbarStyles</a></h1>
+<p>JSON对象，Webview窗口的系统状态栏区域样式</p>
+<h2>说明：</h2>
+<p class="des">
+	仅在应用设置为沉浸式状态栏样式下有效，非沉浸式状态栏样式下忽略此属性。
+				</p>
+<h2>属性：</h2>
+<ul><li>background: <em>(<font class="type">String</font>
+	类型
+)</em>系统状态栏区域背景颜色<br><p>
+	颜色值格式为"#RRGGBB"，如"#FF0000"表示为红色背景。
+	默认值为应用manifest.json中plus-&gt;statusbar-&gt;background属性配置的值，如果未配置此属性值，则使用系统默认状态栏的背景颜色。
+						</p>
+</li></ul>
+<h1><a name="plus.webview.WebviewStyles">WebviewStyles</a></h1>
+<p>JSON对象，Webview窗口对象的样式</p>
+<h2>属性：</h2>
+<ul>
+<li>additionalHttpHeaders: <em>(<font class="type">JSON</font>
+	类型
+)</em>窗口加载页面时额外添加的HTTP请求头数据<br><p>
+	仅在Webview窗口第一次加载页面时使用，如用户点击的触发的链接跳转则不再添加此额外请求头数据。
+	如果Webview窗口非第一次加载页面时也需要额外添加HTTP请求头数据，可通过loadURL()方法的参数设置。
+	如果HTTP请求头中已经包含需要额外添加的头数据，则添加的请求数据覆盖默认值。
+						</p>
+</li>
+<li>animationOptimization: <em>(<font class="type">String</font>
+	类型
+)</em>窗口动画优化方式<br><p>
+	可取值：
+		"auto" - 如果窗口中存在titleNView或subNViews，窗口动画时真实Webview控件从动画窗口中移除加速（避免真实Webview渲染影响动画效率）；
+		"none" - 窗口动画不使用优化。
+	默认值为"auto"。
+						</p>
+</li>
+<li>cachemode: <em>(<font class="type">String</font>
+	类型
+)</em>窗口的缓存模式<br><p>
+	可取值：
+	"default" - 根据cache-control决定是否使用缓存数据，如果存在缓存并且没有过期则使用本地缓存资源，否则从网络获取；
+	"cacheElseNetwork" - 只要存在缓存（即使过期）数据则使用，否则从网络获取；
+	"noCache" - 不使用缓存数据，全部从网络获取；
+	"cacheOnly" - 仅使用缓存数据，不从网络获取（注：如果没有缓存数据则会导致加载失败）。
+	默认使用"default"。	
+						</p>
+</li>
+<li>backButtonAutoControl: <em>(<font class="type">String</font>
+	类型
+)</em>Webview窗口自动处理返回键逻辑<br><p>
+	当Webview窗口在显示栈顶，并且Webview窗口中没有调用JS监听返回键（plus.key.addEventListener('backbutton',...)）时按下返回键响应行为。
+	可取值：
+		"hide" - 隐藏Webview窗口，隐藏动画与上一次调用显示时设置的动画类型相对应（如“slide-in-right”对应的关闭动画为“slid-out-right”）；
+		"close" - 关闭Webview窗口，关闭动画与上一次调用显示时设置的动画类型相对应（如“slide-in-right”对应的关闭动画为“slid-out-right”） ；
+		"none" - 不做操作，将返回键传递给下一Webview窗口处理；
+		"quit" - 退出应用。
+						</p>
+</li>
+<li>background: <em>(<font class="type">String</font>
+	类型
+)</em>窗口的背景颜色<br><p>
+	窗口空白区域的背景模式，设置background为颜色值(参考CSS Color Names，可取值/十六进制值/rgb值/rgba值)，窗口为独占模式显示（占整个屏幕区域）；
+	设置background为“transparent”，则表示窗口背景透明，为非独占模式。
+						</p>
+</li>
+<li>backgroundColorTop: <em>(<font class="type">String</font>
+	类型
+)</em>窗口顶部背景颜色值<br><p>
+	窗口内容滚动到顶部下拉时可见。
+	可取值：
+		"#RRGGBB"格式字符串，如"#FF0000"表示红色；
+		"rgba(R,G,B,A)"，其中R/G/B分别代表红色值/绿色值/蓝色值，正整数类型，取值范围为0-255，A为透明度，浮点数类型，取值范围为0-1（0为全透明，1为不透明），如"rgba(255,0,0,0.5)"，表示红色半透明。
+	默认值为透明。
+						</p>
+</li>
+<li>backgroundColorBottom: <em>(<font class="type">String</font>
+	类型
+)</em>窗口底部背景颜色<br><p>
+	窗口内容滚动到底部上拉时可见。
+	可取值：
+		"#RRGGBB"格式字符串，如"#FF0000"表示红色；
+		"rgba(R,G,B,A)"，其中R/G/B分别代表红色值/绿色值/蓝色值，正整数类型，取值范围为0-255，A为透明度，浮点数类型，取值范围为0-1（0为全透明，1为不透明），如"rgba(255,0,0,0.5)"，表示红色半透明。
+	默认值为透明。
+						</p>
+</li>
+<li>blockNetworkImage: <em>(<font class="type">Boolean</font>
+	类型
+)</em>是否阻塞网络图片的加载<br><p>
+	布尔类型，true表示阻塞，false表示不阻塞，默认值为false。
+	阻塞后Webview窗口将不加载页面中使用的所有网络图片，可通过Webview窗口对象的setBlockNetWorkImage()方法动态修改此状态。
+						</p>
+</li>
+<li>bottom: <em>(<font class="type">String</font>
+	类型
+)</em>窗口垂直向上的偏移量<br><p>
+	支持百分比、像素值，默认值无值（根据top和height属性值来自动计算）。
+	当同时设置了top和height值时，忽略此属性值；
+	当未设置height值时，可通过top和bottom属性值来确定窗口的高度。
+						</p>
+</li>
+<li>bounce: <em>(<font class="type">String</font>
+	类型
+)</em>窗口遇到边框是否有反弹效果<br><p>
+	可取值：
+		"none" - 表示没有反弹效果；
+		"vertical" - 表示垂直方向有反弹效果；
+		"horizontal" - 表示水平方向有反弹效果；
+		"all" - 表示垂直和水平方向都有反弹效果。
+	默认值为"none"。
+						</p>
+</li>
+<li>bounceBackground: <em>(<font class="type">String</font>
+	类型
+)</em>窗口回弹效果区域的背景<br><p>
+	窗口回弹效果区域背景可支持颜色值或图片：
+		颜色值格式为"#RRGGBB"，如"#FFFFFF"为设置白色背景；
+		背景图为"url(%image path%)"，如"url(./icon.png)"为设置icon.png为背景图，图片采用平铺模式绘制。
+						</p>
+</li>
+<li>decelerationRate: <em>(<font class="type">Number</font>
+	类型
+)</em>窗口内容停止滑动的减速度<br><p>
+	当Webview加载的内容超过其高度时，可以拖拽滑动内容，decelerationRate属性控制手指松开后页面滑动的速度。
+	设置值越大手指松开后的滑动速度越快（滑动距离越长），其值域范围为0.0-1.0，默认值为0.989。
+						</p>
+</li>
+<li>dock: <em>(<a href="#plus.webview.WebviewDock">WebviewDock</a>
+	类型
+)</em>窗口的停靠方式<br><p>
+	当Webview窗口添加到另外一个窗口中时，停靠方式才会生效，采用停靠方式添加会导致原Webview窗口自动调整其大小避免其内容被子窗口盖住。
+	可取值："top"，控件停靠则页面顶部；"bottom"，控件停靠在页面底部；"right"，控件停靠在页面右侧；"left"，控件停靠在页面左侧。
+	默认值为"bottom"。
+						</p>
+</li>
+<li>errorPage: <em>(<a href="#plus.webview.String">String</a>
+	类型
+)</em>窗口加载错误时跳转的页面地址<br><p>
+	当Webview窗口无法加载指定的url地址时（如本地页面不存在，或者无法访问的网络地址），此时会自动跳转到指定的错误页面地址（仅支持本地页面地址）。
+	设置为“none”则关闭跳转到错误页面功能，此时页面显示Webview默认的错误页面内容。默认使用5+ Runtime内置的错误页面。
+						</p>
+</li>
+<li>replacewebapi: <em>(<a href="#plus.webview.WebviewReplaceWebApiOptions">WebviewReplaceWebApiOptions</a>
+	类型
+)</em>替换H5标准API<br><p>
+	用于解决在部分设备上调用H5标准定位接口可能无法获取定位数据的问题。
+						</p>
+</li>
+<li>hardwareAccelerated: <em>(<font class="type">Boolean</font>
+	类型
+)</em>窗口是否开启硬件加速<br><p>
+	布尔类型，true表示开启硬件加速，false表示不开启硬件加速，默认情况5+ Runtime会根据设备实际支持情况自动选择是否开启硬件加速，可以通过plus.webview.defaultHardwareAccelerated()方法获取默认Webview是否开启硬件加速。
+	由于不同设备对硬件加速的支持情况存在差异，开启硬件加速能加速HTML页面的渲染，但也会消耗更多的系统资源，从而导致在部分设备上可能出现闪屏、发虚、分块渲染等问题，因此在特定设备的特定页面如果出现以上问题需要手动设置关闭硬件加速来避免。
+						</p>
+</li>
+<li>height: <em>(<font class="type">String</font>
+	类型
+)</em>窗口的高度<br><p>
+	支持百分比、像素值，默认为100%。
+	当未设置height属性值时，优先通过top和bottom属性值来计算窗口的高度。
+						</p>
+</li>
+<li>kernel: <em>(<font class="type">String</font>
+	类型
+)</em>窗口使用的内核<br><p>
+	可取值：
+	"WKWebview" - 在iOS8.0及以上系统使用WKWebview内核，低版本下仍然使用UIWebview内核；
+    "UIWebview" - 在所有版本上都使用UIWebview内核。
+    默认值为"UIWebview"。
+    WKWebview内核的优势是：
+		1. 滚动时懒加载的图片也可以实时渲染，UIWebview在滚动停止后才能渲染；
+		2. WKWebview的video支持AirPlay。
+	但WKWebview也有些限制和不足，目前已知的问题有：
+		1. 不支持跨域设置cookie，即plus.navigator.setCookie()API无法使用；
+		2. 本地的HTML页面中的XHR不支持跨域访问，需使用plus.net.XMLHttpRequest来替换；
+		3. 不支持使用WebSQL，需使用indexDB来替换；
+		4. 不支持js原生混淆功能，需使用前端js混淆来替换；
+		5. 内存不足时会白屏。
+	首页的Webview的kernel在manifest中配置（plus-&gt;kernel-&gt;ios）。
+						</p>
+</li>
+<li>left: <em>(<font class="type">String</font>
+	类型
+)</em>窗口水平向右的偏移量<br><p>
+	支持百分比、像素值，默认值为0px。
+	未设置left属性值时，优先通过right和width属性值来计算窗口的left位置。
+						</p>
+</li>
+<li>margin: <em>(<font class="type">String</font>
+	类型
+)</em>窗口的边距<br><p>
+	用于定位窗口的位置，支持auto，auto表示居中。若设置了left、right、top、bottom则对应的边距值失效。
+						</p>
+</li>
+<li>mask: <em>(<font class="type">String</font>
+	类型
+)</em>窗口的遮罩<br><p>
+	用于设置Webview窗口的遮罩层样式，遮罩层会覆盖Webview中所有内容，包括子webview，并且截获webview的所有触屏事件，此时Webview窗口的点击操作会触发maskClick事件。
+	字符串类型，可取值：
+	rgba格式字符串，定义纯色遮罩层样式，如"rgba(0,0,0,0.5)"，表示黑色半透明；
+	"none"，表示不使用遮罩层；
+	默认值为"none"，即无遮罩层。
+						</p>
+</li>
+<li>opacity: <em>(<font class="type">Number</font>
+	类型
+)</em>窗口的不透明度<br><p>0为全透明，1为不透明，默认值为1，即不透明。</p>
+</li>
+<li>plusrequire: <em>(<font class="type">String</font>
+	类型
+)</em>控制Webview注入5+ API时机<br><p>
+    可取值：
+        "ahead" - 尽量提前，拦截页面中网络js请求实现提前注入，如果没有拦截到js请求则在页面loaded时注入；
+        "normal" - 页面loaded时注入；
+        "later" - 较晚在注入，在loaded事件发生后2s再注入，plusready事件同样延迟；
+        "none" - 不注入，页面无法调用5+ API，不触发plusready事件。
+        默认值为"normal"。
+						</p>
+</li>
+<li>progress: <em>(<a href="#plus.webview.WebviewProgressStyles">WebviewProgressStyles</a>
+	类型
+)</em>窗口的进度条样式<br><p>
+	设置此属性则在Webview窗口的顶部显示进度条，可配置进度条颜色及高度。
+	设置此属性值为undefined或null则隐藏进度条。
+	默认不显示进度条。
+						</p>
+</li>
+<li>popGesture: <em>(<font class="type">String</font>
+	类型
+)</em>窗口的侧滑返回功能<br><p>
+	可取值：
+		"none"-无侧滑返回功能；
+		"close"-侧滑返回关闭Webview窗口；
+		"hide"-侧滑返回隐藏webview窗口。
+						</p>
+</li>
+<li>pullToRefresh: <em>(<a href="#plus.webview.WebviewPullToRefreshStyles">WebviewPullToRefreshStyles</a>
+	类型
+)</em>窗口下拉刷新配置<br><p>
+	设置窗口是否开启下拉刷新功能及样式。
+	开启下拉刷新后可通过监听窗口的"pullToRefresh"事件处理下拉刷新业务逻辑，更新操作完成后调用窗口的endPullToRefresh方法结束下拉刷新。
+						</p>
+</li>
+<li>render: <em>(<font class="type">String</font>
+	类型
+)</em>窗口渲染模式<br><p>
+	支持以下属性值：
+		"onscreen" - Webview窗口在屏幕区可见时渲染，不可见时不进行渲染，此时能减少内存使用量；
+		"always" - Webview在任何时候都渲染，在内存较大的设备上使用，被遮挡的窗口在此中模式下显示的时候会有更流畅的效果。
+	默认值为"onscreen"。
+	仅Android平台支持。
+						</p>
+</li>
+<li>right: <em>(<font class="type">String</font>
+	类型
+)</em>窗口水平向左的偏移量<br><p>
+	支持百分比、像素值，默认无值（根据left和width属性值来自动计算）。
+	当设置了left和width值时，忽略此属性值；
+	当未设置width值时，可通过left和bottom属性值来确定窗口的宽度。
+						</p>
+</li>
+<li>scalable: <em>(<font class="type">Boolean</font>
+	类型
+)</em>窗口是否可缩放<br><p>
+	窗口设置为可缩放（scalable:true）时，用户可通过双指操作放大或缩小页面，此时html页面可通过meta节点设置“name="viewport" content="user-scalable=no"”来限制页面不可缩放。
+	窗口设置为不可缩放（scalable:false）时，用户不可通过双指操作放大或缩小页面，即使页面中的meta节点也无法开启可缩放功能。
+	默认值为false，即不可缩放。
+						</p>
+</li>
+<li>scrollIndicator: <em>(<font class="type">String</font>
+	类型
+)</em>窗口是否显示滚动条<br><p>
+	用于控制窗口滚动条样式，可取值：
+	"all"：垂直和水平滚动条都显示；
+	"vertical"：仅显示垂直滚动条；
+	"horizontal"：仅显示水平滚动条；
+	"none"：垂直和水平滚动条都不显示。
+	默认值为"all"，即垂直和水平滚动条都显示。
+	注意：显示滚动条的前提条件是窗口中的内容超过窗口显示的宽或高。
+						</p>
+</li>
+<li>scrollsToTop: <em>(<font class="type">Boolean</font>
+	类型
+)</em>点击设备的状态栏时是否滚动返回至顶部<br><p>
+	true表示点击设备的状态栏可以滚动返回至顶部，false表示点击设备的状态栏不可以，默认值为true。
+	此功能仅iOS平台支持，在iPhone上有且只有一个Webview窗口的scrollsToTop属性值为true时才生效，所以在显示和关闭Webview窗口时需动态更新所有Webview的scrollsToTop值，已确保此功能生效。
+						</p>
+</li>
+<li>shareable: <em>(<font class="type">Boolean</font>
+	类型
+)</em>是否可分享窗口加载的链接地址<br><p>
+	在流应用环境（流应用/5+浏览器）中可通过分享按钮分享页面链接地址，
+	可取值：
+		true - 可分享窗口加载页面链接地址；
+		false - 不可分享窗口加载的页面链接地址，此时分享的是应用。
+	默认值值为true。
+						</p>
+</li>
+<li>softinputMode: <em>(<font class="type">String</font>
+	类型
+)</em>弹出系统软键盘模式<br><p>
+	可选值：“adjustPan”- 弹出软键盘时Webview窗口自动上移，以保证当前输入框可见；“adjustResize”- 自动调整Webview窗口大小（屏幕区域减去软键盘区域），同时自动滚动Webview保证输入框可见。
+	默认值为“adjustPan”。
+						</p>
+</li>
+<li>statusbar: <em>(<a href="#plus.webview.WebviewStatusbarStyles">WebviewStatusbarStyles</a>
+	类型
+)</em>窗口状态栏样式<br><p>
+	仅在应用设置为沉浸式状态栏样式下有效，设置此属性后将自动保留系统状态栏区域不被Webview窗口占用（即Webview窗口非沉浸式样式显示）。
+						</p>
+</li>
+<li>subNViews: <em>(<font class="type">Array</font>[
+				<a href="#plus.webview.WebviewSubNViewStyles">WebviewSubNViewStyles</a>
+				]
+			
+	类型
+)</em>定义窗口的原生子View控件<br><p>
+	数组类型，可通过配置项设置原生子View控件，每个配置项对应添加一个原生子View控件。
+	通过Webview窗口的getSubNViews()方法可获取原生子View控件对象数组。
+						</p>
+</li>
+<li>titleNView: <em>(<a href="#plus.webview.WebviewTitleNViewStyles">WebviewTitleNViewStyles</a>
+	类型
+)</em>定义窗口的标题栏控件样式<br><p>
+	设置此属性值则表明创建Webview窗口的标题栏控件，并可通过其属性值设置背景颜色、文本内容、文本颜色等。
+	通过Webview窗口的getTitleNView()方法可获取标题栏控件对象。
+						</p>
+</li>
+<li>top: <em>(<font class="type">String</font>
+	类型
+)</em>窗口垂直向下的偏移量<br><p>
+	支持百分比、像素值，默认值为0px。
+	未设置top属性值时，优先通过bottom和height属性值来计算窗口的top位置。
+						</p>
+</li>
+<li>transition: <em>(<a href="#plus.webview.WebviewTransition">WebviewTransition</a>
+	类型
+)</em>窗口定义窗口变换的动画效果<br>
+</li>
+<li>transform: <em>(<a href="#plus.webview.WebviewTransform">WebviewTransform</a>
+	类型
+)</em>窗口定义窗口变形效果<br>
+</li>
+<li>position: <em>(<a href="#plus.webview.WebviewPosition">WebviewPosition</a>
+	类型
+)</em>Webview窗口的排版位置<br><p>
+	当Webview窗口添加到另外一个窗口中时，排版位置才会生效，排版位置决定子窗口在父窗口中的定位方式。
+	可取值："static"，控件在页面中正常定位，如果页面存在滚动条则随窗口内容滚动；"absolute"，控件在页面中绝对定位，如果页面存在滚动条不随窗口内容滚动；"dock"，控件在页面中停靠，停靠的位置由dock属性值决定。
+	默认值为"absolute"。
+						</p>
+</li>
+<li>userSelect: <em>(<font class="type">Boolean</font>
+	类型
+)</em>用户是否可选择内容<br><p>
+	可取值：
+	true - 表示可选择内容，用户可通过长按来选择页面内容，如文本内容选择后可以弹出系统复制粘贴菜单；
+	false - 表示不可选择内容，用户不可通过长按来选择页面内容。
+	默认值为true。
+	注意：在Web页面中可通过CSS的user-select对单个页面元素进行控制，前提是Webview对象的userSelect设置为true，否则CSS设置的user-select失效。
+						</p>
+</li>
+<li>videoFullscreen: <em>(<font class="type">String</font>
+	类型
+)</em>视频全屏播放时的显示方向<br><p>
+	可取值：
+	"auto": 自动适配，如果当前页面竖屏，则竖屏显示；如果当前页面横盘显示，则横屏；如果当前页面自动感应，则自动感应横竖屏切换。
+	"portrait-primary": 竖屏正方向； 
+	"portrait-secondary": 竖屏反方向，屏幕正方向按顺时针旋转180°； 
+	"landscape-primary": 横屏正方向，屏幕正方向按顺时针旋转90°； 
+	"landscape-secondary": 横屏方向，屏幕正方向按顺时针旋转270°； 
+	"landscape": 横屏正方向或反方向，根据设备重力感应器自动调整；
+	默认值为“auto”。
+						</p>
+</li>
+<li>width: <em>(<font class="type">String</font>
+	类型
+)</em>窗口的宽度<br><p>
+	支持百分比、像素值，默认为100%。未设置width属性值时，可同时设置left和right属性值改变窗口的默认宽度。
+						</p>
+</li>
+<li>zindex: <em>(<font class="type">Number</font>
+	类型
+)</em>窗口的堆叠顺序值<br><p>
+	拥有更高堆叠顺序的窗口总是会处于堆叠顺序较低的窗口的前面，拥有相同堆叠顺序的窗口后调用show方法则在前面。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.webview.WebviewTransform">WebviewTransform</a></h1>
+<p>一组用于定义页面或控件变形的属性</p>
+<h1><a name="plus.webview.WebviewTransition">WebviewTransition</a></h1>
+<p>一组用于定义页面或控件转换效果的属性</p>
+<h2>属性：</h2>
+<ul>
+<li>property: <em>(<font class="type">String</font>
+	类型
+)</em>产生变换效果的属性<br><p>
+	默认值为"all"，暂不支持其它值。
+						</p>
+</li>
+<li>duration: <em>(<font class="type">String</font>
+	类型
+)</em>变换持续的时间<br><p>
+	默认值为0，即无动画效果。
+						</p>
+</li>
+<li>timingfunction: <em>(<font class="type">String</font>
+	类型
+)</em>窗口变换效果<br><p>
+	可取值：
+	"linear"：匀速变化，匀速动画效果；
+	"ease-in"：匀加速变化，逐渐变快的动画效果；
+	"ease-out"：匀减速变化，逐渐变慢的动画效果；
+	"ease-in-out"：先加速后减速变化，先变快后变慢的动画效果。
+	默认值为"ease-in-out"。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.webview.WebviewOverrideResourceOptions">WebviewOverrideResourceOptions</a></h1>
+<p>拦截Webview窗口资源请求的参数</p>
+<h2>属性：</h2>
+<ul>
+<li>match: <em>(<font class="type">String</font>
+	类型
+)</em>区配需要拦截请求资源的URL地址<br><p>
+	支持正则表达式，默认值为空字符串（即不拦截）。
+						</p>
+</li>
+<li>redirect: <em>(<font class="type">String</font>
+	类型
+)</em>拦截重定向的资源地址<br><p>
+	仅支持本地资源地址，如"_www"、"_doc"、"_downloads"、"_documents"等开头的路径。
+						</p>
+</li>
+<li>mime: <em>(<font class="type">String</font>
+	类型
+)</em>重定向的资源数据类型<br><p>
+	RFC2045/RFC2046/RFC2047/RFC2048/RFC2049规范中定义的数据类型。
+	如普通文本（text/plain）、PNG图像(image/png)、GIF图形(image/gif)、JPEG图形(image/jpeg)。
+	如果未指定mime类型，则根据重定向资源路径自动区配。
+						</p>
+</li>
+<li>encoding: <em>(<font class="type">String</font>
+	类型
+)</em>重定向的资源数据编码<br><p>
+	如未设置，则使用默认值"UTF-8"。
+						</p>
+</li>
+<li>header: <em>(<font class="type">JSON</font>
+	类型
+)</em>设置重定向资源数据的http头数据<br><p>
+	可设置标注http头数据（如Content-type）,也可设置自定义数据。
+	通常可通过此属性来设置拦截资源的缓存策略（如Cache-control）。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.webview.WebviewOverrideUrlOptions">WebviewOverrideUrlOptions</a></h1>
+<p>拦截Webview窗口URL请求的属性</p>
+<h2>属性：</h2>
+<ul>
+<li>effect: <em>(<font class="type">String</font>
+	类型
+)</em>拦截URL请求生效时机<br><p>
+	可取值：
+		"instant" - 表示立即生效，即调用overrideUrlLoading方法后立即生效；
+		"touchstart" - 表示用户操作Webview窗口（触发touchstart事件）后生效，如果用户没有操作Webview窗口则不对URL请求操作进行拦截处理。
+	默认值为"instant"。
+						</p>
+</li>
+<li>mode: <em>(<font class="type">String</font>
+	类型
+)</em>拦截模式<br><p>
+	可取值：
+	"allow"表示满足match属性定义的条件时不拦截url继续加载，不满足match属性定义的条件时拦截url跳转并触发callback回调；
+	"reject"表示满足match属性定义的提交时拦截url跳转并触发callback回调，不满足match属性定义的条件时不拦截url继续加载。
+	默认值为"reject"。
+						</p>
+</li>
+<li>match: <em>(<font class="type">String</font>
+	类型
+)</em>区配是否需要处理的URL请求<br><p>
+	支持正则表达式，默认值为对所有URL地址生效（相当于正则表达式“.*”）。
+	如果mode值为"allow"则允许区配的URL请求跳转，mode值为"reject"则拦截区配的URL请求。
+						</p>
+</li>
+<li>exclude: <em>(<font class="type">String</font>
+	类型
+)</em>排除拦截处理请求类型<br><p>
+	不拦截处理指定类型的URL请求，直接使用系统默认处理逻辑。
+	可取值：
+	"none"表示不排除任何URL请求（即拦截处理所有URL请求）；
+	"redirect"表示排除拦截处理301/302跳转的请求（谨慎使用，非a标签的href触发的URL请求可能会误判断为302跳转）。
+	默认值为"none"。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.webview.WebviewListenResourceOptions">WebviewListenResourceOptions</a></h1>
+<p>监听Webview窗口资源加载的属性</p>
+<h2>属性：</h2>
+<ul><li>match: <em>(<font class="type">String</font>
+	类型
+)</em>区配是否需要处理的URL资源<br><p>
+	支持正则表达式，默认值为对所有URL资源请求生效（相当于正则表达式“.*”）。
+	如果Webview加载的资源区配条件，则触发回调事件。
+						</p>
+</li></ul>
+<h1><a name="plus.webview.BounceEventCallback">BounceEventCallback</a></h1>
+<p>Webview窗口回弹事件的回调函数</p>
+<pre class="prettyprint linenums">
+void onEvent( Event event ){
+	// Event handled code.
+}
+				</pre>
+<h2>参数：</h2>
+<ul><li>event: 
+		<em>(
+			<font class="type">Event</font>
+			)
+			必选 </em>Webview窗口回弹事件触发时事件数据<br>
+	Event对象包含以下属性：
+	status - 表示回弹位置状态，设置顶部下拉回弹changeoffset属性后可取值："beforeChangeOffset"表示可继续拖拽，此时松开拖拽窗口会回弹到其初始位置；
+			"afterChangeOffset"表示回弹可停靠，此时松开拖拽窗口会回弹到停靠位置；
+			"dragEndAfterChangeOffset"表示已进松开拖拽，并且窗口回弹到停靠位置。
+			设置左右侧侧滑slideoffset属性后可取值："beforeSlide"表示未侧滑状态；"afterSlide"表示已侧滑状态。
+	offset - 表示回弹方向，可取值："left"表示左侧滑动，"right"表示右侧滑动，"top"表示上侧下拉滑动。
+	target - 保存触发回弹此事件的Webview窗口对象。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.webview.EventCallback">EventCallback</a></h1>
+<p>Webview窗口事件的回调函数</p>
+<pre class="prettyprint linenums">
+void onEvent(Event event){
+	// Event handled code.
+}
+				</pre>
+<h2>参数：</h2>
+<ul><li>event: 
+		<em>(
+			<font class="type">Event</font>
+			)
+			必选 </em>Webview窗口事件触发时事件数据<br>
+	Event对象包含以下属性：
+		target：保存触发此事件的Webview窗口对象；
+		progress：保存窗口页面加载进度，仅"progressChanged"事件时有此属性。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.webview.PopGestureCallback">PopGestureCallback</a></h1>
+<p>Webview窗口侧滑事件的回调函数</p>
+<pre class="prettyprint linenums">
+void onEvent( PopGestureEvent event ){
+	// Event handled code.
+}
+				</pre>
+<h2>参数：</h2>
+<ul><li>event: 
+		<em>(
+			<a href="#plus.webview.PopGestureEvent">PopGestureEvent</a>
+			)
+			必选 </em>Webview窗口事件触发时事件数据<br>
+	PopGestureEvent对象包含以下属性：
+		target：保存侧滑操作的Webview窗口对象。
+		type：保存侧滑事件类型，"start"表示开始侧滑返回，用户按下滑动时触发；
+		“end”表示结束侧滑返回，用户松手时触发；
+		“move"表示侧滑返回动作结束，用户移动侧滑时触发。
+		result：保存操作结果，仅在e.type为end时有效，boolean类型，
+		true表示侧滑返回执行，false表示侧滑返回取消；否则为undefined。
+		progress：保存侧滑位置，Number类型，可带小数点，范围为0-100。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.webview.HistoryQueryCallback">HistoryQueryCallback</a></h1>
+<p>历史记录查询的回调函数</p>
+<pre class="prettyprint linenums">
+void onHistoryQuery( Event event ) {
+	// Event handled code.
+	var canBack = event.canBack;
+	var canForward = event.canForward;
+}
+				</pre>
+<h2>参数：</h2>
+<ul><li>event: 
+		<em>(
+			<font class="type">Event</font>
+			)
+			必选 </em>查询Webview窗口历史记录操作事件数据<br>
+	可通过event的canBack属性获取Webview窗口是否可后退，通过event的canForward属性获取Webview窗口是否可前进。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.webview.ListenResourceLoadingCallback">ListenResourceLoadingCallback</a></h1>
+<p>Webview窗口加载资源事件的回调函数</p>
+<pre class="prettyprint linenums">
+void onLoadingResource( Event event ) {
+	// Event handled code.
+	var url = event.url;
+}
+				</pre>
+<h2>参数：</h2>
+<ul><li>event: 
+		<em>(
+			<font class="type">Event</font>
+			)
+			必选 </em>Webview窗口加载资源事件数据<br>
+	可通过event的url属性获取要加载的资源URL地址。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.webview.OverrideUrlLoadingCallback">OverrideUrlLoadingCallback</a></h1>
+<p>Webview窗口拦截URL链接跳转的回调函数</p>
+<pre class="prettyprint linenums">
+void onOverride( Event event ) {
+	// Event handled code.
+	var url = event.url;
+}
+				</pre>
+<h2>参数：</h2>
+<ul><li>event: 
+		<em>(
+			<font class="type">Event</font>
+			)
+			必选 </em>Webview窗口拦截URL跳转事件数据<br>
+	可通过event的url属性获取拦截的URL地址。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.webview.TitleUpdateCallback">TitleUpdateCallback</a></h1>
+<p>Webview窗口加载页面标题更新的回调函数</p>
+<pre class="prettyprint linenums">
+void onQuery( Event event ) {
+	// Event handled code.
+}
+				</pre>
+<h2>参数：</h2>
+<ul><li>event: 
+		<em>(
+			<font class="type">Event</font>
+			)
+			必选 </em>Webview窗口加载页面标题更新事件数据<br>
+	可通过event的title属性获取Webview窗口的标题。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.webview.WebviewAnimationCallback">WebviewAnimationCallback</a></h1>
+<p>Webview窗口组合动画回调函数</p>
+<pre class="prettyprint linenums">
+void onAnimationFinished( Event event ) {
+	// Event handled code.
+}
+				</pre>
+<h2>参数：</h2>
+<ul><li>event: 
+		<em>(
+			<font class="type">Event</font>
+			)
+			必选 </em>Webview窗口动画完成事件数据<br>
+	可通过event的id属性获取对应Webview窗口的标识，如果操作的窗口未设置id，则返回空字符串；
+	可通过event的target属性获取对应Webview窗口对象。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.webview.WebviewDragCallback">WebviewDragCallback</a></h1>
+<p>Webview窗口滑屏操作事件回调函数</p>
+<pre class="prettyprint linenums">
+void onDrag( Event event ) {
+	// Event handled code.
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	在窗口开始滑动、滑动过程、滑动结束时触发，其中滑动过程中会触发多次，滑动过程中触发次数由WebviewDragOptions对象的callbackStep决定。
+				</p>
+<h2>参数：</h2>
+<ul><li>event: 
+		<em>(
+			<a href="#plus.webview.WebviewDragEvent">WebviewDragEvent</a>
+			)
+			必选 </em>Webview窗口滑动操作事件数据<br>
+</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.webview.WebviewCustomButtonCallback">WebviewCustomButtonCallback</a></h1>
+<p>Webview窗口标题栏上自定义按钮点击事件回调函数</p>
+<pre class="prettyprint linenums">
+void onClicked(Event event){
+	// Event handled code.
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	用户点击自定义按钮时触发。
+				</p>
+<h2>参数：</h2>
+<ul><li>event: 
+		<em>(
+			<font class="type">Event</font>
+			)
+			必选 </em>点击事件触发时的数据<br>
+	Event对象包含以下属性：
+		target：触发此事件的WebviewBackButtonStyles对象。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.webview.SuccessCallback">SuccessCallback</a></h1>
+<p>Webview窗口操作成功回调函数</p>
+<pre class="prettyprint linenums">
+void onSuccess(){
+	// Success code.
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	Webview窗口业务操作成功后触发回调函数。
+				</p>
+<h2>参数：</h2>
+<p>无</p>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.webview.ErrorCallback">ErrorCallback</a></h1>
+<p>Webview窗口操作失败回调函数</p>
+<pre class="prettyprint linenums">
+void onError(error){
+	// Handle the error
+	var code = error.code; // 错误编码
+	var message = error.message; // 错误描述信息
+}
+				</pre>
+<h2>参数：</h2>
+<ul><li>error: 
+		<em>(
+			<font class="type">Exception</font>
+			)
+			可选 </em>Webview窗口操作错误信息<br>
+	可通过error.code（Number类型）获取错误编码；
+	可通过error.message（String类型）获取错误描述信息。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<br><br>
+</div></body>
+</html>

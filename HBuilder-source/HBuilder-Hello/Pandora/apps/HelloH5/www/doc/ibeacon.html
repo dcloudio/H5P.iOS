@@ -1,0 +1,198 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="HandheldFriendly" content="true">
+<meta name="MobileOptimized" content="320">
+<title>iBeacon Document</title>
+<link rel="stylesheet" type="text/css" href="res/doc.css" charset="utf-8">
+<link rel="stylesheet" type="text/css" href="res/prettify.sons.css" charset="utf-8">
+<script type="text/javascript" src="res/doc.js" charset="utf-8"></script><script type="text/javascript" src="res/prettify.js" charset="utf-8"></script>
+</head>
+<body><div id="content" class="content">
+<h1><a name="plus.ibeacon">ibeacon</a></h1>
+<p>
+iBeacon模块用于搜索附件的iBeacon设备（*请使用HBuilderX并更新到最新版本*）。</p>
+<h2>方法：</h2>
+<ul>
+<li>
+<a href="#plus.ibeacon.startBeaconDiscovery">startBeaconDiscovery</a>: 开始搜索附近的iBeacon设备</li>
+<li>
+<a href="#plus.ibeacon.stopBeaconDiscovery">stopBeaconDiscovery</a>: 停止搜索附近的iBeacon设备</li>
+<li>
+<a href="#plus.ibeacon.getBeacons">getBeacons</a>: 获取已搜索到的iBeacon设备</li>
+<li>
+<a href="#plus.ibeacon.onBeaconUpdate">onBeaconUpdate</a>: 监听iBeacon设备更新</li>
+<li>
+<a href="#plus.ibeacon.onBeaconServiceChange">onBeaconServiceChange</a>: 监听iBeacon服务状态变化</li>
+</ul>
+<h2>对象：</h2>
+<ul><li>
+<a href="#plus.ibeacon.IBeaconInfo">IBeaconInfo</a>: iBeacon设备信息</li></ul>
+<h2>回调方法：</h2>
+<ul>
+<li>
+<a href="#plus.ibeacon.IBeaconSuccessCallback">IBeaconSuccessCallback</a>: 成功回调函数</li>
+<li>
+<a href="#plus.ibeacon.IBeaconFailCallback">IBeaconFailCallback</a>: 失败回调函数</li>
+<li>
+<a href="#plus.ibeacon.IBeaconCompleteCallback">IBeaconCompleteCallback</a>: 操作完成回调函数</li>
+<li>
+<a href="#plus.ibeacon.IBeaconUpdateCallback">IBeaconUpdateCallback</a>: 获取iBeacon设备信息回调函数</li>
+<li>
+<a href="#plus.ibeacon.IBeaconServiceChangeCallback">IBeaconServiceChangeCallback</a>: iBeacon服务状态变化回调函数</li>
+</ul>
+<h2>权限：</h2>
+<p>5+功能模块（permissions）</p>
+<pre class="prettyprint linenums">
+{
+// ...
+"permissions":{
+	// ...
+	"iBeacon": {
+		"description": "iBeacon"
+	}
+}
+}
+			</pre>
+<h1><a name="plus.ibeacon.IBeaconInfo">IBeaconInfo</a></h1>
+<p>iBeacon设备信息</p>
+<pre class="prettyprint linenums">
+interface IBeaconInfo {
+	readonly attribute String uuid;
+	readonly attribute String major;
+	readonly attribute String minor;
+	readonly attribute Number proximity;
+	readonly attribute Number accuracy;
+	readonly attribute Number rssi;
+}			
+				</pre>
+<h2>属性：</h2>
+<ul>
+<li>uuid: <em>(<font class="type">String</font>
+	类型
+)</em>iBeacon设备广播的uuid<br>
+</li>
+<li>major: <em>(<font class="type">String</font>
+	类型
+)</em>iBeacon设备的主id<br>
+</li>
+<li>minor: <em>(<font class="type">String</font>
+	类型
+)</em>iBeacon设备的次id<br>
+</li>
+<li>proximity: <em>(<font class="type">Number</font>
+	类型
+)</em>iBeacon设备的距离<br>
+</li>
+<li>accuracy: <em>(<font class="type">Number</font>
+	类型
+)</em>iBeacon设备的距离精度信息<br>
+</li>
+<li>rssi: <em>(<font class="type">String</font>
+	类型
+)</em>iBeacon设备的信号强度<br>
+</li>
+</ul>
+<h1><a name="plus.ibeacon.IBeaconSuccessCallback">IBeaconSuccessCallback</a></h1>
+<p>成功回调函数</p>
+<pre class="prettyprint linenums">
+void onSuccess(event){
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	不同接口触发的成功回调参数event包含的属性存在差异，具体参考对应的接口描述说明。
+				</p>
+<h2>参数：</h2>
+<ul><li>event: 
+		<em>(
+			<font class="type">json</font>
+			)
+			必选 </em>回调参数<br>
+	回调参数包含的属性由调用接口决定，具体参考对应的接口描述说明。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.ibeacon.IBeaconFailCallback">IBeaconFailCallback</a></h1>
+<p>失败回调函数</p>
+<pre class="prettyprint linenums">
+function void onFail(DOMException error){
+	// Handle error
+	var code = error.code; // 错误编码
+	var message = error.message; // 错误描述信息
+}
+				</pre>
+<h2>参数：</h2>
+<ul><li>error: 
+		<em>(
+			<font class="type">DOMException</font>
+			)
+			必选 </em>回调参数，错误信息<br>
+	可通过error.code（Number类型）获取错误编码；
+	可通过error.message（String类型）获取错误描述信息。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.ibeacon.IBeaconCompleteCallback">IBeaconCompleteCallback</a></h1>
+<p>操作完成回调函数</p>
+<pre class="prettyprint linenums">
+function void onComplete(event){
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	调用成功或失败都会触发此回调。
+				</p>
+<h2>参数：</h2>
+<ul><li>event: 
+		<em>(
+			<font class="type">json</font>
+			)
+			可选 </em>回调参数<br>
+	调用成功时回调参数与IBeaconSuccessCallback一致，调用失败时回调参数与IBeaconFailCallback一致。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.ibeacon.IBeaconUpdateCallback">IBeaconUpdateCallback</a></h1>
+<p>获取iBeacon设备信息回调函数</p>
+<pre class="prettyprint linenums">
+void onSuccess(event){
+	// 通过beacons获取iBeacon设备列表信息
+	var beacons = event.beacons;
+}
+				</pre>
+<h2>参数：</h2>
+<ul><li>event: 
+		<em>(
+			<font class="type">JSON</font>
+			)
+			必选 </em>设备信息<br>
+	可通过event.beacons（Array&lt;IBeaconInfo&gt;类型）获取iBeacon设备列表信息。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.ibeacon.IBeaconServiceChangeCallback">IBeaconServiceChangeCallback</a></h1>
+<p>iBeacon服务状态变化回调函数</p>
+<pre class="prettyprint linenums">
+void onSuccess(event){
+	// 通过available、discovering获取iBeacon服务状态
+	var available = event.available;
+	var discovering = event.discovering;
+}
+				</pre>
+<h2>参数：</h2>
+<ul><li>event: 
+		<em>(
+			<font class="type">JSON</font>
+			)
+			必选 </em>iBeacon服务状态信息<br>
+	可通过event.available（Boolean类型）获取iBeacon服务目前是否可用；
+	可通过event.discovering（Boolean类型）获取是否处于搜索iBeacon设备状态。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<br><br>
+</div></body>
+</html>

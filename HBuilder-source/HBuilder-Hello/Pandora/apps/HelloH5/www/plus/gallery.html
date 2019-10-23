@@ -1,0 +1,180 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript">
+function plusReady(){
+	// 用户侧滑返回时关闭显示的图片
+	plus.webview.currentWebview().addEventListener('popGesture', function(e){
+		if(e.type=='start'){
+			closeImg();
+		}
+	}, false );
+}
+document.addEventListener('plusready',plusReady,false);
+
+function getImage(){
+	var cmr = plus.camera.getCamera();
+	cmr.captureImage(function(path){
+		outSet('保存照片到系统相册：');
+		plus.gallery.save(path, function(){
+			outLine('保存成功');
+		}, function(e){
+			outSet('保存失败: '+JSON.stringify(e));
+		});
+	}, function(e){
+		outSet('取消拍照');
+	}, {filename:'_doc/gallery/',index:1});
+}
+function galleryImg(){
+	// 从相册中选择图片
+	outSet('从相册中选择图片：');
+    plus.gallery.pick(function(path){
+    	outLine(path);
+        //showImg( path );
+        //createItem(path);
+    }, function(e){
+    	outSet('取消选择图片');
+    }, {filter:'image'});
+}
+function galleryImgs(){
+	// 从相册中选择图片
+	outSet('从相册中选择多张图片：');
+    plus.gallery.pick(function(e){
+    	for(var i in e.files){
+	    	outLine(e.files[i]);
+    	}
+    }, function(e){
+    	outSet('取消选择图片');
+    },{filter:'image',multiple:true,system:false});
+}
+function galleryImgsMaximum(){
+	// 从相册中选择图片
+	outSet('从相册中选择多张图片(限定最多选择3张)：');
+    plus.gallery.pick(function(e){
+    	for(var i in e.files){
+	    	outLine(e.files[i]);
+    	}
+    }, function(e){
+    	outSet('取消选择图片');
+    },{filter:'image',multiple:true,maximum:3,system:false,onmaxed:function(){
+		plus.nativeUI.alert('最多只能选择3张图片');
+    }});// 最多选择3张图片
+}
+var lfs=null;// 保留上次选择图片列表
+function galleryImgsSelected(){
+	// 从相册中选择图片
+	outSet('从相册中选择多张图片(限定最多选择3张)：');
+    plus.gallery.pick(function(e){
+    	lfs=e.files;
+    	for(var i in e.files){
+	    	outLine(e.files[i]);
+    	}
+    }, function(e){
+    	outSet('取消选择图片');
+    },{filter:'image',multiple:true,maximum:3,selected:lfs,system:false,onmaxed:function(){
+		plus.nativeUI.alert('最多只能选择3张图片');
+    }});// 最多选择3张图片
+}
+function showImg(url){
+	// 兼容以"file:"开头的情况
+	if(0!=url.indexOf('file://')){
+		url='file://'+url;
+	}
+	var _body_ = document.body;
+	var _div_ = document.createElement('div');
+	_div_.style.top='0px';
+	_div_.style.left='0px';
+	_div_.style.height='100%';
+	_div_.style.width='100%';
+	_div_.style.zIndex='99999';
+	_div_.style.position='fixed';
+	_div_.style.background='#ffffff';
+	_div_.id='imgShow';
+	_div_.onclick=closeImg;
+	var _img_=document.createElement('img');
+	_img_.src=url;
+	_img_.style.width='100%';
+	_body_.appendChild(_div_);
+	_div_.appendChild(_img_);
+}
+function closeImg(){
+	var trnode=document.getElementById('imgShow');
+	trnode&&trnode.parentNode.removeChild(trnode);
+}
+
+var list=null,first=null;
+document.addEventListener('DOMContentLoaded', function(){
+	list=document.getElementById('list');
+	first=document.getElementById('empty');
+}, false);
+// 添加列表项
+function createItem(path){
+	var li = document.createElement('li');
+	li.className = 'ditem';
+	li.innerHTML = '<span class="iplay"><font class="aname"></font><br/><font class="ainf"></font></span>';
+	li.setAttribute('onclick', 'displayMedia(this);' );
+	list.insertBefore(li, first.nextSibling);
+	var i = path.lastIndexOf('/');
+	if(i<0){
+		i = path.lastIndexOf('\\');
+	}
+	li.querySelector('.aname').innerText = path.substr(i+1);
+	li.querySelector('.ainf').innerText = path;
+	li.path = path;
+	// 设置空项不可见
+	first.style.display = 'none';
+}
+// 清除列表记录
+function cleanList() {
+	list.innerHTML = '<li id="empty" class="ditem-empty">无记录</li>';
+	empty = document.getElementById('empty');
+	// 删除音频文件
+	outSet('清空选择照片记录：');
+}
+// 返回后关闭图片显示
+var _back=window.back;
+window.back=function(){
+	closeImg();
+	_back();
+};
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+		<style type="text/css">
+.aname {
+	font-size: 16px;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+}
+.ainf {
+	font-size: 12px;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+}
+.iplay {
+	display: block;
+	background: no-repeat right center url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABYCAYAAAADWlKCAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAKwwAACsMBNCkkqwAAABZ0RVh0Q3JlYXRpb24gVGltZQAwOS8xMi8xM5w+I3MAAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzVxteM2AAAD9UlEQVR4nO2b3XETMRRGDwzvoYOkg5hRAVkqiKmAdIA7wHSQVECoALsC1gXciV0BTge4gvCwgnHk9d/+WF8m97ztxrlXs8fS1Urym6enJxwd3uZugPMcFyKGCxHDhYjhQsRwIWK4EDFciBguRAwXIoYLEcOFiOFCxHAhYrgQMVyIGC5EDBcihgsRw4WI4ULEcCFiuBAx3uVuwDGY2XtgCBTAALjc8tEFMAdKYBJC+HOK9nXBm5dwUM7MCmAEXDcMMQVuQwhlV23qC2khZjYAboGrjkLOgFEIYd5RvM6RrSFmdgs80J0MYqyHGFsSuR4S60TJ9vrwCEziZ+YhhGXy/xdU9aWgqjfnW+IsgEKtvkgJiUPUPfUyZsD42DoQ68+Y+p62AG6UhjAZITt6xopq3L9vGf+Gqh6dJX+S6ilKNaRkU8YCGLSVARBjDGLMdS5jbgkkhMQiWyejSGtEG2KsghopKoU++5AV68ZDcrvXYWTH8Pghdz1R6CHpN3MFDPsc02PsYcy1qy0nJ6uQOANKZz+jfcOUmd3H6W1jYo5RcvsqtikbuXtI+kBmBxbwz8DczMZtksdcsz1tOinZhMRxPF2bGh8R4gz4amZLMxu2aEqa8zq2LQs5e0j6EB8bLv6dAz/NrGwyjMWcj3vadjJyCimS60nLeFfAbzO7bfANT3MXLdvSmJxCBsl12VHcL8AyvpkfSpo7bdvJyCkkfQfocv5/Bnw3s/mBs6Y097aFzd7JPcv6T5dv5GtcAr/2TZN7yt0IGSE908k0+RS8FiEvhhd1yKEFUw5YAVBApoe0XQrZwgL4GEIY7pLRU+5G5OwhC57PZgbAsqPYK6rdxUMXC9Npbro8fzJy9pB0qll0FPcOuDhCRl3ubEvwOYWUyXXb5YoZ1X7GqMHSfZq7bNmWxuQUki5XnDdc+n4EPoUQiiabSzFnejKl7TJOY7IJid/iaXJ7fESIFfCNas+9zQNMc05zHnjIPctKx/mrA9egflCJGLd5eDFXukGWdddQYU+95PlDWVE97GXPeS+oivf6saBZCKHoM+8+cvcQ2NyhOwMmfW4SxdgTNs9oZd0tBAEhsRDfJbcvgbIPKTtOnNzlPnECAkPWP8xsTv3ZrJ1v2UfmuKDqGRt5QgjZ9kDWyd5D1iioP1U4P3KzqZYYY5v0om38rpDpIeCHrUFMCPjPEeSE/COetf3SU/i7EEL2GVUdSjXkGfGBfWDzIFsb/q93dRizU2R7yDr+o09R/GfRzsmRrSGvFRcihgsRw4WI4ULEcCFiuBAxXIgYLkQMFyKGCxHDhYjhQsRwIWK4EDFciBguRAwXIoYLEcOFiOFCxHAhYrgQMf4CVuqCm+17t3sAAAAASUVORK5CYII=);
+	background-size: 50px 44px;
+	-ms-touch-action: auto;
+}
+		</style>
+	</head>
+	<body>
+		<br/>
+		<div class="button" onclick="getImage()">拍照并保存到相册</div>
+		<div class="button" onclick="galleryImg()">从相册中单选图片</div>
+		<div class="button" onclick="galleryImgs()">从相册中多选图片</div>
+		<div class="button" onclick="galleryImgsMaximum()">从相册中多选图片(最多三张)</div>
+		<div class="button" onclick="galleryImgsSelected()">从相册中多选图片(保存勾选记录)</div>
+		<br/>
+		<div id="outpos"/>
+		<div id="output">
+Gallery模块管理系统相册，如从相册中选择图片或视频文件、保存图片或视频文件到相册等功能。
+		</div>
+	</body>
+</html>

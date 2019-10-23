@@ -1,0 +1,280 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>微博分享</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript">
+var shares=null;
+var sweibo=null;
+// H5 plus事件处理
+function plusReady(){
+	updateSerivces();
+}
+if(window.plus){
+	plusReady();
+}else{
+	document.addEventListener('plusready', plusReady, false);
+}
+/**
+ * 更新分享服务
+ */
+function updateSerivces(){
+	plus.share.getServices(function(s){
+		shares={};
+		for(var i in s){
+			var t=s[i];
+			shares[t.id]=t;
+		}
+    sweibo=shares['sinaweibo'];
+	}, function(e){
+		outSet('获取分享服务列表失败：'+e.message);
+	});
+}
+
+// 分享文本 
+function shareText(){
+  var msg={type:'text'};
+  if(!text_content.value){
+    plus.nativeUI.alert('请输入要分享的内容!');
+    return;
+  }
+  msg.content=text_content.value;
+  sweibo?share(sweibo, msg):plus.nativeUI.alert('当前环境不支持新浪微博分享操作!');
+}
+
+// 分享图片
+function shareImage(){
+  var msg={type:'image'};
+  if(!image_picture.realUrl){
+    plus.nativeUI.alert('请选择要分享的图片!');
+    return;
+  }
+  msg.pictures=[image_picture.realUrl];
+  msg.content='我在使用HBuilder分享图片'; //可选
+  sweibo?share(sweibo, msg):plus.nativeUI.alert('当前环境不支持新浪微博分享操作!');
+}
+
+// 分享网页
+function shareWeb(){
+  var msg={type:'web'};
+  if(!web_href.value){
+    plus.nativeUI.alert('请输入分享网页的链接地址!');
+    web_href.focus();
+    return;
+  }
+  msg.href=web_href.value;
+  if(!web_content.value){
+    plus.nativeUI.alert('请输入分享网页的描述!');
+    web_content.focus();
+    return;
+  }
+  msg.content=web_content.value;
+  sweibo?share(sweibo, msg):plus.nativeUI.alert('当前环境不支持新浪微博分享操作!'); 
+}
+
+// 分享视频
+function shareVideo(){
+  var msg={type:'video',thumbs:['_www/logo.png']};
+  if(!video_media.value){
+    plus.nativeUI.alert('请输入分享视频的链接地址!');
+    video_media.focus();
+    return;
+  }
+  msg.media=video_media.value;
+  msg.content='我在使用HBuilder分享视频'; //可选
+  sweibo?share(sweibo, msg):plus.nativeUI.alert('当前环境不支持新浪微博分享操作!'); 
+}
+
+
+// 分享
+function share(srv, msg, button){
+	outSet('分享操作：');
+  if(!srv){
+    outLine('无效的分享服务！');
+    return;
+  }
+  button&&(msg.extra=button.extra);
+	// 发送分享
+	if(srv.authenticated){
+		outLine('---已授权---');
+		doShare(srv, msg);
+	}else{
+		outLine('---未授权---');
+		srv.authorize(function(){
+			doShare(srv, msg);
+		}, function(e){
+			outLine('认证授权失败：'+JSON.stringify(e));
+		});
+	}  
+}
+// 发送分享
+function doShare(srv, msg){
+	outLine(JSON.stringify(msg));
+	srv.send(msg, function(){
+		outLine('分享到"'+srv.description+'"成功！');
+	}, function(e){
+		outLine('分享到"'+srv.description+'"失败: '+JSON.stringify(e));
+	});
+}
+// 解除授权
+function cancelAuth(){
+	outSet('解除授权：');
+  if(sweibo){
+    if(sweibo.authenticated){
+    	outLine('取消"'+sweibo.description+'"');
+    }
+    sweibo.forbid();
+  }else{
+    outLine('当前环境不支持QQ分享操作!');
+  }
+}
+
+
+// 拍照添加图片分享
+function imageCameraPicture(){
+	outSet('拍照添加分享图片：');
+	var cmr=plus.camera.getCamera();
+	cmr.captureImage(function(p){
+		plus.io.resolveLocalFileSystemURL(p,function(entry){
+			image_picture.src=entry.toLocalURL();
+			image_picture.realUrl=p;
+			outLine('拍照图片：'+image_picture.realUrl);
+		},function(e){
+			outLine('读取拍照文件错误：'+e.message);
+		} );
+	},function(e){
+		outLine('拍照失败：'+e.message);
+	});
+}
+// 从相册添加图片分享
+function imageGalleryPicture(){
+	outSet('从相册添加分享图片：');
+	plus.gallery.pick(function(p){
+		// 从相册返回的路径不需要转换可以直接使用
+		image_picture.src=p;
+		image_picture.realUrl=image_picture.src;
+		outLine('选择图片：'+image_picture.realUrl);
+  });
+}
+// 使用Logo图片分享
+function imageLogoPicture(){
+	outSet('使用Logo分享图片：');
+	var url='_www/logo.png';
+	plus.io.resolveLocalFileSystemURL(url, function(entry){
+		image_picture.src=entry.toLocalURL();
+		image_picture.realUrl=url;
+	}, function(e){
+		outLine('读取Logo文件错误：'+e.message);
+	});
+}
+// 拍摄视频
+function videoCameraCapture(){
+	outSet('录像分享视频：');
+	var cmr = plus.camera.getCamera();
+	cmr.startVideoCapture(function(p){
+		outLine('录像成功：'+p);
+		video_media.value=p;
+	}, function(e){
+		outLine('录像失败：'+JSON.stringify(e));
+	}, {filename:'_doc/camera/'});
+}
+// 选择视频
+function imageGallerySelect(){
+	outSet('从相册选择分享视频：');
+	plus.gallery.pick(function(p){
+		video_media.value=p;
+		outLine('选择视频成功：'+p);
+  }, function(e){
+    outLine('选择视频失败：'+JSON.stringify(e));
+  },{filter:'video'});
+}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+		<style type="text/css">
+.sharecontent{
+	width:80%;
+	-webkit-user-select:text;
+	border: 1px solid #6C6C6C;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+}
+.sharepicture{
+  width:30%;
+}
+.share_input{
+  width:90%;
+	-webkit-user-select:text;
+	border: 1px solid #6C6C6C;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+	margin-bottom: .5em;
+}
+		</style>
+	</head>
+	<body>
+		<br/>
+		<p class="heading">分享文本：</p>
+		<textarea id="text_content" class="sharecontent" rows="3">我正在使用HBuilder开发移动应用，赶紧跟我一起来体验！</textarea>
+		<div class="button" onclick="shareText()">分享文本</div>
+		<hr color="#EEE"/><br/><br/>
+
+		<p class="heading">分享图片：</p>
+		<table style="width:100%;">
+			<tbody>
+				<tr>
+					<td style="width:30%"><div class="button button-select" onclick="imageCameraPicture()">拍照</div></td>
+					<td style="width:30%"><div class="button button-select" onclick="imageGalleryPicture()">相册选取</div></td>
+					<td style="width:30%"><div class="button button-select" onclick="imageLogoPicture()">使用logo图</div></td>
+				</tr>
+			</tbody>
+		</table>
+		<img id="image_picture" class="sharepicture" src="../img/add.png"/>
+		<br/>
+		<p class="des">分享图片可设置文本内容（可选）及缩略图（可选）。未安装微博客户端时Android平台图片限定大小为1M以内，iOS平台则不支持分享图片。</p>
+		<div class="button" onclick="shareImage()">分享图片</div>
+		<hr color="#EEE"/><br/><br/>
+		
+		<p class="heading">分享网页：</p>
+		<table style="width:100%;">
+			<tbody>
+				<tr>
+					<td style="width:20%;text-align:right;font-size:12px;">网页地址</td>
+					<td style="width:65%">
+						<input id="web_href" class="share_input" type="url" value="http://www.dcloud.io/" placeholder="请输入要分享的网页地址"/>
+					</td>
+				</tr>
+				<tr>
+					<td style="width:20%;text-align:right;font-size:12px;">网页描述</td>
+					<td style="width:65%">
+						<input id="web_content" class="share_input" type="url" value="我正在使用HBuilder+HTML5开发移动应用，赶紧跟我一起来体验！" placeholder="请输入要分享的网页描述"/>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<p class="des">分享网页链接在内容之后，如果要将链接放到内容中可直接在内容中添加链接。</p>
+		<div class="button" onclick="shareWeb()">分享网页</div>
+		<hr color="#EEE"/><br/><br/>
+
+		<p class="heading">分享视频：</p>
+		<table style="width:100%;">
+			<tbody>
+				<tr>
+					<td style="width:40%"><div class="button button-select" onclick="videoCameraCapture()">拍摄</div></td>
+					<td style="width:40%"><div class="button button-select" onclick="imageGallerySelect()">相册选取</div></td>
+				</tr>
+			</tbody>
+		</table>
+		<input id="video_media" class="share_input" style="width:90%" type="url" value="" placeholder="选择要分享的视频"/>
+		<p class="des">分享视频可设置文本内容（可选）及缩略图（可选）。未安装微博客户端时Android&amp;iOS平台则不支持分享视频。</p>
+		<div class="button" onclick="shareVideo()">分享视频</div>
+		<hr color="#EEE"/>
+		<div id="outpos"/>
+		<div id="output">
+新浪微博分享支持分享文本、网页、图片、视频（本地地址）等。
+		</div>
+	</body>
+</html>

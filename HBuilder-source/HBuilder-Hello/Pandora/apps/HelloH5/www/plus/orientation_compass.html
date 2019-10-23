@@ -1,0 +1,181 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>指南针</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript" >
+// H5 plus事件处理
+function plusReady(){
+	// 锁定只能竖屏显示
+	plus.screen.lockOrientation( "portrait-primary" );
+}
+if(window.plus){
+	plusReady();
+}else{
+	document.addEventListener("plusready",plusReady,false);
+}
+// 解锁并关闭
+var _back=window.back;
+function unlockback(){
+	plus.screen.unlockOrientation();
+	_back();
+}
+window.back=unlockback;
+
+var t, x;
+var ld;
+var tran="0.1s", empty="0s";
+var bani=false, bsp=true;
+function update(d) {
+	var c = ld - d;
+	var ac = Math.abs(c);
+	if (ac <= 1) {
+		return;
+	} else if (ac > 180) {
+		if ( bani ) {
+			t.style.webkitTransitionDuration = empty;
+		}
+		ld = (c > 0) ? ld - 360 : ld + 360;
+		t.style.webkitTransform = "rotate(" + (bsp?(-ld):(ld)) + "deg)";
+		setTimeout(adjust, 1);
+	} else {
+		t.style.webkitTransform = "rotate(" + (bsp?(-d):(d)) + "deg)";
+	}
+	ld = d;
+	var r = Math.round(d);
+	var txt = "";
+	if (r >= 338 || r < 23) {
+		txt = "北";
+	} else if (r < 68) {
+		txt = "东北";
+	} else if (r < 113) {
+		txt = "东";
+	} else if (r < 158) {
+		txt = "东南";
+	} else if (r < 203) {
+		txt = "南";
+	} else if (r < 248) {
+		txt = "西南";
+	} else if (r < 293) {
+		txt = "西";
+	} else {
+		txt = "西北";
+	}
+	x.innerHTML = txt + r + "°";
+}
+function adjust() {
+	if ( bani ) {
+		t.style.webkitTransitionDuration = tran;
+	}
+	t.style.webkitTransform = "rotate(" + (bsp?(-ld):(ld)) + "deg)";
+}
+function gohome() {
+	plus.webview.currentWebview().close();
+}
+document.addEventListener("plusready", function() {
+	t = document.getElementById("compass");
+	x = document.getElementById("inf");
+
+	if ( plus.os.name == "iOS" ) {
+		t.style.webkitTransition = "all 0.1s linear";
+		bani = true;
+		if ( plus.device.model.indexOf("iPhone") < 0 ) {
+			bsp = false;
+			document.getElementById("tip").innerText = "此设备方向数据不准确";
+		}
+	}
+	plus.orientation.watchOrientation(function(r) {
+		update(bsp?r.trueHeading:r.alpha);//update(r.alpha);
+	}, function(e) {
+		// error
+	}, {
+		frequency : 100
+	});
+}, false);
+// Adjective select.
+document.onselectstart = function() {
+	return false;
+}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+		<style type="text/css">
+#front {
+	width: 100%;
+	height: 40px;
+	text-align: center;
+	margin-top: 30px;
+}
+#container {
+	width: 80%;
+	position: relative;
+	margin: auto;
+	margin-top: 10px;
+	text-align: center;
+	line-height: 100%;
+	overflow: hidden;
+}
+#bg {
+	width: 100%;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	z-index: -1;
+}
+#compass {
+	width: 100%;
+	vertical-align: middle;
+    /*
+	-webkit-transition: all 0.1s linear;
+	-moz-transform: rotate(45deg);
+	-webkit-transform: rotate(45deg);
+	-o-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	transform: rotate(45deg);
+	*/
+
+}
+#inf {
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	font-size: 32px;
+	font-weight: bold;
+	text-align: center;
+}
+a.bh {
+	width: 100%;
+	height: 40px;
+	position: fixed;
+	bottom: 0px;
+	background: rgb(128,128,128);
+	text-align: center;
+	line-height: 32px;
+}
+a.bh:active {
+	background: rgb(64,64,64);
+}
+#hi {
+	width: 32px;
+	height: 32px;
+	vertical-align: middle;
+}
+		</style>
+	</head>
+	<body>
+		<div id="front">
+			<img style="height:100%;" src="../img/orientationa.png"/>
+		</div>
+		<div id="inf">
+			北0°
+		</div>
+		<div id="container">
+			<img id="bg" src="../img/orientationbg.png"/>
+			<img id="compass" src="../img/orientationc.png"/>
+		</div>
+		<div id="tip" style="width:100%;position:absolute;bottom:0;text-align:center;color:red"></div>
+	</body>
+</html>

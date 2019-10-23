@@ -1,0 +1,113 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript">
+// 保存Android全局环境对象
+var mainActivity=null;
+// H5+事件处理
+document.addEventListener("plusready",function(){
+	switch ( plus.os.name ) {
+		case "Android":
+		// 程序全局环境对象
+		mainActivity = plus.android.runtimeMainActivity();
+		break;
+		default:
+		break;
+	}
+},false);
+/**
+ * 在iOS平台通过NJS显示系统提示框
+ */
+function njsAlertForiOS(){
+/*
+ * Objective-C 代码
+ * 
+　　// 创建UIAlertView类的实例对象
+　　UIAlertView *view = [UIAlertView alloc];
+　　// 设置提示对话上的内容
+　　[view initWithTitle:@"自定义标题"       // 提示框标题
+　　    message:@"使用NJS的原生弹出框，可自定义弹出框的标题、按钮"  // 提示框上显示的内容
+　　    delegate:nil                // 点击提示框后的通知代理对象，nil类似js的null，意为不设置
+　　    cancelButtonTitle:@"确定(或者其他字符)"     // 提示框上取消按钮的文字
+　　    otherButtonTitles:nil];        // 提示框上其它按钮的文字，设置为nil表示不显示
+　　// 调用show方法显示提示对话框，在OC中使用[]语法调用对象的方法
+　　[view show];
+ */
+
+　　	// 创建UIAlertView类的实例对象
+　　	var view = plus.ios.newObject("UIAlertView");
+　　	// 设置提示对话上的内容，这里的方法名称中必须包含':'字符
+　　	plus.ios.invoke(view,"initWithTitle:message:delegate:cancelButtonTitle:otherButtonTitles:"
+　　	    , "自定义标题" // 提示框标题
+　　	    , "使用NJS的原生弹出框，可自定义弹出框的标题、按钮"  // 提示框上显示的内容
+　　	    , null // 操作提示框后的通知代理对象，暂不设置
+　　	    , "确定(或者其他字符)" // 提示框上取消按钮的文字
+　　	    , null ); // 提示框上其它按钮的文字，设置为null表示不显示
+　　	// 调用show方法显示提示对话框，在JS中使用()语法调用对象的方法
+　　	plus.ios.invoke(view,"show");
+}
+
+/**
+ * 在Android平台通过NJS显示系统提示框
+ */
+function njsAlertForAndroid(){
+/*
+ * Android平台 java代码
+ * 
+	// 创建提示框构造对象，Builder是AlertDialog的内部类。参数this指代Android的主Activity对象，该对象启动应用时自动生成
+	AlertDialog.Builder dlg = new AlertDialog.Builder(this);
+	// 设置提示框标题
+	dlg.setTitle("自定义标题");
+	// 设置提示框内容
+	dlg.setMessage("使用NJS的原生弹出框，可自定义弹出框的标题、按钮");
+	// 设置提示框按钮
+	dlg.setPositiveButton("确定(或者其他字符)", null);
+	// 显示提示框
+	dlg.show();
+ */
+
+　　	// 由于Builder类是android.app.AlertDialog类的内部类，这里需要使用$符号分割
+　　	var dlg = plus.android.newObject("android.app.AlertDialog$Builder",mainActivity);
+　　	// 设置提示框标题
+　　	plus.android.invoke(dlg,"setTitle","自定义标题");
+　　	// 设置提示框内容
+　　	plus.android.invoke(dlg,"setMessage","使用NJS的原生弹出框，可自定义弹出框的标题、按钮");
+　　	// 设置提示框按钮
+　　	plus.android.invoke(dlg,"setPositiveButton","确定(或者其他字符)",null);
+　　	// 显示提示框
+　　	plus.android.invoke(dlg,"show");
+}
+function showNjsView(){
+	switch ( plus.os.name ) {
+		case "Android":
+		njsAlertForAndroid();
+		break;
+		case "iOS":
+		njsAlertForiOS();
+		break;
+		default:
+		alert( "此平台不支持！" );
+		break;
+	}
+}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+		<style type="text/css">
+		</style>
+	</head>
+	<body>
+		<br/>
+		<p class="des">虽然导入类对象（plus.android.importClass和plus.ios.importClass）后，可以方便的通过“.”操作符来访问对象的常量、调用对象的方法，但导入类对象也需要消耗较多的系统资源，所以在实际开发时应该尽可能的减少导入类对象，以提高程序效率。</p>
+		<p class="des">NJS中“高级API”提供的方法可以在不导入类对象的情况下调用Native API：</p>
+		<br/>
+		<ul class="dlist">
+			<li class="ditem" onclick="showNjsView();">NJS高级API调用系统提示框</li>
+		</ul>
+	</body>
+</html>

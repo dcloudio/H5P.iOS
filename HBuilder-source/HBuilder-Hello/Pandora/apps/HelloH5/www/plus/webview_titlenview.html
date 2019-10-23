@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>titleNView</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript">
+var ws = null;
+// H5 plus事件处理
+function plusReady(){
+	ws = plus.webview.currentWebview();
+}
+document.addEventListener('plusready', plusReady, false);
+// 自定义按钮
+var bButton = false;
+function setButtons(){
+	ws.setStyle({
+		titleNView: {
+			'padding-right': '10px',
+			buttons:[{
+				type: 'favorite',
+				redDot: true
+			},{
+				text: '分享',
+				fontSize: '16px',
+				width: 'auto'
+			},{
+				'float': 'left',
+				text: '测试',
+				fontSize: '16px',
+				select: true,
+				width: 'auto',
+				onclick: onClickedButton
+			}]
+		}
+	});
+	bButton = true;
+}
+// 按钮点击事件
+function onClickedButton(){
+	plus.nativeUI.toast('点击了测试按钮');
+}
+// 设置红点
+function showRedDot(){
+	if(!bButton){
+		plus.nativeUI.toast('标题栏未设置自定义按钮');
+	}
+	ws.showTitleNViewButtonRedDot({index:0});
+}
+// 隐藏红点
+function hideRedDot(){
+	if(!bButton){
+		plus.nativeUI.toast('标题栏未设置自定义按钮');
+	}
+	ws.hideTitleNViewButtonRedDot({index:0});
+}
+// 设置角标
+function setBadge(){
+	if(!bButton){
+		plus.nativeUI.toast('标题栏未设置自定义按钮');
+	}
+	ws.setTitleNViewButtonBadge({index:0,text:'9'});
+}
+// 移除角标
+function removeBadge(){
+	if(!bButton){
+		plus.nativeUI.toast('标题栏未设置自定义按钮');
+	}
+	ws.removeTitleNViewButtonBadge({index:0});
+}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+	</head>
+	<body>
+		<br/>
+		<div class="button" onclick="setButtons()">标题栏自定义按钮</div>
+		<div class="button" onclick="showRedDot()">显示红点</div>
+		<div class="button" onclick="hideRedDot()">隐藏红点</div>
+		<div class="button" onclick="setBadge()">设置角标</div>
+		<div class="button" onclick="removeBadge()">移除角标</div>
+		<br/>
+	</body>
+</html>

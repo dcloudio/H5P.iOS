@@ -1,0 +1,407 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="HandheldFriendly" content="true">
+<meta name="MobileOptimized" content="320">
+<title>Payment Document</title>
+<link rel="stylesheet" type="text/css" href="res/doc.css" charset="utf-8">
+<link rel="stylesheet" type="text/css" href="res/prettify.sons.css" charset="utf-8">
+<script type="text/javascript" src="res/doc.js" charset="utf-8"></script><script type="text/javascript" src="res/prettify.js" charset="utf-8"></script>
+</head>
+<body><div id="content" class="content">
+<h1><a name="plus.payment">payment</a></h1>
+<p>Payment模块管理支付功能，用于提供网页安全支付能力，支持通过Web接口进行支付操作。通过plus.payment可获取支付管理对象。</p>
+<h2>方法：</h2>
+<ul>
+<li>
+<a href="#plus.payment.getChannels">getChannels</a>: 获取支付通道</li>
+<li>
+<a href="#plus.payment.request">request</a>: 请求支付操作</li>
+</ul>
+<h2>对象：</h2>
+<ul>
+<li>
+<a href="#plus.payment.PaymentChannel">PaymentChannel</a>: 支付通道对象</li>
+<li>
+<a href="#plus.payment.OrderStatementIAP">OrderStatementIAP</a>: IAP订单数据对象</li>
+<li>
+<a href="#plus.payment.PaymentResult">PaymentResult</a>: 支付操作结果对象</li>
+<li>
+<a href="#plus.payment.IAPProduct">IAPProduct</a>: IAP商品对象</li>
+<li>
+<a href="#plus.payment.IAPProductInfo">IAPProductInfo</a>: 购买IAP商品对象</li>
+<li>
+<a href="#plus.payment.IAPTransaction">IAPTransaction</a>: 购买IAP商品交易信息对象</li>
+</ul>
+<h2>回调方法：</h2>
+<ul>
+<li>
+<a href="#plus.payment.ChannelsSuccessCallback">ChannelsSuccessCallback</a>: 获取支付通道成功回调</li>
+<li>
+<a href="#plus.payment.IapRequestOrderSuccessCallback">IapRequestOrderSuccessCallback</a>: 请求支付商品列表回调方法</li>
+<li>
+<a href="#plus.payment.IapRestoreComplateRequestCallback">IapRestoreComplateRequestCallback</a>: 请求已经购买的非消耗性商品和订阅商品回调方法</li>
+<li>
+<a href="#plus.payment.PaymentSuccessCallback">PaymentSuccessCallback</a>: 支付操作成功回调</li>
+<li>
+<a href="#plus.payment.PaymentErrorCallback">PaymentErrorCallback</a>: 支付操作失败回调</li>
+</ul>
+<h2>权限：</h2>
+<p>permissions</p>
+<pre class="prettyprint linenums">
+{
+// ...
+"permissions":{
+	// ...
+	"Payment": {
+		"description": "支付"
+	}
+}
+}
+			</pre>
+<h1><a name="plus.payment.PaymentChannel">PaymentChannel</a></h1>
+<p>支付通道对象</p>
+<pre class="prettyprint linenums">
+interface plus.payment.PaymentChannel{
+	attribute String id;
+	attribute String description;
+	attribute Boolean serviceReady;
+	function void installService();
+	
+	// iOS iAP
+	function void requestOrder(ids, successCB, errorCB);
+	function void restoreComplateRequest(options, successCB);
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+PaymentChannel对象表示特定的支付通道，用于向系统请求支付操作。
+				</p>
+<h2>属性：</h2>
+<ul>
+<li>
+<a href="#plus.payment.PaymentChannel.id">id</a>: 支付通道标识</li>
+<li>
+<a href="#plus.payment.PaymentChannel.description">description</a>: 支付通道描述</li>
+<li>
+<a href="#plus.payment.PaymentChannel.serviceReady">serviceReady</a>: 支付通道服务是否安装</li>
+</ul>
+<h2>方法：</h2>
+<ul>
+<li>
+<a href="#plus.payment.PaymentChannel.installService">installService</a>: 安装支付通道依赖的服务</li>
+<li>
+<a href="#plus.payment.PaymentChannel.requestOrder">requestOrder</a>: 向IAP服务器请求支付订单</li>
+<li>
+<a href="#plus.payment.PaymentChannel.restoreComplateRequest">restoreComplateRequest</a>: 向IAP服务器请求已经购买的非消耗性商品和订阅商品</li>
+</ul>
+<h1><a name="plus.payment.OrderStatementIAP">OrderStatementIAP</a></h1>
+<p>IAP订单数据对象</p>
+<pre class="prettyprint linenums">
+interface plus.payment.OrderStatementIAP {
+	attribute String productid;
+	attribute String username;
+	attribute String quantity;
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	描述IAP商品订单信息，如标识、数量等。
+				</p>
+<h2>属性：</h2>
+<ul>
+<li>productid: <em>(<font class="type">String</font>
+	类型
+)</em>商品的标识<br>
+</li>
+<li>username: <em>(<font class="type">String</font>
+	类型
+)</em>购买用户名称<br>
+</li>
+<li>quantity: <em>(<font class="type">String</font>
+	类型
+)</em>商品数量<br>
+</li>
+</ul>
+<h1><a name="plus.payment.PaymentResult">PaymentResult</a></h1>
+<p>支付操作结果对象</p>
+<pre class="prettyprint linenums">
+interface plus.payment.PaymentResult {
+	attribute PaymentChannel channel;
+	attribute String tradeno;
+	attribute String description;
+	attribute String url;
+	attribute String signature;
+	attribute String rawdata;
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+PaymentResult对象表示支付操作返回结果，用于确认支付操作成功。
+				</p>
+<h2>属性：</h2>
+<ul>
+<li>channel: <em>(<a href="#plus.payment.PaymentChannel">PaymentChannel</a>
+	类型
+)</em>支付通道对象<br><p>
+		用于发起支付操作的支付通道对象。
+						</p>
+</li>
+<li>tradeno: <em>(<font class="type">String</font>
+	类型
+)</em>交易编号信息<br><p>
+	如果支付平台不支持此数据则返回undefined。
+						</p>
+</li>
+<li>description: <em>(<font class="type">Boolean</font>
+	类型
+)</em>交易描述信息<br><p>
+	如果支付平台不支持此数据则返回undefined。
+						</p>
+</li>
+<li>url: <em>(<font class="type">Boolean</font>
+	类型
+)</em>查找支付交易信息地址<br><p>
+	用于向支付平台查询交易信息，如果支付平台不支持此数据则返回undefined。
+						</p>
+</li>
+<li>signature: <em>(<font class="type">String</font>
+	类型
+)</em>支付操作指纹信息<br><p>
+	用于向支付平台查询支付订单信息，如果支付平台不支持此数据则返回undefined。
+						</p>
+</li>
+<li>rawdata: <em>(<font class="type">String</font>
+	类型
+)</em>支付平台返回的原始数据<br><p>
+	如果支付平台返回key-value类型字符串，则组合成符合JSON格式的字符串。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.payment.IAPProduct">IAPProduct</a></h1>
+<p>IAP商品对象</p>
+<pre class="prettyprint linenums">
+interface plus.payment.IAPProduct {
+	attribute String productid;
+	attribute String price;
+	attribute String title;
+	attribute String description;
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	描述IAP商品详细信息，如标识、价格、标题、描述信息等。
+				</p>
+<h2>属性：</h2>
+<ul>
+<li>productid: <em>(<font class="type">String</font>
+	类型
+)</em>商品的标识<br>
+</li>
+<li>price: <em>(<font class="type">String</font>
+	类型
+)</em>商品的价格<br>
+</li>
+<li>title: <em>(<font class="type">String</font>
+	类型
+)</em>商品标题<br>
+</li>
+<li>description: <em>(<font class="type">String</font>
+	类型
+)</em>商品的描述信息<br>
+</li>
+</ul>
+<h1><a name="plus.payment.IAPProductInfo">IAPProductInfo</a></h1>
+<p>购买IAP商品对象</p>
+<pre class="prettyprint linenums">
+interface plus.payment.IAPProductInfo {
+	attribute String productIdentifier;
+	attribute String quantity;
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	描述购买的IAP商品详细信息，如标识、数量等。
+				</p>
+<h2>属性：</h2>
+<ul>
+<li>productIdentifier: <em>(<font class="type">String</font>
+	类型
+)</em>商品的标识<br>
+</li>
+<li>quantity: <em>(<font class="type">String</font>
+	类型
+)</em>商品的数量<br>
+</li>
+</ul>
+<h1><a name="plus.payment.IAPTransaction">IAPTransaction</a></h1>
+<p>购买IAP商品交易信息对象</p>
+<pre class="prettyprint linenums">
+interface plus.payment.IAPTransaction {
+    attribute IAPProductInfo payment;
+    attribute String transactionDate;
+    attribute String transactionIdentifier;
+    attribute String transactionReceipt;
+    attribute String transactionState;
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	描述购买的IAP商品交易详细信息，如购买商品信息、交易日期、订单标识等。
+				</p>
+<h2>属性：</h2>
+<ul>
+<li>payment: <em>(<font class="type">String</font>
+	类型
+)</em>购买商品的信息<br>
+</li>
+<li>transactionDate: <em>(<font class="type">String</font>
+	类型
+)</em>购买商品的交易日期<br>
+</li>
+<li>transactionIdentifier: <em>(<font class="type">String</font>
+	类型
+)</em>购买商品的交易订单标识<br>
+</li>
+<li>transactionReceipt: <em>(<font class="type">String</font>
+	类型
+)</em>购买商品的交易收据<br><p>
+	base64编码格式字符串数据。
+						</p>
+</li>
+<li>transactionState: <em>(<font class="type">String</font>
+	类型
+)</em>购买商品的交易状态<br><p>
+	可取值："1"为支付成功；"2"为支付失败；"3"为支付已恢复。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.payment.ChannelsSuccessCallback">ChannelsSuccessCallback</a></h1>
+<p>获取支付通道成功回调</p>
+<pre class="prettyprint linenums">
+void ChannelsSuccessCallback( channels ) {
+	// Get payment channels success code
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	当获取支付通道列表成功时的回调函数，用于返回终端支持的支付通道列表。
+				</p>
+<h2>参数：</h2>
+<ul><li>channels: 
+		<em>(
+			<font class="type">Array</font>
+			)
+			必选 </em>数组，系统支持的支付通道PaymentChannel列表<br>
+</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.payment.IapRequestOrderSuccessCallback">IapRequestOrderSuccessCallback</a></h1>
+<p>请求支付商品列表回调方法</p>
+<pre class="prettyprint linenums">
+void onsuccess( results ) {
+	// Payment success code
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	获取IAP商品列表信息成功时的回调函数，返回商品详细信息。
+				</p>
+<h2>参数：</h2>
+<ul><li>results: 
+		<em>(
+			<font class="type">Array</font>[
+						<a href="#plus.payment.IAPProduct">IAPProduct</a>
+						]
+					
+			)
+			必选 </em>商品信息数据<br>
+</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.payment.IapRestoreComplateRequestCallback">IapRestoreComplateRequestCallback</a></h1>
+<p>请求已经购买的非消耗性商品和订阅商品回调方法</p>
+<pre class="prettyprint linenums">
+void onsuccess( results ) {
+	// Payment success code
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	获取IAP商品列表信息成功时的回调函数，返回商品详细信息。
+				</p>
+<h2>参数：</h2>
+<ul><li>results: 
+		<em>(
+			<font class="type">Array</font>[
+						<a href="#plus.payment.IAPTransaction">IAPTransaction</a>
+						]
+					
+			)
+			必选 </em>已购买的非消耗性商品和订阅商品交易信息<br>
+</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.payment.PaymentSuccessCallback">PaymentSuccessCallback</a></h1>
+<p>支付操作成功回调</p>
+<pre class="prettyprint linenums">
+void PaymentSuccessCallback ( result ) {
+	// Payment success code
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	当支付操作成功时的回调函数，用于返回支付操作的成功信息。
+				</p>
+<h2>参数：</h2>
+<ul><li>result : 
+		<em>(
+			<a href="#plus.payment.PaymentResult">PaymentResult</a>
+	|
+	<a href="#plus.payment.IAPTransaction">IAPTransaction</a>
+			)
+			必选 </em>支付操作成功的信息<br>
+	iOS平台使用IAP支付返回的数据类型为IAPTransaction。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.payment.PaymentErrorCallback">PaymentErrorCallback</a></h1>
+<p>支付操作失败回调</p>
+<pre class="prettyprint linenums">
+void PaymentErrorCallback(error){
+	// Payment error code
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">当支付操作失败时的回调函数，用于返回支付操作失败的错误信息。</p>
+<h2>参数：</h2>
+<ul><li>error: 
+		<em>(
+			<font class="type">DOMException</font>
+			)
+			必选 </em>支付操作失败错误信息，可通过error.code获取错误代码，具体错误码有各支付通道定义<br>
+	支付宝支付错误代码如下：
+	62000，客户端未安装支付通道依赖的服务；
+	62001，用户取消支付操作；
+	62002，此设备不支持支付；
+	62003，数据格式错误；
+	62004，支付账号状态错误；
+	62005，订单信息错误；
+	62006，支付操作内部错误；
+	62007，支付服务器错误；
+	62008，网络问题引起的错误；
+	62009，其它未定义的错误。
+	微信支付错误代码如下：
+	-1，一般错误；
+	-2，用户取消；
+	-3，发送失败；
+	-4，认证被否决；
+	-5，不支持错误。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<br><br>
+</div></body>
+</html>

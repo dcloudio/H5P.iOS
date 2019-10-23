@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript">
+if(window.plus){
+	if(document.body){
+		outLine( currentTimeString()+" HTML5 Plus已准备" );
+	}else{
+		document.addEventListener("DOMContentLoaded",function(){
+			outLine( currentTimeString()+" HTML5 Plus已准备" );
+		},false);
+	}
+}else{
+	document.addEventListener("plusready",function(){
+		outLine( currentTimeString()+" HTML5 Plus已准备" );
+	}, false );
+}
+document.addEventListener("pause",function(){
+	outLine( currentTimeString()+" 应用从前台切换到后台" );
+}, false );
+document.addEventListener("resume",function(){
+	outLine( currentTimeString()+" 应用从后台切换到前台" );
+}, false );
+document.addEventListener("netchange",function(){
+    var types = {};
+    types[plus.networkinfo.CONNECTION_UNKNOW] = "未知";
+    types[plus.networkinfo.CONNECTION_NONE] = "未连接网络";
+    types[plus.networkinfo.CONNECTION_ETHERNET] = "有线网络";
+    types[plus.networkinfo.CONNECTION_WIFI] = "WiFi网络";
+    types[plus.networkinfo.CONNECTION_CELL2G] = "2G蜂窝网络";
+    types[plus.networkinfo.CONNECTION_CELL3G] = "3G蜂窝网络";
+    types[plus.networkinfo.CONNECTION_CELL4G] = "4G蜂窝网络";
+	outLine( currentTimeString()+" 切换网络："+types[plus.networkinfo.getCurrentType()] );
+}, false );
+document.addEventListener("newintent",function(){
+	outLine( currentTimeString()+" 从第三方应用启动："+plus.runtime.arguments );
+}, false );
+function currentTimeString(){
+	var d = new Date();
+	return d.getHours()+":"+d.getMinutes()+":"+d.getSeconds()+"."+d.getMilliseconds()+" - ";
+}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+	</head>
+	<body>
+		<br/>
+		<p class="des">按“HOME”键切换应用触发“pause”和“resume”事件，在设置中改变网络配置触发“netchange”事件。</p>
+		<br/>
+		<div id="outpos"/>
+		<div id="output">
+Events模块管理客户端事件，包括系统事件，如扩展API加载完毕、程序前后台切换等。<br/>
+		</div>
+	</body>
+</html>

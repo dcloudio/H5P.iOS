@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name="HandheldFriendly" content="true" />
+		<meta name="MobileOptimized" content="320" />
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+		<script type="text/javascript">
+			function createDB() {
+				plus.sqlite.openDatabase({
+					name: "first", 
+					path: '_doc/test.db',
+					success: function(e) {
+						outLine(JSON.stringify(e))
+					},
+					fail: function(e) {
+						outLine(JSON.stringify(e))
+					}
+				})
+			}
+
+			function closeDB() {
+				plus.sqlite.closeDatabase({
+					name: "first",
+					success: function(e) {
+						outLine(JSON.stringify(e))
+					},
+					fail: function(e) {
+						outLine(JSON.stringify(e))
+					}
+				})
+			}
+			//create table if not exists zhang("where" CHAR(110),"location" CHAR(100),"age" INT(11))
+			function executeSql() {
+				plus.sqlite.executeSql({
+					name: 'first',
+					sql: 'create table if not exists zhang("where" CHAR(110),"location" CHAR(100),"age" INT(11))',
+					success: function(e) {
+						outLine(JSON.stringify(e))
+						plus.sqlite.executeSql({
+							name: "first",
+							sql: "insert into zhang values('北京','安乐林','11')",
+							success: function(e) {
+								outLine(JSON.stringify(e))
+							},
+							fail: function(e) {
+								outLine(JSON.stringify(e))
+							}
+						})
+					},
+					fail: function(e) {
+						outLine(JSON.stringify(e))
+					}
+				})
+			}
+
+			function selectSql() {
+				plus.sqlite.selectSql({
+					name: "first",
+					sql: "select * from zhang",
+					success: function(e) {
+						outLine("selectSql"+JSON.stringify(e))
+					},
+					fail: function(e) {
+						outLine("selectSql"+JSON.stringify(e))
+					}
+				})
+			}
+			function transaction(){
+				plus.sqlite.transaction({
+					name: "first",	
+<!--                    operation:"update zhang set age=90 where location=安乐林",-->
+                    operation:"BEGIN; DELETE FROM COMPANY WHER AGE=11;ROLLBACK;",
+					success:function(e){
+						outLine("transaction"+JSON.stringify(e));
+					},
+					fail:function(e){
+						outLine("transaction"+JSON.stringify(e));
+					}
+				})
+			}
+		</script>
+	</head>
+	<body>
+		<div class="button" onclick="createDB()">创建数据库</div>
+		<div onclick="closeDB()" class="button">关闭数据库</div>
+		<div onclick="executeSql()" class="button">执行插入语句</div>
+		<div onclick="selectSql()" class="button">查询所有插入的数据</div>
+		<div onclick="transaction()" class="button">transaction</div>
+		<div id="outpos" />
+		<div id="output">
+			数据库
+		</div>
+	</body>
+</html>

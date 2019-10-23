@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script type="text/javascript" charset="utf-8">
+// H5 plus事件处理
+function plusReady(){
+	var ev=document.getElementById('version');
+	ev&&(ev.innerText=plus.runtime.version);
+	plus.webview.currentWebview().show('zoom-fade-out');
+	// 更新分享按钮
+	plus.share.getServices(function(s){
+		for(var i in s){
+			shares[s[i].id]=s[i];
+		}
+	},function(e){
+		console.log('updateShare failed: '+JSON.stringify(e));
+	});
+	// 在流应用环境下显示“创建桌面图标”
+	if(navigator.userAgent.indexOf('StreamApp')>=0){
+		shortcut.style.display='block';
+	}
+	// 设置窗口优化隐藏
+	dragHide();
+	// 初始化分享按钮
+	shareBts.push({title:'微信朋友圈',id:'weixin',x:'WXSceneTimeline'});
+	shareBts.push({title:'微信好友',id:'weixin',x:'WXSceneSession'});
+	shareBts.push({title:'新浪微博',id:'sinaweibo'});
+	shareBts.push({title:'QQ',id:'qq'});
+	shareBts.push({title:'更多'});
+}
+document.addEventListener("plusready",plusReady,false);
+
+// 判断是否为流应用环境
+var bStream = navigator.userAgent.indexOf('StreamApp')>=0;
+
+// 分享应用
+var shares={},shareBts=[];
+function share(){
+	(shareBts.length>1)||('Android'!==plus.os.name&&shareBts.length>0)?plus.nativeUI.actionSheet({title:'分享"HelloH5"应用',cancel:'取消',buttons:shareBts},function(e){
+		(e.index>0)&&shareAction(shareBts[e.index-1]);
+	}):(shareBts.length>0?shareWithSystem():plus.nativeUI.alert('当前环境无法支持分享操作!'));
+}
+function shareAction(sb){
+	var msg = {};
+	switch(sb.id){
+		case 'weixin':
+			msg.type = 'web';
+			msg.title='"HelloH5" - 使用HTML5+技术开发原生APP';
+			msg.content='如果你有流应用引擎还能省流量秒装，快来体验吧';
+			sb.x&&(msg.extra={scene:sb.x});
+		break;
+		case 'sinaweibo':
+			msg.type = 'web';
+			msg.content='"HelloH5" - 使用HTML5+技术开发原生APP，如果你有流应用引擎还能省流量秒装，快来体验吧';
+		break;
+		case 'qq':
+			msg.type = 'txt';
+			msg.title='"HelloH5" - 使用HTML5+技术开发原生APP，如果你有流应用引擎还能省流量秒装，快来体验吧';
+		break;
+		default:
+		shareWithSystem();
+		return;
+		break;
+	}
+	if(!shares[sb.id]){
+		plus.nativeUI.alert('当前环境不支持此分享!');
+		return;
+	}
+	var s = shares[sb.id];
+	msg.href=bStream?'http://m3w.cn/s/HelloH5?url=about&__streamapp':'http://www.dcloud.io/helloh5/';
+	msg.thumbs=msg.pictures=['_www/icon.png'];
+	s.authenticated?shareMessage(s,msg):s.authorize(function(){
+		shareMessage(s,msg);
+	},function(e){
+		plus.nativeUI.toast('取消分享!');
+	});
+}
+function shareMessage(s,m){
+	s.send(m, function(){
+		plus.nativeUI.toast('完成分享!');
+	},function(e){
+		plus.nativeUI.toast('取消分享!');
+	});
+}
+function shareWithSystem(){
+	plus.share.sendWithSystem?plus.share.sendWithSystem({
+		content:'"HelloH5"使用HTML5+技术开发，如果你有流应用引擎还能省流量秒装，快来体验吧('+(bStream?'http://m3w.cn/s/HelloH5?__streamapp':'http://www.dcloud.io/streamapp/')+')',
+		title:'HelloH5',
+		href:bStream?'http://m3w.cn/s/HelloH5?__streamapp':'http://www.dcloud.io/streamapp/',
+		pictures:('Android'==plus.os.name)?null:['_www/icon.png']
+	}):shareWithSystemNativeJS();
+}
+function shareWithSystemNativeJS(){
+	var main = plus.android.runtimeMainActivity(),
+	Intent = plus.android.importClass('android.content.Intent'),
+	File = plus.android.importClass('java.io.File'),
+	Uri = plus.android.importClass('android.net.Uri');
+	var intent=new Intent(Intent.ACTION_SEND),
+	p=plus.io.convertLocalFileSystemURL('_www/icon.png'),
+	f=new File(p),
+	uri=Uri.fromFile(f);
+	if(f.exists()&&f.isFile()){
+		intent.setType('image/*');
+		intent.putExtra(Intent.EXTRA_STREAM,uri);
+	}else{
+		intent.setType('text/plain');
+	}
+	intent.putExtra(Intent.EXTRA_SUBJECT,'HelloH5');
+	intent.putExtra(Intent.EXTRA_TEXT,'"HelloH5"使用HTML5+技术开发，如果你有流应用引擎还能省流量秒装，快来体验吧('+(bStream?'http://m3w.cn/s/HelloH5?__streamapp':'http://www.dcloud.io/streamapp/')+')');
+	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	main.startActivity(Intent.createChooser(intent,'分享"HelloH5"应用'));
+}
+function createShortcut(){
+	plus.navigator.createShortcut({name:'HelloH5',icon:'icon.png'});
+}
+function dragHide(){
+	var ws = plus.webview.currentWebview();
+	// 窗口隐藏时调整到正确位置（drag操作会修改窗口位置），否则可能导致无法调用show方法显示
+	ws.addEventListener('hide',function(){
+		ws.setStyle({left:'0px'});
+	},false);
+	// 设置拖动关闭当前窗口
+	ws.drag({direction:'right',moveMode:'followFinger'}, {view:plus.runtime.appid,moveMode:'silent'}, function(e){
+		if(e.type=='end'&&e.result){
+			ws.close();
+		}
+		console.log('Drag Event: '+JSON.stringify(e));
+	});
+}
+		</script>
+		<link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8"/>
+		<style type="text/css">
+li {
+	padding: 2em;
+	border-bottom: 1px solid #eaeaea;
+	background: #fafafa;
+	font-size: 12px;
+}
+li:active {
+	background: #f4f4f4;
+}
+footer {
+	width: 100%;
+	text-align: center;
+	color: #c6c6c6;
+	font-size: 12px;
+}
+		</style>
+	</head>
+	<body>
+		<div class="logo">
+			<br/>
+			<img style="width:64px" src="icon.png"/><br/>
+			<span style="font-size: 20px;">Hello HTML5+</span><br/>
+			(v<span id="version">-.-.-</span>)<br/>
+			<!--<img style="width:100%" src="img/qr.png"/>-->
+			<div id="shortcut" style="display:none;" class="button" onclick="createShortcut()">创建桌面图标</div>
+			<br/><br/>
+		</div>
+		<p class="des" style="font-size:16px;line-height:30px;margin: 0px .5em;">HTML5中国产业联盟，简称“HTML5+ 联盟”，是为了更好的推进HTML5的商用、更好的为HTML5开发者服务而由产业链主流厂商共同组成的一个联盟。<br/>
+　　 HTML5+规范的愿景：根据开发者需求，为其提供增强的功能、性能扩展规范。方便开发者开发跨平台的app，并接近原生的功能和性能。
+		</p>
+		<br/>
+		<ul style="list-style:none;margin:0;padding:0;text-align:left;">
+			<li onclick="plus.runtime.openURL('http://weibo.com/html5plus');">
+				<img style="width:40px;height:40px;vertical-align:middle;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABZ0RVh0Q3JlYXRpb24gVGltZQAwOS8xMy8xMySCRBYAAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzVxteM2AAAC/UlEQVRYhe2Y23HaQBSGP2fyDh1YqcDMnAKMK4g6iFwBpIKQCkIqMK4gdGBRwBmLDkQFgQqchz0aVmJXF5zBfvA/wxjt9dPZs/8uvnp5eeE969NbA3TpA/C1+gB8rT5fYhJVTYACGFnRFsiBpYiUbX0vFcExRziAG2AGFKq6aOt4dSkfVNUMSIAJMKUOvAFSEdk3+10MsClVnQMLvGUXkUmz3aUjCLCuIqWqE2CFW3KAnyKy+C+AqjoGUtxyJbhNEEx6A3n2in6LyNyryzlG8os/xlmbxBK7BB6Ab8AtLunzSJc9cPCeZ6paAIhIgVvqSpnfcRCgqk5UtQR+UE/yStcWkZosIgnw3QO9UdWl1S+98vQsQMuhZ+C6o+k4VCgiewOZejAz80iAdQXu9+tl1Pamsz5tcd6WcMzPCrgEFiJS2A5+sPIUWFr9iToBB8KBy8ObQPktkBr82qD8NAkCti6xLesQOCJwlUbAxGwmxeXkCkBEVsA9cOd3iNqMqk6Bp4FwfXQnInnfxkFA87iC7g2xsb85bpdWn1i/g4gEN1FMsRyct0zyiDsN1pH66vYyx3naqFG3wBn6ybkb0kkELXp/A203QNZ1PQqMtQK+NqoOwNzybjDgHPjVaPcoIlkAYAqUXdCqug5AAtx3QYYAC+o7sQZnUVnijrhKO1x08wjgGGcjzdPnACRtyx2yGR9uh8slf6K8AQcuX5+8U6EmAwjl7Ah3P4yq66hbN94uo93nspa6smOuoLoAm6EfZBENJZHysq1TCPAQKKvUZQ15qNC7Oza1PedH08r7ngXqtpGxHltOiOa5W2kRJTPFfLD0Bgzt4gXH5N7jjDcIp6orTjfVybi9AW3QFPjjD4Yz1l7ub2MkuIjfBqo3IjLtM07bZSGjvjQ7e161gdrLpYSjBj0j1wlok00MqhmFLW5pc3tO7BOKVqUdbhWiZ/hgQA90aqBtHtgG1hn5mAb97Gxc5SeEbzwH3FUtxxl9MRTqbMC30Lv/99sH4Gv17gH/ARiRUOpAHVd0AAAAAElFTkSuQmCC"/>
+				微博
+			</li>
+			<li onclick="plus.runtime.openURL('http://www.html5plus.org');">
+				<img style="width:40px;height:40px;vertical-align:middle;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABZ0RVh0Q3JlYXRpb24gVGltZQAwOS8xMy8xMySCRBYAAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzVxteM2AAAEbUlEQVRYhc2YT2hcRRzHPzNvE82/TTbWP5DaQy021SgqmYf1DxQRqidvxYOCF+vFiyDiHxDBSxEPih4EEcRL9SJ4KHiwoNUovAlisdKiKQWNf9qkyTZN0k3e2xkP87Zu3r59+3azjfnCg/eb4Tf7YX5/ZvYJay3bWfL/Bmilwlb+mJ6e3mWt/aBqzOMCTnlSvqyUOpblI7YqxIHWTwOvWtgrhRDWWiwsCHgfeNNXKkrz25IQB1ofAj4xxox7Uorb9+yhVCphjRkFXgdeaeZ7zQEDrQeB14y1RFGENYaBgX6kEIRh6MasfVFPTz+S5t+Qg4HWB4AqILrAdxnYb62dGOzvp9DTgwDCKGJ4ZAQhJdYYFhYWitVq9R3g7paAwOdAqQtwV2WMoVgcolgsEoYhxhhGSyVGSyUqlQrlcpkwiu5K800D/Bp4gi6G3/M85ubmOX/+AoWeAvv2jvPH7CwX5+cRQlA1Bs/zjqf5pkH8BITdgqsprFZZW18nCiMKBY8wDFleWaGytgYwK6V8Pi/gGWC924BSCAqFAkIKFsuXiKKI3t5ePM8DeENNTp5J80sL8W/AKjAU25buFAxSSoyxzJw9i5QSKeVp4D1fqY+a+aQBzgJLwM11Y28DX9JZXhrgEHC4NuB53j/AC8C3vlJ/ZjmnAa7FgDUJYMZXKjWJ8yjQejIxdM5X6tM8vmk7EgELibFdnYDVaSxhLwZaX5fHMW0H14GLibEdtZdA61HgWcCjdUM3uIgcSIzPkbMQ0wAjYD4xdmMC9kiexTM07yuV65bSEGJfKWgMcbHufQW40DGaU3L9pmp2H1xM2IOB1n2+UldwgN8A47gQZoU4AvqA3UB9znUdsAgMA1d8pcqB1k8BvTFgltaBO4FjbCyU3BFoBpgskiFgoGb4Sq2TM8kDrS0bUwSgvFnAhhADY4HWf9O6WUvcTtfO8xv471QCqODSZFOAq7j2UMubIvAx7n7XE8+tNvG9HngL+Cy2hxLzl4DlzQKu4MJQO+4krufVdnY3cE/GusN17zelAC6RU83CVQOs1xHgIPAY7n9EM1ngrzp7R2K+3A5gsx1cTgEc9pVaAwi0zqpCwcYQJm/nS7hU2TRgslBuqXs/BXwI3AtM4PJuGfgZ+B74BSDQWtC4g5d9pVq1p2xAX6lqoHXDDtbN/w4cDrQu4nJxDDgHnIybeU0erorrlbvFNAWMlcyTnYHWA75SV1uEr9QScCJjjREabzLnuwU4l7APAicCrb8CjgOngdn6Qz/QuicGmgAejZ99iXWSqdMxYPJG4wH3xc9LuJv3d4HWU8AMcAfwEPAgja3lmgC2ypWdwJPxk1cRjcdoprKOrdzdvg15tFkkWYAngS9w1blZVXFpcBT3tza3Wn5+C7S+Fbgf2A8oYBLX91ppCZgGfgSmgB98pdqq4FyACdgh4DZclT4MPBDbfbiU+BXXqKdwzXzGV6rSLlTHgAlYgetzzwHPAO8CR32l2sqxVtqyL6ydatt/RN/2gP8C7X98gH7rM5EAAAAASUVORK5CYII="/>
+				http://www.html5plus.org
+			</li>
+			<li style="border-bottom:0px;" onclick="window.open('mailto:admin@html5plus.org');">
+				<img style="width:40px;height:40px;vertical-align:middle;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABZ0RVh0Q3JlYXRpb24gVGltZQAwOS8xMy8xMySCRBYAAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzVxteM2AAABv0lEQVRYhe3X3XGCQBSG4ddM7k0HsQOdOQWEdGAHagWRDpIOYgViB3YgFnBmtIPYgVZgLhYCKK4sixMu+G4c2WV5Ztk/eufzmTbn6b8B99IBfdMBfdMBfdN64LOtUFUHQAAMHmjYAbGIHMsKe7d2ElUdAxHQfxgtywEIROTnssD2ij/JcKfmTYV2X4F5WQUbcJj8fmFe86ExlskeM3S2yf9RWaUqk2QOvCQN7JuQASsRGQFj4M1WsQqwD2ySxgL8kSsRmapqBCzvVbbO4oukjQVATDYEXJLHTarc4LoOLoFx8npWjveGrjiot1AvVTUSkSnVkTMgUtWdCw7q7yQTB+QMWFNzWPhsdXlkWFJ+At59cOA2ScoyUdURZuIcySbSKbkGZit7rfsA38PCFtMzMaanZhRxMQbnOqH+4gMMMQs45JAikl6LKe7jszoPqQsMgSnFcTUEvlU14PqQMcH0qjOyDrAMl4dsLGUBjkhXoA1XJc5IF6AvLo0TsiqwKVyaykgbMD1MLmgWlyZFWpcg20K9Thr5aM50lfy+HJVVsPXgnOy0++gsRCQqK7j50dSWtP67uAP6pgP6pgP6pvXAX+59ddMVCTyHAAAAAElFTkSuQmCC"/>
+				HTML5+规范不够用或有问题？请联系我们
+			</li>
+		</ul>
+		<br/>
+		<footer>
+			<span>Powered By DCloud</span>
+			<br/>
+			<span>HTML5+规范版权所有HTML5中国产业联盟</span>
+			<br/>
+			<!--<span>Copyright ©2012-2015</span>
+			<br/>
+			<span>数字天堂（北京）网络技术有限公司</span>-->
+		</footer>
+	</body>
+</html>

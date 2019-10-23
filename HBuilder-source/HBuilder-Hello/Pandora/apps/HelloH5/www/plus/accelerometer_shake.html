@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript">
+var p=null;
+var iLast=2,MAX=20;
+var up=null,down=null,offset=50;
+var t=null;
+// H5 plus事件处理
+function plusReady(){
+	// 锁定只能竖屏显示
+	plus.screen.lockOrientation('portrait-primary');
+	// 监听加速度
+	plus.accelerometer.watchAcceleration(function(a){
+		if(!up){
+			return;
+		}
+		if(!p && ( Math.abs(a.xAxis)+Math.abs(a.yAxis)+Math.abs(a.zAxis) > MAX )){
+			// Play audio
+			p = plus.audio.createPlayer('_www/audio/shake.wav');
+			p.play();
+			setTimeout(function(){
+				// Change background image
+				var index = Math.round(Math.random()*3+1);
+				if ( iLast == index ) {
+					index++;
+					if ( index > 4 ) {
+						index = 1;
+					}
+				}
+				document.body.style.backgroundImage='url(../img/shake/'+index+'.jpg)';
+				iLast = index;
+				// Stop play audio
+				p.stop();
+				delete p;
+				p = null;
+			}, 2000 );
+			// Animation
+			offset=up.offsetHeight/2;
+			up.style.webkitTransform = 'translateY(-'+offset+'px)';
+			up.style.msTransform = 'translateY(-'+offset+'px)';
+			down.style.webkitTransform = 'translateY('+offset+'px)';
+			down.style.msTransform = 'translateY('+offset+'px)';
+			if(t){
+				clearTimeout(t);
+			}
+			t = setTimeout(function(){
+				t = null;
+				up.style.webkitTransform = '';
+				up.style.msTransform = '';
+				down.style.webkitTransform = '';
+				down.style.msTransform = '';
+			}, 700 );
+		}
+	}, function(e){
+		//outSet('Watch failed: '+e.message);
+	}, {frequency:100});
+}
+if(window.plus){
+	plusReady();
+}else{
+	document.addEventListener('plusready', plusReady, false);
+}
+// 监听DOMContentLoaded事件
+document.addEventListener('DOMContentLoaded', function(){
+	up=document.getElementById('up');
+	down=document.getElementById('down');
+	offset=up.offsetHeight/2;
+},false);
+// 解锁并关闭
+var _back=window.back;
+function unlockback(){
+	plus.screen.unlockOrientation();
+	_back();
+}
+window.back=unlockback;
+		</script>		
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+	</head>
+	<body style="background: center center no-repeat url(../img/shake/1.jpg);">
+		<div style="height:100%;text-align:center;overflow:hidden;">
+			<div id="up" style="width:100%;height:50%;background:#333;-webkit-transition:all .5s ease-in-out;-ms-transition:all .5s ease-in-out;">
+				<img style="height:100%;" src="../img/shakeup.png"/>
+			</div>
+			<div id="down" style="padding-bottom:20px;width:100%;height:50%;background:#333;-webkit-transition:all .5s ease-in-out;-ms-transition:all .5s ease-in-out;">
+				<img style="height:100%;" src="../img/shakedown.png"/>
+			</div>
+		</div>
+	</body>
+</html>

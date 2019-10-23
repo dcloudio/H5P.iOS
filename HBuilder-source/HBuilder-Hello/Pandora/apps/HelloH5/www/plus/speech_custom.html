@@ -1,0 +1,138 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>自定义语音识别</title>
+		<script type="text/javascript">
+var text='';
+document.addEventListener('plusready', function(){
+    initDom();
+    // 监听语音识别事件
+	plus.speech.addEventListener('start', function(){
+        console.log('Event: start');
+        text=null;
+        result.value='识别中';
+		partial.innerText='';
+	}, false);
+    plus.speech.addEventListener('volumeChange', function(e){
+        volume.style.width = 100*e.volume+'px';
+    }, false);
+    plus.speech.addEventListener('recognizing', function(e){
+        console.log('Event: recognizing');
+        partial.innerText = e.partialResult;
+    }, false);
+	plus.speech.addEventListener('recognition', function(e){
+        console.log('Event: recognition');
+        text?(text+='\n'):text='';
+        text+=e.result;
+        result.value=text;
+		partial.innerText = e.result;
+	}, false);
+	plus.speech.addEventListener('end', function(){
+        console.log('Event: end');
+        if(!text||text==''){
+            plus.nativeUI.toast('没有识别到内容');
+        }
+        result.value=text;
+	}, false);
+}, false);
+
+var result=null,recogniz=null,partial=null,volume=null;
+function initDom(){
+  result = document.getElementById('result');
+	recogniz = document.getElementById('recogniz');
+	partial = document.getElementById('partial');
+   volume = document.getElementById('volume');
+	done = document.getElementById('done');
+	done.addEventListener('touchstart', doStart, false);
+	done.addEventListener('touchend', doEnd, false);
+}
+function doStart(){
+    plus.speech.startRecognize({
+        engine: 'baidu',
+        lang: 'zh-cn',
+        'userInterface': false,
+        'continue': true
+    });
+	recogniz.style.visibility = 'visible';
+}
+function doEnd(){
+    plus.speech.stopRecognize();
+    recogniz.style.visibility = 'hidden';
+}
+
+function startRecognizeSilent(){
+    var options={
+        userInterface: false
+    };
+    plus.speech.startRecognize(options, function(s){
+       console.log('success: '+s); 
+    }, function(e){
+        console.log('error: '+JSON.stringify(e));
+    });
+}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+		<style type="text/css">
+.text {
+    width: 80%;
+    height: 50px;
+    border: #00CCCC 1px solid;
+    color: #CCCCCC;
+}
+.recogniz {
+    width: 200px;
+    height: 100px;
+    padding: 12px;
+    margin: auto;
+    background-color: rgba(0,0,0,0.5);
+    border-radius: 16px;
+    visibility: hidden;
+}
+.partial {
+    width: 100%;
+    height: 40px;
+    margin-top: 16px;
+    font-size: 12px;
+    color: #FFFFFF;
+}
+.volume {
+	width: 10px;
+	height: 6px;
+	border-style:solid;
+	display:inline-block;
+	box-sizing:border-box;
+	border-width:1px;
+	border-color:#CCCCCC;
+	border-radius: 50%;
+    background-color: #00CC00;
+}
+		</style>
+	</head>
+	<body>
+        <br/>
+        <p class="des">
+            设置userInterface属性值为false则不使用默认语音识别界面，此时可通过H5自定义语音识别界面。
+        </p>
+        <div style="color:#FF0000;font-weight:bold;text-align:center;">注意：仅百度语音识别支持自定义界面</div>
+        <br/>
+        <div style="width:100%;text-align:center;">
+            <textarea id="result" class="text" placeholder="语音识别内容"></textarea>
+        </div>
+        <br/>
+        <div style="width:100%;height:100px;text-align:center;">
+            <div id="recogniz" class="recogniz">
+                <div style="color: #0000CC;">...倾听中...</div>
+                <div id="partial" class="partial">...</div>
+                <div id="volume" class="volume"></div>
+        	</div>
+        </div>
+        <br/>
+        <div style="position:absolute;bottom:50px;width:100%;">
+            <div id="done" class="button" readonly>按下开始&amp;松开结束</div>
+        </div>
+	</body>
+</html>

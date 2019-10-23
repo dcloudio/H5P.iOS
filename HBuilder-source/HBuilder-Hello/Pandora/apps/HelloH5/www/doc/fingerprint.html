@@ -1,0 +1,137 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="HandheldFriendly" content="true">
+<meta name="MobileOptimized" content="320">
+<title>Fingerprint Document</title>
+<link rel="stylesheet" type="text/css" href="res/doc.css" charset="utf-8">
+<link rel="stylesheet" type="text/css" href="res/prettify.sons.css" charset="utf-8">
+<script type="text/javascript" src="res/doc.js" charset="utf-8"></script><script type="text/javascript" src="res/prettify.js" charset="utf-8"></script>
+</head>
+<body><div id="content" class="content">
+<h1><a name="plus.fingerprint">fingerprint</a></h1>
+<p>Fingerprint模块管理指纹识别。</p>
+<h2>方法：</h2>
+<ul>
+<li>
+<a href="#plus.fingerprint.isSupport">isSupport</a>: 当前设备环境是否支持指纹识别</li>
+<li>
+<a href="#plus.fingerprint.isKeyguardSecure">isKeyguardSecure</a>: 当前设备是否设置密码锁屏</li>
+<li>
+<a href="#plus.fingerprint.isEnrolledFingerprints">isEnrolledFingerprints</a>: 当前设备是否已经录入指纹</li>
+<li>
+<a href="#plus.fingerprint.authenticate">authenticate</a>: 指纹识别认证</li>
+<li>
+<a href="#plus.fingerprint.cancel">cancel</a>: 取消指纹识别认证</li>
+</ul>
+<h2>对象：</h2>
+<ul>
+<li>
+<a href="#plus.fingerprint.AuthenticateOptions">AuthenticateOptions</a>: JSON对象，指纹识别认证参数</li>
+<li>
+<a href="#plus.fingerprint.FingerprintError">FingerprintError</a>: JSON对象，指纹识别错误信息</li>
+</ul>
+<h2>回调方法：</h2>
+<ul>
+<li>
+<a href="#plus.fingerprint.FingerprintSuccessCallback">FingerprintSuccessCallback</a>: 指纹识别认证成功回调函数</li>
+<li>
+<a href="#plus.fingerprint.FingerprintErrorCallback">FingerprintErrorCallback</a>: 指纹识别认证失败的回调函数</li>
+</ul>
+<h2>权限：</h2>
+<p>5+功能模块（permissions）</p>
+<pre class="prettyprint linenums">
+{
+// ...
+"permissions":{
+	// ...
+	"Fingerprint": {
+		"description": "指纹识别"
+	}
+}
+}
+			</pre>
+<h1><a name="plus.fingerprint.AuthenticateOptions">AuthenticateOptions</a></h1>
+<p>JSON对象，指纹识别认证参数</p>
+<pre class="prettyprint linenums">
+interface AuthenticateOptions {
+	readonly attribute String message;
+}			
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	用于设置指纹识别认证界面显示的提示信息等。
+				</p>
+<h2>属性：</h2>
+<ul><li>message: <em>(<font class="type">String</font>
+	类型
+)</em>在指纹识别过程中显示在界面上的提示信息<br><p>
+	如果指纹识别认证过程中不显示提示框，则不显示此信息。
+						</p>
+</li></ul>
+<h1><a name="plus.fingerprint.FingerprintError">FingerprintError</a></h1>
+<p>JSON对象，指纹识别错误信息</p>
+<pre class="prettyprint linenums">
+interface FingerprintError {
+	const Number UNSUPPORT = 1;
+	const Number KEYGUARD_INSECURE = 2;
+	const Number FINGERPRINT_UNENROLLED = 3;
+	const Number AUTHENTICATE_MISMATCH = 4;
+	const Number AUTHENTICATE_OVERLIMIT = 5;
+	const Number CANCEL = 6;
+	const Number UNKNOWN_ERROR = 7;
+	readonly attribute Number code;
+	readonly attribute String message;
+}			
+				</pre>
+<h2>属性：</h2>
+<ul>
+<li>code: <em>(<font class="type">Number</font>
+	类型
+)</em>错误代码<br><p>
+	取值范围为FingerprintError对象的错误常量值。
+						</p>
+</li>
+<li>message: <em>(<font class="type">String</font>
+	类型
+)</em>错误描述信息<br><p>
+	详细错误描述信息。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.fingerprint.FingerprintSuccessCallback">FingerprintSuccessCallback</a></h1>
+<p>指纹识别认证成功回调函数</p>
+<pre class="prettyprint linenums">
+void onSuccess() {
+	// Authenticate success code.
+}
+				</pre>
+<h2>参数：</h2>
+<p>无</p>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.fingerprint.FingerprintErrorCallback">FingerprintErrorCallback</a></h1>
+<p>指纹识别认证失败的回调函数</p>
+<pre class="prettyprint linenums">
+function void onError(FingerprintError error) {
+	// Handle error
+	var code = error.code; // 错误编码
+	var message = error.message; // 错误描述信息
+}
+				</pre>
+<h2>参数：</h2>
+<ul><li>error: 
+		<em>(
+			<a href="#plus.fingerprint.FingerprintError">FingerprintError</a>
+			)
+			必选 </em>获取加速度操作的错误信息<br>
+	可通过error.code（Number类型）获取错误编码；
+	可通过error.message（String类型）获取错误描述信息。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<br><br>
+</div></body>
+</html>

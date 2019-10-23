@@ -1,0 +1,110 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript">
+// 打开动画窗口 
+function openAnim(){
+	// webview_animation.html中存在预创建逻辑
+	clicked('webview_animation.html', '系统原生动画', {
+		backButtonAutoControl:'none',
+	});
+}
+
+// 打开嵌套窗口 
+function openEmbed(){
+	// 不适用原生titleNView
+	createWithoutTitle('webview_embed.html', {
+		statusbar: {
+			background: '#D74B28'
+		}
+	}).show('pop-in');
+}
+
+// 创建悬浮窗口
+var floatw=null;
+function openFloat(){
+	if(floatw){ return; } // 避免打开多个 
+	floatw = plus.webview.create('webview_float.html', 'float', {
+		width: '200px',
+		height: '200px',
+		margin: 'auto',
+		background: 'rgba(0,0,0,0.8)',
+		scrollIndicator: 'none',
+		scalable: false,
+		popGesture: 'none',
+	});
+	floatw.addEventListener('loaded', function(){
+		floatw.show('fade-in', 300);
+		floatw=null;
+	}, false);
+}
+
+// 打开自定义下拉刷新窗口
+function openRefresh(){
+	if(plus.os.name != 'Android'){
+		 compatibleConfirm();
+	}else{
+		clicked('webview_pullcustom_parent.html', '自定义下拉刷新');
+	}
+}
+
+// 打开搜索页面
+function openSearch(){
+	var styles = {
+		scrollIndicator: 'vertical',
+		titleNView: {
+			autoBackButton: false,
+			type: 'transparent',
+			buttons: [
+				{
+					type: 'favorite',
+					background: 'rgba(0,0,0,0)',
+					onclick: 'javascript:clickedButton()'
+				},{
+					'float': 'left',
+					text: '北京',
+					fontSize: '16px',
+					background: 'rgba(0,0,0,0)',
+					select: true,
+					width: 'auto',
+					maxWidth: '72px',
+					onclick: 'javascript:clickedButton()'
+				}
+			],
+			searchInput: {
+				align: 'center',
+				borderRadius: '15px',
+				placeholder: '点击搜索',
+				placeholderColor: '#FF0000',
+				disabled: true
+			}
+		}
+	};
+	clicked('webview_search.html', 'searchView', styles);
+}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+	</head>
+	<body>
+		<br/>
+		<div class="button" onclick="openAnim()">窗口动画</div>
+		<div class="button" onclick="openEmbed()">窗口嵌套</div>
+		<div class="button" onclick="openFloat()">悬浮窗口</div>
+		<div class="button" onclick="clicked('webview_pulltorefresh.html')">下拉刷新</div>
+		<div class="button" onclick="openRefresh()">自定义下拉刷新</div>
+		<div class="button" onclick="clicked('webview_mask.html', 'Webview Mask')">窗口遮罩</div>
+		<div class="button" onclick="clicked('webview_titlenview.html')">窗口标题栏</div>
+		<div class="button" onclick="openSearch()">窗口标题栏搜索框</div>
+		<br/>
+		<div id="outpos"/>
+		<div id="output">
+Webview模块管理应用窗口界面，实现多窗口的逻辑控制管理操作。
+		</div>
+	</body>
+</html>

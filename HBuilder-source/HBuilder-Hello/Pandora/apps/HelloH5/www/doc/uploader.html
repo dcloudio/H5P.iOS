@@ -1,0 +1,311 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="HandheldFriendly" content="true">
+<meta name="MobileOptimized" content="320">
+<title>Uploader Document</title>
+<link rel="stylesheet" type="text/css" href="res/doc.css" charset="utf-8">
+<link rel="stylesheet" type="text/css" href="res/prettify.sons.css" charset="utf-8">
+<script type="text/javascript" src="res/doc.js" charset="utf-8"></script><script type="text/javascript" src="res/prettify.js" charset="utf-8"></script>
+</head>
+<body><div id="content" class="content">
+<h1><a name="plus.uploader">uploader</a></h1>
+<p>Uploader模块管理网络上传任务，用于从本地上传各种文件到服务器，并支持跨域访问操作。通过plus.uploader可获取上传管理对象。Uploader上传使用HTTP的POST方式提交数据，数据格式符合Multipart/form-data规范，即rfc1867（Form-based File Upload in HTML）协议。</p>
+<h2>方法：</h2>
+<ul>
+<li>
+<a href="#plus.uploader.createUpload">createUpload</a>: 新建上传任务</li>
+<li>
+<a href="#plus.uploader.enumerate">enumerate</a>: 枚举上传任务</li>
+<li>
+<a href="#plus.uploader.clear">clear</a>: 清除上传任务</li>
+<li>
+<a href="#plus.uploader.startAll">startAll</a>: 开始所有上传任务</li>
+</ul>
+<h2>对象：</h2>
+<ul>
+<li>
+<a href="#plus.uploader.Upload">Upload</a>: Upload对象管理一个上传任务</li>
+<li>
+<a href="#plus.uploader.UploadEvent">UploadEvent</a>: 上传任务事件类型</li>
+<li>
+<a href="#plus.uploader.UploadState">UploadState</a>: 上传任务的状态，Number类型</li>
+<li>
+<a href="#plus.uploader.UploadOptions">UploadOptions</a>: JSON对象，创建上传任务的参数</li>
+<li>
+<a href="#plus.uploader.UploadFileOptions">UploadFileOptions</a>: JSON对象，添加上传文件的参数</li>
+</ul>
+<h2>回调方法：</h2>
+<ul>
+<li>
+<a href="#plus.uploader.UploadCompletedCallback">UploadCompletedCallback</a>: 上传任务完成时的回调函数</li>
+<li>
+<a href="#plus.uploader.UploadStateChangedCallback">UploadStateChangedCallback</a>: 上传任务状态变化回调函数，在上传任务状态发生变化时调用</li>
+<li>
+<a href="#plus.uploader.UploadEnumerateCallback">UploadEnumerateCallback</a>: 枚举上传任务回调函数，在枚举上传任务完成时时调用</li>
+</ul>
+<h2>权限：</h2>
+<p>5+功能模块（permissions）</p>
+<pre class="prettyprint linenums">
+{
+// ...
+"permissions":{
+	// ...
+	"Uploader": {
+		"description": "文件上传，管理文件上传任务"
+	}
+}
+}			</pre>
+<h1><a name="plus.uploader.Upload">Upload</a></h1>
+<p>Upload对象管理一个上传任务</p>
+<pre class="prettyprint linenums">
+interface Upload {
+	readonly attribute String url;
+	readonly attribute Number state;
+	readonly attribute UploadOptions options;
+	readonly attribute String responseText;
+	readonly attribute Number uploadedSize;
+	readonly attribute Number totalSize;
+	function void abort();
+	function Boolean addData( String key, String value );
+	function void addEventListener( String event, function Callback listener, Boolean capture );
+	function Boolean addFile( String path, UploadFileOptions options );
+	function String getAllResponseHeaders();
+	function String getResponseHeader( headerName );
+	function void pause();
+	function void resume();
+	function void setRequestHeader( String headerName, String headerValue );
+	function void start();
+}
+				</pre>
+<h2>属性：</h2>
+<ul>
+<li>
+<a href="#plus.uploader.Upload.id">id</a>: 上传任务的标识</li>
+<li>
+<a href="#plus.uploader.Upload.url">url</a>: 上传文件的服务器地址</li>
+<li>
+<a href="#plus.uploader.Upload.state">state</a>: 任务的状态</li>
+<li>
+<a href="#plus.uploader.Upload.options">options</a>: 上传任务的参数</li>
+<li>
+<a href="#plus.uploader.Upload.responseText">responseText</a>: 上传任务完成后服务器返回的数据</li>
+<li>
+<a href="#plus.uploader.Upload.uploadedSize">uploadedSize</a>: 已完成上传数据的大小）</li>
+<li>
+<a href="#plus.uploader.Upload.totalSize">totalSize</a>: 上传数据的总大小</li>
+</ul>
+<h2>方法：</h2>
+<ul>
+<li>
+<a href="#plus.uploader.Upload.addFile">addFile</a>: 添加上传文件</li>
+<li>
+<a href="#plus.uploader.Upload.addData">addData</a>: 添加上传数据</li>
+<li>
+<a href="#plus.uploader.Upload.start">start</a>: 开始上传任务</li>
+<li>
+<a href="#plus.uploader.Upload.pause">pause</a>: 暂停上传任务</li>
+<li>
+<a href="#plus.uploader.Upload.resume">resume</a>: 恢复暂停的上传任务</li>
+<li>
+<a href="#plus.uploader.Upload.abort">abort</a>: 取消上传任务</li>
+<li>
+<a href="#plus.uploader.Upload.addEventListener">addEventListener</a>: 添加上传任务事件监听器</li>
+<li>
+<a href="#plus.uploader.Upload.getAllResponseHeaders">getAllResponseHeaders</a>: 获取上传请求HTTP响应头部信息</li>
+<li>
+<a href="#plus.uploader.Upload.getResponseHeader">getResponseHeader</a>: 获取上传请求指定的HTTP响应头部的值</li>
+<li>
+<a href="#plus.uploader.Upload.setRequestHeader">setRequestHeader</a>: 设置上传请求的HTTP头数据</li>
+</ul>
+<h1><a name="plus.uploader.UploadEvent">UploadEvent</a></h1>
+<p>上传任务事件类型</p>
+<h2>常量：</h2>
+<ul><li>"statechanged": <em>(<font class="type">String</font>
+	类型
+)</em>上传任务状态变化事件<br><p>
+	当上传任务状态发生变化时触发此事件，事件原型参考UploadStateChangedCallback。
+						</p>
+</li></ul>
+<h1><a name="plus.uploader.UploadState">UploadState</a></h1>
+<p>上传任务的状态，Number类型</p>
+<h2>常量：</h2>
+<ul>
+<li>undefined: <em>(<font class="type">undefined</font>
+	类型
+)</em>上传任务未开始<br><p>
+	通过plus.uploader.createUpload()方法创建上传任务后的初始状态，此时可调用其start()方法开始上传。
+						</p>
+</li>
+<li>0: <em>(<font class="type">number</font>
+	类型
+)</em>上传任务开始调度<br><p>
+	调用上传任务的start()方法之后处于此状态，此时上传任务处于可调度上传状态。
+						</p>
+</li>
+<li>1: <em>(<font class="type">number</font>
+	类型
+)</em>上传任务开始请求<br><p>
+	上传任务建立网络连接，发送请求到服务器并等待服务器的响应。
+						</p>
+</li>
+<li>2: <em>(<font class="type">number</font>
+	类型
+)</em>上传任务请求已经建立<br><p>
+	上传任务网络连接已建立，服务器返回响应，准备传输数据内容。
+						</p>
+</li>
+<li>3: <em>(<font class="type">number</font>
+	类型
+)</em>上传任务提交数据<br><p>
+	上传任务提交数据，监听statechanged事件时可多次触发此状态。
+						</p>
+</li>
+<li>4: <em>(<font class="type">number</font>
+	类型
+)</em>上传任务已完成<br><p>
+	上传任务完成数据提交并断开连接，上传成功或失败都会设置为此状态。
+						</p>
+</li>
+<li>5: <em>(<font class="type">number</font>
+	类型
+)</em>上传任务已暂停<br><p>
+	调用上传任务的pause()方法将任务暂停，此时可调用其resume()方法重新开始上传。
+						</p>
+</li>
+<li>-1: <em>(<font class="type">number</font>
+	类型
+)</em>枚举任务状态<br><p>
+	非上传任务状态，泛指所有上传任务的状态，用于enumerate()和clear()操作时指定作用于所有上传任务。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.uploader.UploadOptions">UploadOptions</a></h1>
+<p>JSON对象，创建上传任务的参数</p>
+<h2>属性：</h2>
+<ul>
+<li>method: <em>(<font class="type">String</font>
+	类型
+)</em>网络请求类型<br><p>
+	仅支持http协议的“POST”请求。
+						</p>
+</li>
+<li>blocksize: <em>(<font class="type">number</font>
+	类型
+)</em>上传任务每次上传的文件块大小（仅在支持断点续传的服务有效）<br><p>
+	数值类型，单位为Byte（字节），默认值为102400，若设置值小于等于0则表示不分块上传。
+						</p>
+</li>
+<li>priority: <em>(<font class="type">number</font>
+	类型
+)</em>上传任务的优先级<br><p>
+	数值类型，数值越大优先级越高，默认优先级值为0。
+						</p>
+</li>
+<li>timeout: <em>(<font class="type">number</font>
+	类型
+)</em>上传任务超时时间<br><p>
+	数值类型，单位为s(秒)，默认值为120s。
+	超时时间为服务器响应请求的时间（不是上传任务完成的总时间），如果设置为0则表示永远不超时。
+						</p>
+</li>
+<li>retry: <em>(<font class="type">number</font>
+	类型
+)</em>上传任务重试次数<br><p>
+	数值类型，默认为重试3次。
+						</p>
+</li>
+<li>retryInterval: <em>(<font class="type">Number</font>
+	类型
+)</em>上传任务重试间隔时间<br><p>
+	数值类型，单位为s(秒)，默认值为30s。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.uploader.UploadFileOptions">UploadFileOptions</a></h1>
+<p>JSON对象，添加上传文件的参数</p>
+<h2>属性：</h2>
+<ul>
+<li>
+<a href="#plus.uploader.UploadFileOptions.key">key</a>: 文件键名</li>
+<li>
+<a href="#plus.uploader.UploadFileOptions.name">name</a>: 文件名称</li>
+<li>
+<a href="#plus.uploader.UploadFileOptions.mime">mime</a>: 文件类型</li>
+</ul>
+<h1><a name="plus.uploader.UploadCompletedCallback">UploadCompletedCallback</a></h1>
+<p>上传任务完成时的回调函数</p>
+<pre class="prettyprint linenums">
+void uploadCompleted( Upload upload, Number status ) {
+	// File upload completed code.
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">在上传任务完成时调用，上传任务失败也将触发此回调。</p>
+<h2>参数：</h2>
+<ul>
+<li>upload: 
+		<em>(
+			<a href="#plus.uploader.Upload">Upload</a>
+			)
+			必选 </em>上传任务对象<br>
+</li>
+<li>status: 
+		<em>(
+			<font class="type">Number</font>
+			)
+			必选 </em>上传结果状态码<br>
+	HTTP传输协议状态码，如果未获取传输状态则其值则为0，如上传成功其值通常为200。
+						</li>
+</ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.uploader.UploadStateChangedCallback">UploadStateChangedCallback</a></h1>
+<p>上传任务状态变化回调函数，在上传任务状态发生变化时调用</p>
+<pre class="prettyprint linenums">
+void onStateChanged( Upload upload, status ) {
+	// Upload state changed code.
+}
+				</pre>
+<h2>参数：</h2>
+<ul>
+<li>upload: 
+		<em>(
+			<a href="#plus.uploader.Upload">Upload</a>
+			)
+			必选 </em>上传任务对象<br>
+</li>
+<li>status: 
+		<em>(
+			<font class="type">Number</font>
+			)
+			必选 </em>上传结果状态码<br>
+	HTTP传输协议状态码，如果未获取传输状态则其值则为0，如上传成功其值通常为200。
+						</li>
+</ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.uploader.UploadEnumerateCallback">UploadEnumerateCallback</a></h1>
+<p>枚举上传任务回调函数，在枚举上传任务完成时时调用</p>
+<pre class="prettyprint linenums">
+void onEnumerated( Upload[] uploads ) {
+	// Upload enumerate completed code.
+}
+				</pre>
+<h2>参数：</h2>
+<ul><li>uploads: 
+		<em>(
+			<font class="type">Array</font>[
+						<a href="#plus.uploader.Upload">Upload</a>
+						]
+					
+			)
+			必选 </em>枚举到的上传任务对象数组<br>
+</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<br><br>
+</div></body>
+</html>

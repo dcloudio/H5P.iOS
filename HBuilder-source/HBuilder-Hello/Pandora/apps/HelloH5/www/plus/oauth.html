@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<!--<meta name="MobileOptimized" content="320"/>-->
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript">
+var auths={};
+function plusReady(){
+	// 获取登录认证通道
+	plus.oauth.getServices(function(services){
+		var content=document.getElementById('dcontent');
+		var info=document.getElementById("info");
+		var txt="登录认证通道信息：";
+		for(var i in services){
+			var service=services[i];
+			console.log(service.id+": "+service.authResult+", "+service.userInfo);
+			auths[service.id]=service;
+			txt += "id:"+service.id+", ";
+			txt += "description:"+service.description+", ";
+			var de=document.createElement('div');
+			de.setAttribute('class','button');
+			de.setAttribute('onclick','login(this.id)');
+			de.id=service.id;
+			de.innerText=service.description+"登录";
+			oauth.appendChild(de);
+		}
+		info.innerText=txt;
+	},function(e){
+		outLine("获取登录认证失败："+e.message);
+	});
+}
+document.addEventListener('plusready',plusReady,false);
+// 登录认证
+function login(id){
+	outSet("----- 登录认证 -----");
+	var auth=auths[id];
+	if(auth){
+		var w=null;
+		if(plus.os.name=="Android"){
+			w=plus.nativeUI.showWaiting();
+		}
+		document.addEventListener("pause",function(){
+			setTimeout(function(){
+				w&&w.close();w=null;
+			},2000);
+		}, false );
+		auth.login(function(){
+			w&&w.close();w=null;
+			outLine("登录认证成功：");
+			outLine(JSON.stringify(auth.authResult));
+			userinfo(auth);
+		},function(e){
+			w&&w.close();w=null;
+			outLine("登录认证失败：");
+			outLine("["+e.code+"]："+e.message);
+			plus.nativeUI.alert("详情错误信息请参考授权登录(OAuth)规范文档：http://www.html5plus.org/#specification#/specification/OAuth.html",null,"登录失败["+e.code+"]："+e.message);
+		});
+	}else{
+		outLine("无效的登录认证通道！");
+		plus.nativeUI.alert("无效的登录认证通道！",null,"登录");
+	}
+}
+// 获取用户信息
+function userinfo(a){
+	outLine("----- 获取用户信息 -----");
+	a.getUserInfo(function(){
+		outLine("获取用户信息成功：");
+		outLine(JSON.stringify(a.userInfo));
+		var nickname=a.userInfo.nickname||a.userInfo.name||a.userInfo.miliaoNick;
+		plus.nativeUI.alert("欢迎“"+nickname+"”登录！");
+	},function(e){
+		outLine("获取用户信息失败：");
+		outLine("["+e.code+"]："+e.message);
+		plus.nativeUI.alert("获取用户信息失败！",null,"登录");
+	});
+}
+// 注销登录
+function logoutAll(){
+	outSet("----- 注销登录认证 -----");
+	for(var i in auths){
+		logout(auths[i]);
+	}
+}
+function logout(auth){
+	auth.logout(function(){
+		outLine("注销\""+auth.description+"\"成功");
+	},function(e){
+		outLine("注销\""+auth.description+"\"失败："+e.message);
+	});
+}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+		<style type="text/css">
+#total{
+	-webkit-user-select:text;
+	text-align:right;
+	padding:0 1em;
+	border: 0px;
+	border-bottom:1px solid #ECB100;
+	border-radius: 0;
+	font-size:16px;
+	width:30%;
+	outline:none;
+}
+		</style>
+	</head>
+	<body>
+		<br/>
+		<p id="info" style="padding: 0 1em;text-align:left;">登录认证通道信息：</p>
+		<div style="padding: 0.5em 1em;"><hr color="#EEE"/></div>
+		<br/>
+		<div id="oauth"></div>
+		<br/>
+		<div class="button button-waring" onclick="logoutAll()">注销登录</div>
+		<div id="outpos"/>
+		<div id="output">
+OAuth模块管理客户端的用户授权登录验证功能，允许应用访问第三方平台的资源。
+		</div>
+	</body>
+</html>

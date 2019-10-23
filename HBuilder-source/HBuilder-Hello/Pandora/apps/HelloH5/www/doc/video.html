@@ -1,0 +1,592 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="HandheldFriendly" content="true">
+<meta name="MobileOptimized" content="320">
+<title>Video Document</title>
+<link rel="stylesheet" type="text/css" href="res/doc.css" charset="utf-8">
+<link rel="stylesheet" type="text/css" href="res/prettify.sons.css" charset="utf-8">
+<script type="text/javascript" src="res/doc.js" charset="utf-8"></script><script type="text/javascript" src="res/prettify.js" charset="utf-8"></script>
+</head>
+<body><div id="content" class="content">
+<h1><a name="plus.video">video</a></h1>
+<p>Video模块管理多媒体视频相关能力，可用创建视频播放控件，直播推流控件等。</p>
+<h2>方法：</h2>
+<ul>
+<li>
+<a href="#plus.video.createVideoPlayer">createVideoPlayer</a>: 创建VideoPlayer对象</li>
+<li>
+<a href="#plus.video.createLivePusher">createLivePusher</a>: 创建LivePusher对象</li>
+<li>
+<a href="#plus.video.getVideoPlayerById">getVideoPlayerById</a>: 查找已经创建的VideoPlayer对象</li>
+<li>
+<a href="#plus.video.getLivePusherById">getLivePusherById</a>: 查找已经创建的LivePusher对象</li>
+</ul>
+<h2>对象：</h2>
+<ul>
+<li>
+<a href="#plus.video.VideoPlayer">VideoPlayer</a>: 视频播放控件对象</li>
+<li>
+<a href="#plus.video.VideoPlayerStyles">VideoPlayerStyles</a>: 视频播放控件参数</li>
+<li>
+<a href="#plus.video.VideoPlayerEvents">VideoPlayerEvents</a>: 视频播放控件事件类型</li>
+<li>
+<a href="#plus.video.LivePusher">LivePusher</a>: 直播推流控件对象</li>
+<li>
+<a href="#plus.video.LivePusherStyles">LivePusherStyles</a>: 直播推流控件配置选项</li>
+<li>
+<a href="#plus.video.LivePusherEvents">LivePusherEvents</a>: 直播推流控件事件类型</li>
+</ul>
+<h2>回调方法：</h2>
+<ul>
+<li>
+<a href="#plus.video.VideoPlayerEventCallback">VideoPlayerEventCallback</a>: 视频播放控件事件监听回调函数</li>
+<li>
+<a href="#plus.video.LivePusherEventCallback">LivePusherEventCallback</a>: 视频播放控件事件监听回调函数</li>
+</ul>
+<h2>权限：</h2>
+<p>5+功能模块（permissions）</p>
+<pre class="prettyprint linenums">
+{
+// ...
+"permissions":{
+	// ...
+	"VideoPlayer": {
+		"description": "视频播放"
+	},
+	"LivePusher": {
+		"description": "直播推流"
+	}
+}
+}
+			</pre>
+<h1><a name="plus.video.VideoPlayer">VideoPlayer</a></h1>
+<p>视频播放控件对象</p>
+<pre class="prettyprint linenums">
+interface plus.video.VideoPlayer {
+	// Methods
+	function void addEventListener(event, listener, capture);
+	function void setStyles(styles);
+	function void play();
+	function void pause();
+	function void seek(position);
+	function void requestFullScreen();
+	function void exitFullScreen();
+	function void stop();
+	function void hide();
+	function void show();
+	function void close();
+	function void sendDanmu(danmu);
+	function void playbackRate(rate);
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+VideoPlayer对象表示视频播放控件对象，在窗口中播放视频，可支持本地视频(mp4/flv)，网络视频地址（mp4/flv/m3u8）及流媒体（rtmp/hls/rtsp）。
+				</p>
+<h2>构造：</h2>
+<ul><li>
+<a href="#plus.video.VideoPlayer.VideoPlayer.constructor(id,%20styles)">VideoPlayer.constructor(id, styles)</a>: 创建VideoPlayer对象</li></ul>
+<h2>方法：</h2>
+<ul>
+<li>
+<a href="#plus.video.VideoPlayer.addEventListener">addEventListener</a>: 监听视频播放控件事件</li>
+<li>
+<a href="#plus.video.VideoPlayer.setStyles">setStyles</a>: 设置视频播放控件参数</li>
+<li>
+<a href="#plus.video.VideoPlayer.setOptions">setOptions</a>: 设置视频播放控件参数（将废弃，使用setStyles）</li>
+<li>
+<a href="#plus.video.VideoPlayer.play">play</a>: 播放视频</li>
+<li>
+<a href="#plus.video.VideoPlayer.pause">pause</a>: 暂停视频</li>
+<li>
+<a href="#plus.video.VideoPlayer.seek">seek</a>: 跳转到指定位置</li>
+<li>
+<a href="#plus.video.VideoPlayer.requestFullScreen">requestFullScreen</a>: 切换到全屏</li>
+<li>
+<a href="#plus.video.VideoPlayer.exitFullScreen">exitFullScreen</a>: 退出全屏</li>
+<li>
+<a href="#plus.video.VideoPlayer.stop">stop</a>: 停止播放视频</li>
+<li>
+<a href="#plus.video.VideoPlayer.hide">hide</a>: 隐藏视频播放控件</li>
+<li>
+<a href="#plus.video.VideoPlayer.show">show</a>: 显示视频播放控件</li>
+<li>
+<a href="#plus.video.VideoPlayer.close">close</a>: 关闭视频播放控件</li>
+<li>
+<a href="#plus.video.VideoPlayer.sendDanmu">sendDanmu</a>: 发送弹幕</li>
+<li>
+<a href="#plus.video.VideoPlayer.playbackRate">playbackRate</a>: 设置倍速播放</li>
+</ul>
+<h1><a name="plus.video.VideoPlayerStyles">VideoPlayerStyles</a></h1>
+<p>视频播放控件参数</p>
+<h2>属性：</h2>
+<ul>
+<li>src: <em>(<font class="type">String</font>
+	类型
+)</em>视频资源地址<br><p>
+	支持本地地址，也支持网络地址及直播流（RTMP）。
+						</p>
+</li>
+<li>initial-time: <em>(<font class="type">Number</font>
+	类型
+)</em>视频初始播放位置<br><p>
+	单位为秒（s）。
+	注意：仅在视频开始播放前设置有效。
+						</p>
+</li>
+<li>duration: <em>(<font class="type">Number</font>
+	类型
+)</em>视频长度<br><p>
+	单位为秒（s）。
+	注意：仅在视频开始播放前设置有效。
+						</p>
+</li>
+<li>controls: <em>(<font class="type">Boolean</font>
+	类型
+)</em>是否显示默认播放控件<br><p>
+	默认值为true。
+	包括播放/暂停按钮、播放进度、时间等。
+						</p>
+</li>
+<li>danmu-list: <em>(<font class="type">Array(JSON)</font>
+	类型
+)</em>弹幕列表<br><p>
+	弹幕JSON对象包括属性：text（String类型，弹幕文本类容），color（String类型，弹幕颜色，格式为#RRGGBB），time（Number类型，弹幕出现的时间，单位为秒）。
+						</p>
+</li>
+<li>danmu-btn: <em>(<font class="type">Boolean</font>
+	类型
+)</em>是否显示弹幕按钮<br><p>
+	默认值为false。
+	注意：仅在控件构造时设置有效，不能动态更新。
+						</p>
+</li>
+<li>enable-danmu: <em>(<font class="type">Boolean</font>
+	类型
+)</em>是否展示弹幕<br><p>
+	默认值为false。
+	注意：仅在控件构造时设置有效，不能动态更新。
+						</p>
+</li>
+<li>autoplay: <em>(<font class="type">Boolean</font>
+	类型
+)</em>是否自动播放<br><p>
+	默认值为false。
+						</p>
+</li>
+<li>loop: <em>(<font class="type">Boolean</font>
+	类型
+)</em>是否循环播放<br><p>
+	默认值为false。
+						</p>
+</li>
+<li>muted: <em>(<font class="type">Boolean</font>
+	类型
+)</em>是否静音播放<br><p>
+	默认值为false。
+						</p>
+</li>
+<li>direction: <em>(<font class="type">Number</font>
+	类型
+)</em>设置全屏时视频的方向<br><p>
+	不指定则根据宽高比自动判断。
+	有效值为： 0（正常竖向）, 90（屏幕逆时针90度）, -90（屏幕顺时针90度）。
+	默认值为-90。
+						</p>
+</li>
+<li>show-progress: <em>(<font class="type">Boolean</font>
+	类型
+)</em>是否显示播放进度<br><p>
+	默认值为true。
+						</p>
+</li>
+<li>show-fullscreen-btn: <em>(<font class="type">Boolean</font>
+	类型
+)</em>是否显示全屏按钮<br><p>
+	默认值为true。
+						</p>
+</li>
+<li>show-play-btn: <em>(<font class="type">Boolean</font>
+	类型
+)</em>是否显示视频底部控制栏的播放按钮<br><p>
+	默认值为true。
+						</p>
+</li>
+<li>show-center-play-btn: <em>(<font class="type">Boolean</font>
+	类型
+)</em>是否显示视频中间的播放按钮<br><p>
+	默认值为true。
+						</p>
+</li>
+<li>enable-progress-gesture: <em>(<font class="type">Boolean</font>
+	类型
+)</em>是否开启控制进度的手势<br><p>
+	默认值为true。
+						</p>
+</li>
+<li>objectFit: <em>(<font class="type">String</font>
+	类型
+)</em>当视频大小与 video 容器大小不一致时，视频的表现形式<br><p>
+	有效值为：contain（包含），fill（填充），cover（覆盖）。
+	默认值为contain。
+	仅Android平台支持。
+						</p>
+</li>
+<li>poster: <em>(<font class="type">String</font>
+	类型
+)</em>视频封面的图片网络资源地址<br><p>
+	如果 controls 属性值为 false 则设置 poster 无效。
+						</p>
+</li>
+<li>top: <em>(<font class="type">String</font>
+	类型
+)</em>VideoPlayer控件左上角的垂直偏移量<br><p>
+	可取值：
+		像素值，如"100px"；
+		百分比，如"10%"，相对于父Webview窗口的高度；
+		自动计算，如"auto",根据height值自动计算，相对于父Webview窗口垂直居中。
+						</p>
+</li>
+<li>left: <em>(<font class="type">String</font>
+	类型
+)</em>VideoPlayer控件左上角的水平偏移量<br><p>
+	可取值：
+		像素值，如"100px"；
+		百分比，如"10%"，相对于父Webview窗口的宽度；
+		自动计算，如"auto"，根据width值自动计算，相对于父Webview窗口水平居中。
+	默认值为"0px"。
+						</p>
+</li>
+<li>width: <em>(<font class="type">String</font>
+	类型
+)</em>VideoPlayer控件的宽度<br><p>
+	可取值：
+		像素值，如"100px"；
+		百分比，如"10%"，相对于父Webview窗口的宽度。
+	默认值为"100%"。
+						</p>
+</li>
+<li>height: <em>(<font class="type">String</font>
+	类型
+)</em>VideoPlayer控件的高度<br><p>
+	可取值：
+		像素值，如"100px"；
+		百分比，如"10%"，相对于父Webview窗口的高度。
+	默认值为"100%"。
+						</p>
+</li>
+<li>position: <em>(<font class="type">String</font>
+	类型
+)</em>VideoPlayer控件在Webview窗口的布局模式<br><p>
+	可取值：
+		"static" - 静态布局模式，如果页面存在滚动条则随窗口内容滚动；
+		"absolute" - 绝对布局模式，如果页面存在滚动条不随窗口内容滚动；
+	默认值为"static"。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.video.VideoPlayerEvents">VideoPlayerEvents</a></h1>
+<p>视频播放控件事件类型</p>
+<h2>常量：</h2>
+<ul>
+<li>"play": <em>(<font class="type">String</font>
+	类型
+)</em>视频播放事件<br><p>
+	当视频开始/继续播放时触发。
+	无事件回调函数参数。
+						</p>
+</li>
+<li>"pause": <em>(<font class="type">String</font>
+	类型
+)</em>视频暂停事件<br><p>
+	当视频暂停播放时触发。
+	无事件回调函数参数。
+						</p>
+</li>
+<li>"ended": <em>(<font class="type">String</font>
+	类型
+)</em>视频结束事件<br><p>
+	当视频播放到末尾时触发。
+	无事件回调函数参数。
+						</p>
+</li>
+<li>"timeupdate": <em>(<font class="type">String</font>
+	类型
+)</em>视频播放进度更新事件<br><p>
+	当视频播放进度变化时触发，触发频率250ms一次。
+	事件回调函数参数event.detail = {currentTime:"Number类型，当前播放时间（单位为秒）",duration:"Number类型，视频总长度（单位为秒）"}。
+						</p>
+</li>
+<li>"fullscreenchange": <em>(<font class="type">String</font>
+	类型
+)</em>视频播放全屏播放状态变化事件<br><p>
+	当视频播放进入或退出全屏时触发。
+	事件回调函数参数event.detail = {fullScreen:"Boolean类型，当前状态是否为全屏", direction:"String类型，vertical或horizontal"}。
+						</p>
+</li>
+<li>"waiting": <em>(<font class="type">String</font>
+	类型
+)</em>视频缓冲事件<br><p>
+	当视频播放出现缓冲时触发。
+	无事件回调函数参数。
+						</p>
+</li>
+<li>"error": <em>(<font class="type">String</font>
+	类型
+)</em>视频错误事件<br><p>
+	当视频播放出错时触发。
+	无事件回调函数参数。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.video.LivePusher">LivePusher</a></h1>
+<p>直播推流控件对象</p>
+<pre class="prettyprint linenums">
+interface plus.video.LivePusher {
+	// Methods
+	function void addEventListener(event, listener, capture);
+	function void setStyles(styles);
+	function void preview();
+	function void start();
+	function void stop(options);
+	function void pause();
+	function void resume();
+	function void switchCamera();
+	function void snapshot();
+	function void close();
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+LivePusher对象表示直播推流控件对象，在窗口中显示捕获视频，实时推送到流媒体（RTMP）服务器。
+				</p>
+<h2>构造：</h2>
+<ul><li>
+<a href="#plus.video.LivePusher.LivePusher.constructor(id,%20options)">LivePusher.constructor(id, options)</a>: 创建LivePusher对象</li></ul>
+<h2>方法：</h2>
+<ul>
+<li>
+<a href="#plus.video.LivePusher.addEventListener">addEventListener</a>: 监听直播推流控件事件</li>
+<li>
+<a href="#plus.video.LivePusher.setStyles">setStyles</a>: 设置直播推流控件参数</li>
+<li>
+<a href="#plus.video.LivePusher.setOptions">setOptions</a>: 设置直播推流控件参数（将废弃，使用setStyles）</li>
+<li>
+<a href="#plus.video.LivePusher.preview">preview</a>: 预览摄像头采集数据</li>
+<li>
+<a href="#plus.video.LivePusher.start">start</a>: 开始推流</li>
+<li>
+<a href="#plus.video.LivePusher.stop">stop</a>: 停止推流</li>
+<li>
+<a href="#plus.video.LivePusher.pause">pause</a>: 暂停推流</li>
+<li>
+<a href="#plus.video.LivePusher.resume">resume</a>: 恢复推流</li>
+<li>
+<a href="#plus.video.LivePusher.switchCamera">switchCamera</a>: 切换前后摄像头</li>
+<li>
+<a href="#plus.video.LivePusher.snapshot">snapshot</a>: 快照</li>
+<li>
+<a href="#plus.video.LivePusher.close">close</a>: 关闭直播推流控件</li>
+</ul>
+<h1><a name="plus.video.LivePusherStyles">LivePusherStyles</a></h1>
+<p>直播推流控件配置选项</p>
+<h2>属性：</h2>
+<ul>
+<li>url: <em>(<font class="type">String</font>
+	类型
+)</em>推流地址<br><p>
+	支持RTMP协议。
+						</p>
+</li>
+<li>mode: <em>(<font class="type">String</font>
+	类型
+)</em>推流视频模式<br><p>
+	可取值：SD（标清）, HD（高清）, FHD（超清）。
+						</p>
+</li>
+<li>muted: <em>(<font class="type">Boolean</font>
+	类型
+)</em>是否静音<br><p>
+	默认值为false。
+						</p>
+</li>
+<li>enable-camera: <em>(<font class="type">Boolean</font>
+	类型
+)</em>开启摄像头<br><p>
+	默认值为true。
+						</p>
+</li>
+<li>auto-focus: <em>(<font class="type">Boolean</font>
+	类型
+)</em>自动聚集<br><p>
+	默认值为true。
+						</p>
+</li>
+<li>beauty: <em>(<font class="type">Number</font>
+	类型
+)</em>是否美颜<br><p>
+	可取值0、1，其中0表示不使用美颜，1表示不使用美颜。
+	默认值为0(不使用美颜)。
+						</p>
+</li>
+<li>whiteness: <em>(<font class="type">Number</font>
+	类型
+)</em>是否美白<br><p>
+	可取值0、1、2、3、4、5，其中0表示不使用美白，其余值分别表示美白的程度，值越大美白程度越大。
+	默认值为0（不使用美白）。
+						</p>
+</li>
+<li>aspect: <em>(<font class="type">String</font>
+	类型
+)</em>宽高比<br><p>
+	可取值：3:4, 9:16。
+						</p>
+</li>
+<li>top: <em>(<font class="type">String</font>
+	类型
+)</em>LivePusher控件左上角的垂直偏移量<br><p>
+	可取值：
+		像素值，如"100px"；
+		百分比，如"10%"，相对于父Webview窗口的高度；
+		自动计算，如"auto",根据height值自动计算，相对于父Webview窗口垂直居中。
+						</p>
+</li>
+<li>left: <em>(<font class="type">String</font>
+	类型
+)</em>LivePusher控件左上角的水平偏移量<br><p>
+	可取值：
+		像素值，如"100px"；
+		百分比，如"10%"，相对于父Webview窗口的宽度；
+		自动计算，如"auto"，根据width值自动计算，相对于父Webview窗口水平居中。
+	默认值为"0px"。
+						</p>
+</li>
+<li>width: <em>(<font class="type">String</font>
+	类型
+)</em>LivePusher控件的宽度<br><p>
+	可取值：
+		像素值，如"100px"；
+		百分比，如"10%"，相对于父Webview窗口的宽度。
+	默认值为"100%"。
+						</p>
+</li>
+<li>height: <em>(<font class="type">String</font>
+	类型
+)</em>LivePusher控件的高度<br><p>
+	可取值：
+		像素值，如"100px"；
+		百分比，如"10%"，相对于父Webview窗口的高度。
+	默认值为"100%"。
+						</p>
+</li>
+<li>position: <em>(<font class="type">String</font>
+	类型
+)</em>LivePusher控件在Webview窗口的布局模式<br><p>
+	可取值：
+		"static" - 静态布局模式，如果页面存在滚动条则随窗口内容滚动；
+		"absolute" - 绝对布局模式，如果页面存在滚动条不随窗口内容滚动；
+	默认值为"static"。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.video.LivePusherEvents">LivePusherEvents</a></h1>
+<p>直播推流控件事件类型</p>
+<h2>常量：</h2>
+<ul>
+<li>"statechange": <em>(<font class="type">String</font>
+	类型
+)</em>状态变化事件<br><p>
+	当推流连接服务器状态变化时触发。
+	事件回调函数参数event={type:"事件类型，此时为statechange",target:"触发此事件的直播推流控件对象",detail:{code:"状态码，参考后面状态码说明",message:"描述信息"}}。
+	其中code状态码：
+	1001 - 已经连接推流服务器；
+	1002 - 已经与服务器握手完毕,开始推流；
+	1003 - 打开摄像头成功；
+	1004 - 录屏启动成功；
+	1005 - 推流动态调整分辨率；
+	1006 - 推流动态调整码率；
+	1007 - 首帧画面采集完成；
+	1008 - 编码器启动；
+	-1301 - 打开摄像头失败；
+	-1302 - 打开麦克风失败；
+	-1303 - 视频编码失败；
+	-1304 - 音频编码失败；
+	-1305 - 不支持的视频分辨率；
+	-1306 - 不支持的音频采样率；
+	-1307 - 网络断连，且经多次重连抢救无效，更多重试请自行重启推流；
+	-1308 - 开始录屏失败，可能是被用户拒绝；
+	-1309 - 录屏失败，不支持的Android系统版本，需要5.0以上的系统；
+	-1310 - 录屏被其他应用打断了；
+	-1311 - Android Mic打开成功，但是录不到音频数据；
+	-1312 - 录屏动态切横竖屏失败；
+	1101 - 网络状况不佳：上行带宽太小，上传数据受阻；
+	1102 - 网络断连, 已启动自动重连；
+	1103 - 硬编码启动失败,采用软编码；
+	1104 - 视频编码失败；
+	1105 - 新美颜软编码启动失败，采用老的软编码；
+	1106 - 新美颜软编码启动失败，采用老的软编码；
+	3001 - RTMP -DNS解析失败；
+	3002 - RTMP服务器连接失败；
+	3003 - RTMP服务器握手失败；
+	3004 - RTMP服务器主动断开，请检查推流地址的合法性或防盗链有效期；
+	3005 - RTMP 读/写失败。
+						</p>
+</li>
+<li>"netstatus": <em>(<font class="type">String</font>
+	类型
+)</em>网络状态通知事件<br><p>
+	当推流的网络状态发生变化时触发。
+	事件回调函数参数event={type:"事件类型，此时为netstatus",target:"触发此事件的直播推流控件对象",detail:{videoBitrate:"视频码率",audioBitrate:"音频码率",videoFPS:"视频帧率",netSpeed:"推流网速",videoWidth:"视频宽度",videoHeight:"视频高度"}}。
+						</p>
+</li>
+<li>"error": <em>(<font class="type">String</font>
+	类型
+)</em>渲染错误事件<br><p>
+	当推流发生错误是触发。
+	事件回调函数参数event={type:"事件类型，此时为error",target:"触发此事件的直播推流控件对象",detail:{code:"错误编码，参考后面错误码说明",message:"描述信息"}}。
+	其中code错误码：
+	1001 - 用户禁止使用摄像头；
+	1002 - 用户禁止使用录音。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.video.VideoPlayerEventCallback">VideoPlayerEventCallback</a></h1>
+<p>视频播放控件事件监听回调函数</p>
+<pre class="prettyprint linenums">
+void onEvent(event) {
+	// Authenticate success code.
+}
+				</pre>
+<h2>参数：</h2>
+<ul><li>event: 
+		<em>(
+			<font class="type">JSON</font>
+			)
+			可选 </em>事件触发时返回的参数<br>
+	不同事件返回的参数不一样，详情参考VideoPlayerEvents事件说明。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.video.LivePusherEventCallback">LivePusherEventCallback</a></h1>
+<p>视频播放控件事件监听回调函数</p>
+<pre class="prettyprint linenums">
+void onEvent(event) {
+	// event code.
+}
+				</pre>
+<h2>参数：</h2>
+<ul><li>event: 
+		<em>(
+			<font class="type">JSON</font>
+			)
+			可选 </em>事件触发时返回的参数<br>
+	不同事件返回的参数不一样，详情参考LivePusherEvents事件说明。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<br><br>
+</div></body>
+</html>

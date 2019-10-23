@@ -1,0 +1,100 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript">
+function getDeviceInfo(){
+    var str = "",i;
+    str += "设备型号：" + plus.device.model + "\n";
+    str += "设备厂商：" + plus.device.vendor + "\n";
+    str += "IMEI：" + plus.device.imei + "\n";
+    str += "UUID: " + plus.device.uuid + "\n";
+    str += "IMSI：";
+    for ( i=0; i<plus.device.imsi.length; i++ ) {
+        str += plus.device.imsi[i];
+    }
+    str += "\n";
+    str += "屏幕分辨率：" + plus.screen.resolutionWidth*plus.screen.scale + " x " + plus.screen.resolutionHeight*plus.screen.scale + "\n";
+    str += "DPI：" + plus.screen.dpiX + " x " + plus.screen.dpiY;
+    outSet( str );
+}
+function getSysInfo() {
+    var str = "";
+    str += "名称：" + plus.os.name + "\n";
+    str += "版本：" + plus.os.version + "\n";
+    str += "语言：" + plus.os.language + "\n";
+    str += "厂商：" + plus.os.vendor + "\n";
+    str += "网络类型：";
+    var types = {};
+    types[plus.networkinfo.CONNECTION_UNKNOW] = "未知";
+    types[plus.networkinfo.CONNECTION_NONE] = "未连接网络";
+    types[plus.networkinfo.CONNECTION_ETHERNET] = "有线网络";
+    types[plus.networkinfo.CONNECTION_WIFI] = "WiFi网络";
+    types[plus.networkinfo.CONNECTION_CELL2G] = "2G蜂窝网络";
+    types[plus.networkinfo.CONNECTION_CELL3G] = "3G蜂窝网络";
+    types[plus.networkinfo.CONNECTION_CELL4G] = "4G蜂窝网络";
+    str += types[plus.networkinfo.getCurrentType()];
+    outSet( str );
+}
+function deviceBeep() {
+    var str = "";
+    switch ( plus.os.name ) {
+    	case "iOS":
+		    if ( plus.device.model.indexOf("iPhone") >= 0 ) {
+                plus.device.beep();
+		        str += "设备蜂鸣中...";
+		    } else {
+		        str += "此设备不支持蜂鸣";
+		    }
+    	break;
+    	default:
+    		plus.device.beep();
+    		str += "设备蜂鸣中...";
+    	break;
+    }
+	outSet( str );
+}
+function deviceVibrate() {
+    var str = "";
+    switch ( plus.os.name ) {
+    	case "iOS":
+            if ( plus.device.model.indexOf("iPhone") >= 0 ) {
+                plus.device.vibrate();
+                str += "设备振动中...";
+            } else {
+                str += "此设备不支持振动";
+            }
+    	break;
+    	default:
+    		plus.device.vibrate();
+            str += "设备振动中...";
+    	break;
+    }
+	outSet( str );
+}
+function dial(){
+	plus.device.dial("10086",false);
+}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+	</head>
+	<body>
+		<br/>
+		<ul class="dlist">
+			<li class="ditem" onclick="getDeviceInfo()">获取设备信息</li>
+			<li class="ditem" onclick="getSysInfo()">获取系统信息</li>
+			<li class="ditem" onclick="deviceBeep()">蜂鸣</li>
+			<li class="ditem" onclick="deviceVibrate()">震动</li>
+			<li class="ditem" onclick="dial()">直接拨打电话</li>
+		</ul>
+		<div id="outpos"/>
+		<div id="output">
+Device可获取手机设备相关信息，包括硬件、软件、网络等信息。
+		</div>
+	</body>
+</html>

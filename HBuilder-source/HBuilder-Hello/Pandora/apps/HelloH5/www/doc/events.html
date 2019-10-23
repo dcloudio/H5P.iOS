@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="HandheldFriendly" content="true">
+<meta name="MobileOptimized" content="320">
+<title>Events Document</title>
+<link rel="stylesheet" type="text/css" href="res/doc.css" charset="utf-8">
+<link rel="stylesheet" type="text/css" href="res/prettify.sons.css" charset="utf-8">
+<script type="text/javascript" src="res/doc.js" charset="utf-8"></script><script type="text/javascript" src="res/prettify.js" charset="utf-8"></script>
+</head>
+<body><div id="content" class="content">
+<h1><a name="plus.Events">Events</a></h1>
+<p>Events模块管理客户端事件，包括系统事件，如扩展API加载完毕、程序前后台切换等。</p>
+<h2>常量：</h2>
+<ul>
+<li>
+<a href="#plus.Events.%22plusready%22">"plusready"</a>: 扩展API加载完成事件</li>
+<li>
+<a href="#plus.Events.%22pause%22">"pause"</a>: 运行环境从前台切换到后台事件</li>
+<li>
+<a href="#plus.Events.%22resume%22">"resume"</a>: 运行环境从后台切换到前台事件</li>
+<li>
+<a href="#plus.Events.%22netchange%22">"netchange"</a>: 设备网络状态变化事件</li>
+<li>
+<a href="#plus.Events.%22newintent%22">"newintent"</a>: 新意图事件</li>
+<li>
+<a href="#plus.Events.%22plusscrollbottom%22">"plusscrollbottom"</a>: 窗口滚动到底部事件</li>
+<li>
+<a href="#plus.Events.%22error%22">"error"</a>: 页面加载错误事件</li>
+<li>
+<a href="#plus.Events.%22background%22">"background"</a>: 应用切换到后台运行事件</li>
+<li>
+<a href="#plus.Events.%22foreground%22">"foreground"</a>: 应用切换到前台运行事件</li>
+<li>
+<a href="#plus.Events.%22trimmemory%22">"trimmemory"</a>: 应用需要清理内存事件</li>
+<li>
+<a href="#plus.Events.%22splashclosed%22">"splashclosed"</a>: 应用启动界面已关闭事件</li>
+</ul>
+<h2>方法：</h2>
+<ul><li>
+<a href="#plus.Events.addEventListener">addEventListener</a>: 添加事件监听函数</li></ul>
+<h2>回调方法：</h2>
+<ul>
+<li>
+<a href="#plus.Events.EventTrigCallback">EventTrigCallback</a>: 事件触发回调函数</li>
+<li>
+<a href="#plus.Events.ErrorEventTrigCallback">ErrorEventTrigCallback</a>: 页面加载错误事件回调函数</li>
+</ul>
+<h1><a name="plus.Events.EventTrigCallback">EventTrigCallback</a></h1>
+<p>事件触发回调函数</p>
+<pre class="prettyprint linenums">
+				
+void onTrig(){
+	// Event trig code
+}
+				
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	指定事件触发时的回调函数，在指定的事件已经发生时调用。
+				</p>
+<h2>参数：</h2>
+<p>无</p>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.Events.ErrorEventTrigCallback">ErrorEventTrigCallback</a></h1>
+<p>页面加载错误事件回调函数</p>
+<pre class="prettyprint linenums">
+				
+void onErrorTrig(Event event){
+	// Event trig code
+	var url = event.url;  // 加载错误的页面路径，API中传入的url值
+	var href = event.href;  // 加载错误的页面完整路径，通常以“file://”开头的路径
+}
+				
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	当Webview窗口加载页面失败后打开错误页面时触发此事件。
+				</p>
+<h2>参数：</h2>
+<ul><li>event: 
+		<em>(
+			<font class="type">Event</font>
+			)
+			可选 </em>加载页面失败信息<br>
+	可通过event.url（String类型）获取加载页面的url值，如“./test/html”；
+	可通过event.href（String类型）加载错误的页面完整路径，包括完整的协议头，如Android平台“file:///storage/sdcard0/Android/data/io.dcloud.HBuilder/.HBuilder/apps/HBuilder/www/test.html”，iOS平台“file:///var/mobile/Containers/Data/Application/757966CF-345C-4348-B07F-EEF83CF9A369/Library/Pandora/apps/HBuilder/www/test.html”。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<br><br>
+</div></body>
+</html>

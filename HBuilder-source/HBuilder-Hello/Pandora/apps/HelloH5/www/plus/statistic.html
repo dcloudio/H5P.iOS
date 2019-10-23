@@ -1,0 +1,100 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript">
+var duration=null,counter=null,loading=null;
+document.addEventListener( "plusready", function(){
+	counter = document.getElementById("counter");
+	loading = document.getElementById("loading");
+	duration = document.getElementById("duration");
+	duration.addEventListener( "touchstart", durationStart, false );
+	duration.addEventListener( "touchend", durationEnd, false );
+	plus.statistic.eventTrig( "open" );
+	plus.statistic.eventStart( "stay" );
+}, false );
+function statisticBack() {
+	plus.statistic.eventEnd( "stay" );
+	back();
+}
+var tc=null,tl=null,count=0;
+var ds=null;
+function doCounter(){
+	loading.style.webkitTransition = "all 0.8s ease-in-out";
+	loading.style.borderWidth = "0";
+	loading.style.borderColor = "rgba(128,128,128,0.8)";
+	tc = setTimeout( function(){
+		count++;
+		loading.style.webkitTransition = "";
+		loading.style.borderWidth = "50px";
+		loading.style.borderColor = "rgba(255,255,255,0)";
+		counter.innerText = count;
+		tl=setTimeout( doCounter, 0 );
+	}, 1000 );
+}
+function durationStart(){
+	ds = new Date();
+	count = 0;
+	counter.innerText = "0";
+	counter.style.visibility = "visible";
+	doCounter();
+	outSet( "按下开始计时：" );
+}
+function durationEnd(){
+	clearTimeout( tc );
+	tc = null;
+	clearTimeout( tl );
+	tl = null;
+	loading.style.webkitTransition = "";
+	loading.style.borderWidth = "50px";
+	loading.style.borderColor = "rgba(255,255,255,0)";
+	counter.style.visibility = "hidden";
+	var d = (new Date()).getTime()-ds.getTime();
+	plus.statistic.eventDuration( "press", d );
+	outLine( "您按下的时间为"+d+"ms，后台会将此数据提交到服务器！" );
+}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+		<style type="text/css">
+.counter {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    line-height: 100px;
+    font-size: 48px;
+    visibility: hidden;
+}
+.loading {
+	height: 100px;
+	width: 100px;
+	border-style:solid;
+	position:relative;
+	top: -100px;
+	display:inline-block;
+	box-sizing:border-box;
+	border-width:50px;
+	border-color:rgba(255,255,255,0);
+	border-radius: 50px;
+}
+		</style>
+	</head>
+	<body>
+		<br/>
+		<p class="des">应用会在后台统计打开此页面的次数及在此页面停留的时间，目前应用集成的是友盟统计插件，相关统计数据需要登录到<a href="" onclick="plus.runtime.openURL('http://www.umeng.com/');">友盟官网</a>查看。</p>
+		<div style="height:100px;">
+			<div id="counter" class="counter">0</div>
+			<div id="loading" class="loading"></div>
+		</div>
+		<div id="duration" class="button">统计按下时长</div>
+		<br/>
+		<div id="outpos"/>
+		<div id="output">
+Statistic模块管理统计功能，用于提供应用内统计的能力，支持统计和分析用户属性和用户行为数据。
+		</div>
+	</body>
+</html>

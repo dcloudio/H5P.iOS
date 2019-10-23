@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript">
+function setItemFun( id ) {
+	//循环插入100调数据
+	var dataNum = new Number(id);
+	for ( var i=0; i<dataNum; i++ ) {
+		plus.storage.setItem( "key"+i, "value"+i );
+	}
+	var length = getLengthFun();
+	outSet( "数据存储成功，存储了"+length+"条数据；" );
+}
+function getLengthFun(){
+	return plus.storage.getLength();
+}
+function getAllItem(){
+	outSet( "获取数据：" );
+	var itemLength = getLengthFun();
+	for ( var i=0; i < itemLength; i++ ) {
+		var key = plus.storage.key(i);
+	  	var value = plus.storage.getItem(key);
+	  	outLine( "key:"+key+"-->value:"+value );
+	};
+}
+function delItem() {
+	outSet( "删除数据：" );
+	var itemLength = getLengthFun();
+	for (var i=0; i < itemLength; i+=2) {
+		var key = plus.storage.key(i);
+	  	plus.storage.removeItem(key);
+	};
+	var itemNo = getLengthFun();
+	outLine( "移除了"+(itemLength-itemNo)+"条数据" );
+}
+function clearAllItem(){
+	plus.storage.clear();
+	var num = getLengthFun();
+	if ( num == 0 ) {
+		outSet( "storage数据清除成功！" );
+	}else{
+		outSet( "storage数据清除失败！" );
+	}
+}
+function modifyTopFive(){
+	outSet( "修改前的数据是：" );
+	for (var i=0; i < 5; i++) {
+		var key = plus.storage.key(i),value = plus.storage.getItem(key);
+	  	outLine( "key:"+key+"-->value:"+value );
+		plus.storage.setItem( key, "新数据值>>"+i );
+	};
+	outLine( "修改后的数据是：" );
+	for (var i=0; i < 5; i++) {
+		var key = plus.storage.key(i),value = plus.storage.getItem(key);
+		outLine( "key:"+key+"-->value:"+value );
+	};
+}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+	</head>
+	<body>
+		<br/>
+		<ul class="dlist">
+			<li class="ditem" onclick="setItemFun('11')">插入11条数据</li>
+			<li class="ditem" onclick="getAllItem()">查询所有数据</li>
+			<li class="ditem" onclick="modifyTopFive()">修改前五条数据的内容</li>
+			<li class="ditem" onclick="delItem()">删除部分Item</li>
+			<li class="ditem" onclick="clearAllItem()">清除所有内容</li>
+		</ul>
+		<div id="outpos"/>
+		<div id="output">
+Storage管理本地数据存储，用于保存应用的全局数据，可在程序内部跨页面(跨域)共享数据。
+		</div>
+	</body>
+</html>

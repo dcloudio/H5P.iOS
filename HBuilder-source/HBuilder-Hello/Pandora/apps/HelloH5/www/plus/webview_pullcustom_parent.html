@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript" charset="utf-8">
+var ws=null,list=null;
+// 扩展API加载完毕，现在可以正常调用扩展API 
+function plusReady(){
+	ws=plus.webview.currentWebview();
+	wo=ws.opener();
+	var topoffset='45px';
+	if(plus.navigator.isImmersedStatusbar()){// 兼容immersed状态栏模式
+		topoffset=(Math.round(plus.navigator.getStatusbarHeight())+45)+'px';
+	}
+	list=plus.webview.create('webview_pullcustom_content.html', 'webview_pullcustom_content', {
+		top: topoffset,
+		bottom: '0px',
+		bounce: 'vertical'
+	});
+	ws.append(list);
+	ws.addEventListener('show', function(){
+		refresh();
+	}, false);
+	if(!ws.preate){
+		list.addEventListener('loaded', function(){//页面加载完成后才显示
+			ws.show('pop-in');
+		},false);
+	}
+	ws.append(list);
+	// 实现列表可下拉刷新
+	list.addEventListener('dragBounce', onPullStateChange, false);
+	list.setBounce({position:{top:'100px'}, changeoffset:{top:'50px'}});
+}
+if(window.plus){
+	plusReady();
+}else{
+	document.addEventListener('plusready', plusReady, false);
+}
+// DOMContentLoaded事件处理
+var etext=null,eicon=null;
+document.addEventListener('DOMContentLoaded', function(){
+	etext=document.getElementById('text');
+	eicon=document.getElementById('icon');
+}, false);
+
+// 下拉状态改变
+function onPullStateChange(e){
+	switch(e.status){
+		case 'beforeChangeOffset'://下拉可刷新状态
+		pull1();
+		break;
+		case 'afterChangeOffset'://松开可刷新状态
+		pull2();
+		break;
+		case 'dragEndAfterChangeOffset'://正在刷新状态
+		list.evalJS('onRefresh()');
+		pull3();
+		break;
+		default:
+		break;
+	}
+}
+function pull1(){
+	etext.textContent='下拉可刷新';
+	eicon.style.webkitTransition='all 0.3s ease-in';
+	eicon.style.webkitTransform='rotate(0deg)';
+}
+function pull2(){
+	etext.textContent='松开可刷新';
+	eicon.style.webkitTransition='all 0.3s ease-in';
+	eicon.style.webkitTransform='rotate(180deg)';
+}
+function pull3(){
+	etext.textContent='正在刷新...';
+	eicon.src='../img/pull_fresh.png';
+	eicon.style.webkitAnimation='spin 1s infinite linear';
+}
+function pullReset(){
+	etext.textContent='下拉可刷新';
+	eicon.src='../img/pull_arrow.png';
+	eicon.style.webkitTransition='';
+	eicon.style.webkitTransform='';
+	eicon.style.webkitAnimation='';
+}
+function refresh(){
+	pull3();
+	list.setBounce({offset:{top:'50px'}});
+}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+		<style type="text/css">
+#pull{
+	width:24px;
+	height:100%;
+	display:inline-block;
+	margin:0 1em;
+}
+#icon{
+	height:24px;
+	vertical-align:middle;
+}
+@-webkit-keyframes spin{
+    0% {
+        -webkit-transform:rotate(0deg);
+    }
+    100% {
+        -webkit-transform:rotate(360deg);
+    }
+}
+.irefresh {
+	background:no-repeat center center url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABYCAYAAAADWlKCAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAAWdEVYdENyZWF0aW9uIFRpbWUAMTEvMTAvMTUgEQA0AAAEP0lEQVR4nO3aTWhcVRTA8f+NQ6ImLqsu7MLuSiOt74SOoJBYDCp0UdG1BUVdWFBR/CiCLqzaClWhLlQUiqCIHwh1EUFqRyshMudRcVRcWdBFsZCVNQzEXhcz1ZeXaTOdN9N3Jp7f7t3J3JzmD52XvBtijDg7RsoewK3kQYzxIMZ4EGM8iDEexBgPYowHMcaDGONBjPEgxngQYzyIMR7EGA9ijAcxxoMY40GM8SDGeBBjPIgxHsQYD2KMBzHGgxjjQYzxIMZUyh6gF/V6fWsIYQa4A9gCbGy/9BvwIzAXYzw2NTX1fTf7qerDIvLGQIa9SGFYDls3Go2RZrO5C9gNbAeuXeMtp4DvgMNjY2OfTU5Onu30Rar6OPC8iFzV14F7NBRBVHUHcACQXrcAnhSRo7l9HwVeBRCRUGjIPjEdpFarhYmJiX3AM33a8qXFxcW9s7OzK2KAB1mTqo4C7wN3d3h5CfgSOA6cAP5or18NbANuAW4Drujw3neBBnAwu+hBLkBVLwM+ZHWMJeC1EMLbSZL8eqE90jS9Psb4APAYcPla39NKEKt3WS+wOoaGEB5MkiTtZoN2sL2q+inwFnBjn2ccCHO/h6jqNPB0bvkYMNNtjCwRqQM30bolNs9UkIWFhQrwem45BXaKyJ8Ftn4OuKbA+y8ZU/9lVSqVncDWzNJfwG4ROdPrnqr6CvBE0dkuFVNBgPtz14dEpNHrZqp6kNaH+tAwE6Rer28OIVQzS2dCCId62UtVR4B9tGL8Ddi7lTwPM0FCCLcDGzJLR5Mk6fWD+CzwJq3Po6GJAYaCxBjvDGHFrwK1XvcSEYCTBUcqhZm7rBDC5tz1D2XNUiYzQfjvT+gAxBhPlTVImSwFcdgK8nv2IoSw1vOOdclMkBjjT7nrG8qapUxmgoQQ5nJL06UMUjIzQYA54HTmekeaphvP98XrlZkgIvIzsJBZGo8x7ilrnrKYCdL2Tu56j6pOljJJSUwFWV5e/hzIHt25EjisquNF907TdGx+ft7Uv7cTUwNWq9Vl4JHccgIcKRJFVcdjjLXR0dFPGo3GaKEhB8xUEAARqQEv55ZvBWqqmlzsfqoqtA5DVIFdzWbzC1XdVHzSwTAXpO1Z4OPcmgDHVXV/Nz9QVd2kqvuBb2idRDlnBnioX4P2m8lTJwCqWgE+AO7p8PIS8BXwdQghjTGeBgghbIgxbgdupvWD73QM6CPgvoKPhAfGbBAAVQ3Ai6w+9NCrAyLyVJ/2GgjTQc4Z1FFSi4YiCPz7WPYu4F66P2z9LfAecEREOh62tmZogmSp6jZguv2UcQtwHa1HtSeBX2j9GaYmIifKm7I3QxlkPbN62/u/5UGM8SDGeBBjPIgxHsQYD2KMBzHGgxjjQYzxIMZ4EGM8iDEexBgPYowHMcaDGONBjPEgxngQYzyIMR7EGA9ijAcxxoMY40GM8SDG/AOZAi+0sACgewAAAABJRU5ErkJggg==);
+	background-size:50px 44px;
+}
+		</style>
+	</head>
+	<body style="background:#EAEAEA;">
+		<div style="text-align:center;height:44px;line-height:44px;">
+			<div id="pull"><img id="icon" src="../img/pull_arrow.png"/></div><font id="text">下拉可刷新</font>
+		</div>
+	</body>
+</html>

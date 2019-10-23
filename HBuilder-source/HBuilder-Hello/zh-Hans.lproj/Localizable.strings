@@ -1,0 +1,13 @@
+/* 
+  Localizable.strings
+  HBuilder-Hello
+
+  Created by 4Ndf on 2019/5/23.
+  Copyright © 2019 DCloud. All rights reserved.
+*/
+
+"A"="当前环境无法运行启用“自定义组件模式”的uni-app应用！";
+"B"="查看详情";
+"C"="忽略";
+"D"="打包时未添加%@模块,请参考%@";
+"E"="本应用使用HBuilderX%@编译，而手机端SDK版本是%@。不匹配的版本可能造成应用异常。";

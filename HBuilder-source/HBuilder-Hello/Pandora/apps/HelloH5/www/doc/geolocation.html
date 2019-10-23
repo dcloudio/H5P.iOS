@@ -1,0 +1,340 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="HandheldFriendly" content="true">
+<meta name="MobileOptimized" content="320">
+<title>Geolocation Document</title>
+<link rel="stylesheet" type="text/css" href="res/doc.css" charset="utf-8">
+<link rel="stylesheet" type="text/css" href="res/prettify.sons.css" charset="utf-8">
+<script type="text/javascript" src="res/doc.js" charset="utf-8"></script><script type="text/javascript" src="res/prettify.js" charset="utf-8"></script>
+</head>
+<body><div id="content" class="content">
+<h1><a name="plus.geolocation">geolocation</a></h1>
+<p>Geolocation模块管理设备位置信息，用于获取地理位置信息，如经度、纬度等。通过plus.geolocation可获取设备位置管理对象。虽然W3C已经提供标准API获取位置信息，但在某些平台存在差异或未实现，为了保持各平台的统一性，定义此规范接口获取位置信息。</p>
+<h2>方法：</h2>
+<ul>
+<li>
+<a href="#plus.geolocation.getCurrentPosition">getCurrentPosition</a>: 获取当前设备位置信息</li>
+<li>
+<a href="#plus.geolocation.watchPosition">watchPosition</a>: 监听设备位置变化信息</li>
+<li>
+<a href="#plus.geolocation.clearWatch">clearWatch</a>: 关闭监听设备位置信息</li>
+</ul>
+<h2>对象：</h2>
+<ul>
+<li>
+<a href="#plus.geolocation.Position">Position</a>: JSON对象，设备位置信息数据</li>
+<li>
+<a href="#plus.geolocation.Address">Address</a>: JSON对象，地址信息</li>
+<li>
+<a href="#plus.geolocation.Coordinates">Coordinates</a>: JSON对象，地理坐标信息</li>
+<li>
+<a href="#plus.geolocation.PositionOptions">PositionOptions</a>: JSON对象，监听设备位置信息参数</li>
+<li>
+<a href="#plus.geolocation.GeolocationError">GeolocationError</a>: JSON对象，定位错误信息</li>
+</ul>
+<h2>回调方法：</h2>
+<ul>
+<li>
+<a href="#plus.geolocation.GeolocationSuccessCallback">GeolocationSuccessCallback</a>: 获取设备位置信息成功的回调函数</li>
+<li>
+<a href="#plus.geolocation.GeolocationErrorCallback">GeolocationErrorCallback</a>: 获取设备位置信息失败的回调函数</li>
+</ul>
+<h2>权限：</h2>
+<p>5+功能模块（permissions）</p>
+<pre class="prettyprint linenums">
+{
+// ...
+"permissions":{
+	// ...
+	"Geolocation": {
+		"description": "位置信息"
+	}
+}
+}
+			</pre>
+<h1><a name="plus.geolocation.Position">Position</a></h1>
+<p>JSON对象，设备位置信息数据</p>
+<pre class="prettyprint linenums">
+interface Position {
+	readonly attribute Coordinates coords;
+	readonly attribute String coordsType;
+	readonly attribute Number timestamp;
+	readonly attribute Address address;
+	readonly attribute String addresses;
+}
+				</pre>
+<h2>属性：</h2>
+<ul>
+<li>coords: <em>(<a href="#plus.geolocation.Coordinates">Coordinates</a>
+	类型
+)</em>地理坐标信息，包括经纬度、海拔、速度等信息<br>
+</li>
+<li>coordsType: <em>(<font class="type">String</font>
+	类型
+)</em>获取到地理坐标信息的坐标系类型<br><p>
+	可取以下坐标系类型：
+	"gps"：表示WGS-84坐标系；
+	"gcj02"：表示国测局经纬度坐标系；
+	"bd09"：表示百度墨卡托坐标系；
+	"bd09ll"：表示百度经纬度坐标系。	
+						</p>
+</li>
+<li>timestamp: <em>(<font class="type">Number</font>
+	类型
+)</em>获取到地理坐标的时间戳信息<br><p>
+	时间戳值为从1970年1月1日至今的毫秒数。
+						</p>
+</li>
+<li>address: <em>(<a href="#plus.geolocation.Address">Address</a>
+	类型
+)</em>获取到地理位置对应的地址信息<br><p>
+	获取地址信息需要连接到服务器进行解析，所以会消耗更多的资源，如果不需要获取地址信息可通过设置PositionOptions参数的geocode属性值为false避免获取地址信息。
+	如果没有获取到地址信息则返回undefined。
+						</p>
+</li>
+<li>addresses: <em>(<font class="type">String</font>
+	类型
+)</em>获取完整地址描述信息<br><p>
+	如果没有获取到地址信息则返回undefined。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.geolocation.Address">Address</a></h1>
+<p>JSON对象，地址信息</p>
+<pre class="prettyprint linenums">
+interface Address {
+	readonly attribute String country;
+	readonly attribute String province;
+	readonly attribute String city;
+	readonly attribute String district;
+	readonly attribute String street;
+	readonly attribute String streetNum;
+	readonly attribute String poiName;
+	readonly attribute String postalCode;
+	readonly attribute String cityCode;
+}			
+				</pre>
+<h2>属性：</h2>
+<ul>
+<li>country: <em>(<font class="type">String</font>
+	类型
+)</em>国家<br><p>
+	如“中国”，如果无法获取此信息则返回undefined。
+						</p>
+</li>
+<li>province: <em>(<font class="type">String</font>
+	类型
+)</em>省份名称<br><p>
+	如“北京市”，如果无法获取此信息则返回undefined。
+						</p>
+</li>
+<li>city: <em>(<font class="type">String</font>
+	类型
+)</em>城市名称<br><p>
+	如“北京市”，如果无法获取此信息则返回undefined。
+						</p>
+</li>
+<li>district: <em>(<font class="type">String</font>
+	类型
+)</em>区（县）名称<br><p>
+	如“朝阳区”，如果无法获取此信息则返回undefined。
+						</p>
+</li>
+<li>street: <em>(<font class="type">String</font>
+	类型
+)</em>街道信息<br><p>
+	如“酒仙桥路”，如果无法获取此信息则返回undefined。
+						</p>
+</li>
+<li>streetNum: <em>(<font class="type">String</font>
+	类型
+)</em>获取街道门牌号信息<br><p>
+	如“3号”，如果无法获取此信息则返回undefined。
+						</p>
+</li>
+<li>poiName: <em>(<font class="type">String</font>
+	类型
+)</em>POI信息<br><p>
+	如“电子城．国际电子总部”，如果无法获取此信息则返回undefined。
+						</p>
+</li>
+<li>postalCode: <em>(<font class="type">String</font>
+	类型
+)</em>邮政编码<br><p>
+	如“100016”，如果无法获取此信息则返回undefined。
+						</p>
+</li>
+<li>cityCode: <em>(<font class="type">String</font>
+	类型
+)</em>城市代码<br><p>
+	如“010”，如果无法获取此信息则返回undefined。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.geolocation.Coordinates">Coordinates</a></h1>
+<p>JSON对象，地理坐标信息</p>
+<pre class="prettyprint linenums">
+interface Coordinates {
+	readonly attribute double latitude;
+	readonly attribute double longitude;
+	readonly attribute double altitude;
+	readonly attribute double accuracy;
+	readonly attribute double altitudeAccuracy;
+	readonly attribute double heading;
+	readonly attribute double speed;
+}			
+				</pre>
+<h2>属性：</h2>
+<ul>
+<li>latitude: <em>(<font class="type">Number</font>
+	类型
+)</em>坐标纬度值<br><p>数据类型对象，地理坐标中的纬度值。</p>
+</li>
+<li>longitude: <em>(<font class="type">Number</font>
+	类型
+)</em>坐标经度值<br><p>数据类型对象，地理坐标中的经度值。</p>
+</li>
+<li>altitude: <em>(<font class="type">Number</font>
+	类型
+)</em>海拔信息<br><p>数据类型对象，如果无法获取此信息，则此值为空（null）。</p>
+</li>
+<li>accuracy: <em>(<font class="type">Number</font>
+	类型
+)</em>地理坐标信息的精确度信息<br><p>数据类型对象，单位为米，其有效值必须大于0。</p>
+</li>
+<li>altitudeAccuracy: <em>(<font class="type">Number</font>
+	类型
+)</em>海拔的精确度信息<br><p>数据类型对象，单位为米，其有效值必须大于0。如果无法获取海拔信息，则此值为空（null）。</p>
+</li>
+<li>heading: <em>(<font class="type">Number</font>
+	类型
+)</em>表示设备移动的方向<br><p>
+	数据类型对象，范围为0到360，表示相对于正北方向的角度。如果无法获取此信息，则此值为空（null）。如果设备没有移动则此值为NaN。
+						</p>
+</li>
+<li>speed: <em>(<font class="type">Number</font>
+	类型
+)</em>表示设备移动的速度<br><p>
+	数据类型对象，单位为米每秒（m/s），其有效值必须大于0。如果无法获取速度信息，则此值为空（null）。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.geolocation.PositionOptions">PositionOptions</a></h1>
+<p>JSON对象，监听设备位置信息参数</p>
+<h2>属性：</h2>
+<ul>
+<li>enableHighAccuracy: <em>(<font class="type">Boolean</font>
+	类型
+)</em>是否高精确度获取位置信息<br><p>高精度获取表示需要使用更多的系统资源，默认值为false。</p>
+</li>
+<li>timeout: <em>(<font class="type">Number</font>
+	类型
+)</em>获取位置信息的超时时间<br><p>单位为毫秒（ms），默认值为不超时。如果在指定的时间内没有获取到位置信息则触发错误回调函数。</p>
+</li>
+<li>maximumAge: <em>(<font class="type">Number</font>
+	类型
+)</em>获取位置信息的间隔时间<br><p>
+	单位为毫秒（ms），默认值为5000（即5秒）。调用plus.geolocation.watchPosition时为更新位置信息的间隔时间。
+	注意：在不同定位模块下支持范围值可能不同，如百度定位模块的间隔范围为大于等于1秒，如果设置的值小于最小值则使用最小值。
+						</p>
+</li>
+<li>provider: <em>(<font class="type">String</font>
+	类型
+)</em>优先使用的定位模块<br><p>
+	可取以下供应者：
+	"system"：表示系统定位模块，支持wgs84坐标系；
+	"baidu"：表示百度定位模块，支持gcj02/bd09/bd09ll坐标系；
+	"amap"：表示高德定位模板，支持gcj02坐标系。
+	默认值按以下优先顺序获取（amap&gt;baidu&gt;system），若指定的provider不存在或无效则返回错误回调。
+	注意：百度/高德定位模块需要配置百度/高德地图相关参数才能正常使用。
+						</p>
+</li>
+<li>coordsType: <em>(<font class="type">String</font>
+	类型
+)</em>指定获取的定位数据坐标系类型<br><p>
+	可取以下坐标系类型：
+	"wgs84"：表示WGS-84坐标系；
+	"gcj02"：表示国测局经纬度坐标系；
+	"bd09"：表示百度墨卡托坐标系；
+	"bd09ll"：表示百度经纬度坐标系；
+	provider为"system"时，默认使用"wgs84"坐标系；provider为"baidu"时，默认使用"gcj02"坐标系；provider为"amap"时，默认使用"gcj02"坐标系。
+	如果设置的坐标系类型provider不支持，则返回错误。
+						</p>
+</li>
+<li>geocode: <em>(<font class="type">Boolean</font>
+	类型
+)</em>是否解析地址信息<br><p>
+	解析的地址信息保存到Position对象的address、addresses属性中，true表示解析地址信息，false表示不解析地址信息，返回的Position对象的address、addresses属性值为undefined，默认值为true。
+	如果解析地址信息失败则返回的Position对象的address、addresses属性值为null。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.geolocation.GeolocationError">GeolocationError</a></h1>
+<p>JSON对象，定位错误信息</p>
+<pre class="prettyprint linenums">
+interface GeolocationError {
+	const Number PERMISSION_DENIED = 1;
+	const Number POSITION_UNAVAILABLE = 2;
+	const Number TIMEOUT = 3;
+	const Number UNKNOWN_ERROR = 4;
+	readonly attribute Number code;
+	readonly attribute String message;
+}			
+				</pre>
+<h2>属性：</h2>
+<ul>
+<li>code: <em>(<font class="type">Number</font>
+	类型
+)</em>错误代码<br><p>
+	取值范围为GeolocationError对象的常量值。
+						</p>
+</li>
+<li>message: <em>(<font class="type">String</font>
+	类型
+)</em>错误描述信息<br><p>
+	详细错误描述信息。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.geolocation.GeolocationSuccessCallback">GeolocationSuccessCallback</a></h1>
+<p>获取设备位置信息成功的回调函数</p>
+<pre class="prettyprint linenums">
+void onSuccess( position ) {
+	// Get Position code.
+}
+				</pre>
+<h2>参数：</h2>
+<ul><li>position: 
+		<em>(
+			<a href="#plus.geolocation.Position">Position</a>
+			)
+			必选 </em>设备的地理位置信息，参考Position<br>
+</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.geolocation.GeolocationErrorCallback">GeolocationErrorCallback</a></h1>
+<p>获取设备位置信息失败的回调函数</p>
+<pre class="prettyprint linenums">
+function void onGeolocationError( GeolocationError error ) {
+	// Handle error
+	var code = error.code; // 错误编码
+	var message = error.message; // 错误描述信息
+}
+				</pre>
+<h2>参数：</h2>
+<ul><li>error: 
+		<em>(
+			<a href="#plus.geolocation.GeolocationError">GeolocationError</a>
+			)
+			必选 </em>获取位置操作的错误信息<br>
+	可通过error.code（Number类型）获取错误编码；
+	可通过error.message（String类型）获取错误描述信息。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<br><br>
+</div></body>
+</html>

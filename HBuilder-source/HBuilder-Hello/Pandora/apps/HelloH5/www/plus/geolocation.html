@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript">
+var watchId;
+function geoInf( position ) {
+	var str = "";
+	str += "地址："+position.addresses+"\n";//获取地址信息
+	str += "坐标类型："+position.coordsType+"\n";
+	var timeflag = position.timestamp;//获取到地理位置信息的时间戳；一个毫秒数；
+	str += "时间戳："+timeflag+"\n";
+	var codns = position.coords;//获取地理坐标信息；
+	var lat = codns.latitude;//获取到当前位置的纬度；
+	str += "纬度："+lat+"\n";
+	var longt = codns.longitude;//获取到当前位置的经度
+	str += "经度："+longt+"\n";
+	var alt = codns.altitude;//获取到当前位置的海拔信息；
+	str += "海拔："+alt+"\n";
+	var accu = codns.accuracy;//地理坐标信息精确度信息；
+	str += "精确度："+accu+"\n";
+	var altAcc = codns.altitudeAccuracy;//获取海拔信息的精确度；
+	str += "海拔精确度："+altAcc+"\n";
+	var head = codns.heading;//获取设备的移动方向；
+	str += "移动方向："+head+"\n";
+	var sped = codns.speed;//获取设备的移动速度；
+	str += "移动速度："+sped;
+	console.log(JSON.stringify(position));
+	outLine( str );
+}
+function getPos() {
+	outSet( "获取位置信息:" );
+	plus.geolocation.getCurrentPosition( geoInf, function ( e ) {
+		outSet( "获取位置信息失败："+e.message );
+	}, {geocode:false} );
+}
+function watchPos() {
+	if ( watchId ) {
+		return;
+	}
+	watchId = plus.geolocation.watchPosition( function ( p ) {
+		outSet( "监听位置变化信息:" );
+		geoInf( p );
+	}, function ( e ) {
+		outSet( "监听位置变化信息失败："+e.message );
+	}, {geocode:false} );
+}
+function clearWatch() {
+	if ( watchId ) {
+		outSet( "停止监听位置变化信息" );
+		plus.geolocation.clearWatch( watchId );
+		watchId = null;
+	}
+}
+// 通过定位模块获取位置信息
+function getGeocode(){
+	outSet( "获取定位位置信息:" );
+	plus.geolocation.getCurrentPosition( geoInf, function ( e ) {
+		outSet( "获取定位位置信息失败："+e.message );
+	},{geocode:true});
+}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+	</head>
+	<body>
+		<br/>
+		<ul class="dlist">
+			<li class="ditem" onclick="getPos()">获取设备位置信息</li>
+			<li class="ditem" onclick="watchPos()">监听设备位置信息</li>
+			<li class="ditem" onclick="clearWatch()">停止监听</li>
+		</ul>
+		<br/>
+		<div class="button" onclick="getGeocode()">获取定位信息</div>
+		<p class="des">
+			Android平台推荐配置高德或百度定位，避免在部分设备（如三星、HTC等）可能无法获取位置信息的问题。
+		</p>
+		<div id="outpos"/>
+		<div id="output">
+Geolocation可获取设备位置信息，包括经度、纬度、高度等信息。
+		</div>
+	</body>
+</html>

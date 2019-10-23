@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript">
+// 页面初始化操作 
+document.addEventListener('plusready', function(e){
+// 	plus.io.requestFileSystem( plus.io.PRIVATE_DOC, function(fs){
+// 		fs.root.getFile('test.db', {create:true}, function(fileEntry){
+// 			console.log('ensure test.db file!');
+// 		});
+// 	});
+}, false);
+
+// 打开数据库
+function openDB(){
+	outSet('打开数据库: ');
+	plus.sqlite.openDatabase({
+		name: 'first',
+		path: '_doc/test.db',
+		success: function(e){
+			outLine(JSON.stringify(e));
+		},
+		fail: function(e){
+			outLine(JSON.stringify(e));
+		}
+	});
+}
+
+// 执行SQL语句
+function executeSQL(){
+	outSet('执行SQL语句: ');
+	plus.sqlite.executeSql({
+		name: 'first',
+		sql: 'create table if not exists database("where" CHAR(110),"location" CHAR(100),"age" INT(11))',
+		success: function(e){
+			outLine(JSON.stringify(e))
+			plus.sqlite.executeSql({
+				name: 'first',
+				sql: "insert into database values('北京','安乐林','11')",
+				success: function(e){
+					outLine(JSON.stringify(e))
+				},
+				fail: function(e){
+					outLine(JSON.stringify(e))
+				}
+			})
+		},
+		fail: function(e){
+			outLine(JSON.stringify(e))
+		}
+	})
+}
+
+// 查询SQL语句
+function selectSQL(){
+	outSet('查询SQL语句: ');
+	plus.sqlite.selectSql({
+		name: 'first',
+		sql: 'select * from database',
+		success: function(e){
+			outLine(JSON.stringify(e));
+		},
+		fail: function(e){
+			outLine(JSON.stringify(e));
+		}
+	});
+}
+
+// 关闭数据库
+function closeDB(){
+	outSet('关闭数据库: ');
+	plus.sqlite.closeDatabase({
+		name: 'first',
+		success: function(e){
+			outLine(JSON.stringify(e));
+		},
+		fail: function(e){
+			outLine(JSON.stringify(e));
+		}
+	})
+}
+
+function isOpenDB(){
+	if(plus.sqlite.isOpenDatabase({
+		name: 'first',
+		path: '_doc/test.db',
+	})){
+		plus.nativeUI.alert('Opened!');
+	}else{
+		plus.nativeUI.alert('Unopened!');
+	}
+}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+	</head>
+	<body>
+		<br/>
+		<div class="button" onclick="openDB()">打开数据库</div>
+		<div class="button" onclick="executeSQL()">执行SQL语句</div>
+		<div class="button" onclick="selectSQL()">查询SQL语句</div>
+		<div class="button" onclick="closeDB()">关闭数据库</div>
+		<div class="button" onclick="isOpenDB()">是否打开数据库</div>
+		<div id="outpos"/>
+		<div id="output">
+SQLite可用于操作本地数据库文件，实现数据库文件的创建，执行SQL语句等功能。
+		</div>
+	</body>
+</html>

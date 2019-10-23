@@ -1,0 +1,161 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>水平仪</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript" >
+// H5 plus事件处理
+function plusReady(){
+	// 锁定只能竖屏显示
+	plus.screen.lockOrientation( "portrait-primary" );
+}
+if(window.plus){
+	plusReady();
+}else{
+	document.addEventListener("plusready",plusReady,false);
+}
+// 解锁并关闭
+var _back=window.back;
+function unlockback(){
+	plus.screen.unlockOrientation();
+	_back();
+}
+window.back=unlockback;
+
+var t, xh, xv;
+var R = 100;
+function update(h, v) {
+	var ch = 0, cv = 0;
+	if (h > 90) {
+		h = 180 - h;
+	} else if (h < -90) {
+		h = -180 - h;
+	}
+	if (v > 90) {
+		v = 180 - v;
+	} else if (v < -90) {
+		v = -180 - v;
+	}
+	var r = Math.max(Math.abs(h), Math.abs(v)) / 90;
+	var range = Math.round(R * r);
+	if (h == 0) {
+		cv = range * v / 90;
+	} else if (v == 0) {
+		ch = range * h / 90;
+	} else {
+		var a = Math.atan2(v, h);
+		ch = range * Math.cos(a);
+		cv = range * Math.sin(a);
+	}
+	ch = Math.round(ch);
+	cv = Math.round(cv);
+
+	t.style.webkitTransform = "translate(" + ch + "px," + cv + "px)";
+
+	h = h.toFixed(1);
+	v = v.toFixed(1);
+	xh.innerHTML = "" + (-h);
+	xv.innerHTML = "" + (-v);
+}
+document.addEventListener("plusready", function() {
+	t = document.getElementById("bubble");
+	R = Math.floor(t.offsetWidth * 130 / 320);
+	xh = document.getElementById("h");
+	xv = document.getElementById("v");
+
+	plus.orientation.watchOrientation(function(r) {
+		update(-r.gamma, -r.beta);
+	}, function(e) {
+		// error
+	}, {
+		frequency : 100
+	});
+}, false);
+// Adjective select.
+document.onselectstart = function() {
+	return false;
+}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+		<style type="text/css">
+#front {
+	width: 60%;
+	height: 80px;
+	margin: auto;
+	margin-top: 20px;
+	text-align: center;
+}
+.inf {
+	width: 50%;
+	height: 50%;
+	line-height: 40px;
+	font-size: 28px;
+	text-align: center;
+	text-align: center;
+	vertical-align: middle;
+	float: left;
+}
+#container {
+	width: 80%;
+	position: relative;
+	margin: auto;
+	text-align: center;
+	line-height: 100%;
+	overflow: hidden;
+}
+.bg {
+	width: 100%;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	z-index: -1;
+}
+#bubble {
+	width: 100%;
+	vertical-align: middle;
+	-webkit-transition: all 0.1s linear;
+}
+a.bh {
+	width: 100%;
+	height: 10%;
+	position: fixed;
+	bottom: 0px;
+	background: rgb(128,128,128);
+	text-align: center;
+	vertical-align: middle;
+}
+a.bh:active {
+	background: rgb(64,64,64);
+}
+#hi {
+	height: 80%;
+	margin: auto;
+	margin-top: 5px;
+	vertical-align: middle;
+}
+		</style>
+	</head>
+	<body>
+		<div id="front">
+			<div class="inf" style="font-weight:bold;">
+				横向
+			</div>
+			<div class="inf" style="font-weight:bold;">
+				纵向
+			</div>
+			<div id="h" class="inf">
+				0
+			</div>
+			<span id="v" class="inf">0</span>
+		</div>
+		<div id="container">
+			<img class="bg" src="../img/orientationbg.png"/>
+			<img class="bg" src="../img/orientationl.png"/>
+			<img id="bubble" src="../img/orientationb.png"/>
+		</div>
+	</body>
+</html>

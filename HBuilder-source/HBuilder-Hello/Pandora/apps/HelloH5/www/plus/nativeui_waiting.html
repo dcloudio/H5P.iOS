@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+		<meta name="misapplication-tap-highlight" content="no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript">
+// H5 plus事件处理
+function plusReady(){
+}
+if(window.plus){
+	plusReady();
+}else{
+	document.addEventListener("plusready",plusReady,false);
+}
+function defaultWaiting(){
+	var w=plus.nativeUI.showWaiting("处理中，请等待...\n5");
+	w.onclose=function(){
+		clearInterval(t);
+	}
+	var n=5;
+	var t=setInterval(function(){
+		n--;
+		w.setTitle("处理中，请等待...\n"+n);
+		if(n<=0){
+			w.close();
+			clearInterval(t);
+		}
+	},1000);
+}
+function nomodalWaiting(){
+	var w=plus.nativeUI.showWaiting("处理中，请等待...\n5",{modal:false});
+	w.onclose=function(){
+		clearInterval(t);
+	}
+	var n=5;
+	var t=setInterval(function(){
+		n--;
+		w.setTitle("处理中，请等待...\n"+n);
+		if(n<=0){
+			w.close();
+			clearInterval(t);
+		}
+	},1000);
+}
+function padlockWaiting(){
+	var w=plus.nativeUI.showWaiting("处理中，请等待...\n5", {padlock:true});
+	w.onclose=function(){
+		clearInterval(t);
+	}
+	var n=5;
+	var t=setInterval(function(){
+		n--;
+		w.setTitle("处理中，请等待...\n"+n);
+		if(n<=0){
+			w.close();
+			clearInterval(t);
+		}
+	},1000);
+}
+function customWaiting(){
+	var w=plus.nativeUI.showWaiting("处理中，请等待...\n5", {loading:{icon:"/img/waiting.png"}});
+	w.onclose=function(){
+		clearInterval(t);
+	}
+	var n=5;
+	var t=setInterval(function(){
+		n--;
+		w.setTitle("处理中，请等待...\n"+n);
+		if(n<=0){
+			w.close();
+			clearInterval(t);
+		}
+	},1000);
+}
+function lineWaiting(){
+	var w=plus.nativeUI.showWaiting("处理中，请等待...5", {loading:{display:"inline"}});
+	w.onclose=function(){
+		clearInterval(t);
+	}
+	var n=5;
+	var t=setInterval(function(){
+		n--;
+		w.setTitle("处理中，请等待..."+n);
+		if(n<=0){
+			w.close();
+			clearInterval(t);
+		}
+	},1000);	
+}
+function transWaiting(){
+	var w=plus.nativeUI.showWaiting("处理中，请等待...5", {style:"black",color:"#FF0000",background:"rgba(0,0,0,0)",loading:{display:"inline"}});
+	w.onclose=function(){
+		clearInterval(t);
+	}
+	var n=5;
+	var t=setInterval(function(){
+		n--;
+		w.setTitle("处理中，请等待..."+n);
+		if(n<=0){
+			w.close();
+			clearInterval(t);
+		}
+	},1000);	
+}
+function noneWaiting(){
+	var w=plus.nativeUI.showWaiting("处理中，请等待...5", {color:"#FF0000",background:"rgba(0,0,0,0)",loading:{display:"none"}});
+	w.onclose=function(){
+		clearInterval(t);
+	}
+	var n=5;
+	var t=setInterval(function(){
+		n--;
+		w.setTitle("处理中，请等待..."+n);
+		if(n<=0){
+			w.close();
+			clearInterval(t);
+		}
+	},1000);	
+}
+function fontWaiting(){
+	var w=plus.nativeUI.showWaiting("处理中，请等待...\n5",{color:"#FF0000",size:"24px"});
+	w.onclose=function(){
+		clearInterval(t);
+	}
+	var n=5;
+	var t=setInterval(function(){
+		n--;
+		w.setTitle("处理中，请等待...\n"+n);
+		if(n<=0){
+			w.close();
+			clearInterval(t);
+		}
+	},1000);	
+}
+function blockBackWaiting(){
+	var w=plus.nativeUI.showWaiting("处理中，请等待...\n5",{back:"none"});
+	w.onclose=function(){
+		clearInterval(t);
+	}
+	var n=5;
+	var t=setInterval(function(){
+		n--;
+		w.setTitle("处理中，请等待...\n"+n);
+		if(n<=0){
+			w.close();
+			clearInterval(t);
+		}
+	},1000);	
+	
+}
+function transBackWaiting(){
+	var w=plus.nativeUI.showWaiting("处理中，请等待...\n5",{back:"transmit"});
+	w.onclose=function(){
+		clearInterval(t);
+	}
+	var n=5;
+	var t=setInterval(function(){
+		n--;
+		w.setTitle("处理中，请等待...\n"+n);
+		if(n<=0){
+			w.close();
+			clearInterval(t);
+		}
+	},1000);
+}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+	</head>
+	<body>
+		<ul class="dlist">
+			<li class="ditem" onclick="defaultWaiting()">默认等待框</li>
+			<li class="ditem" onclick="nomodalWaiting()">非模态等待框</li>
+			<li class="ditem" onclick="padlockWaiting()">点击关闭等待框</li>
+			<li class="ditem" onclick="customWaiting()">自定义图标等待框</li>
+			<li class="ditem" onclick="lineWaiting()">图标与文字同行</li>
+			<li class="ditem" onclick="transWaiting()">背景透明</li>
+			<li class="ditem" onclick="noneWaiting()">无图标等待框</li>
+			<li class="ditem" onclick="fontWaiting()">大字体等待框</li>
+			<li class="ditem" onclick="blockBackWaiting()">不响应返回键等待框</li>
+			<li class="ditem" onclick="transBackWaiting()">透传返回键等待框</li>
+		</ul>
+	</body>
+</html>

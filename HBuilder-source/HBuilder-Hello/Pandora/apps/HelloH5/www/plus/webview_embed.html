@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript" charset="utf-8">
+var ws=null,embed=null;
+// 扩展API加载完毕，现在可以正常调用扩展API 
+function plusReady(){
+	ws=plus.webview.currentWebview();
+	ws.addEventListener('show',createEmbed,false);
+}
+// 判断扩展API是否准备，否则监听"plusready"事件
+if(window.plus){
+	plusReady();
+}else{
+	document.addEventListener("plusready",plusReady,false);
+}
+// 创建子Webview
+function createEmbed(){
+	var topoffset='44px';
+	plus.nativeUI.showWaiting('',{style:'black',modal:false,background:'rgba(0,0,0,0)'});
+	embed=plus.webview.create('http://m.weibo.cn/u/3196963860','embed',{top:topoffset,bottom:'0px',position:'dock',dock:'bottom',bounce:'vertical'});
+	ws.append(embed);
+	embed.addEventListener('loaded',function(){
+		plus.nativeUI.closeWaiting();
+	},false);
+	embed.addEventListener('loading',function(){
+		plus.nativeUI.showWaiting('',{style:'black',modal:false,background:'rgba(0,0,0,0)'});
+	},false);
+}
+// 打开网址
+function openUrl(){
+	var url=document.getElementById("url");
+	embed.loadURL(url.value);
+	url.blur();
+}
+// 页面加载后自动打开
+document.addEventListener("DOMContentLoaded",function(){
+	if(embed){
+		openUrl();
+	}else{
+		auto=true;
+	}
+},false);
+// 页面跳转完成事件
+function onBrowserLoading(){
+	document.getElementById("url").value=embed.getURL();
+}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+		<style type="text/css">
+header {
+	width: 100%;
+	height: 44px;
+	position: fixed;
+	top: 0;
+	left: 0;
+	font-size: 27px;
+	text-align: center;
+	line-height: 44px;
+	background: #D74B28;
+	/*background: -webkit-linear-gradient(top,rgba(215,75,40,1),rgba(215,75,40,0.8));*/
+	z-index: 9999;
+	/*border-bottom: 1px solid rgba(215,75,40,0.8);*/
+	-ms-touch-action: none;
+}
+.nvbt {
+	width:15%;
+	height:100%;
+	float:left;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+}
+.nvbt:active {
+	background-color: rgba(170,170,170,0.1);
+}
+.nvtt {
+	width: 70%;
+	height: 100%;
+	color: #cccccc;
+	float: left;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+}
+#url{
+	width:98%;
+	-webkit-user-select:auto;
+	padding-left:0;
+	padding-right:0;
+	background: rgba(0,0,0,0);
+	border: 0px;
+	border-bottom:1px solid #ECB100;
+	border-radius: 0;
+	outline:none;
+}
+.iback {
+	background: no-repeat center center url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABYCAYAAAADWlKCAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAKwwAACsMBNCkkqwAAABZ0RVh0Q3JlYXRpb24gVGltZQAwOS8xMi8xM5w+I3MAAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzVxteM2AAACcklEQVR4nO3a0XESURiG4TeO99iBWoGZ+RvADtKBpAPtwBLsANJBrEAs4MyYDmIHSQXkgk0mMLK7ILt8/+F778ici394OGfDsher1Qqn05tTD+A2M4hYBhHLIGIZRCyDiGUQsQwilkHEMohYBhHLIGIZRCyDiGUQsQwilkHEMohYBhHLIGIZRCyDiGUQsQwilkHEMohYb089wNCVUq6Ay+blfUQsTjhOZxc1P9tbSlkAX7b+/C0ifpxgnF5Ve2TtwAD4OvIoe1UlSAsGwPsRR9m76kA6MAD+jjTKQVUF0gMD4HaEUQ6umot6T4ybiJgNP83hVbFDasGACnZIT4yfEXE1wjj/Xeod0hPjDpgNPsyRSguyB8Y0Ih6Gn+g4pQSpFQMSgtSMAclAaseARCDngAFJQM4FAxKAnBMGiH8xLKVMgV89ln6MiPthpxkn6R0SEUvgusfSZSnlsnuZftI75LlSygyYdyx7ZH1s/Rl+ouFKAQIvx9ctMGlZlh4lDQhAcywtqRhF+hqyXfMmT1m/6buasL6mzMaY6dilAoENlLuWZRNgnhEl1ZH1ulLKO9bH16eOpdfqz2K9Lt0Oea75EjilfadAsp2SFgQ2UH53LJ2XUr4PPtARSntkbVfL7+rVgEBvlM/NHQDJUh9Z2zWf/puOZbPhJzm8qkDgBaXt/teHcSY5rOpAAJp/c/vclJSrShDYifKI+NPvVV3U/1VzU3LavFyo/25SPUi2qj2ysmYQsQwilkHEMohYBhHLIGIZRCyDiGUQsQwilkHEMohYBhHLIGIZRCyDiGUQsQwilkHEMohYBhHLIGIZRCyDiGUQsZ4Ak9fPFwUy/HsAAAAASUVORK5CYII=);
+	background-size: 50px 44px;
+}
+		</style>
+	</head>
+	<body>
+		<header id="header">
+			<div class="nvbt iback" onclick="back(),plus.nativeUI.closeWaiting();"></div>
+			<div class="nvtt">
+				<form action="?" method="get" onsubmit="openUrl();return false;">
+				<input id="url" type="url" value="http://m.weibo.cn/u/3196963860"/>
+				</form>
+			</div>
+			<div class="nvbt" onclick="openUrl();">Go</div>
+		</header>
+	</body>
+</html>

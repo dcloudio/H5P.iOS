@@ -1,0 +1,117 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript">
+function getVersion(){
+	outSet("程序版本号："+plus.runtime.version+"\n内核版本号："+plus.runtime.innerVersion+"\nuni-app运行环境："+plus.runtime.uniVersion);
+}
+function getArguments(){
+	outSet("启动方式: "+plus.runtime.launcher+"\n启动参数: "+plus.runtime.arguments);
+}
+function restartApp() {
+	plus.runtime.restart();
+}
+function getWidgetInfo() {
+	plus.runtime.getProperty( plus.runtime.appid, function ( wgtinfo ) {
+		//appid属性
+		var wgtStr = "appid:"+wgtinfo.appid;
+		//version属性
+		wgtStr += "\nversion:"+wgtinfo.version;
+		//name属性
+		wgtStr += "\nname:"+wgtinfo.name;
+		//description属性
+		wgtStr += "\ndescription:"+wgtinfo.description;
+		//author属性
+		wgtStr += "\nauthor:"+wgtinfo.author;
+		//email属性
+		wgtStr += "\nemail:"+wgtinfo.email;
+		//licence属性
+		wgtStr += "\nlicense:"+wgtinfo.license;
+		//licensehref属性
+		wgtStr += "\nlicensehref:"+wgtinfo.licensehref;
+		//features 属性
+		wgtStr += "\nfeatures:"+wgtinfo.features;
+		outSet( wgtStr );
+	} );
+}
+function setBadge() {
+	plus.runtime.setBadgeNumber( 50 );
+	outSet( "设置程序图标右上角显示的提示数字为50\n请返回桌面查看" );
+	if(plus.os.name=="iOS"){
+		outLine( '*如果无法设置提示数字，请到"设置"->"通知"中配置应用在通知中心显示!' );
+	}else{
+		outLine( "注：仅支持小米(MIUI v5)，其它设备暂不支持此功能!" );
+	}
+}
+function clearBadge() {
+	plus.runtime.setBadgeNumber( 0 );
+	outSet( "清除程序图标右上角显示的提示数字\n请返回桌面查看" );
+	if(plus.os.name=="iOS"){
+		outLine( '如果无法清除提示数字，请到"设置"->"通知"中配置应用在通知中心显示!' );
+	}else{
+		outLine( "注：仅支持小米(MIUI v5)，其它设备暂不支持此功能!" );
+	}
+}
+function exitApp(){
+	if(plus.os.name=="Android"){
+		plus.runtime.quit();
+	}else{
+		outSet( "此平台不支持直接退出程序，请按Home键切换应用" );
+	}
+}
+function updateApp(){
+	var url='http://demo.dcloud.net.cn/helloh5/update/HelloH5.wgtu';
+	plus.nativeUI.showWaiting("升级中...");
+	var dtask = plus.downloader.createDownload( url, {method:"GET"}, function(d,status){
+		if ( status == 200 ) { 
+			console.log( "Download wgtu success: " + d.filename );
+			plus.runtime.install(d.filename,{},function(){
+				plus.nativeUI.closeWaiting();
+				plus.nativeUI.alert("Update wgtu success, restart now!",function(){
+					plus.runtime.restart();
+				});
+			},function(e){
+				plus.nativeUI.closeWaiting();
+				alert("Update wgtu failed: "+e.message);
+			});
+		} else {
+			plus.nativeUI.closeWaiting();
+			 alert( "Download wgtu failed: " + status ); 
+		} 
+	} );
+	dtask.addEventListener('statechanged',function(d,status){
+		console.log("statechanged: "+d.state);
+	});
+	dtask.start();
+}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+	</head>
+	<body>
+		<br/>
+		<div class="button" onclick="clicked('runtime_launch.html',true);">
+			调用第三方程序
+		</div>
+		<br/>
+		<ul class="dlist">
+			<li class="ditem" onclick="getVersion()">获取版本信息</li>
+			<li class="ditem" onclick="getArguments()">获取启动信息</li>
+			<li class="ditem" onclick="restartApp()">重启当前应用</li>
+			<li class="ditem" onclick="getWidgetInfo()">获取当前应用的基本属性</li>
+			<li class="ditem" onclick="setBadge()">设置程序图标右上角数字</li>
+			<li class="ditem" onclick="clearBadge()">清除程序图标右上角数字</li>
+			<li class="ditem" onclick="exitApp()">退出当前应用</li>
+			<!--li class="ditem" onclick="updateApp()">WGTU Update</li-->
+		</ul>
+		<div id="outpos"/>
+		<div id="output">
+Runtime管理程序运行时环境，可用于获取程序的各种信息、与第三方程序通讯等。
+		</div>
+	</body>
+</html>

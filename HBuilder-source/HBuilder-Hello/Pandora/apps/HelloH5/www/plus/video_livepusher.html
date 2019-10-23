@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript">
+var pusher = null;
+var bstart = false;
+// H5 plus事件处理
+function plusReady(){
+	// 创建直播推流控件
+	pusher = new plus.video.LivePusher('pusher',{url:'rtmp://testlivesdk.v0.upaiyun.com/live/upyunb'});
+	// 监听状态变化事件
+	pusher.addEventListener('statechange', function(e){
+		console.log('statechange: '+JSON.stringify(e));
+	}, false);
+}
+document.addEventListener('plusready', plusReady, false);
+// 开始/停止推流
+function ppPusher() {
+	if(bstart) {
+		pusher.stop();
+		bstart=false;
+	}else {
+		var path = document.getElementById('path').value;
+		if(path && path.length>0) {
+			pusher.setOptions({url:path});
+			pusher.start();
+			bstart=true
+		}else {
+			plus.nativeUI.toast('请输入直播服务器地址');
+		}
+	}
+	var pp = document.getElementById('pp');
+	pp.innerText = bstart?'停止':'开始';
+}
+// 切换摄像头
+function switchCamera() {
+	pusher.switchCamera();
+}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+		<style type="text/css">
+input {
+	width:70%;
+	font-size: 16px;
+	padding: .2em .2em;
+	border: 1px solid #00B100;
+	-webkit-user-select: text;
+}
+button {
+	width:20%;
+	margin:6px 0 6px 6px;
+	font-size: 16px;
+	color: #FFF;
+	background-color: #00CC00;
+	border: 1px solid #00B100;
+	padding: .2em 0em;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+
+		</style>
+	</head>
+	<body>
+		<br/>
+		<div id="pusher" style="width:300px;height:400px;background-color:#000000;margin:auto"></div>
+		<br/>
+		<div style="text-align:center; margin:auto;">
+			<input id="path" type="text" value="" placeholder="请输入直播服务器地址(rtmp)"/>
+			<button id="pp" onclick="ppPusher()">开始</button>
+		</div>
+		<div class="button" onclick="switchCamera()">切换摄像头</div>
+	</body>
+</html>

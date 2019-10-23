@@ -1,0 +1,1000 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="HandheldFriendly" content="true">
+<meta name="MobileOptimized" content="320">
+<title>Maps Document</title>
+<link rel="stylesheet" type="text/css" href="res/doc.css" charset="utf-8">
+<link rel="stylesheet" type="text/css" href="res/prettify.sons.css" charset="utf-8">
+<script type="text/javascript" src="res/doc.js" charset="utf-8"></script><script type="text/javascript" src="res/prettify.js" charset="utf-8"></script>
+</head>
+<body><div id="content" class="content">
+<h1><a name="plus.maps">maps</a></h1>
+<p>Maps模块管理地图控件，用于在web页面中显示地图控件，提供各种接口操作地图控件，如添加标点、路线等。通过plus.maps可获取地图管理对象。</p>
+<h2>方法：</h2>
+<ul>
+<li>
+<a href="#plus.maps.openSysMap">openSysMap</a>: 调用系统第三方程序进行导航</li>
+<li>
+<a href="#plus.maps.create">create</a>: 创建Map对象</li>
+<li>
+<a href="#plus.maps.getMapById">getMapById</a>: 查找已经创建的Map对象</li>
+</ul>
+<h2>对象：</h2>
+<ul>
+<li>
+<a href="#plus.maps.Map">Map</a>: 地图控件对象</li>
+<li>
+<a href="#plus.maps.MapStyles">MapStyles</a>: 地图控件对象的参数</li>
+<li>
+<a href="#plus.maps.GeocodeOptions">GeocodeOptions</a>: 地理编码转换的参数</li>
+<li>
+<a href="#plus.maps.CoordinateConvertOptions">CoordinateConvertOptions</a>: 地图坐标转换的参数</li>
+<li>
+<a href="#plus.maps.Point">Point</a>: Point对象用于表示地图元素的坐标</li>
+<li>
+<a href="#plus.maps.Bounds">Bounds</a>: 地理区域</li>
+<li>
+<a href="#plus.maps.MapType">MapType</a>: 地图视图类型</li>
+<li>
+<a href="#plus.maps.Overlay">Overlay</a>: 地图覆盖物基类对象</li>
+<li>
+<a href="#plus.maps.Marker">Marker</a>: 地图上显示的标点对象</li>
+<li>
+<a href="#plus.maps.Bubble">Bubble</a>: 地图上显示的气泡对象</li>
+<li>
+<a href="#plus.maps.Circle">Circle</a>: 地图上显示的圆圈对象</li>
+<li>
+<a href="#plus.maps.Polyline">Polyline</a>: 地图上显示的折线对象</li>
+<li>
+<a href="#plus.maps.Polygon">Polygon</a>: 地图上显示的多边形对象</li>
+<li>
+<a href="#plus.maps.Search">Search</a>: 地图检索对象</li>
+<li>
+<a href="#plus.maps.SearchPolicy">SearchPolicy</a>: 检索策略类型</li>
+<li>
+<a href="#plus.maps.SearchPoiResult">SearchPoiResult</a>: 保存位置检索、周边检索和范围检索返回的结果</li>
+<li>
+<a href="#plus.maps.SearchRouteResult">SearchRouteResult</a>: 保存位置检索、周边检索和范围检索返回的结果</li>
+<li>
+<a href="#plus.maps.Position">Position</a>: 检索结果的位置点</li>
+<li>
+<a href="#plus.maps.Route">Route</a>: 地图中的路线对象</li>
+</ul>
+<h2>回调方法：</h2>
+<ul>
+<li>
+<a href="#plus.maps.GeocodeCallback">GeocodeCallback</a>: 地理编码转换成功的回调函数</li>
+<li>
+<a href="#plus.maps.CoordinateConvertCallback">CoordinateConvertCallback</a>: 坐标转换成功的回调函数</li>
+<li>
+<a href="#plus.maps.DistanceCalculateCallback">DistanceCalculateCallback</a>: 距离计算成功的回调函数</li>
+<li>
+<a href="#plus.maps.AreaCalculateCallback">AreaCalculateCallback</a>: 地理区域面积计算成功的回调函数</li>
+<li>
+<a href="#plus.maps.UserLocationCallback">UserLocationCallback</a>: 获取用户当前位置信息成功回调</li>
+<li>
+<a href="#plus.maps.ClickEventHandler">ClickEventHandler</a>: 用户点击地图回调事件</li>
+<li>
+<a href="#plus.maps.StatusChangedEventHandler">StatusChangedEventHandler</a>: 地图状态变化回调事件</li>
+<li>
+<a href="#plus.maps.OverlayClickEventHandler">OverlayClickEventHandler</a>: 用户点击地图覆盖物回调事件</li>
+<li>
+<a href="#plus.maps.OverlayDragEventHandler">OverlayDragEventHandler</a>: 用户拖拽覆盖物回调事件</li>
+<li>
+<a href="#plus.maps.PoiSearchCallback">PoiSearchCallback</a>: 兴趣点检索完成事件</li>
+<li>
+<a href="#plus.maps.RouteSearchCallback">RouteSearchCallback</a>: 线路检索完成事件</li>
+<li>
+<a href="#plus.maps.SuccessCallback">SuccessCallback</a>: 地图操作成功回调函数</li>
+<li>
+<a href="#plus.maps.ErrorCallback">ErrorCallback</a>: 地图操作失败的回调函数</li>
+</ul>
+<h2>权限：</h2>
+<p>permissions</p>
+<pre class="prettyprint linenums">
+{
+// ...
+"permissions":{
+	// ...
+	"Maps": {
+		"description": "地图"
+	}
+}
+}
+			</pre>
+<h1><a name="plus.maps.Map">Map</a></h1>
+<p>地图控件对象</p>
+<h2>构造：</h2>
+<ul><li>
+<a href="#plus.maps.Map.Map(domId,%20styles)">Map(domId, styles)</a>: 创建Map对象</li></ul>
+<h2>方法：</h2>
+<ul>
+<li>
+<a href="#plus.maps.Map.calculateArea">calculateArea</a>: 静态方法，计算面积</li>
+<li>
+<a href="#plus.maps.Map.calculateDistance">calculateDistance</a>: 静态方法，计算距离</li>
+<li>
+<a href="#plus.maps.Map.convertCoordinates">convertCoordinates</a>: 静态方法，坐标转换</li>
+<li>
+<a href="#plus.maps.Map.geocode">geocode</a>: 静态方法，地理编码</li>
+<li>
+<a href="#plus.maps.Map.reverseGeocode">reverseGeocode</a>: 静态方法，反向地理编码</li>
+<li>
+<a href="#plus.maps.Map.addOverlay">addOverlay</a>: 向地图中添加覆盖物</li>
+<li>
+<a href="#plus.maps.Map.centerAndZoom">centerAndZoom</a>: 设置地图初始中心点和缩放级别</li>
+<li>
+<a href="#plus.maps.Map.clearOverlays">clearOverlays</a>: 清除地图中所有覆盖物对象</li>
+<li>
+<a href="#plus.maps.Map.close">close</a>: 关闭地图控件</li>
+<li>
+<a href="#plus.maps.Map.getBounds">getBounds</a>: 获取当前地图可视范围的地理区域</li>
+<li>
+<a href="#plus.maps.Map.getCenter">getCenter</a>: 获取地图中心点位置</li>
+<li>
+<a href="#plus.maps.Map.getCurrentCenter">getCurrentCenter</a>: 获取当前地图显示的地图中心点位置</li>
+<li>
+<a href="#plus.maps.Map.getMapType">getMapType</a>: 获取地图的显示类型</li>
+<li>
+<a href="#plus.maps.Map.getUserLocation">getUserLocation</a>: 获取用户的当前位置信息</li>
+<li>
+<a href="#plus.maps.Map.getZoom">getZoom</a>: 获取地图的缩放级别</li>
+<li>
+<a href="#plus.maps.Map.hide">hide</a>: 隐藏地图控件</li>
+<li>
+<a href="#plus.maps.Map.isShowUserLocation">isShowUserLocation</a>: 获取是否显示用户位置</li>
+<li>
+<a href="#plus.maps.Map.isShowZoomControls">isShowZoomControls</a>: 获取是否显示地图内置缩放控件</li>
+<li>
+<a href="#plus.maps.Map.isTraffic">isTraffic</a>: 获取是否打开地图交通信息图层</li>
+<li>
+<a href="#plus.maps.Map.removeOverlay">removeOverlay</a>: 从地图中删除覆盖物对象</li>
+<li>
+<a href="#plus.maps.Map.reset">reset</a>: 重置地图</li>
+<li>
+<a href="#plus.maps.Map.resize">resize</a>: 重设地图控件大小</li>
+<li>
+<a href="#plus.maps.Map.setCenter">setCenter</a>: 设置地图的中心点</li>
+<li>
+<a href="#plus.maps.Map.setMapType">setMapType</a>: 设置地图的视图类型</li>
+<li>
+<a href="#plus.maps.Map.setStyles">setStyles</a>: 设置地图控件的配置参数</li>
+<li>
+<a href="#plus.maps.Map.setTraffic">setTraffic</a>: 是否打开地图交通信息图层</li>
+<li>
+<a href="#plus.maps.Map.setZoom">setZoom</a>: 设置地图的缩放级别</li>
+<li>
+<a href="#plus.maps.Map.show">show</a>: 显示地图控件</li>
+<li>
+<a href="#plus.maps.Map.showUserLocation">showUserLocation</a>: 显示用户位置</li>
+<li>
+<a href="#plus.maps.Map.showZoomControls">showZoomControls</a>: 设置是否显示地图内置缩放控件</li>
+</ul>
+<h2>事件：</h2>
+<ul>
+<li>
+<a href="#plus.maps.Map.onclick">onclick</a>: 用户点击地图事件</li>
+<li>
+<a href="#plus.maps.Map.onstatuschanged">onstatuschanged</a>: 地图状态改变事件</li>
+</ul>
+<h1><a name="plus.maps.MapStyles">MapStyles</a></h1>
+<p>地图控件对象的参数</p>
+<pre class="prettyprint linenums">
+interface plus.maps.MapStyles {
+	attribute Point center;
+	attribute Number zoom;
+	attribute MapType type;
+	attribute Boolean traffic;
+	attribute Boolean zoomControls;
+	
+	attribute String top;
+	attribute String left;
+	attribute String width;
+	attribute String height;
+	attribute String position;
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	设置地图对象显示时使用的参数，如地图的中心位置、缩放级别等。
+				</p>
+<h2>属性：</h2>
+<ul>
+<li>center: <em>(<a href="#plus.maps.Point">Point</a>
+	类型
+)</em>地图的中心位置<br><p>
+	未设置则使用地图的默认中心点（由地图供应商确定）。
+						</p>
+</li>
+<li>zoom: <em>(<font class="type">Number</font>
+	类型
+)</em>地图的缩放级别<br><p>
+	有效范围为1-22，默认值为12，设置无效的值则使用默认值。
+						</p>
+</li>
+<li>type: <em>(<a href="#plus.maps.MapType">MapType</a>
+	类型
+)</em>地图的视图类型<br><p>
+	可设置普通街道视图、卫星视图，默认值为普通街道视图。
+						</p>
+</li>
+<li>traffic: <em>(<font class="type">Boolean</font>
+	类型
+)</em>地图的是否显示交通信息<br><p>
+	true表示显示地图的交通信息图层，false则不显示，默认值为false。
+						</p>
+</li>
+<li>zoomControls: <em>(<font class="type">Boolean</font>
+	类型
+)</em>是否显示地图的内置缩放控件<br><p>
+	true表示显示地图的内置缩放控件，false则不显示，默认值为false。
+						</p>
+</li>
+<li>top: <em>(<font class="type">String</font>
+	类型
+)</em>地图控件左上角的垂直偏移量<br><p>
+	可取值：
+		像素值，如"100px"；
+		百分比，如"10%"，相对于父Webview窗口的高度；
+		自动计算，如"auto",根据height值自动计算，相对于父Webview窗口垂直居中。
+						</p>
+</li>
+<li>left: <em>(<font class="type">String</font>
+	类型
+)</em>地图控件左上角的水平偏移量<br><p>
+	可取值：
+		像素值，如"100px"；
+		百分比，如"10%"，相对于父Webview窗口的宽度；
+		自动计算，如"auto"，根据width值自动计算，相对于父Webview窗口水平居中。
+	默认值为"0px"。
+						</p>
+</li>
+<li>width: <em>(<font class="type">String</font>
+	类型
+)</em>地图控件的宽度<br><p>
+	可取值：
+		像素值，如"100px"；
+		百分比，如"10%"，相对于父Webview窗口的宽度。
+	默认值为"100%"。
+						</p>
+</li>
+<li>height: <em>(<font class="type">String</font>
+	类型
+)</em>地图控件的高度<br><p>
+	可取值：
+		像素值，如"100px"；
+		百分比，如"10%"，相对于父Webview窗口的高度。
+	默认值为"100%"。
+						</p>
+</li>
+<li>position: <em>(<font class="type">String</font>
+	类型
+)</em>地图控件在Webview窗口的布局模式<br><p>
+	可取值：
+		"static" - 静态布局模式，如果页面存在滚动条则随窗口内容滚动；
+		"absolute" - 绝对布局模式，如果页面存在滚动条不随窗口内容滚动；
+	默认值为"static"。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.maps.GeocodeOptions">GeocodeOptions</a></h1>
+<p>地理编码转换的参数</p>
+<h2>属性：</h2>
+<ul>
+<li>coordType: <em>(<font class="type">String</font>
+	类型
+)</em>源数据的坐标系类型<br><p>
+	仅在反向地理编码转换时生效。
+	“wgs84”：表示WGS-84坐标系； “gcj02”：表示国测局经纬度坐标系； “bd09”：表示百度墨卡托坐标系； “bd09ll”：表示百度经纬度坐标系；
+	默认使用wgs84坐标系。
+						</p>
+</li>
+<li>city: <em>(<font class="type">String</font>
+	类型
+)</em>源地址所属的城市<br><p>
+	仅在地理编码转换时生效，如果不指定则在全国范围内区配转换。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.maps.CoordinateConvertOptions">CoordinateConvertOptions</a></h1>
+<p>地图坐标转换的参数</p>
+<h2>属性：</h2>
+<ul><li>coordType: <em>(<font class="type">String</font>
+	类型
+)</em>源数据的坐标系类型<br><p>
+	“wgs84”：表示WGS-84坐标系； “gcj02”：表示国测局经纬度坐标系； “bd09”：表示百度墨卡托坐标系； “bd09ll”：表示百度经纬度坐标系；
+	默认使用wgs84坐标系。
+						</p>
+</li></ul>
+<h1><a name="plus.maps.Point">Point</a></h1>
+<p>Point对象用于表示地图元素的坐标</p>
+<h2>说明：</h2>
+<p class="des">常用语对地图上元素进行定位时使用。</p>
+<h2>构造：</h2>
+<ul><li>
+<a href="#plus.maps.Point.Point(lng,lat)">Point(lng,lat)</a>: 创建Point对象</li></ul>
+<h2>方法：</h2>
+<ul>
+<li>
+<a href="#plus.maps.Point.setLng">setLng</a>: 设置坐标点的经度</li>
+<li>
+<a href="#plus.maps.Point.getLng">getLng</a>: 获取坐标的经度</li>
+<li>
+<a href="#plus.maps.Point.setLat">setLat</a>: 设置坐标的纬度</li>
+<li>
+<a href="#plus.maps.Point.getLat">getLat</a>: 获取坐标的纬度</li>
+<li>
+<a href="#plus.maps.Point.equals">equals</a>: 判断两个坐标点是否相等</li>
+</ul>
+<h1><a name="plus.maps.Bounds">Bounds</a></h1>
+<p>地理区域</p>
+<h2>说明：</h2>
+<p class="des">
+	有西南及东北坐标点数据组成的矩形区域。
+				</p>
+<h2>构造：</h2>
+<ul>
+<li>
+<a href="#plus.maps.Bounds.Bounds(northease,southwest)">Bounds(northease,southwest)</a>: 创建Bounds对象</li>
+<li>
+<a href="#plus.maps.Bounds.Bounds(nelng,nelat,swlng,swlat)">Bounds(nelng,nelat,swlng,swlat)</a>: 创建Bounds对象</li>
+</ul>
+<h2>方法：</h2>
+<ul>
+<li>
+<a href="#plus.maps.Bounds.setNorthEase">setNorthEase</a>: 设置地理区域的东北坐标点</li>
+<li>
+<a href="#plus.maps.Bounds.getNorthEase">getNorthEase</a>: 地理区域的东北坐标点</li>
+<li>
+<a href="#plus.maps.Bounds.setSouthWest">setSouthWest</a>: 设置地理区域的西南坐标点</li>
+<li>
+<a href="#plus.maps.Bounds.getSouthWest">getSouthWest</a>: 地理区域的西南坐标点</li>
+<li>
+<a href="#plus.maps.Bounds.contains">contains</a>: 判断制定的坐标是否在地理区域中</li>
+<li>
+<a href="#plus.maps.Bounds.equals">equals</a>: 判断两个地理区域是否相等</li>
+<li>
+<a href="#plus.maps.Bounds.getCenter">getCenter</a>: 获取地理区域的中心点坐标</li>
+</ul>
+<h1><a name="plus.maps.MapType">MapType</a></h1>
+<p>地图视图类型</p>
+<h2>常量：</h2>
+<ul>
+<li>MAPTYPE_NORMAL: <em>(<font class="type">Number</font>
+	类型
+)</em>普通街道视图类型<br><p>地图视图类型常量，普通街道视图。</p>
+</li>
+<li>MAPTYPE_SATELLITE: <em>(<font class="type">Number</font>
+	类型
+)</em>卫星视图<br><p>地图视图类型常量，卫星视图。</p>
+</li>
+</ul>
+<h1><a name="plus.maps.Overlay">Overlay</a></h1>
+<p>地图覆盖物基类对象</p>
+<pre class="prettyprint linenums">
+interface Overlay {
+	function Boolean isVisible();
+	function void show();
+	function void hide();
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+Overlay是地图上显示元素的基类，用于抽象地图元素，不用于实例化。
+				</p>
+<h2>方法：</h2>
+<ul>
+<li>
+<a href="#plus.maps.Overlay.isVisible">isVisible</a>: 判断地图覆盖物是否可见</li>
+<li>
+<a href="#plus.maps.Overlay.show">show</a>: 显示地图上的覆盖物</li>
+<li>
+<a href="#plus.maps.Overlay.hide">hide</a>: 隐藏地图上的覆盖物</li>
+</ul>
+<h1><a name="plus.maps.Marker">Marker</a></h1>
+<p>地图上显示的标点对象</p>
+<h2>说明：</h2>
+<p class="des">从Overlay对象继承而来，可通过Map对象的addOverlay()方法将对象添加地图中。</p>
+<h2>构造：</h2>
+<ul><li>
+<a href="#plus.maps.Marker.Marker(%20point%20)">Marker( point )</a>: 创建地图标点Marker对象</li></ul>
+<h2>方法：</h2>
+<ul>
+<li>
+<a href="#plus.maps.Marker.bringToTop">bringToTop</a>: 覆盖物显示到最上层</li>
+<li>
+<a href="#plus.maps.Marker.setPoint">setPoint</a>: 设置标点对象的坐标</li>
+<li>
+<a href="#plus.maps.Marker.getPoint">getPoint</a>: 获取标点的坐标</li>
+<li>
+<a href="#plus.maps.Marker.setIcon">setIcon</a>: 设置标点上显示的图标</li>
+<li>
+<a href="#plus.maps.Marker.setIcons">setIcons</a>: 设置标点上显示的图标数组</li>
+<li>
+<a href="#plus.maps.Marker.setLabel">setLabel</a>: 设置标点上显示的文本标注</li>
+<li>
+<a href="#plus.maps.Marker.getLabel">getLabel</a>: 获取标点上显示的文本标注</li>
+<li>
+<a href="#plus.maps.Marker.setBubble">setBubble</a>: 设置标点的气泡内容</li>
+<li>
+<a href="#plus.maps.Marker.getBubble">getBubble</a>: 获取标点上显示的文本标注</li>
+<li>
+<a href="#plus.maps.Marker.hideBubble">hideBubble</a>: 隐藏标点上显示的气泡</li>
+<li>
+<a href="#plus.maps.Marker.setDraggable">setDraggable</a>: 设置标点的是否允许拖拽</li>
+<li>
+<a href="#plus.maps.Marker.isDraggable">isDraggable</a>: 获取标点是否允许拖拽</li>
+</ul>
+<h2>事件：</h2>
+<ul>
+<li>
+<a href="#plus.maps.Marker.onclick">onclick</a>: 用户点击地图标点事件</li>
+<li>
+<a href="#plus.maps.Marker.onDrag">onDrag</a>: 用户拖拽标点事件</li>
+</ul>
+<h1><a name="plus.maps.Bubble">Bubble</a></h1>
+<p>地图上显示的气泡对象</p>
+<h2>说明：</h2>
+<p class="des">
+	此对象不能直接添加到地图上显示，只可关联到地图标点覆盖物上，用户点击标点时弹出显示。
+				</p>
+<h2>构造：</h2>
+<ul><li>
+<a href="#plus.maps.Bubble.Bubble(%20label%20)">Bubble( label )</a>: 创建气泡对象</li></ul>
+<h2>方法：</h2>
+<ul>
+<li>
+<a href="#plus.maps.Bubble.setIcon">setIcon</a>: 设置气泡上显示的图标</li>
+<li>
+<a href="#plus.maps.Bubble.setLabel">setLabel</a>: 设置气泡上显示的文字内容</li>
+<li>
+<a href="#plus.maps.Bubble.getLabel">getLabel</a>: 获取气泡上显示的文字内容</li>
+<li>
+<a href="#plus.maps.Bubble.belongMarker">belongMarker</a>: 获取气泡所属的标点对象</li>
+<li>
+<a href="#plus.maps.Bubble.loadImage">loadImage</a>: 从图片加载气泡显示的内容</li>
+<li>
+<a href="#plus.maps.Bubble.loadImageDataURL">loadImageDataURL</a>: 从图片数据加载气泡显示的内容</li>
+</ul>
+<h2>事件：</h2>
+<ul><li>
+<a href="#plus.maps.Bubble.onclick">onclick</a>: 用户点击气泡事件</li></ul>
+<h1><a name="plus.maps.Circle">Circle</a></h1>
+<p>地图上显示的圆圈对象</p>
+<h2>说明：</h2>
+<p class="des">从Overlay对象继承而来，可通过Map对象的addOverlay()方法将对象添加地图中。</p>
+<h2>构造：</h2>
+<ul><li>
+<a href="#plus.maps.Circle.Circle(%20center,%20radius%20)">Circle( center, radius )</a>: 创建Circle对象</li></ul>
+<h2>方法：</h2>
+<ul>
+<li>
+<a href="#plus.maps.Circle.setCenter">setCenter</a>: 设置圆圈中心点的经纬度坐标</li>
+<li>
+<a href="#plus.maps.Circle.getCenter">getCenter</a>: 获取圆圈中心点的坐标</li>
+<li>
+<a href="#plus.maps.Circle.setRadius">setRadius</a>: 设置圆圈的半径，单位为米</li>
+<li>
+<a href="#plus.maps.Circle.getRadius">getRadius</a>: 获取圆圈的半径</li>
+<li>
+<a href="#plus.maps.Circle.setStrokeColor">setStrokeColor</a>: 设置圆圈的边框颜色</li>
+<li>
+<a href="#plus.maps.Circle.getStrokeColor">getStrokeColor</a>: 获取圆圈的边框颜色</li>
+<li>
+<a href="#plus.maps.Circle.setStrokeOpacity">setStrokeOpacity</a>: 设置圆圈的边框颜色</li>
+<li>
+<a href="#plus.maps.Circle.getStrokeOpacity">getStrokeOpacity</a>: 获取圆圈边框的透明度</li>
+<li>
+<a href="#plus.maps.Circle.setFillColor">setFillColor</a>: 设置圆圈的填充颜色</li>
+<li>
+<a href="#plus.maps.Circle.getFillColor">getFillColor</a>: 获取圆圈的填充颜色</li>
+<li>
+<a href="#plus.maps.Circle.setFillOpacity">setFillOpacity</a>: 设置圆圈填充颜色的透明度</li>
+<li>
+<a href="#plus.maps.Circle.getFillOpacity">getFillOpacity</a>: 获取圆圈填充色的透明度</li>
+<li>
+<a href="#plus.maps.Circle.setLineWidth">setLineWidth</a>: 设置圆圈边框的线条宽度</li>
+<li>
+<a href="#plus.maps.Circle.getLineWidth">getLineWidth</a>: 获取圆圈边框的线条宽度</li>
+</ul>
+<h1><a name="plus.maps.Polyline">Polyline</a></h1>
+<p>地图上显示的折线对象</p>
+<h2>说明：</h2>
+<p class="des">从Overlay对象继承而来，可通过Map对象的addOverlay()方法将对象添加地图中。</p>
+<h2>构造：</h2>
+<ul><li>
+<a href="#plus.maps.Polyline.Polyline(%20points%20)">Polyline( points )</a>: 创建Polyline对象</li></ul>
+<h2>方法：</h2>
+<ul>
+<li>
+<a href="#plus.maps.Polyline.setPath">setPath</a>: 设置折线的顶点坐标</li>
+<li>
+<a href="#plus.maps.Polyline.getPath">getPath</a>: 获取折线的顶点坐标</li>
+<li>
+<a href="#plus.maps.Polyline.setStrokeColor">setStrokeColor</a>: 设置折线的颜色</li>
+<li>
+<a href="#plus.maps.Polyline.getStrokeColor">getStrokeColor</a>: 获取折线的颜色</li>
+<li>
+<a href="#plus.maps.Polyline.setStrokeOpacity">setStrokeOpacity</a>: 设设置折线的透明度</li>
+<li>
+<a href="#plus.maps.Polyline.getStrokeOpacity">getStrokeOpacity</a>: 获取折线的透明度</li>
+<li>
+<a href="#plus.maps.Polyline.setLineWidth">setLineWidth</a>: 设置折线的线条宽度</li>
+<li>
+<a href="#plus.maps.Polyline.getLineWidth">getLineWidth</a>: 获取折线的线条宽度</li>
+</ul>
+<h1><a name="plus.maps.Polygon">Polygon</a></h1>
+<p>地图上显示的多边形对象</p>
+<h2>说明：</h2>
+<p class="des">从Overlay对象继承而来，可通过Map对象的addOverlay()方法将对象添加地图中。</p>
+<h2>构造：</h2>
+<ul><li>
+<a href="#plus.maps.Polygon.Polygon(%20points%20)">Polygon( points )</a>: 创建Polygon对象</li></ul>
+<h2>方法：</h2>
+<ul>
+<li>
+<a href="#plus.maps.Polygon.setPath">setPath</a>: 设置多边形的顶点坐标</li>
+<li>
+<a href="#plus.maps.Polygon.getPath">getPath</a>: 获取多边形的顶点坐标</li>
+<li>
+<a href="#plus.maps.Polygon.setStrokeColor">setStrokeColor</a>: 设置多边形的颜色</li>
+<li>
+<a href="#plus.maps.Polygon.getStrokeColor">getStrokeColor</a>: 获取多边形边框的颜色</li>
+<li>
+<a href="#plus.maps.Polygon.setStrokeOpacity">setStrokeOpacity</a>: 设置多边形的透明度</li>
+<li>
+<a href="#plus.maps.Polygon.getStrokeOpacity">getStrokeOpacity</a>: 获取多边形边框的透明度</li>
+<li>
+<a href="#plus.maps.Polygon.setFillColor">setFillColor</a>: 设置多边形的填充颜色</li>
+<li>
+<a href="#plus.maps.Polygon.getFillColor">getFillColor</a>: 获取多边形的填充色</li>
+<li>
+<a href="#plus.maps.Polygon.setFillOpacity">setFillOpacity</a>: 设置多边形填充色的透明度</li>
+<li>
+<a href="#plus.maps.Polygon.getFillOpacity">getFillOpacity</a>: 获取多边形填充色的透明度</li>
+<li>
+<a href="#plus.maps.Polygon.setLineWidth">setLineWidth</a>: 设置多边形的边框宽度</li>
+<li>
+<a href="#plus.maps.Polygon.getLineWidth">getLineWidth</a>: 获取多边形边框的宽度</li>
+</ul>
+<h1><a name="plus.maps.Search">Search</a></h1>
+<p>地图检索对象</p>
+<h2>说明：</h2>
+<p class="des">
+	Search对象用于管理地图上的检索功能，包括位置检索、周边检索和范围检索。
+				</p>
+<h2>构造：</h2>
+<ul><li>
+<a href="#plus.maps.Search.Search(%20map%20)">Search( map )</a>: 创建Search对象</li></ul>
+<h2>方法：</h2>
+<ul>
+<li>
+<a href="#plus.maps.Search.setPageCapacity">setPageCapacity</a>: 设置检索返回结果每页的信息数目</li>
+<li>
+<a href="#plus.maps.Search.getPageCapacity">getPageCapacity</a>: 获取检索返回结果每页的信息数目</li>
+<li>
+<a href="#plus.maps.Search.poiSearchInCity">poiSearchInCity</a>: 城市兴趣点检索</li>
+<li>
+<a href="#plus.maps.Search.poiSearchNearBy">poiSearchNearBy</a>: 周边检索</li>
+<li>
+<a href="#plus.maps.Search.poiSearchInbounds">poiSearchInbounds</a>: 指定范围检索</li>
+<li>
+<a href="#plus.maps.Search.setTransitPolicy">setTransitPolicy</a>: 设置公交路线检索策略</li>
+<li>
+<a href="#plus.maps.Search.transitSearch">transitSearch</a>: 公交路线检索</li>
+<li>
+<a href="#plus.maps.Search.setDrivingPolicy">setDrivingPolicy</a>: 设置驾车路线检索策略</li>
+<li>
+<a href="#plus.maps.Search.drivingSearch">drivingSearch</a>: 驾车路线检索</li>
+<li>
+<a href="#plus.maps.Search.walkingSearch">walkingSearch</a>: 步行路线检索</li>
+</ul>
+<h2>事件：</h2>
+<ul>
+<li>
+<a href="#plus.maps.Search.onPoiSearchComplete">onPoiSearchComplete</a>: 兴趣点检索完成事件</li>
+<li>
+<a href="#plus.maps.Search.onRouteSearchComplete">onRouteSearchComplete</a>: 线路检索完成事件</li>
+</ul>
+<h1><a name="plus.maps.SearchPolicy">SearchPolicy</a></h1>
+<p>检索策略类型</p>
+<h2>说明：</h2>
+<p class="des">在线路检索时设置检索策略时使用。</p>
+<h2>常量：</h2>
+<ul>
+<li>TRANSIT_TIME_FIRST: <em>(<font class="type">Number</font>
+	类型
+)</em>时间优先<br><p>检索策略类型常量，用于公交检索策略</p>
+</li>
+<li>TRANSIT_TRANSFER_FIRST: <em>(<font class="type">Number</font>
+	类型
+)</em>最少换乘优先<br><p>检索策略类型常量，用于公交检索策略</p>
+</li>
+<li>TRANSIT_WALK_FIRST: <em>(<font class="type">Number</font>
+	类型
+)</em>最少步行距离优先<br><p>检索策略类型常量，用于公交检索策略</p>
+</li>
+<li>TRANSIT_FEE_FIRST: <em>(<font class="type">Number</font>
+	类型
+)</em>选择车票花销最少优先<br><p>检索策略类型常量，用于公交检索策略</p>
+</li>
+<li>DRIVING_DIS_FIRST: <em>(<font class="type">Number</font>
+	类型
+)</em>最短距离优先<br><p>检索策略类型常量，用于驾车检索策略</p>
+</li>
+<li>DRIVING_NO_EXPRESSWAY: <em>(<font class="type">Number</font>
+	类型
+)</em>无高速公路线路<br><p>检索策略类型常量，用于驾车检索策略</p>
+</li>
+<li>DRIVING_FEE_FIRST: <em>(<font class="type">Number</font>
+	类型
+)</em>最少费用优先<br><p>检索策略类型常量，用于驾车检索策略</p>
+</li>
+</ul>
+<h1><a name="plus.maps.SearchPoiResult">SearchPoiResult</a></h1>
+<p>保存位置检索、周边检索和范围检索返回的结果</p>
+<h2>属性：</h2>
+<ul>
+<li>
+<a href="#plus.maps.SearchPoiResult.totalNumber">totalNumber</a>: POI检索总结果数</li>
+<li>
+<a href="#plus.maps.SearchPoiResult.currentNumber">currentNumber</a>: 当前页的POI检索结果数</li>
+<li>
+<a href="#plus.maps.SearchPoiResult.pageNumber">pageNumber</a>: 本次POI检索的总页数</li>
+<li>
+<a href="#plus.maps.SearchPoiResult.pageIndex">pageIndex</a>: 获取当前页的索引</li>
+<li>
+<a href="#plus.maps.SearchPoiResult.poiList">poiList</a>: 本次POI检索结果数组</li>
+</ul>
+<h2>方法：</h2>
+<ul><li>
+<a href="#plus.maps.SearchPoiResult.getPosition">getPosition</a>: 获取指定索引的检索结果</li></ul>
+<h1><a name="plus.maps.SearchRouteResult">SearchRouteResult</a></h1>
+<p>保存位置检索、周边检索和范围检索返回的结果</p>
+<h2>说明：</h2>
+<p class="des">
+	不可通过new操作符创建SearchRouteResult对象，在触发onRouteSearchComplete()时自动创建。
+				</p>
+<h2>属性：</h2>
+<ul>
+<li>
+<a href="#plus.maps.SearchRouteResult.startPosition">startPosition</a>: 线路的起点位置</li>
+<li>
+<a href="#plus.maps.SearchRouteResult.endPosition">endPosition</a>: 线路的终点位置</li>
+<li>
+<a href="#plus.maps.SearchRouteResult.routeNumber">routeNumber</a>: 本次线路检索的总方案数</li>
+<li>
+<a href="#plus.maps.SearchRouteResult.routeList">routeList</a>: 线路检索结果数组</li>
+</ul>
+<h2>方法：</h2>
+<ul><li>
+<a href="#plus.maps.SearchRouteResult.getRoute">getRoute</a>: 获取指定索引的线路方案</li></ul>
+<h1><a name="plus.maps.Position">Position</a></h1>
+<p>检索结果的位置点</p>
+<h2>构造：</h2>
+<ul><li>
+<a href="#plus.maps.Position.Position(%20point%20)">Position( point )</a>: 创建Position对象</li></ul>
+<h2>属性：</h2>
+<ul>
+<li>
+<a href="#plus.maps.Position.point">point</a>: 位置点的经纬度坐标</li>
+<li>
+<a href="#plus.maps.Position.address">address</a>: 位置点的地址信息</li>
+<li>
+<a href="#plus.maps.Position.city">city</a>: 位置点的所属城市信息</li>
+<li>
+<a href="#plus.maps.Position.name">name</a>: 位置点的名称</li>
+<li>
+<a href="#plus.maps.Position.phone">phone</a>: 位置点的电话信息</li>
+<li>
+<a href="#plus.maps.Position.postcode">postcode</a>: 位置点的邮编信息</li>
+</ul>
+<h1><a name="plus.maps.Route">Route</a></h1>
+<p>地图中的路线对象</p>
+<h2>说明：</h2>
+<p class="des">
+	从Overlay对象继承而来，可通过Map对象的addOverlay()方法将对象添加地图中。
+				</p>
+<h2>构造：</h2>
+<ul><li>
+<a href="#plus.maps.Route.Route(%20ptStart,%20ptEnd%20)">Route( ptStart, ptEnd )</a>: 创建Route对象</li></ul>
+<h2>属性：</h2>
+<ul>
+<li>
+<a href="#plus.maps.Route.startPoint">startPoint</a>: 路线起点地理坐标点</li>
+<li>
+<a href="#plus.maps.Route.endPoint">endPoint</a>: 路线终点地理坐标点</li>
+<li>
+<a href="#plus.maps.Route.pointCount">pointCount</a>: 路线坐标点段数</li>
+<li>
+<a href="#plus.maps.Route.pointList">pointList</a>: 路线的地理坐标点数组</li>
+<li>
+<a href="#plus.maps.Route.distance">distance</a>: 路线总距离</li>
+<li>
+<a href="#plus.maps.Route.routeTip">routeTip</a>: 线路的提示信息</li>
+</ul>
+<h1><a name="plus.maps.GeocodeCallback">GeocodeCallback</a></h1>
+<p>地理编码转换成功的回调函数</p>
+<pre class="prettyprint linenums">
+void onGeocodeSuccess( Event event ) {
+	// JS code.
+	var address = event.address;  // 转换后的地理位置
+	var point = event.coord;  // 转换后的坐标信息
+	var coordType = event.coordType;	// 转换后的坐标系类型
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	在地理编码转换成功触发，并返回转换结果。
+				</p>
+<h2>参数：</h2>
+<ul><li>event: 
+		<em>(
+			<font class="type">Event</font>
+			)
+			可选 </em>转换后的坐标信息<br>
+	可通过event.coord（Point类型）获取转换后的坐标值。
+	可通过event.coordType（String类型）获取转换后的坐标系类型，“wgs84”：表示WGS-84坐标系； “gcj02”：表示国测局经纬度坐标系； “bd09”：表示百度墨卡托坐标系； “bd09ll”：表示百度经纬度坐标系。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.maps.CoordinateConvertCallback">CoordinateConvertCallback</a></h1>
+<p>坐标转换成功的回调函数</p>
+<pre class="prettyprint linenums">
+void onConvertSuccess( Event event ) {
+	// JS code.
+	var point = event.coord;  // 转换后的坐标值
+	var coordType = event.coordType;	// 转换后的坐标系类型
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	在坐标转换成功触发，并返回转换结果。
+				</p>
+<h2>参数：</h2>
+<ul><li>event: 
+		<em>(
+			<font class="type">Event</font>
+			)
+			可选 </em>转换后的坐标信息<br>
+	可通过event.coord（Point类型）获取转换后的坐标值。
+	可通过event.coordType（String类型）获取转换后的坐标系类型，“wgs84”：表示WGS-84坐标系； “gcj02”：表示国测局经纬度坐标系； “bd09”：表示百度墨卡托坐标系； “bd09ll”：表示百度经纬度坐标系。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.maps.DistanceCalculateCallback">DistanceCalculateCallback</a></h1>
+<p>距离计算成功的回调函数</p>
+<pre class="prettyprint linenums">
+void onCalculateSuccess( Event event ) {
+	// JS code.
+	var distance = event.distance;  // 转换后的距离值
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	在距离计算成功触发，并返回计算结果。
+				</p>
+<h2>参数：</h2>
+<ul><li>event: 
+		<em>(
+			<font class="type">Event</font>
+			)
+			可选 </em>距离计算后的信息<br>
+	可通过event.distance（Number类型）获取计算后的距离值，单位为米（m）。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.maps.AreaCalculateCallback">AreaCalculateCallback</a></h1>
+<p>地理区域面积计算成功的回调函数</p>
+<pre class="prettyprint linenums">
+void onCalculateSuccess( Event event ) {
+	// JS code.
+	var area = event.area;  // 计算后的面积值
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	在地理区域面积计算成功触发，并返回计算结果。
+				</p>
+<h2>参数：</h2>
+<ul><li>event: 
+		<em>(
+			<font class="type">Event</font>
+			)
+			可选 </em>地理区域面积计算后的信息<br>
+	可通过event.area（Number类型）获取计算后的面积值，单位为平方米。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.maps.UserLocationCallback">UserLocationCallback</a></h1>
+<p>获取用户当前位置信息成功回调</p>
+<pre class="prettyprint linenums">
+void onSuccess( state, point ) {
+	// Get location code
+}
+				</pre>
+<h2>参数：</h2>
+<ul>
+<li>state: 
+		<em>(
+			<font class="type">Number</font>
+			)
+			必选 </em>获取用户位置操作状态码，0表示成功，其它为错误码<br>
+</li>
+<li>point: 
+		<em>(
+			<a href="#plus.maps.Point">Point</a>
+			)
+			必选 </em>位置经纬度坐标，如果获取操作失败则为null对象<br>
+</li>
+</ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.maps.ClickEventHandler">ClickEventHandler</a></h1>
+<p>用户点击地图回调事件</p>
+<pre class="prettyprint linenums">
+void onClick( point ) {
+	// Click code
+}
+				</pre>
+<h2>参数：</h2>
+<ul><li>point: 
+		<em>(
+			<a href="#plus.maps.Point">Point</a>
+			)
+			必选 </em>用户在地图上点击的坐标点<br>
+</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.maps.StatusChangedEventHandler">StatusChangedEventHandler</a></h1>
+<p>地图状态变化回调事件</p>
+<pre class="prettyprint linenums">
+void onStatusChanged( event ) {
+	// Click code
+	var target = event.target;		// 状态变化的地图对象(plus.maps.Map)
+	var bounds = event.bounds;		// 地图的可视地理区域(plus.maps.Bounds)
+	var center = event.center;		// 地图的中心点坐标(plus.maps.Point)
+	var zoom = event.zoom;			// 地图的缩放级别(Number)
+}
+				</pre>
+<h2>参数：</h2>
+<ul><li>event: 
+		<em>(
+			<font class="type">Event</font>
+			)
+			必选 </em>地图状态变化对象<br>
+	可通过event.target（plus.maps.Map类型）获取状态变化的地图对象；
+	可通过event.bounds（plus.maps.Bounds类型）获取地图当前的可视区域；
+	可通过event.center（plus.maps.Point类型）获取地图当前的中心点坐标；
+	可通过event.zoom（Number类型）获取地图当前的缩放级别。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.maps.OverlayClickEventHandler">OverlayClickEventHandler</a></h1>
+<p>用户点击地图覆盖物回调事件</p>
+<pre class="prettyprint linenums">
+void onClick( overlay ) {
+	// Click code
+}
+				</pre>
+<h2>参数：</h2>
+<ul><li>overlay: 
+		<em>(
+			<a href="#plus.maps.Overlay">Overlay</a>
+			)
+			必选 </em>用户在地图上点击的覆盖物对象<br>
+	overlay可以是Marker、Bubble、Circle、Polyline、Polygon对象的引用。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.maps.OverlayDragEventHandler">OverlayDragEventHandler</a></h1>
+<p>用户拖拽覆盖物回调事件</p>
+<pre class="prettyprint linenums">
+void onDrag( target ) {
+	// Click code
+	var marker = target;    // 拖拽的覆盖物对象
+}
+				</pre>
+<h2>参数：</h2>
+<ul><li>target: 
+		<em>(
+			<font class="type">Event</font>
+			)
+			必选 </em>拖拽事件对象<br>
+	可通过target（Overlay类型）获取拖拽的覆盖物对象，target可以是Marker、Bubble、Circle、Polyline、Polygon对象的引用。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.maps.PoiSearchCallback">PoiSearchCallback</a></h1>
+<p>兴趣点检索完成事件</p>
+<pre class="prettyprint linenums">
+void onPoiSearchComplete( state, result ) {
+	// JS code.
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	在兴趣点检索完成时触发，并返回检索结果。
+				</p>
+<h2>参数：</h2>
+<ul>
+<li>state: 
+		<em>(
+			<font class="type">Number</font>
+			)
+			必选 </em>检索结果状态号<br>0表示检索正确并返回结果，其它表示检索错误。</li>
+<li>result: 
+		<em>(
+			<a href="#plus.maps.SearchPoiResult">SearchPoiResult</a>
+			)
+			必选 </em>POI检索结果<br>若检索错误，则为null对象。</li>
+</ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.maps.RouteSearchCallback">RouteSearchCallback</a></h1>
+<p>线路检索完成事件</p>
+<pre class="prettyprint linenums">
+void onRouteSearchComplete( state, result ) {
+	// JS code.
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	在线路检索完成时触发，并返回检索结果。
+				</p>
+<h2>参数：</h2>
+<ul>
+<li>state: 
+		<em>(
+			<font class="type">Number</font>
+			)
+			必选 </em>检索结果状态号<br>0表示检索正确并返回结果，其它表示检索错误。</li>
+<li>result: 
+		<em>(
+			<a href="#plus.maps.SearchRouteResult">SearchRouteResult</a>
+			)
+			必选 </em>线路检索结果<br>若检索错误，则为null对象。</li>
+</ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.maps.SuccessCallback">SuccessCallback</a></h1>
+<p>地图操作成功回调函数</p>
+<pre class="prettyprint linenums">
+void onSuccess(){
+	// Success code.
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	地图操作成功后触发回调函数。
+				</p>
+<h2>参数：</h2>
+<p>无</p>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.maps.ErrorCallback">ErrorCallback</a></h1>
+<p>地图操作失败的回调函数</p>
+<pre class="prettyprint linenums">
+function void onError( error ) {
+	// Handle error
+	var code = error.code; // 错误编码
+	var message = error.message; // 错误描述信息
+}
+				</pre>
+<h2>参数：</h2>
+<ul><li>error: 
+		<em>(
+			<font class="type">Exception</font>
+			)
+			必选 </em>地图操作的错误信息<br>
+	可通过error.code（Number类型）获取错误编码；
+	可通过error.message（String类型）获取错误描述信息。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<br><br>
+</div></body>
+</html>

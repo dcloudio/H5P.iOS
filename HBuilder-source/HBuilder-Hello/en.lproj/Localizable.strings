@@ -1,0 +1,12 @@
+/* 
+  Localizable.strings
+  HBuilder-Hello
+
+  Created by 4Ndf on 2019/5/23.
+  Copyright © 2019 DCloud. All rights reserved.
+*/
+"A"="The current environment cannot run uni-app apps that enable \"custom component mode\"!";
+"B"="Details";
+"C"="Ignore";
+"D"="%@ module is not added when packaging, please refer to %@";
+"E"="This application is compiled with HBuilderX%@, and the mobile SDK version is %@. A mismatched version may cause an application exception.";

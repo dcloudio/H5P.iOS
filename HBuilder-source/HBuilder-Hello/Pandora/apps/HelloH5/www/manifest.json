@@ -1,0 +1,98 @@
+{
+    "id": "HelloH5",
+    "name": "HelloH5",
+    "version": {
+        "name": "2.5.3",
+        "code": "20503"
+    },
+    "description": "HTML5 Plus能力演示",
+    "icons": {
+        "144": "icon.png"
+    },
+    "launch_path": "index.html",
+    "developer": {
+        "name": "yanyilin",
+        "email": "yanyilin@dcloud.io",
+        "url": "http://www.dcloud.io"
+    },
+    "orientation": [
+        "portrait"
+    ],
+    "permissions": {
+        "Contacts": {
+            "description": "系统通讯录"
+        },
+        "Geolocation": {
+            "description": "位置信息"
+        },
+        "Messaging": {
+            "description": "消息通讯"
+        },
+        "Maps": {
+            "description": "地图"
+        },
+        "OAuth": {
+            "description": "登录授权"
+        },
+        "Payment": {
+            "description": "支付"
+        },
+        "Push": {
+            "description": "消息推送"
+        },
+        "Share": {
+            "description": "社交分享"
+        },
+        "Speech": {
+            "description": "语音识别"
+        },
+        "Statistic": {
+            "description": "统计"
+        },
+        "VideoPlayer": {
+            "description": "视频播放"
+        },
+        "LivePusher": {
+            "description": "直播推流"
+        }
+    },
+    "plus": {
+        "splashscreen": {
+            "autoclose": true,
+            "waiting": true
+        },
+        "statusbar": {
+            "immersed": true,
+            "background": "#D74B28"
+        },
+        "safearea": {
+            "left": {
+                "offset": "auto"
+            },
+            "right": {
+                "offset": "auto"
+            },
+            "bottom": {
+                "offset": "auto"
+            }
+        },
+        "launchwebview" : {
+            "titleNView" : {
+                "titleText" : "Hello H5+",
+                "titleColor": "#CCCCCC",
+                "backgroundColor" : "#D74B28",
+                "buttons" : [
+                    {
+                        "fontSrc": "_www/helloh5.ttf",
+                        "text" : "\ue300",
+                        "fontSize" : "22px",
+                        "onclick" : "javascript:openAbout()"
+                    }
+                ]
+            }
+        },
+        "popGesture": "close",
+        "runmode": "liberate",
+        "signature": "Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw=="
+    }
+}

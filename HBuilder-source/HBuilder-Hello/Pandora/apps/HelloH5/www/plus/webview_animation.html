@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript" charset="utf-8">
+var ws=null,wp=null,wo=null;
+// 创建动画窗口 
+function createAW(){
+	var w = plus.webview.create('webview_new.html', 'webview_new.html', {
+		scrollIndicator:'none',
+		scalable:false,
+		popGesture:'none',
+		titleNView: {
+			autoBackButton: true,
+			backgroundColor: '#D74B28',
+			titleColor: '#CCCCCC',
+			titleText: '动画页面'
+		},
+	}, {preate:true});
+	return w;
+}
+// H5 plus事件处理
+function plusReady(){
+	ws = plus.webview.currentWebview();
+	wo = ws.opener();
+	wp = createAW();
+	wp.addEventListener('close', function(){
+		wp=null;
+	}, false);
+}
+if(window.plus){
+	plusReady();
+}else{
+	document.addEventListener('plusready', plusReady, false);
+}
+// 动画窗口
+function animateWindow(type){
+	wp||(wp=createAW());
+	wp.show(type);
+}
+// 关闭窗口
+var _back=window.back;
+function preateBack(){
+	wp&&(wp.close(),wp=null);
+	_back();
+}
+window.back=preateBack;
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+	</head>
+	<body>
+		<br/>
+		<ul class="dlist">
+			<li class="ditem" onclick="animateWindow('pop-in')">从右侧平移入栈</li>
+			<li class="ditem" onclick="animateWindow('slide-in-right')">从右侧横向滑出</li>
+			<li class="ditem" onclick="animateWindow('slide-in-left')">从左侧横向滑出</li>
+			<li class="ditem" onclick="animateWindow('slide-in-top')">从上侧竖向滑出</li>
+			<li class="ditem" onclick="animateWindow('slide-in-bottom')">从下侧竖向滑出</li>
+			<!--<li class="ditem" onclick="animateWindow('zoom-out')">从小到大逐渐放大</li>-->
+			<li class="ditem" onclick="animateWindow('zoom-fade-out')">从小到大并逐渐透明显示</li>
+			<li class="ditem" onclick="animateWindow('fade-in')">从透明到不透明逐渐显示</li>
+			<!--<li class="ditem" onclick="animateWindow('flip-x')">以x轴从上到下翻转效果</li>
+			<li class="ditem" onclick="animateWindow('flip-rx')">以x轴从下到上翻转转效果</li>
+			<li class="ditem" onclick="animateWindow('flip-y')">以y轴从左到右翻转效果</li>
+			<li class="ditem" onclick="animateWindow('flip-ry')">以y轴从右到左翻转效果</li>
+			<li class="ditem" onclick="animateWindow('page-forward')">向前翻书动画效果</li>-->
+			<li class="ditem" onclick="animateWindow('none')">无动画</li>
+		</ul>
+	</body>
+</html>

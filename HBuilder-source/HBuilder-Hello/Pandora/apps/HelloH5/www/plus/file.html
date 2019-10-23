@@ -1,0 +1,249 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript">
+var dir="",root=[],current=null,parent=null,pitem=null,list=null;
+var htmlItem='<img class="ficon"></img><div><span class="fname"></span><br/><span class="finf">...</span></div>';
+document.addEventListener("plusready", function(){
+	pitem = document.getElementById("pdir");
+	list = document.getElementById("dcontent");
+
+	// Get root item information
+	var items = list.querySelectorAll(".fitem");
+	for ( var i = 1; i < items.length; i++ ){
+		updateRootItem(items[i]);
+	}
+}, false);
+// Update root information with item(HTMLUIElement)
+function updateRootItem( item ) {
+	plus.io.resolveLocalFileSystemURL( dir+item.id, function ( entry ) {
+		root.push( entry );
+		item.entry = entry;
+		updateInf( item, entry );
+	}, function ( e ) {
+		outLine( "Update "+item.id+" information failed: "+e.message );
+	} );
+}
+// Update HTMLUIElement information with entry object
+function updateInf( item, entry ) {
+	entry.getMetadata( function ( metadata ) {
+		var inf = item.querySelector(".finf");
+		if ( entry.isDirectory ) {
+			inf.innerText = "文件夹:"+metadata.directoryCount+"项，文件:"+metadata.fileCount+"项";
+		} else {
+			inf.innerText = dateToStr(metadata.modificationTime);
+		}
+	}, function ( e ) {
+		outLine( "Get metadata "+entry.name+" failed: "+e.message );
+	}, false );
+}
+// Update ui with entries
+function updateList( entries ) {
+	var i,items = [].slice.apply(list.querySelectorAll(".fitem"));
+	items.shift();
+	// sort the entries
+	entries.sort( sortCompareEntry )
+	// Update item to ui
+	for ( i = 0; i < entries.length; i++ ) {
+		var di = null;
+		if ( i < items.length ) {
+			di=items[i];
+			di.style.display = "block";
+		} else {
+			di = document.createElement("div");
+			di.className = "fitem";
+			di.setAttribute( "onclick", "openDir(this);" );
+			di.innerHTML = htmlItem;
+			list.appendChild( di );
+		}
+		di.entry = entries[i];
+		di.id = di.entry.name;
+		di.querySelector(".fname").innerText = di.id;
+		di.querySelector(".finf").innerText = "";
+		if ( entries === root ) {
+			di.querySelector(".ficon").src = "../img/fdisk.png";
+		} else {
+			di.querySelector(".ficon").src = di.entry.isDirectory?"../img/fdir.png":"../img/ffile.png";
+		}
+		updateInf( di, di.entry );
+	}
+	// Hide other items
+	for ( ; i < items.length; i++ ) {
+		items[i].style.display = "none";
+		items[i].entry = null;
+	}
+	// Reset scroll offset
+	list.scrollTop = 0;
+}
+// Open directory with item(HTMLUIElement)
+function openDir( item ) {
+	var entry = item.entry;
+	if ( !entry ) {
+		outSet( "Open directory \""+item.id+"\" with null!" );
+		return;
+	}
+	if ( entry.isDirectory ) {
+		outSet( "Open directory: \""+dir+item.id+"\"" );
+		var dirReader = entry.createReader();
+		dirReader.readEntries( function( entries ) {
+			parent = current;
+			current = item.entry;
+			dir = entry.toURL()+"/";
+			// Dispaly up to parent item
+			pitem.style.display = "block";
+			// Update ui
+			updateList( entries );
+		}, function ( e ) {
+			outLine( "Read directory "+item.id+" failed: "+e.message );
+		} );
+	} else {
+		outSet( "Open file: \""+dir+item.id+"\"" );
+		plus.runtime.openFile( dir+item.id, {}, function ( e ) {
+			plus.nativeUI.alert( "无法打开此文件："+e.message );
+		} );
+	}
+}
+// Back to parent directory
+function parentDir() {
+	outSet( "Go to previous directory: \""+dir+"\"");
+	var p = dir.lastIndexOf( "/", dir.length-2 );
+	if ( p < 0 || !parent ) { // Up to root
+		dir = "";
+		current = parent = null;
+		// hide up to parent item
+		pitem.style.display = "none";
+		// Update ui
+		updateList( root );
+	} else {
+		var dirReader = parent.createReader();
+		dirReader.readEntries( function( entries ) {
+			dir = dir.substr( 0, p+1 );
+			outLine( "Current directory: \""+dir+"\"" );
+			current = parent;
+			current.getParent( function ( entry ) {
+				parent = entry;
+			}, function ( e ) {
+				outLine( "Get \""+current.name+"\" parent directory failed: "+e.message );
+			} );
+			parent = null;
+			// Update ui
+			updateList( entries );
+		}, function ( e ) {
+			outLine( "Read directory "+item.id+" failed: "+e.message );
+		} );
+	}
+}
+// Entry sort compare
+function sortCompareEntry( a, b ) {
+	if ( a.isDirectory && b.isFile ) {
+		return -1;
+	} else if ( a.isFile && b.isDirectory ) {
+		return 1;
+	} else {
+		return a.name - b.name;
+	}
+}
+// Format data to string
+function dateToStr( datetime ) {
+	var year = datetime.getFullYear(),
+	month = datetime.getMonth()+1,
+	date = datetime.getDate(),
+	hour = datetime.getHours(),
+	minutes = datetime.getMinutes(),
+	second = datetime.getSeconds();
+	if ( month < 10 ) {
+		month = "0" + month;
+	}
+	if ( date < 10 ) {
+		date = "0" + date;
+	}
+	if ( hour < 10 ) {
+		hour = "0" + hour;
+	}
+	if ( minutes < 10 ) {
+		minutes = "0" + minutes;
+	}
+	if ( second < 10 ) {
+		second = "0" + second;
+	}
+	return (year+"-"+month+"-"+date+" "+hour+":"+minutes+":"+second);
+}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+		<style type="text/css">
+.fitem {
+	width: 96%;
+	overflow: hidden;
+	padding: 10px 2%;
+	border-bottom: 1px solid #c6c6c6;
+	text-align: left;
+}
+.fitem:active {
+	background: #f4f4f4;
+}
+.ficon {
+	height: 40px;
+	float: left;
+	margin-right: 8px;
+}
+.fup {
+	line-height:40px;
+}
+.fname {
+	font-weight: bolder;
+	height: 22px;
+	font-size: 16px;
+}
+.finf {
+	height: 18px;
+	font-size: 12px;
+}
+		</style>
+	</head>
+	<body>
+		<div id="dcontent">
+			<div id="pdir" class="fitem" style="display:none" onclick="parentDir()">
+				<img class="ficon" src="../img/fup.png"/>
+				<div class="fup"><span class="fname">返回上一级</span></div>
+			</div>
+			<div id="_www" class="fitem" onclick="openDir(this)">
+				<img class="ficon" src="../img/fdisk.png"/>
+				<div>
+					<span class="fname">www</span><br/>
+					<span class="finf">...</span>
+				</div>
+			</div>
+			<div id="_doc" class="fitem" onclick="openDir(this)">
+				<img class="ficon" src="../img/fdisk.png"/>
+				<div>
+					<span class="fname">doc</span><br/>
+					<span class="finf">...</span>
+				</div>
+			</div>
+			<div id="_documents" class="fitem" onclick="openDir(this)">
+				<img class="ficon" src="../img/fdisk.png"/>
+				<div>
+					<span class="fname">documents</span><br/>
+					<span class="finf">...</span>
+				</div>
+			</div>
+			<div id="_downloads" class="fitem" onclick="openDir(this)">
+				<img class="ficon" src="../img/fdisk.png"/>
+				<div>
+					<span class="fname">downloads</span><br/>
+					<span class="finf">...</span>
+				</div>
+			</div>
+		</div>
+		<div id="outpos"/>
+		<div id="output">
+File System模块管理本地文件系统，用于文件系统目录的浏览、文件的写入、文件的读取等操作。
+		</div>
+	</body>
+</html>

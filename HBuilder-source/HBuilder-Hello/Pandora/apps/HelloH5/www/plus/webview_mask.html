@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript">
+var ws=null,wc=null;
+// 扩展API加载完毕，现在可以正常调用扩展API 
+function plusReady(){
+	ws=plus.webview.currentWebview();
+	// 用户点击后
+	ws.addEventListener('maskClick', function(){
+		wc.close('auto');
+	},false);
+}
+// 判断扩展API是否准备，否则监听plusready事件
+if(window.plus){
+	plusReady();
+}else{
+	document.addEventListener('plusready', plusReady, false);
+}
+// 显示侧滑页面
+function showSide(){
+	// 防止快速点击可能导致多次创建
+	if(wc){
+		return;
+	}
+	// 开启遮罩
+	ws.setStyle({mask:'rgba(0,0,0,0.5)'});
+	// 创建侧滑页面
+	wc = createWithoutTitle('webview_mask_side.html', {
+		left: '30%',
+		width: '70%',
+		popGesture: 'none',
+		titleNView: {
+			autoBackButton: true,
+			backgroundColor: '#D74B28',
+			titleColor: '#CCCCCC',
+			titleText: '侧滑窗口'
+		}
+	});
+	// 侧滑页面关闭后关闭遮罩
+	wc.addEventListener('close', function(){
+		ws.setStyle({mask:'none'});
+		wc = null;
+	}, false);
+	// 侧滑页面加载后显示（避免白屏）
+	wc.addEventListener('loaded', function(){
+		wc.show('slide-in-right', 200);
+	}, false);
+}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+	</head>
+	<body>
+		<br/>
+		<div class="button" onclick="showSide()">打开侧滑窗口</div>
+		<div class="des">打开侧滑窗口后，当前Webview窗口会显示遮罩层。</div>
+		<div class="des">Webview的遮罩层会覆盖Webview中所有内容（包括子Webview），并且截获Webview窗口的所有触屏事件。</div>
+	</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>Uploaded Data & File</title>
+		<script type="text/javascript">
+// H5 plus事件处理
+var ret=null;
+function plusReady(){
+	ret=plus.storage.getItem('uploader');
+	update();
+	// 添加删除按钮
+	plus.webview.currentWebview().setStyle({titleNView: {
+		buttons:[{
+			fontSrc: '_www/helloh5.ttf',
+			text: '\ue444',
+			fontSize: '22px',
+			onclick: 'javascript:deleteFiles()'
+		}]
+	}});
+}
+if(window.plus){
+	plusReady();
+}else{
+	document.addEventListener('plusready', plusReady, false);
+}
+// DOM事件
+var ce=null;
+document.addEventListener('DOMContentLoaded', function(){
+	ce=document.getElementById('dcontent');
+	update();
+}, false);
+// 更新内容
+var fs=null;
+function update(){
+	if(!ret||!ce)return;
+	var j=JSON.parse(ret);
+	var ih='<br/>Datas:<br/><div style="text-align:left;padding:10px 2%;">';
+	var ds=j.strings;
+	for(d in ds){
+		ih += d+' : '+ds[d]+'<br/>';
+	}
+	ih+='</div><hr/>Files:<br/><div id="fl">';
+	fs=j.files;
+	for(f in fs){
+		ih += '<a class="fitem" onclick="plus.runtime.openURL(\'http://demo.dcloud.net.cn/helloh5/uploader/'+fs[f].url+'\')">'+fs[f].name+'</a>';
+	}
+	ih+='</div>';
+	ce.innerHTML=ih;
+}
+// 清除上传返回的数据
+function resetUploader(){
+	plus.storage.setItem('uploader', '');
+}
+// 删除上传的文件
+function deleteFiles(){
+	var url='http://demo.dcloud.net.cn/helloh5/uploader/delete.php?';
+	for(f in fs){
+		url += f+'='+fs[f].name+'&';
+	}
+	var r=new plus.net.XMLHttpRequest();
+	r.open('GET', url);
+	r.send();
+	document.getElementById('fl').innerHTML='';
+}
+		</script>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<style type="text/css">
+.fitem {
+	width: 96%;
+	overflow: hidden;
+	padding: 10px 2%;
+	border-bottom: 1px solid #c6c6c6;
+	color: #6c6c6c;
+	text-align: left;
+	text-decoration: none;
+	display: block;
+}
+.fitem:active {
+	background: #f4f4f4;
+}
+.fname {
+	font-weight: bolder;
+	height: 22px;
+	font-size: 16px;
+}
+		</style>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+	</head>
+	<body>
+		<div id="dcontent">
+		</div>
+	</body>
+</html>

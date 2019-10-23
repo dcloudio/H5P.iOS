@@ -1,0 +1,168 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript">
+function androidMarket( pname ) {
+	plus.runtime.openURL( "market://details?id="+pname );
+}
+function iosAppstore( url ) {
+	plus.runtime.openURL( "itms-apps://"+url );
+}
+function openBrowser() {
+	var url = "http://www.dcloud.io/";
+	plus.runtime.openURL( url );
+}
+function openMap() {
+	var url = "";
+	switch ( plus.os.name ) {
+		case "Android":
+		url = "geo:39.96310,116.340698?q=%e6%95%b0%e5%ad%97%e5%a4%a9%e5%a0%82";
+		break;
+		case "iOS":
+		url = "http://maps.apple.com/?q=%e6%95%b0%e5%ad%97%e5%a4%a9%e5%a0%82&ll=39.96310,116.340698&spn=0.008766,0.019441";
+		break;
+		default:
+		return;
+		break;
+	}
+	plus.runtime.openURL( url, function( e ) {
+		plus.nativeUI.alert( "检查到您未安装地图程序\n" );
+	} );
+}
+function openBMap() {
+	var url=null,id=null,f=null;
+	switch ( plus.os.name ) {
+		case "Android":
+		// 规范参考官方网站：http://developer.baidu.com/map/index.php?title=uri/api/android
+		url = "baidumap://map/marker?location=39.968789,116.347247&title=DCloud&content=%e6%89%93%e9%80%a0HTML5%e6%9c%80%e5%a5%bd%e7%9a%84%e7%a7%bb%e5%8a%a8%e5%bc%80%e5%8f%91%e5%b7%a5%e5%85%b7&src=HelloH5";
+		f = androidMarket;
+		id = "com.baidu.BaiduMap";
+		break;
+		case "iOS":
+		// 规范参考官方网站：http://developer.baidu.com/map/index.php?title=uri/api/ios
+		url = "baidumap://map/marker?location=39.968789,116.347247&title=DCloud&content=%e6%89%93%e9%80%a0HTML5%e6%9c%80%e5%a5%bd%e7%9a%84%e7%a7%bb%e5%8a%a8%e5%bc%80%e5%8f%91%e5%b7%a5%e5%85%b7&src=HelloH5";
+		f = iosAppstore;
+		id = "itunes.apple.com/cn/app/bai-du-de-tu-yu-yin-dao-hang/id452186370?mt=8";
+		break;
+		default:
+		return;
+		break;
+	}
+	plus.runtime.openURL( url, function(e) {
+		plus.nativeUI.confirm( "检查到您未安装\"百度地图\"，是否到商城搜索下载？", function(i){
+			if ( i.index == 0 ) {
+				f(id);
+			}
+		} );
+	} );
+}
+function openAMap() {
+	var url=null,id=null,f=null;
+	switch ( plus.os.name ) {
+		case "Android":
+		// 规范参考官方网站：http://lbs.amap.com/api/uri-api/android-uri-explain/
+		url = "androidamap://viewMap?sourceApplication=HelloH5&poiname=DCloud&lat=39.9631018208&lon=116.3406135236&dev=0";
+		f = androidMarket;
+		id = "com.autonavi.minimap";
+		break;
+		case "iOS":
+		// 规范参考官方网站：http://lbs.amap.com/api/uri-api/ios-uri-explain/
+		url = "iosamap://viewMap?sourceApplication=HelloH5&poiname=DCloud&lat=39.9631018208&lon=116.3406135236&dev=0";
+		f = iosAppstore;
+		id = "itunes.apple.com/cn/app/gao-tu-zhuan-ye-dao-hang-ban/id461703208?mt=8";
+		break;
+		default:
+		return;
+		break;
+	}
+	plus.runtime.openURL( url, function( e ) {
+		plus.nativeUI.confirm( "检查到您未安装\"高德地图\"，是否到商城搜索下载？", function(i){
+			if ( i.index == 0 ) {
+				f(id);
+			}
+		} );
+	}, id );
+}
+function openMarket() {
+	var url="";
+	switch ( plus.os.name ) {
+		case "Android": {
+			//url = "market://details?id=com.dheaven.helloh5";
+			url = "market://details?id=io.dcloud.HelloH5";
+			//url = "market://search?q=HelloH5";
+			//url = "market://search?q=pub:HelloH5";
+		}
+		break;
+		case "iOS": {
+			url = "itms-apps://itunes.apple.com/cn/app/hello-h5+/id682211190?l=zh&mt=8";
+		}
+		break;
+	}
+	plus.runtime.openURL( url );
+}
+function openWeixin() {
+    if ( plus.os.name == "Android" ) {
+        plus.runtime.launchApplication( {pname:"com.tencent.mm"}
+        	, function ( e ) {
+				plus.nativeUI.confirm( "检查到您未安装\"微信\"，是否到商城搜索下载？", function(i){
+					if ( i.index == 0 ) {
+						androidMarket( "com.tencent.mm" );
+					}
+				} );
+        } );
+    } else if ( plus.os.name == "iOS" ) {
+        plus.runtime.launchApplication( {action:"weixin://RnUbAwvEilb1rU9g9yBU"}, function ( e ) {
+			plus.nativeUI.confirm( "检查到您未安装\"微信\"，是否到商城搜索下载？", function(i){
+				if ( i.index == 0 ) {
+					iosAppstore( "itunes.apple.com/cn/app/wechat/id414478124?mt=8" );
+				}
+			} );
+        } );
+    }
+//	var url = "http://weixin.qq.com/r/RnUbAwvEilb1rU9g9yBU";
+//	plus.runtime.openURL( url );
+}
+function openWeibo() {
+    if ( plus.os.name == "Android" ) {
+        plus.runtime.launchApplication( {pname:"com.sina.weibo"}
+        	, function ( e ) {
+				plus.nativeUI.confirm( "检查到您未安装\"微博\"，是否到商城搜索下载？", function(i){
+					if ( i.index == 0 ) {
+						androidMarket( "com.sina.weibo" );
+					}
+				} );
+        } );
+    } else if ( plus.os.name == "iOS" ) {
+        plus.runtime.launchApplication( {action:"sinaweibo://dhnetwork"}, function ( e ) {
+			plus.nativeUI.confirm( "检查到您未安装\"微博\"，是否到商城搜索下载？", function(i){
+				if ( i.index == 0 ) {
+					iosAppstore( "itunes.apple.com/cn/app/wei-bo/id350962117?mt=8" );
+				}
+			} );
+        } );
+    }
+//	var url = "http://weibo.com/dhnetwork";
+//	plus.runtime.openURL( url );
+}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+	</head>
+	<body>
+		<br/>
+		<ul class="dlist">
+			<li class="ditem" onclick="openBrowser();">浏览器</li>
+			<li class="ditem" onclick="openMarket();">应用市场</li>
+			<li class="ditem" onclick="openMap();">地图</li>
+			<li class="ditem" onclick="openBMap();">百度地图</li>
+			<li class="ditem" onclick="openAMap();">高德地图</li>
+			<li class="ditem" onclick="openWeixin();">微信</li>
+			<li class="ditem" onclick="openWeibo();">微博</li>
+		</ul>
+	</body>
+</html>

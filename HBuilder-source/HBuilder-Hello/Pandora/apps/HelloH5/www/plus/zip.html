@@ -1,0 +1,125 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript">
+var zip = "_doc/zip/index.zip",
+unzip = "_doc/zip/index/";
+function doCompress(){
+	plus.zip.compress( "_www/index.html", zip, function(){
+		outLine( "操作成功！保存路径为："+zip );
+	}, function(e){
+		outLine( "操作失败："+e.message );
+	} );
+}
+function compress(){
+	outSet( "压缩文件：" );
+	plus.io.resolveLocalFileSystemURL( zip, function(entry){
+		outLine( "文件已存在，中止操作！" );
+		plus.nativeUI.confirm( "压缩文件已存在，是否立即删除", function(i){
+			if ( i.index == 0 ) {
+				entry.remove();
+			}
+		} );
+	}, function(e){
+		doCompress();
+	} );
+}
+function doDecompress(){
+	plus.zip.decompress( zip, unzip, function(){
+		outLine( "操作成功！保存路径为："+unzip );
+	}, function(e){
+		outLine( "操作失败："+e.message );
+	} );
+}
+function decompress(){
+	outSet( "解压文件：" );
+	plus.io.resolveLocalFileSystemURL( unzip, function(entry){
+		outLine( "目录已存在，中止操作！" );
+		plus.nativeUI.confirm( "解压目录已存在，是否立即删除", function(i){
+			if ( i.index == 0 ) {
+				entry.removeRecursively();
+			}
+		} );
+	}, function(e){
+		plus.io.resolveLocalFileSystemURL( zip, function(entry){
+			doDecompress();
+		}, function(e){
+			plus.nativeUI.alert( "压缩文件不存在，请先压缩文件！" );
+			outLine( "压缩文件不存在，中止操作！" );
+		} );
+	} );
+}
+function clearZip(){
+	outSet( "清空数据！" );
+	plus.io.resolveLocalFileSystemURL( "_doc/zip/", function(entry){
+		entry.removeRecursively();
+	} );
+}
+
+// 压缩图片
+function compressImage(){
+	outSet("开始压缩图片：");
+	plus.nativeUI.showWaiting();
+	plus.zip.compressImage({
+		src:"_www/img/shake/1.jpg",
+		dst:"_doc/cm.jpg",
+		quality:20,
+		overwrite:true,
+		width:'50%',
+		clip:{
+			top:"25%",
+			left:"25%",
+			width:"50%",
+			height:"50%"
+		}
+	},
+	function(i){
+		plus.nativeUI.closeWaiting();
+		display.style.display="block";
+		clipimg.src=i.target;
+		outLine("压缩图片成功："+JSON.stringify(i));
+	},function(e){
+		plus.nativeUI.closeWaiting();
+		outLine("压缩图片失败: "+JSON.stringify(e));
+	});
+}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+		<style type="text/css">
+.display {
+	width: 100%;
+	height: 100%;
+	display: none;
+	text-align: center;
+	padding-top: 30%;
+	position: fixed;
+	top: 0;
+	background: rgba(0,0,0,0.8);
+	z-index: 9999;
+	overflow: hidden;
+}
+		</style>
+	</head>
+	<body>
+		<br/>
+		<div class="button" onclick="compressImage()">压缩图片</div>
+		<ul class="dlist">
+			<li class="ditem" onclick="compress();">压缩文件</li>
+			<li class="ditem" onclick="decompress();">解压文件</li>
+			<li class="ditem" onclick="clearZip();">清理数据</li>
+		</ul>
+		<div id="outpos"/>
+		<div id="output">
+Zip管理压缩文件，用于Zip文件的压缩与解压缩。
+		</div>
+		<div id='display' class="display" onclick="this.style.display='none';">
+			<img id="clipimg" style="margin:auto;"/>
+		</div>
+	</body>
+</html>

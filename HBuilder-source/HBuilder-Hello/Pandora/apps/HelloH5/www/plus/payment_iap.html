@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>In-App Purchase</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript">
+var iap=null;
+var ids=['donation','donation6'];//应用内购项目
+function plusReady(){
+	// 获取支付通道
+	plus.payment.getChannels(function(channels){
+		for(var i in channels){
+			var channel=channels[i];
+			if(channel.id==='appleiap'){
+				iap=channel;
+			}
+		}
+		requestOrder();
+	},function(e){
+		console.log("获取支付通道失败："+e.message);
+	});
+}
+document.addEventListener('plusready',plusReady,false);
+// 获取订单
+function requestOrder(){
+	plus.nativeUI.showWaiting('检测支付环境...');
+	iap.requestOrder(ids,function(e){
+		plus.nativeUI.closeWaiting();
+		console.log('requestOrder success: '+JSON.stringify(e));
+	},function(e){
+		console.log('requestOrder failed: '+JSON.stringify(e));
+		plus.nativeUI.closeWaiting();
+		plus.nativeUI.confirm("错误信息："+JSON.stringify(e),function(e){
+			if(e.index==0){
+				requestOrder();
+			}else{
+				back();
+			}
+		},'重新请求支付',['确定','取消']);
+	});
+}
+// 支付
+function pay(id){
+	plus.nativeUI.showWaiting('',{style:"black",background:"rgba(0,0,0,0)"});
+	plus.payment.request(iap, {productid:id}, function(result){
+		plus.nativeUI.closeWaiting();
+		//alert('成功：'+JSON.stringify(result));
+		plus.nativeUI.alert("支付成功：感谢你的支持，我们会继续努力完善产品。",function(){
+			back();
+		},"捐赠");
+	},function(e){
+		plus.nativeUI.closeWaiting();
+		plus.nativeUI.alert("错误信息："+e.message,null,"支付失败："+e.code);
+	});
+}
+// 获取已购买商品（非消耗性商品和订阅商品）
+function restoreComplateRequest(){
+	plus.nativeUI.showWaiting('',{style:"black",background:"rgba(0,0,0,0)"});
+	iap.restoreComplateRequest({},function(results){
+		plus.nativeUI.closeWaiting();
+		alert(results.length);
+		for(var i in results){
+			alert('restoreComplateRequest['+i+']: '+JSON.stringify(results[i]));
+		}
+	});
+}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+	</head>
+	<body>
+		<br/><br/>
+		<p class="des" style="font-size:16px;line-height:30px;margin: 0px .5em;">
+DCloud 是W3C会员、中国HTML5产业联盟发起单位，致力于推进HTML5发展，构建HTML5生态。
+		</p>
+		<br/>
+		<strong>
+支持HTML5开发工具HBuilder
+		</strong>
+		<div class="button" onclick="pay(ids[0])">
+			捐赠1元
+		</div>
+		<div class="button" onclick="pay(ids[1])">
+			捐赠6元
+		</div>
+		<!--<div class="button" onclick="restoreComplateRequest()">
+			restoreComplateRequest
+		</div>-->
+	</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript">
+var dtask=null;
+function createDownloadTask(){
+	if ( dtask ) {
+		outLine( "下载任务已创建！" );
+		return;
+	}
+    var url = "http://snip.qq.com/resources/Snip_V2.0_5771.dmg";
+    var options = {method:"GET"};
+	dtask = plus.downloader.createDownload( url, options );
+    dtask.addEventListener( "statechanged", function(task,status){
+    	if(!dtask){return;}
+    	switch(task.state) {
+    		case 1: // 开始
+    			outLine( "开始下载..." );
+    		break;
+    		case 2: // 已连接到服务器
+    			outLine( "链接到服务器..." );
+    		break;
+    		case 3:	// 已接收到数据
+    			outSet( "下载数据更新:" );
+    			outLine( task.downloadedSize+"/"+task.totalSize );
+    		break;
+    		case 4:	// 下载完成
+    			outSet( "下载完成！" );
+    			outLine( task.totalSize );
+    		break;
+    	}
+    } );
+    outSet( "创建下载任务成功！" );
+}
+function startDownloadTask(){
+	if ( !dtask ) {
+		outSet( "请先创建下载任务！" );
+		return;
+	}
+	dtask.start();
+}
+// 暂停下载任务
+function pauseDownloadTask(){
+    dtask.pause();
+    outSet( "暂停下载！" );
+}
+// 恢复下载任务
+function resumeDownloadTask(){
+    dtask.resume();
+    outSet( "恢复下载！" );
+}
+function cancelDownloadTask(){
+	dtask.abort();
+	dtask = null;
+	outSet( "取消下载任务！" );
+}
+function clearDownloadTask(){
+	
+}
+function startAll(){
+	plus.downloader.startAll();
+}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+	</head>
+	<body>
+		<br/>
+		<ul class="dlist">
+			<li class="ditem" onclick="createDownloadTask()">创建下载任务</li>
+			<li class="ditem" onclick="startDownloadTask()">启动下载任务</li>
+			<li class="ditem" onclick="pauseDownloadTask()">暂停下载任务</li>
+			<li class="ditem" onclick="resumeDownloadTask()">恢复下载任务</li>
+			<li class="ditem" onclick="cancelDownloadTask()">取消下载任务</li>
+			<!--<li class="ditem" onclick="clearDownloadTask()">清除所有任务</li>-->
+		</ul>
+		<div id="outpos"/>
+		<div id="output">
+Downloader用于管理文件的下载，可从网络下载各种文件，并支持跨域访问。
+		</div>
+	</body>
+</html>

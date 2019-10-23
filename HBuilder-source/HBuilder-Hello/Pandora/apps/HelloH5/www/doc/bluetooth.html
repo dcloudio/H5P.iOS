@@ -1,0 +1,373 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="HandheldFriendly" content="true">
+<meta name="MobileOptimized" content="320">
+<title>Bluetooth Document</title>
+<link rel="stylesheet" type="text/css" href="res/doc.css" charset="utf-8">
+<link rel="stylesheet" type="text/css" href="res/prettify.sons.css" charset="utf-8">
+<script type="text/javascript" src="res/doc.js" charset="utf-8"></script><script type="text/javascript" src="res/prettify.js" charset="utf-8"></script>
+</head>
+<body><div id="content" class="content">
+<h1><a name="plus.bluetooth">bluetooth</a></h1>
+<p>
+Bluetooth模块用于管理蓝牙设备，搜索附近蓝牙设备、连接实现数据通信等。</p>
+<h2>方法：</h2>
+<ul>
+<li>
+<a href="#plus.bluetooth.closeBluetoothAdapter">closeBluetoothAdapter</a>: 关闭蓝牙模块</li>
+<li>
+<a href="#plus.bluetooth.getBluetoothAdapterState">getBluetoothAdapterState</a>: 获取本机蓝牙适配器状态</li>
+<li>
+<a href="#plus.bluetooth.getBluetoothDevices">getBluetoothDevices</a>: 获取已搜索到的蓝牙设备</li>
+<li>
+<a href="#plus.bluetooth.getConnectedBluetoothDevices">getConnectedBluetoothDevices</a>: 根据uuid获取处于已连接的设备</li>
+<li>
+<a href="#plus.bluetooth.onBluetoothAdapterStateChange">onBluetoothAdapterStateChange</a>: 监听蓝牙适配器状态变化事件</li>
+<li>
+<a href="#plus.bluetooth.onBluetoothDeviceFound">onBluetoothDeviceFound</a>: 监听搜索到新设备的事件</li>
+<li>
+<a href="#plus.bluetooth.openBluetoothAdapter">openBluetoothAdapter</a>: 初始化蓝牙模块</li>
+<li>
+<a href="#plus.bluetooth.startBluetoothDevicesDiscovery">startBluetoothDevicesDiscovery</a>: 开始搜索附近的蓝牙设备</li>
+<li>
+<a href="#plus.bluetooth.stopBluetoothDevicesDiscovery">stopBluetoothDevicesDiscovery</a>: 停止搜寻附近的蓝牙外围设备</li>
+<li>
+<a href="#plus.bluetooth.closeBLEConnection">closeBLEConnection</a>: 断开与低功耗蓝牙设备的连接</li>
+<li>
+<a href="#plus.bluetooth.createBLEConnection">createBLEConnection</a>: 连接低功耗蓝牙设备</li>
+<li>
+<a href="#plus.bluetooth.getBLEDeviceCharacteristics">getBLEDeviceCharacteristics</a>: 获取蓝牙设备指定服务中所有特征值(characteristic)</li>
+<li>
+<a href="#plus.bluetooth.getBLEDeviceServices">getBLEDeviceServices</a>: 获取蓝牙设备的所有服务(service)</li>
+<li>
+<a href="#plus.bluetooth.notifyBLECharacteristicValueChange">notifyBLECharacteristicValueChange</a>: 启用低功耗蓝牙设备特征值变化时的notify功能，订阅特征值</li>
+<li>
+<a href="#plus.bluetooth.onBLECharacteristicValueChange">onBLECharacteristicValueChange</a>: 监听低功耗蓝牙设备的特征值变化事件</li>
+<li>
+<a href="#plus.bluetooth.onBLEConnectionStateChange">onBLEConnectionStateChange</a>: 监听低功耗蓝牙设备连接状态变化事件</li>
+<li>
+<a href="#plus.bluetooth.readBLECharacteristicValue">readBLECharacteristicValue</a>: 读取低功耗蓝牙设备指定特征值的二进制数据值</li>
+<li>
+<a href="#plus.bluetooth.writeBLECharacteristicValue">writeBLECharacteristicValue</a>: 向低功耗蓝牙设备指定特征值写入二进制数据</li>
+</ul>
+<h2>对象：</h2>
+<ul>
+<li>
+<a href="#plus.bluetooth.BluetoothDeviceInfo">BluetoothDeviceInfo</a>: 蓝牙设备信息</li>
+<li>
+<a href="#plus.bluetooth.BluetoothService">BluetoothService</a>: 蓝牙设备服务信息</li>
+<li>
+<a href="#plus.bluetooth.Bluetoothcharacteristic">Bluetoothcharacteristic</a>: 蓝牙设备特征值</li>
+<li>
+<a href="#plus.bluetooth.BluetoothcharacteristicProperties">BluetoothcharacteristicProperties</a>: 蓝牙设备特征值支持的操作类型</li>
+</ul>
+<h2>回调方法：</h2>
+<ul>
+<li>
+<a href="#plus.bluetooth.BluetoothSuccessCallback">BluetoothSuccessCallback</a>: 成功回调函数</li>
+<li>
+<a href="#plus.bluetooth.BluetoothFailCallback">BluetoothFailCallback</a>: 失败回调函数</li>
+<li>
+<a href="#plus.bluetooth.BluetoothCompleteCallback">BluetoothCompleteCallback</a>: 操作完成回调函数</li>
+<li>
+<a href="#plus.bluetooth.BluetoothAdapterStateChangeCallback">BluetoothAdapterStateChangeCallback</a>: 蓝牙适配器状态变化事件回调函数</li>
+<li>
+<a href="#plus.bluetooth.BluetoothDeviceFoundCallback">BluetoothDeviceFoundCallback</a>: 蓝牙适配器搜索到新设备事件回调函数</li>
+<li>
+<a href="#plus.bluetooth.BLEConnectionStateChangeCallback">BLEConnectionStateChangeCallback</a>: 低功耗蓝牙设备连接状态变化事件回调函数</li>
+<li>
+<a href="#plus.bluetooth.BLECharacteristicValueChangeCallback">BLECharacteristicValueChangeCallback</a>: 低功耗蓝牙设备的特征值变化事件回调函数</li>
+</ul>
+<h2>权限：</h2>
+<p>5+功能模块（permissions）</p>
+<pre class="prettyprint linenums">
+{
+// ...
+"permissions":{
+	// ...
+	"Bluetooth": {
+		"description": "Bluetooth"
+	}
+}
+}
+			</pre>
+<h1><a name="plus.bluetooth.BluetoothDeviceInfo">BluetoothDeviceInfo</a></h1>
+<p>蓝牙设备信息</p>
+<pre class="prettyprint linenums">
+interface BluetoothDeviceInfo {
+	readonly attribute String name;
+	readonly attribute String deviceId;
+	readonly attribute String RSSI;
+	readonly attribute ArrayBuffer advertisData;
+	readonly attribute Array&lt;String&gt; advertisServiceUUIDs;
+	readonly attribute String localName;
+	readonly attribute JSON serviceData;
+}			
+				</pre>
+<h2>属性：</h2>
+<ul>
+<li>name: <em>(<font class="type">String</font>
+	类型
+)</em>蓝牙设备名称<br><p>
+	某些设备可能没有此字段值。
+						</p>
+</li>
+<li>deviceId: <em>(<font class="type">String</font>
+	类型
+)</em>蓝牙设备的id<br>
+</li>
+<li>RSSI: <em>(<font class="type">String</font>
+	类型
+)</em>蓝牙设备的信号强度<br>
+</li>
+<li>advertisData: <em>(<font class="type">ArrayBuffer</font>
+	类型
+)</em>蓝牙设备的广播数据段中的ManufacturerData数据段<br>
+</li>
+<li>advertisServiceUUIDs: <em>(<font class="type">Array</font>[
+				<font class="type">String</font>
+				]
+			
+	类型
+)</em>蓝牙设备的广播数据段中的ServiceUUIDs数据段<br>
+</li>
+<li>localName: <em>(<font class="type">String</font>
+	类型
+)</em>蓝牙设备的广播数据段中的LocalName数据段<br>
+</li>
+<li>serviceData: <em>(<font class="type">JSON</font>
+	类型
+)</em>蓝牙设备的广播数据段中的ServiceData数据段<br>
+</li>
+</ul>
+<h1><a name="plus.bluetooth.BluetoothService">BluetoothService</a></h1>
+<p>蓝牙设备服务信息</p>
+<pre class="prettyprint linenums">
+interface BluetoothService {
+	readonly attribute String uuid;
+	readonly attribute Boolean isPrimary;
+}			
+				</pre>
+<h2>属性：</h2>
+<ul>
+<li>uuid: <em>(<font class="type">String</font>
+	类型
+)</em>蓝牙设备服务的uuid<br>
+</li>
+<li>isPrimary: <em>(<font class="type">Boolean</font>
+	类型
+)</em>是否为设备的主服务<br>
+</li>
+</ul>
+<h1><a name="plus.bluetooth.Bluetoothcharacteristic">Bluetoothcharacteristic</a></h1>
+<p>蓝牙设备特征值</p>
+<pre class="prettyprint linenums">
+interface Bluetoothcharacteristic {
+	readonly attribute String uuid;
+	readonly attribute BluetoothcharacteristicProperties properties;
+}			
+				</pre>
+<h2>属性：</h2>
+<ul>
+<li>uuid: <em>(<font class="type">String</font>
+	类型
+)</em>蓝牙设备特征值的uuid<br>
+</li>
+<li>properties: <em>(<a href="#plus.bluetooth.BluetoothcharacteristicProperties">BluetoothcharacteristicProperties</a>
+	类型
+)</em>设备特征值支持的操作类型<br>
+</li>
+</ul>
+<h1><a name="plus.bluetooth.BluetoothcharacteristicProperties">BluetoothcharacteristicProperties</a></h1>
+<p>蓝牙设备特征值支持的操作类型</p>
+<pre class="prettyprint linenums">
+interface BluetoothcharacteristicProperties {
+	readonly attribute Boolean read;
+	readonly attribute Boolean write;
+	readonly attribute Boolean notify;
+	readonly attribute Boolean indicate;
+}			
+				</pre>
+<h2>属性：</h2>
+<ul>
+<li>read: <em>(<font class="type">Boolean</font>
+	类型
+)</em>特征值是否支持read操作<br>
+</li>
+<li>write: <em>(<font class="type">Boolean</font>
+	类型
+)</em>特征值是否支持write操作<br>
+</li>
+<li>notify: <em>(<font class="type">Boolean</font>
+	类型
+)</em>特征值是否支持notify操作<br>
+</li>
+<li>indicate: <em>(<font class="type">Boolean</font>
+	类型
+)</em>特征值是否支持indicate操作<br>
+</li>
+</ul>
+<h1><a name="plus.bluetooth.BluetoothSuccessCallback">BluetoothSuccessCallback</a></h1>
+<p>成功回调函数</p>
+<pre class="prettyprint linenums">
+void onSuccess(event){
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	不同接口触发的成功回调参数event包含的属性存在差异，具体参考对应的接口描述说明。
+				</p>
+<h2>参数：</h2>
+<ul><li>event: 
+		<em>(
+			<font class="type">json</font>
+			)
+			必选 </em>回调参数<br>
+	回调参数包含的属性由调用接口决定，具体参考对应的接口描述说明。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.bluetooth.BluetoothFailCallback">BluetoothFailCallback</a></h1>
+<p>失败回调函数</p>
+<pre class="prettyprint linenums">
+function void onFail(DOMException error){
+	// Handle error
+	var code = error.code; // 错误编码
+	var message = error.message; // 错误描述信息
+}
+				</pre>
+<h2>参数：</h2>
+<ul><li>error: 
+		<em>(
+			<font class="type">DOMException</font>
+			)
+			必选 </em>回调参数，错误信息<br>
+	可通过error.code（Number类型）获取错误编码；
+	可通过error.message（String类型）获取错误描述信息。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.bluetooth.BluetoothCompleteCallback">BluetoothCompleteCallback</a></h1>
+<p>操作完成回调函数</p>
+<pre class="prettyprint linenums">
+function void onComplete(event){
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	调用成功或失败都会触发此回调。
+				</p>
+<h2>参数：</h2>
+<ul><li>event: 
+		<em>(
+			<font class="type">json</font>
+			)
+			可选 </em>回调参数<br>
+	调用成功时回调参数与BluetoothSuccessCallback一致，调用失败时回调参数与BluetoothFailCallback一致。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.bluetooth.BluetoothAdapterStateChangeCallback">BluetoothAdapterStateChangeCallback</a></h1>
+<p>蓝牙适配器状态变化事件回调函数</p>
+<pre class="prettyprint linenums">
+function void onStateChange(event){
+	// event.available
+	// event.discovering
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	蓝牙适配器状态发生变化时触发此回调。
+				</p>
+<h2>参数：</h2>
+<ul><li>event: 
+		<em>(
+			<font class="type">json</font>
+			)
+			可选 </em>返回参数<br>
+	回调函数参数event对象包括以下属性：
+		available - Boolean，蓝牙适配器是否可用；
+		discovering - Boolean，蓝牙适配器是否处于搜索状态。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.bluetooth.BluetoothDeviceFoundCallback">BluetoothDeviceFoundCallback</a></h1>
+<p>蓝牙适配器搜索到新设备事件回调函数</p>
+<pre class="prettyprint linenums">
+function void onStateChange(event){
+	// event.devices
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	蓝牙适配器状态发生变化时触发此回调。
+				</p>
+<h2>参数：</h2>
+<ul><li>event: 
+		<em>(
+			<font class="type">json</font>
+			)
+			可选 </em>返回参数<br>
+	回调函数参数event对象包括以下属性：
+		devices - Array&lt;BluetoothDeviceInfo&gt;，设备列表信息。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.bluetooth.BLEConnectionStateChangeCallback">BLEConnectionStateChangeCallback</a></h1>
+<p>低功耗蓝牙设备连接状态变化事件回调函数</p>
+<pre class="prettyprint linenums">
+function void onStateChange(event){
+	// event.deviceId
+	// event.connected
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	蓝牙设备连接状态发生变化时触发此回调。
+				</p>
+<h2>参数：</h2>
+<ul><li>event: 
+		<em>(
+			<font class="type">json</font>
+			)
+			可选 </em>返回参数<br>
+	回调函数参数event对象包括以下属性：
+		deviceId - String类型，蓝牙设备id；
+		connected - Boolean类型，是否处于已连接状态。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.bluetooth.BLECharacteristicValueChangeCallback">BLECharacteristicValueChangeCallback</a></h1>
+<p>低功耗蓝牙设备的特征值变化事件回调函数</p>
+<pre class="prettyprint linenums">
+function void onValueChange(event){
+	// event.deviceId
+	// event.serviceId
+	// event.characteristicId
+	// event.value
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	蓝牙设备对应的特征值发生变化时触发此回调。
+				</p>
+<h2>参数：</h2>
+<ul><li>event: 
+		<em>(
+			<font class="type">json</font>
+			)
+			可选 </em>返回参数<br>
+	回调函数参数event对象包括以下属性：
+		deviceId - String类型，蓝牙设备id；
+		serviceId - String类型，蓝牙服务的uuid；
+		characteristicId - String类型，蓝牙特征值的uuid；
+		value - ArrayBuffer类型，特征值的最新值。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<br><br>
+</div></body>
+</html>

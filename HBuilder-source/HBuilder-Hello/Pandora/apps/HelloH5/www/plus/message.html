@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript">
+function addachmentMail(){
+	outSet("发送带附件邮件：")
+	var msg = plus.messaging.createMessage(plus.messaging.TYPE_EMAIL);
+	msg.to = ['service@dcloud.io'];
+	msg.body = 'This is an example mail';
+	msg.addAttachment("_www/img/helloh5.jpg");
+	plus.messaging.sendMessage( msg );
+}
+function htmlMail(){
+	outSet("发送HTML邮件：");
+	if ( plus.os.name == "iOS" ) {
+		var msg = plus.messaging.createMessage(plus.messaging.TYPE_EMAIL);
+		msg.to = ["service@dcloud.io"];
+		msg.body = '<!DOCTYPE HTML><html><head><meta charset="utf-8"/></head><body><h1>Hello</h1>This is an HTML content mail.</body></html>';
+		msg.bodyType = "html";
+		plus.messaging.sendMessage( msg );
+		outLine("支持");
+	} else {
+		outLine("此平台不支持发送HTML邮件功能！");
+		plus.nativeUI.alert("此平台不支持发送HTML邮件功能！");
+	}
+}
+function slientSMS(){
+	outSet("后台发送短信：");
+	if ( plus.os.name == "Android" ) {
+		var bts=["发送到10086","发送到10010","发送到10000"];
+		plus.nativeUI.prompt("短信内容",function(e){
+			var to=null;
+			switch(e.index){
+				case 0:
+				to=['10086'];
+				break;
+				case 1:
+				to=['10086'];
+				break;
+				case 2:
+				to=['10086'];
+				break;
+				default:
+				return;
+				break;
+			}
+			var msg = plus.messaging.createMessage(plus.messaging.TYPE_SMS);
+			msg.to=to;
+			msg.body=e.value;
+			msg.silent=true;
+			plus.messaging.sendMessage( msg );
+			outLine( "\""+e.value+"\""+bts[e.index] );
+		},"发送短信","CXYE",bts);
+	} else {
+		outLine("此平台不支持后台发送短信功能！");
+		plus.nativeUI.alert("此平台不支持后台发送短信功能！");
+	}
+}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+	</head>
+	<body>
+		<br/>
+		<div class="button" onclick="addachmentMail()">发送附件邮件</div>
+		<div class="button" onclick="htmlMail()">发送HTML邮件</div>
+		<div class="button" onclick="slientSMS()">后台发送短信</div>
+		<br/>
+		<ul class="dlist">
+			<li class="ditem"><a style="text-decoration:none;color:#666;display:block" href="sms:10086">发送短信</a></li>
+			<li class="ditem"><a style="text-decoration:none;color:#666;display:block" href="tel:10086">拨打电话</a></li>
+			<li class="ditem"><a style="text-decoration:none;color:#666;display:block" href="mailto:service@dcloud.io">发送邮件</a></li>
+		</ul>
+		<div id="outpos"/>
+		<div id="output">
+Messaging管理设备通讯功能，可用于发送短信、彩信、邮件等。
+		</div>
+	</body>
+</html>

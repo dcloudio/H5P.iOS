@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript">
+var ws=null;
+document.addEventListener( "plusready", function(){
+	//watchProximity();
+	ws=plus.webview.currentWebview();
+	// 页面隐藏时自动停止监听
+	ws.addEventListener('hide',function(){
+		watchStop();
+	},false);
+}, false );
+function getProximity() {
+	outSet( "获取设备当前距离传感器信息" );
+	plus.proximity.getCurrentProximity( function ( d ) {
+		outLine( "距离为：" + d );
+	}, function ( e ) {
+		outLine( "获取失败:" + e.message );
+	} );
+}
+var id=null,bright=null;
+function watchProximity() {
+	if ( id ) {
+		return;
+	}
+	outSet( "监听设备距离传感器信息" );
+	bright = plus.screen.getBrightness();
+	id = plus.proximity.watchProximity( function ( d ) {
+		outLine( "距离变化："+d );
+		plus.screen.setBrightness( (d<1)?0.01:bright );
+	}, function ( e ) {
+		plus.proximity.clearWatch( id );
+		id = null;
+		outLine( "监听失败:" + e.message );
+	} );
+}
+function watchStop() {
+	if ( id ) {
+		outSet( "停止监听设备距离传感器信息" );
+		plus.proximity.clearWatch( id );
+		id = null;
+	} else {
+		outSet( "没有监听设备距离传感器" );
+	}
+}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+	</head>
+	<body>
+		<br/>
+		<p class="des">距离传感器一般都在手机听筒的两侧或者是在手机听筒凹槽中，当有物体接近时（如将手机靠近耳朵接听或拨打电话），距离感应器可以检测并通知屏幕背景灯熄灭，拿开时再度点亮背景灯，这样可方便用户操作并节省电量。</p>
+		<br/>
+		<ul class="dlist">
+			<li class="ditem" onclick="getProximity()">获取距离传感器信息</li>
+			<li class="ditem" onclick="watchProximity()">监听距离传感器变化</li>
+			<li class="ditem" onclick="watchStop()">停止监听</li>
+		</ul>
+		<div id="outpos"/>
+		<div id="output">
+Proximity模块管理设备距离传感器，可获取当前设备的接近距离信息，通过plus.proximity可获取设备距离传感管理对象。
+		</div>
+	</body>
+</html>

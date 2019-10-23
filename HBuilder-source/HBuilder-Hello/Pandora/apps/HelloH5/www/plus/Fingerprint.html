@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+	<title>Fingerprint Example</title>
+	<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+	<script type="text/javascript">
+// H5 plus事件处理
+function plusReady(){
+	var result = document.getElementById('result');
+	// 检查是否支持指纹识别
+	if(plus.fingerprint) {
+		if(!plus.fingerprint.isSupport()) {
+			result.innerText = '此设备不支持指纹识别';
+			return;
+		}
+		if(!plus.fingerprint.isKeyguardSecure()) {
+			result.innerText = '此设备未设置密码锁屏，无法使用指纹识别';
+			return;
+		}
+		if(!plus.fingerprint.isEnrolledFingerprints()) {
+			result.innerText = '此设备未录入指纹，请到设置中开启';
+			return;
+		}
+		result.innerText = '此设备支持指纹识别';
+	}else {
+		result.innerText = '当前环境不支持指纹识别API，请更新到最新版本';
+	}
+}
+document.addEventListener('plusready', plusReady, false);
+
+// 指纹识别认证 
+function fingerpring() {
+	var waiting = null;
+	plus.fingerprint.authenticate(function(){
+		plus.nativeUI.closeWaiting();//兼容Android平台关闭等待框
+		alert('指纹识别成功');
+	}, function(e){
+		switch(e.code) {
+		case e.AUTHENTICATE_MISMATCH:
+		plus.nativeUI.toast('指纹匹配失败，请重新输入');
+		break;
+		case e.AUTHENTICATE_OVERLIMIT:
+		plus.nativeUI.closeWaiting();//兼容Android平台关闭等待框
+		plus.nativeUI.alert('指纹识别失败次数超出限制，请使用其它方式进行认证');
+		break;
+		default:
+		plus.nativeUI.closeWaiting();//兼容Android平台关闭等待框
+		plus.nativeUI.alert('指纹识别失败('+e.code+')，请重试');
+		break;
+		}
+	});
+	// Android平台弹出等待提示框 
+	if('Android'==plus.os.name) {
+		plus.nativeUI.showWaiting('指纹识别中...');
+	}
+}
+	</script>
+	</head>
+	<body >
+		<h3>指纹识别认证情况：</h3> 
+		<p><font id="result" color="red">...</font></p>
+		<br/>
+		<div class="button" onclick="fingerpring()">指纹识别</div>
+		<div style="width:100%;height:1000px"></div>
+	</body>
+</html>

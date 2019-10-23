@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="misapplication-tap-highlight" content="no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript">
+function getAcc() {
+	outSet('获取设备当前加速度');
+	plus.accelerometer.getCurrentAcceleration(function(a){
+		outLine('X轴：'+a.xAxis+'\nY轴：'+a.yAxis+'\nZ轴：'+a.zAxis);
+	}, function(e){
+		outLine('获取失败:'+e.message);
+	} );
+}
+var aid = null;
+function watchAcc(){
+	if(aid){
+		return;
+	}
+	outSet('监听设备加速度变化');
+	aid = plus.accelerometer.watchAcceleration(function(a){
+		outSet('监听设备加速度变化\n'+'X轴：'+a.xAxis+'\nY轴：'+a.yAxis+'\nZ轴：'+a.zAxis);
+	}, function(e){
+		outLine('监听失败:'+e.message);
+	});
+}
+function watchStop() {
+	if(aid){
+		outSet('停止监听设备加速度变化');
+		plus.accelerometer.clearWatch(aid);
+		aid = null;
+	}else{
+		outSet('没有监听设备加速度变化');
+	}
+}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+	</head>
+	<body>
+		<br/>
+		<div class="button" onclick="clicked('accelerometer_shake.html', '摇一摇')">
+			摇一摇
+		</div>
+		<br/>
+		<ul class="dlist">
+			<li class="ditem" onclick="getAcc()">获取设备当前加速度</li>
+			<li class="ditem" onclick="watchAcc()">监听设备加速度变化 </li>
+			<li class="ditem" onclick="watchStop()">停止监听设备加速度变化</li>
+		</ul>
+		<div id="outpos"/>
+		<div id="output">
+Accelerometer可获取设备加速度传感器信息，包括x轴（屏幕水平方向）、y轴（垂直屏幕水平方向）、z轴（垂直屏幕平面方向）三个方向的加速度信息。
+		</div>
+	</body>
+</html>

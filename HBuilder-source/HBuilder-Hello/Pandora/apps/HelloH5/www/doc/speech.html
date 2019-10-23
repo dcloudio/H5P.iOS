@@ -1,0 +1,261 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="HandheldFriendly" content="true">
+<meta name="MobileOptimized" content="320">
+<title>Speech Document</title>
+<link rel="stylesheet" type="text/css" href="res/doc.css" charset="utf-8">
+<link rel="stylesheet" type="text/css" href="res/prettify.sons.css" charset="utf-8">
+<script type="text/javascript" src="res/doc.js" charset="utf-8"></script><script type="text/javascript" src="res/prettify.js" charset="utf-8"></script>
+</head>
+<body><div id="content" class="content">
+<h1><a name="plus.speech">speech</a></h1>
+<p>Speech模块管理语音输入功能，提供语音识别功能，可支持用户通过麦克风设备进行语音输入内容。通过plus.speech可获取语音输入管理对象。</p>
+<h2>方法：</h2>
+<ul>
+<li>
+<a href="#plus.speech.startRecognize">startRecognize</a>: 启动语音识别</li>
+<li>
+<a href="#plus.speech.stopRecognize">stopRecognize</a>: 停止语音识别</li>
+<li>
+<a href="#plus.speech.addEventListener">addEventListener</a>: 监听语音识别事件</li>
+</ul>
+<h2>对象：</h2>
+<ul>
+<li>
+<a href="#plus.speech.SpeechRecognizeOptions">SpeechRecognizeOptions</a>: JSON对象，语音识别参数</li>
+<li>
+<a href="#plus.speech.SpeechRecoginzeEvents">SpeechRecoginzeEvents</a>: 语音识别事件类型</li>
+</ul>
+<h2>回调方法：</h2>
+<ul>
+<li>
+<a href="#plus.speech.RecognitionEventCallback">RecognitionEventCallback</a>: 语音识别事件回调函数</li>
+<li>
+<a href="#plus.speech.RecognitionSuccessCallback">RecognitionSuccessCallback</a>: 语音识别成功回调</li>
+<li>
+<a href="#plus.speech.RecognitionErrorCallback%20">RecognitionErrorCallback </a>: 语音识别失败回调</li>
+</ul>
+<h2>权限：</h2>
+<p>permissions</p>
+<pre class="prettyprint linenums">
+{
+// ...
+"permissions":{
+	// ...
+	"Speech": {
+		"description": "语音输入"
+	}
+}
+}
+			</pre>
+<h1><a name="plus.speech.SpeechRecognizeOptions">SpeechRecognizeOptions</a></h1>
+<p>JSON对象，语音识别参数</p>
+<pre class="prettyprint linenums">
+interface plus.speech.SpeechRecognizeOptions {
+	attribute Boolean continue;
+	attribute String engine;
+	attribute String lang;
+	attribute Number nbest;
+	attribute String punctuation;
+	attribute Number timeout;
+	attribute Boolean userInterface;
+	attribute EventHandler onstart;
+	attribute EventHandler onend;
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	控制语音识别引擎内部参数，在JS中为JSON对象，在启动语音识别时使用。
+				</p>
+<h2>属性：</h2>
+<ul>
+<li>continue: <em>(<font class="type">Boolean</font>
+	类型
+)</em>语音识别是否采用持续模式<br><p>
+	设置为true表示语音引擎不会根据语音输入自动结束，识别到文本内容将多次调用successCallback函数返回，如果需要结束语音识别则必须调用stopRecognize接口，默认值为false。
+						</p>
+</li>
+<li>engine: <em>(<font class="type">String</font>
+	类型
+)</em>语音识别引擎标识<br><p>
+	用于兼容多语音识别引擎的浏览器，使用语音识别厂商的产品名称，如未设置或设置不正确则使用运行环境默认的语音识别引擎。
+	支持以下语音识别引擎：
+		"baidu"-百度语音识别；
+		"iFly"-讯飞语音识别。
+						</p>
+</li>
+<li>lang: <em>(<font class="type">String</font>
+	类型
+)</em>语音识别引擎的语言<br><p>
+	用于定义语音识别引擎的语言，其取值需符合W3C的Language codes规范。
+	目前讯飞语音支持以下语言：
+		"zh-cn"-中文，普通话；
+		"en-us"-英语；
+		"zh-cantonese"-中文，粤语；
+		"zh-henanese"-中文，河南话（百度语音识别不支持此语言）。
+		默认值为"zh-cn"。
+
+						</p>
+</li>
+<li>nbest: <em>(<font class="type">Number</font>
+	类型
+)</em>指定识别结果识别包括多候选结果<br><p>
+	用于指定识别结果识别包括多候选结果。如nbest:3，识别返回3个候选结果，默认值为1。
+						</p>
+</li>
+<li>punctuation: <em>(<font class="type">Boolean</font>
+	类型
+)</em>识别结果中是否包含标点符号<br><p>
+	true表示识别结果文本中包含标点符号，false表示识别结果文本中不包含标点符号。
+	默认值为true。
+						</p>
+</li>
+<li>timeout: <em>(<font class="type">Number</font>
+	类型
+)</em>语音识别超时时间<br><p>
+	语音识别超时的时间，单位为ms，默认值为1000（即10秒）。
+	注：百度语音识别不支持此参数。
+						</p>
+</li>
+<li>userInterface: <em>(<font class="type">Boolean</font>
+	类型
+)</em>识别时是否显示用户界面<br><p>
+	用于指定识别时是否显示用户界面，设置为true表示显示浏览器内置语音识别界面；设置为false表示不显示浏览器内置语音识别界面。默认值为true。
+						</p>
+</li>
+<li>onstart: <em>(<font class="type">EventHandler</font>
+	类型
+)</em>语音识别开始事件（已废弃，使用start事件）<br><p>
+	事件函数，语音识别开始启动，在调用startRecognize方法后触发，与onend事件成对触发。
+	注：iOS平台未支持
+						</p>
+</li>
+<li>onend: <em>(<font class="type">EventHandler</font>
+	类型
+)</em>语音识别结束事件（已废弃，使用end事件）<br><p>
+	事件函数，语音识别结束，在调用stopRecognize方法后触发，或者在引擎内部自动完成语音识别后触发，与onstart事件成对触发。
+	注：iOS平台未支持
+						</p>
+</li>
+</ul>
+<h1><a name="plus.speech.SpeechRecoginzeEvents">SpeechRecoginzeEvents</a></h1>
+<p>语音识别事件类型</p>
+<h2>说明：</h2>
+<p class="des">
+	描述语音过程的触发事件列表，可以通过调用plus.sppech.addEventListener方法进行注册监听。
+				</p>
+<h2>常量：</h2>
+<ul>
+<li>start: <em>(<font class="type">String</font>
+	类型
+)</em>开始语音识别<br><p>
+	调用plus.speech.startRecognize方法开始语音识别时触发。
+	无回调函数参数。
+						</p>
+</li>
+<li>volumeChange: <em>(<font class="type">String</font>
+	类型
+)</em>音量变化<br><p>
+	开始语音识别后，麦克风录制到的语音音量变化时触发。
+	回调函数参数event={volume:"Number类型，取值范围0-1"}。
+						</p>
+</li>
+<li>recognizing: <em>(<font class="type">String</font>
+	类型
+)</em>临时语音识别结果<br><p>
+	返回临时语音识别结果时触发。
+	回调函数参数event={partialResult:"String类型，临时识别结果"}。
+						</p>
+</li>
+<li>recognition: <em>(<font class="type">String</font>
+	类型
+)</em>最终语音识别<br><p>
+	返回最终语音识别结果。
+	回调函数参数event={result:"String类型，最佳识别结果",results:"String数组类型，所有候选结果"}。
+						</p>
+</li>
+<li>end: <em>(<font class="type">String</font>
+	类型
+)</em>结束语音识别<br><p>
+	调用plus.speech.stopRecognize方法结束语音识别或语音识别完成后自动结束时触发。
+	无回调函数参数。
+						</p>
+</li>
+<li>error: <em>(<font class="type">String</font>
+	类型
+)</em>语音识别错误<br><p>
+	语音识别发生错误时触发。
+	回调函数参数event={code:"Number类型，错误编码",message:"String类型，错误描述信息"}。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.speech.RecognitionEventCallback">RecognitionEventCallback</a></h1>
+<p>语音识别事件回调函数</p>
+<pre class="prettyprint linenums">
+void onEvent(event){
+	// Event code
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	调用plus.speech.addEventListener方法监听语音识别事件的回调函数。
+				</p>
+<h2>参数：</h2>
+<ul><li>event: 
+		<em>(
+			<font class="type">JSON</font>
+			)
+			可选 </em><br>
+	不同事件返回的参数不一样，详情参考SpeechRecoginzeEvents事件说明。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.speech.RecognitionSuccessCallback">RecognitionSuccessCallback</a></h1>
+<p>语音识别成功回调</p>
+<pre class="prettyprint linenums">
+void onSuccess(result){
+	// Recognition success code
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	语音识别成功时的回调函数，用于返回语音识别出的文本内容。
+				</p>
+<h2>参数：</h2>
+<ul><li>result: 
+		<em>(
+			<font class="type">String</font>
+			)
+			必选 </em>语音识别出的文本内容<br>
+</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.speech.RecognitionErrorCallback%20">RecognitionErrorCallback </a></h1>
+<p>语音识别失败回调</p>
+<pre class="prettyprint linenums">
+void onError(error){
+	// Recognition error code
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	当语音识别失败时的回调函数，用于返回语音识别失败的错误信息。
+				</p>
+<h2>参数：</h2>
+<ul><li>error: 
+		<em>(
+			<font class="type">Exception</font>
+			)
+			必选 </em>语音识别失败的错误信息<br>
+	可通过error.code（Number类型）获取错误编码；
+	可通过error.message（String类型）获取错误描述信息。
+	详细错误描述信息可参考：http://ask.dcloud.net.cn/article/282。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<br><br>
+</div></body>
+</html>

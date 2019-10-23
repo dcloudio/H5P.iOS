@@ -1,0 +1,539 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="HandheldFriendly" content="true">
+<meta name="MobileOptimized" content="320">
+<title>Share Document</title>
+<link rel="stylesheet" type="text/css" href="res/doc.css" charset="utf-8">
+<link rel="stylesheet" type="text/css" href="res/prettify.sons.css" charset="utf-8">
+<script type="text/javascript" src="res/doc.js" charset="utf-8"></script><script type="text/javascript" src="res/prettify.js" charset="utf-8"></script>
+</head>
+<body><div id="content" class="content">
+<h1><a name="plus.share">share</a></h1>
+<p>Share模块管理客户端的社交分享功能，提供调用终端社交软件的分享能力。通过plus.share可获取社交分享管理对象。</p>
+<h2>方法：</h2>
+<ul>
+<li>
+<a href="#plus.share.getServices">getServices</a>: 获取分享服务</li>
+<li>
+<a href="#plus.share.sendWithSystem">sendWithSystem</a>: 使用系统组件发送分享</li>
+</ul>
+<h2>对象：</h2>
+<ul>
+<li>
+<a href="#plus.share.AuthOptions">AuthOptions</a>: JSON对象，分享授权认证参数选项</li>
+<li>
+<a href="#plus.share.Authorize">Authorize</a>: 分享授权控件对象</li>
+<li>
+<a href="#plus.share.GeoPosition">GeoPosition</a>: JSON对象，用户位置信息</li>
+<li>
+<a href="#plus.share.ShareService">ShareService</a>: 分享服务对象</li>
+<li>
+<a href="#plus.share.ShareServerIdentity">ShareServerIdentity</a>: 分享服务标识</li>
+<li>
+<a href="#plus.share.ShareMessage">ShareMessage</a>: JSON对象，分享消息对象</li>
+<li>
+<a href="#plus.share.ShareMessageExtra">ShareMessageExtra</a>: JSON对象，保存分享消息扩展信息</li>
+<li>
+<a href="#plus.share.WeixinMiniProgramOptions">WeixinMiniProgramOptions</a>: JSON对象，微信小程序信息</li>
+</ul>
+<h2>回调方法：</h2>
+<ul>
+<li>
+<a href="#plus.share.ServicesSuccessCallback">ServicesSuccessCallback</a>: 获取分享服务成功回调</li>
+<li>
+<a href="#plus.share.AuthorizeSuccessCallback">AuthorizeSuccessCallback</a>: 分享授权认证成功回调</li>
+<li>
+<a href="#plus.share.ShareSuccessCallback">ShareSuccessCallback</a>: 分享操作成功回调</li>
+<li>
+<a href="#plus.share.ShareErrorCallback">ShareErrorCallback</a>: 分享操作失败回调</li>
+</ul>
+<h2>权限：</h2>
+<p>permissions</p>
+<pre class="prettyprint linenums">
+{
+// ...
+"permissions":{
+	// ...
+	"Share": {
+		"description": "分享"
+	}
+}
+}
+			</pre>
+<h1><a name="plus.share.AuthOptions">AuthOptions</a></h1>
+<p>JSON对象，分享授权认证参数选项</p>
+<pre class="prettyprint linenums">
+interface plus.share.AuthOptions {
+	attribute String appid;
+	attribute String appkey;
+	attribute String appsecret;
+	attribute String redirect_uri;
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	此对象支持的属性值由分享服务的授权认证模块定义。
+				</p>
+<h2>属性：</h2>
+<ul>
+<li>appid: <em>(<font class="type">String</font>
+	类型
+)</em>分享服务平台申请的appid<br><p>
+	动态设置分享服务授权认证时需要使用的appid，仅需要此参数的分享服务（如“微信”、“QQ”）支持。
+	如果未设置则使用运行环境中内置的appid值（如在HBuilder中可在manifest.json的“SDK配置”项中进行设置）。
+						</p>
+</li>
+<li>appkey: <em>(<font class="type">String</font>
+	类型
+)</em>分享服务平台申请的appkey<br><p>
+	动态设置分享服务授权认证时需要使用的appkey，仅需要此参数的分享服务（如“新浪微博”）支持。
+	如果未设置则使用运行环境中内置的appkey值（如在HBuilder中可在manifest.json的“SDK配置”项中进行设置）。
+						</p>
+</li>
+<li>appsecret: <em>(<font class="type">String</font>
+	类型
+)</em>分享服务平台申请的appsecret<br><p>
+	动态设置分享服务中需要使用的appsecret，仅需要此参数的分享服务（如“微信”、“新浪微博”）支持。
+	如果未设置则使用运行环境中内置的appsecret值（如在HBuilder中可在manifest.json的“SDK配置”项中进行设置）；当开放平台申请的appsecret值涉及到安全问题时，可在应用运行时从服务器获取，然后通过此api动态设置。
+						</p>
+</li>
+<li>redirect_url: <em>(<font class="type">String</font>
+	类型
+)</em>分享服务平台申请的redirect_url<br><p>
+	动态设置分享服务中需要使用的redirect_url，仅需要此参数的登录授权服务（如“新浪微博登录”）支持。
+	如果未设置则使用运行环境中内置的redirect_url值（如在HBuilder中可在manifest.json的SDK配置项中进行设置）。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.share.Authorize">Authorize</a></h1>
+<p>分享授权控件对象</p>
+<pre class="prettyprint linenums">
+interface plus.share.Authorize{
+	// Methods
+	function void load(id);
+	function void setVisible(visible);
+
+	// Events
+	function void onloaded();
+	function void onauthenticated();
+	function void onerror();
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	Authorize对象表示分享控件对象，用于在窗口中显示分享控件，使用此对象可自定义分享授权界面。
+				</p>
+<h2>构造：</h2>
+<ul><li>
+<a href="#plus.share.Authorize.Authorize(id,display)">Authorize(id,display)</a>: 创建分享授权控件对象</li></ul>
+<h2>方法：</h2>
+<ul>
+<li>
+<a href="#plus.share.Authorize.load">load</a>: 加载分享授权页面</li>
+<li>
+<a href="#plus.share.Authorize.setVisible">setVisible</a>: 设置分享授权控件是否可见</li>
+</ul>
+<h2>事件：</h2>
+<ul>
+<li>
+<a href="#plus.share.Authorize.onloaded">onloaded</a>: 分享控件加载完成事件</li>
+<li>
+<a href="#plus.share.Authorize.onauthenticated">onauthenticated</a>: 分享授权认证成功事件</li>
+<li>
+<a href="#plus.share.Authorize.onerror">onerror</a>: 分享授权认证失败事件</li>
+</ul>
+<h1><a name="plus.share.GeoPosition">GeoPosition</a></h1>
+<p>JSON对象，用户位置信息</p>
+<pre class="prettyprint linenums">
+interface plus.share.GeoPosition {
+	attribute Number latitude;
+	attribute Number longitude;
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	GeoPosition对象用于表示用户分享消息时的位置信息。用于标识分享操作时用户的位置信息。
+				</p>
+<h2>属性：</h2>
+<ul>
+<li>latitude: <em>(<font class="type">Number</font>
+	类型
+)</em>用户位置的纬度坐标信息<br>
+</li>
+<li>longitude: <em>(<font class="type">Number</font>
+	类型
+)</em>用户位置的经度坐标信息<br>
+</li>
+</ul>
+<h1><a name="plus.share.ShareService">ShareService</a></h1>
+<p>分享服务对象</p>
+<pre class="prettyprint linenums">
+interface plus.share.ShareService {
+	// Attributes
+	attribute DOMString id;
+	attribute DOMString description;
+	attribute Boolean authenticated;
+	attribute DOMString accessToken;
+	attribute Boolean nativeClient;
+	
+	// Methods
+	function void authorize(successCallback, errorCallback, options);
+	function void forbid();
+	function void send(message);
+	function void launchMiniProgram(options);
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	ShareService对象用于表示分享服务，在JS中为对象，用于向系统请求分享操作。
+				</p>
+<h2>属性：</h2>
+<ul>
+<li>
+<a href="#plus.share.ShareService.id">id</a>: 分享服务标识</li>
+<li>
+<a href="#plus.share.ShareService.description">description</a>: 分享服务描述</li>
+<li>
+<a href="#plus.share.ShareService.authenticated">authenticated</a>: 是否授权认证</li>
+<li>
+<a href="#plus.share.ShareService.accessToken">accessToken</a>: 授权认证信息</li>
+<li>
+<a href="#plus.share.ShareService.nativeClient">nativeClient</a>: 是否存在对应的分享客户端</li>
+</ul>
+<h2>方法：</h2>
+<ul>
+<li>
+<a href="#plus.share.ShareService.authorize">authorize</a>: 授权认证操作</li>
+<li>
+<a href="#plus.share.ShareService.forbid">forbid</a>: 取消授权认证</li>
+<li>
+<a href="#plus.share.ShareService.send">send</a>: 发送分享</li>
+<li>
+<a href="#plus.share.ShareService.launchMiniProgram">launchMiniProgram</a>: 调用微信小程序</li>
+</ul>
+<h1><a name="plus.share.ShareServerIdentity">ShareServerIdentity</a></h1>
+<p>分享服务标识</p>
+<h2>常量：</h2>
+<ul>
+<li>"sinaweibo": <em>(<font class="type">DOMString</font>
+	类型
+)</em>新浪微博<br>
+</li>
+<li>"tencentweibo": <em>(<font class="type">DOMString</font>
+	类型
+)</em>腾讯微博<br>
+</li>
+<li>"weixin": <em>(<font class="type">DOMString</font>
+	类型
+)</em>微信<br>
+</li>
+</ul>
+<h1><a name="plus.share.ShareMessage">ShareMessage</a></h1>
+<p>JSON对象，分享消息对象</p>
+<pre class="prettyprint linenums">
+interface plus.share.ShareMessage {
+	attribute String type;
+	attribute String content;
+	attribute String[] thumbs;
+	attribute String[] pictures;
+	attribute String media;
+	attribute String href;
+	attribute String title;
+	attribute JSON extra;
+	attribute GEOPosition geo;
+	attribute ShareMessageExtra extra;
+	attribute WeixinMiniProgramOptions miniProgram;
+	attribute String interface;
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">ShareMessage对象用于表示分享消息内容，在JS中为JSON对象，用于向系统发送分享信息操作。</p>
+<h2>属性：</h2>
+<ul>
+<li>type: <em>(<font class="type">String</font>
+	类型
+)</em>分享消息的类型<br><p>
+	微信分享平台，可取值：
+		
+			
+		"web"-分享网页类型，title（必填）、content（必填）、thumbs（必填）、href（网页url，必填）属性值有效；
+			
+			
+		"text"-分享文字类型，content（必填）属性值有效；
+			
+			
+		"image"-分享图片类型，pictures（必填）属性值有效；
+			
+			
+		"music"-分享音乐类型，title（必填）、content（必填）、thumbs（必填）、media（音乐url，必填）属性值有效；
+			
+			
+		"video"-分享视频类型，title（必填）、content（必填）、thumbs（必填）、media（视频url，必填）属性值有效；
+			
+			
+		"miniProgram"-分享小程序类型（仅支持分享到好友），title（必填）、content（必填）、thumbs（图片小于128K，宽高比为5:4，必填）、miniProgram（小程序参数，必填）属性值有效；
+			
+		
+		没有设置type时，如果href值有效则默认值为"web"，如果pictures有效则默认值为"image"，否则默认值为"text"。
+		
+	新浪微博分享平台，可取值：
+		
+			
+		"web"-分享网页类型，content、href（网页url，必填），分享链接添加到内容之后；
+			
+			
+		"text"-分享文字类型，content（必填）属性有效，可在内容中直接插入链接地址；
+			
+			
+		"image"-分享图片类型，content（可选）、thumbs（可选）、pictures（必填）属性有效；
+			
+			
+		"video"-分享视频类型，content（可选）、thumbs（可选）、media（本地视频文件，必填）属性有效；
+			
+		
+		没有设置type时，如果存在thumbs则默认值为"image"，如果存在href则默认值为"web"，否则默认为"text"。
+		
+	QQ分享平台，可取值：
+		
+			
+		"text"-分享文字类型，href（iOS可选，Android必填）、title（必填，最长30个字符）、content（可选，最长40个字符）、pictures或thumbs（可选，优先pictures，iOS不支持）属性有效；
+			
+			
+		"image"-分享图片类型，pictures或thumbs（必填，优先pictures）属性有效；
+			
+			
+		"music"-分享音乐类型，title（必填，最长30个字符）、content（可选，最长40个字符）、href（必填）、media（音乐url，必填）、pictures或thumbs（可选，优先pictures）属性值有效；
+			
+		
+		没有设置type时，默认值"text"。
+						</p>
+</li>
+<li>content: <em>(<font class="type">String</font>
+	类型
+)</em>分享消息的文字内容<br>
+</li>
+<li>pictures: <em>(<font class="type">Array</font>[
+				<font class="type">String</font>
+				]
+			
+	类型
+)</em>分享消息的图片<br><p>
+	分享消息中包含的图片路径，仅支持本地路径。
+	若分享平台仅支持提交一张图片，传入多张图片则仅提交第一张图片。
+	如果未指定type类型，优先级顺序为：pictures&gt;content（即设置了pictures则认为分享图片类型）。
+						</p>
+</li>
+<li>thumbs: <em>(<font class="type">Array</font>[
+				<font class="type">Stromg</font>
+				]
+			
+	类型
+)</em>分享消息的缩略图<br><p>
+	分享消息中包含的缩略图路径，支持本地路径及网络路径。
+	若分享平台仅支持提交一张图片，传入多张图片则仅提交第一张图片。
+	如果分享平台的信息不支持缩略图，若没有设置消息的图片（pictures）则使用缩略图，否则忽略其属性值。
+	注意：图片有大小限制，推荐图片小于20Kb。
+						</p>
+</li>
+<li>media: <em>(<font class="type">Strubg</font>
+	类型
+)</em>分享的多媒体资源<br><p>
+	分享的多媒体资源地址，当type值为"music"、"video"时有效。
+	注意：
+		微信分享平台支持音乐、视频类型，仅支持网络地址（以http://或https://开头）；
+		QQ分享平台支持音乐类型，仅支持网络路径（以http://或https://开头）；
+		新浪微博分享平台支持视频类型，仅支持本地文件路径。
+						</p>
+</li>
+<li>href: <em>(<font class="type">String</font>
+	类型
+)</em>分享独立的链接<br><p>
+	分享资源地址，仅支持网络地址（以http://或https://开头）。
+	如果未指定type类型，优先级顺序为：href&gt;pictures&gt;content（即设置了href则认为分享网页类型）。
+						</p>
+</li>
+<li>title: <em>(<font class="type">String</font>
+	类型
+)</em>分享消息的标题<br><p>
+	仅微信分享网页、音频、视频、小程序类型时支持。
+						</p>
+</li>
+<li>geo: <em>(<a href="#plus.share.GeoPosition">GeoPosition</a>
+	类型
+)</em>分享消息中包含的用户地理信息数据<br>
+</li>
+<li>extra: <em>(<a href="#plus.share.ShareMessageExtra">ShareMessageExtra</a>
+	类型
+)</em>分享消息扩展参数<br>
+</li>
+<li>miniProgram: <em>(<a href="#plus.share.WeixinMiniProgramOptions">WeixinMiniProgramOptions</a>
+	类型
+)</em>分享微信小程序参数<br><p>
+	仅微信分享小程序类型时支持。
+						</p>
+</li>
+<li>interface: <em>(<font class="type">String</font>
+	类型
+)</em>分享消息的模式<br><p>
+	可取值：
+    "auto" - 自动选择，如果已经安装微博客户端则采用编辑界面进行分享，否则采用无界面分享；
+    "slient" - 静默分享，采用无界面模式进行分享；
+    "editable" - 进入编辑界面，用户确认分享内容后发送，如果当前未安装微博客户端则触发错误回调。
+    默认值为"auto"。
+    （仅新浪微博分享时生效）
+						</p>
+</li>
+</ul>
+<h1><a name="plus.share.ShareMessageExtra">ShareMessageExtra</a></h1>
+<p>JSON对象，保存分享消息扩展信息</p>
+<pre class="prettyprint linenums">
+interface plus.share.ShareMessageExtra {
+	attribute String scene;
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	ShareMessageExtra对象用于保存各分享平台扩展的参数，用于自定义分享功能。
+				</p>
+<h2>属性：</h2>
+<ul><li>scene: <em>(<font class="type">String</font>
+	类型
+)</em>微信分享场景，仅微信分享平台有效<br><p>
+	可取值：
+	"WXSceneSession"分享到微信的“我的好友”；
+	"WXSceneTimeline"分享到微信的“朋友圈”中；
+	"WXSceneFavorite"分享到微信的“我的收藏”中。
+	默认值为"WXSceneSession"。
+						</p>
+</li></ul>
+<h1><a name="plus.share.WeixinMiniProgramOptions">WeixinMiniProgramOptions</a></h1>
+<p>JSON对象，微信小程序信息</p>
+<pre class="prettyprint linenums">
+interface plus.share.WeixinMiniProgramOptions {
+	attribute String id;
+	attribute String path;
+	attribute Nnumber type;
+	attribute webUrl;
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	用于配置分享小程序的参数，如小程序标识、页面路径等。
+	注意：分享的小程序需要在微信开放平台关联的开发者账号下，否则会分享失败。
+				</p>
+<h2>属性：</h2>
+<ul>
+<li>id: <em>(<font class="type">String</font>
+	类型
+)</em>微信小程序ID<br><p>
+	注意：是微信小程序的原始ID（"g_"开头的字符串）。
+						</p>
+</li>
+<li>path: <em>(<font class="type">String</font>
+	类型
+)</em>微信小程序打开的页面路径<br>
+</li>
+<li>type: <em>(<font class="type">Number</font>
+	类型
+)</em>微信小程序版本类型<br><p>
+	可取值：
+	0-正式版；
+	1-测试版；
+	2-体验版。
+	默认值为0。
+						</p>
+</li>
+<li>webUrl: <em>(<font class="type">String</font>
+	类型
+)</em>兼容低版本的网页链接<br>
+</li>
+</ul>
+<h1><a name="plus.share.ServicesSuccessCallback">ServicesSuccessCallback</a></h1>
+<p>获取分享服务成功回调</p>
+<pre class="prettyprint linenums">
+void ServicesSuccessCallback(services){
+	// Get share services success code
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	当获取分享服务列表成功时的回调函数，用于返回终端支持的分享服务列表。
+				</p>
+<h2>参数：</h2>
+<ul><li>services: 
+		<em>(
+			<font class="type">Array</font>[
+						<a href="#plus.share.ShareService">ShareService</a>
+						]
+					
+			)
+			必选 </em>数组，运行环境支持的分享服务列表<br>
+	运行环境支持的分享服务列表数组，可通过services.length获取分享服务列表的数目。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.share.AuthorizeSuccessCallback">AuthorizeSuccessCallback</a></h1>
+<p>分享授权认证成功回调</p>
+<pre class="prettyprint linenums">
+void AuthorizeSuccessCallback(services){
+	　　// Authorize success code
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	分享服务授权认证操作成功时调用。
+				</p>
+<h2>参数：</h2>
+<ul><li>service: 
+		<em>(
+			<a href="#plus.share.ShareService">ShareService</a>
+			)
+			必选 </em>授权认证操作的分享服务对象<br>
+</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.share.ShareSuccessCallback">ShareSuccessCallback</a></h1>
+<p>分享操作成功回调</p>
+<pre class="prettyprint linenums">
+void ShareSuccessCallback(){
+	// Share success code
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	分享操作成功回调函数，当分享操作成功时调用。
+				</p>
+<h2>参数：</h2>
+<p>无</p>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.share.ShareErrorCallback">ShareErrorCallback</a></h1>
+<p>分享操作失败回调</p>
+<pre class="prettyprint linenums">
+void ShareErrorCallback(error){
+	// Error 
+	var code = error.code; 			// 错误编码
+	var message = error.message;	// 错误描述信息
+}
+				</pre>
+<h2>说明：</h2>
+<p class="des">
+	当分享操作失败时的回调函数，用于返回分享相关操作失败的错误信息。
+				</p>
+<h2>参数：</h2>
+<ul><li>error: 
+		<em>(
+			<font class="type">DOMException</font>
+			)
+			必选 </em>分享操作失败错误信息<br>
+	可通过error.code（Number类型）获取错误编码；
+	可通过error.message（String类型）获取错误描述信息。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<br><br>
+</div></body>
+</html>

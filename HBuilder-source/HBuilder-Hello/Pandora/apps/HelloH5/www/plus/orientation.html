@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript">
+function getOrient() {
+	outSet( "获取设备当前方向信息" );
+	plus.orientation.getCurrentOrientation( function ( o ) {
+		outLine( "alpha：" + o.alpha + "\nbeta：" + o.beta + "\ngamma：" + o.gamma );
+	}, function ( e ) {
+		outLine( "获取失败:" + e.message );
+	} );
+}
+var id = null;
+function watchOrient() {
+	if ( id ) {
+		return;
+	}
+	outSet( "监听设备方向变化信息" );
+	id = plus.orientation.watchOrientation( function ( o ) {
+		outSet( "监听设备方向变化信息\n" + "alpha：" + o.alpha + "\nbeta：" + o.beta + "\ngamma：" + o.gamma );
+	}, function ( e ) {
+		plus.orientation.clearWatch( id );
+		id = null;
+		outLine( "监听失败:" + e.message );
+	} );
+}
+function watchStop() {
+	if ( id ) {
+		outSet( "停止监听设备方向变化信息" );
+		plus.orientation.clearWatch( id );
+		id = null;
+	} else {
+		outSet( "没有监听设备方向变化" );
+	}
+}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+	</head>
+	<body>
+		<br/>
+		<div class="button" onclick="clicked('orientation_level.html')">
+			水平仪
+		</div>
+		<div class="button" onclick="clicked('orientation_compass.html')">
+			指南针
+		</div>
+		<br/>
+		<ul class="dlist">
+			<li class="ditem" onclick="getOrient()">获取设备的方向信息</li>
+			<li class="ditem" onclick="watchOrient()">监听设备的方向变化</li>
+			<li class="ditem" onclick="watchStop()">停止监听</li>
+		</ul>
+		<div id="outpos"/>
+		<div id="output">
+Orientation可获取设备的方向信息，包括alpha(以垂直地心轴旋转的角度)、beta(以水平轴旋转的角度)、gamma(以垂直水平轴旋转的角度)三个方向信息。
+		</div>
+	</body>
+</html>

@@ -1,0 +1,272 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="HandheldFriendly" content="true">
+<meta name="MobileOptimized" content="320">
+<title>Navigator Document</title>
+<link rel="stylesheet" type="text/css" href="res/doc.css" charset="utf-8">
+<link rel="stylesheet" type="text/css" href="res/prettify.sons.css" charset="utf-8">
+<script type="text/javascript" src="res/doc.js" charset="utf-8"></script><script type="text/javascript" src="res/prettify.js" charset="utf-8"></script>
+</head>
+<body><div id="content" class="content">
+<h1><a name="plus.navigator">navigator</a></h1>
+<p>navigator用于管理浏览器运行环境信息</p>
+<h2>方法：</h2>
+<ul>
+<li>
+<a href="#plus.navigator.checkPermission">checkPermission</a>: 检查运行环境的权限</li>
+<li>
+<a href="#plus.navigator.closeSplashscreen">closeSplashscreen</a>: 关闭应用启动界面</li>
+<li>
+<a href="#plus.navigator.hasNotchInScreen">hasNotchInScreen</a>: 查询设备是否为刘海屏</li>
+<li>
+<a href="#plus.navigator.hasSplashscreen">hasSplashscreen</a>: 查询应用启动界面是否已关闭</li>
+<li>
+<a href="#plus.navigator.updateSplashscreen">updateSplashscreen</a>: 更新程序启动界面</li>
+<li>
+<a href="#plus.navigator.createShortcut">createShortcut</a>: 创建应用快捷方式</li>
+<li>
+<a href="#plus.navigator.hasShortcut">hasShortcut</a>: 查询是否存在应用快捷方式</li>
+<li>
+<a href="#plus.navigator.isBackground">isBackground</a>: 判断当前应用是否切换到后台</li>
+<li>
+<a href="#plus.navigator.isFullscreen">isFullscreen</a>: 判断应用当前是否全屏模式显示</li>
+<li>
+<a href="#plus.navigator.isLogs">isLogs</a>: 判断应用当前是否输出日志</li>
+<li>
+<a href="#plus.navigator.setFullscreen">setFullscreen</a>: 设置应用是否全屏显示</li>
+<li>
+<a href="#plus.navigator.setLogs">setLogs</a>: 设置应用是否输出日志</li>
+<li>
+<a href="#plus.navigator.setStatusBarBackground">setStatusBarBackground</a>: 设置系统状态栏背景颜色</li>
+<li>
+<a href="#plus.navigator.getStatusBarBackground">getStatusBarBackground</a>: 获取系统状态栏背景颜色</li>
+<li>
+<a href="#plus.navigator.setStatusBarStyle">setStatusBarStyle</a>: 设置系统状态栏样式</li>
+<li>
+<a href="#plus.navigator.getStatusBarStyle">getStatusBarStyle</a>: 获取系统状态栏样式</li>
+<li>
+<a href="#plus.navigator.getStatusbarHeight">getStatusbarHeight</a>: 获取系统状态栏高度</li>
+<li>
+<a href="#plus.navigator.isImmersedStatusbar">isImmersedStatusbar</a>: 判断当前是否为沉浸式状态栏模式</li>
+<li>
+<a href="#plus.navigator.setUserAgent">setUserAgent</a>: 设置userAgent值</li>
+<li>
+<a href="#plus.navigator.getUserAgent">getUserAgent</a>: 获取userAgent值</li>
+<li>
+<a href="#plus.navigator.setCookie">setCookie</a>: 设置Cookie值</li>
+<li>
+<a href="#plus.navigator.getCookie">getCookie</a>: 获取Cookie值</li>
+<li>
+<a href="#plus.navigator.removeAllCookie">removeAllCookie</a>: 删除应用所有Cookie值</li>
+<li>
+<a href="#plus.navigator.removeCookie">removeCookie</a>: 删除应用Cookie</li>
+<li>
+<a href="#plus.navigator.removeSessionCookie">removeSessionCookie</a>: 删除应用所有会话期Cookie值</li>
+</ul>
+<h2>对象：</h2>
+<ul>
+<li>
+<a href="#plus.navigator.ShortcutOptions">ShortcutOptions</a>: 创建应用快捷方式要设置的参数</li>
+<li>
+<a href="#plus.navigator.SplashscreenOptions">SplashscreenOptions</a>: 更新应用启动界面要设置的参数</li>
+<li>
+<a href="#plus.navigator.PermissionNames">PermissionNames</a>: 运行环境权限类型</li>
+</ul>
+<h2>回调方法：</h2>
+<ul>
+<li>
+<a href="#plus.navigator.ShortcutSuccessCallback">ShortcutSuccessCallback</a>: 创建桌面快捷方式成功的回调函数</li>
+<li>
+<a href="#plus.navigator.NavigatorErrorCallback">NavigatorErrorCallback</a>: 操作错误回调函数接口</li>
+</ul>
+<h2>权限：</h2>
+<p>5+功能模块（permissions）</p>
+<pre class="prettyprint linenums">
+{
+// ...
+"permissions":{
+	// ...
+	"Navigator": {
+		"description": "浏览器信息"
+	}
+}
+}
+			</pre>
+<h1><a name="plus.navigator.ShortcutOptions">ShortcutOptions</a></h1>
+<p>创建应用快捷方式要设置的参数</p>
+<h2>属性：</h2>
+<ul>
+<li>name: <em>(<font class="type">String</font>
+	类型
+)</em>快捷方式名称<br><p>
+	如果未设置则使用应用的名称，manifest.json中name属性值。
+						</p>
+</li>
+<li>icon: <em>(<font class="type">String</font>
+	类型
+)</em>快捷方式的图标<br><p>
+	如果未设置则优先使用应用中指定的图标（manifest.json中icon节点下对应分辨率的图标），如未区配则使用应用的图标（仅在独立打包时），否则使用runtime提供的默认图标。
+						</p>
+</li>
+<li>toast: <em>(<font class="type">String</font>
+	类型
+)</em>创建快捷方式后的提示信息<br><p>
+	快捷方式创建成功后显示，默认提示内容为“"XXXX"已创建桌面快捷方式”，其中"XXXX"为程序的名称，如果不需要提示则设置此值为空字符串。
+						</p>
+</li>
+<li>extra: <em>(<font class="type">JSON</font>
+	类型
+)</em>快捷方式的扩展参数<br><p>
+	其中key和value值都必须是字符串类型。
+						</p>
+</li>
+<li>classname: <em>(<font class="type">String</font>
+	类型
+)</em>要启动Activity类名<br><p>
+	通常情况下不需要指定此值，仅在5+SDK集成时自定义Activity才用到。
+						</p>
+</li>
+<li>force: <em>(<font class="type">Boolean</font>
+	类型
+)</em>是否需要强制创建快捷方式<br><p>
+	true表示强制创建，false表示不强制创建，默认值为true。
+	强制创建可能会导致在无法判断快捷方式是否存在的设备上重复创建，如果需要尽可能避免出现重复创建桌面快捷方式则应该设置force属性值为false。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.navigator.SplashscreenOptions">SplashscreenOptions</a></h1>
+<p>更新应用启动界面要设置的参数</p>
+<h2>属性：</h2>
+<ul>
+<li>image: <em>(<font class="type">String</font>
+	类型
+)</em>启动界面的图片路径<br><p>
+	仅支持本地文件路径，图片必须为png格式。
+					</p>
+</li>
+<li>autoclose: <em>(<font class="type">Boolean</font>
+	类型
+)</em>是否自动关闭启动界面<br><p>
+	true表示应用启动后自动关闭启动界面，false表示应用启动后不自动关闭启动界面，需要在应用调用plus.navigator.closeSplashscreen()方法关闭。
+					</p>
+</li>
+<li>autoclose_w2a: <em>(<font class="type">Boolean</font>
+	类型
+)</em>是否自动关闭启动界面（WAP2APP应用）<br><p>
+	与autoclose属性值作用一致，仅在WAP2APP应用中有效。
+	不推荐设置此值，如果未设置会自动使用autoclose属性值。
+					</p>
+</li>
+<li>delay: <em>(<font class="type">Number</font>
+	类型
+)</em>启动界面延时关闭时间<br><p>
+	仅在设置为自动关闭启动界面时有效。
+					</p>
+</li>
+<li>delay_w2a: <em>(<font class="type">Number</font>
+	类型
+)</em>启动界面延时关闭时间（WAP2APP应用）<br><p>
+	与delay属性值作用一致，仅在WAP2APP应用中有效。
+	不推荐设置此值，如果未设置会自动使用delay属性值。
+					</p>
+</li>
+</ul>
+<h1><a name="plus.navigator.PermissionNames">PermissionNames</a></h1>
+<p>运行环境权限类型</p>
+<h2>常量：</h2>
+<ul>
+<li>CAMERA: <em>(<font class="type">String</font>
+	类型
+)</em>访问摄像头权限<br><p>
+	用于调用摄像头（plus.camera.*/plus.barcode.*）。
+						</p>
+</li>
+<li>CONTACTS: <em>(<font class="type">String</font>
+	类型
+)</em>访问系统联系人权限<br><p>
+	用于访问（读、写）系统通讯录（plus.gallery.*）。
+						</p>
+</li>
+<li>GALLERY: <em>(<font class="type">String</font>
+	类型
+)</em>访问系统相册权限<br><p>
+	用于访问（读、写）系统相册（plus.gallery.*）。
+						</p>
+</li>
+<li>LOCATION: <em>(<font class="type">String</font>
+	类型
+)</em>定位权限<br><p>
+	用于获取当前用户位置信息（plus.geolocation.*）。 
+						</p>
+</li>
+<li>NOTIFITION: <em>(<font class="type">String</font>
+	类型
+)</em>消息通知权限<br><p>
+	用于接收系统消息通知（plus.push.*）。 
+						</p>
+</li>
+<li>RECORD: <em>(<font class="type">String</font>
+	类型
+)</em>录音权限<br><p>
+	用于进行本地录音操作（plus.audio.AudioRecorder）。 
+						</p>
+</li>
+<li>SHORTCUT: <em>(<font class="type">String</font>
+	类型
+)</em>创建桌面快捷方式权限<br><p>
+	用于在系统桌面创建快捷方式图标（plus.navigator.createShortcut）。
+						</p>
+</li>
+</ul>
+<h1><a name="plus.navigator.ShortcutSuccessCallback">ShortcutSuccessCallback</a></h1>
+<p>创建桌面快捷方式成功的回调函数</p>
+<pre class="prettyprint linenums">
+void onSuccess(Event event){
+	var result=event.result; // 快捷方式是否已经存在，调用plus.navigator.hasShortcut方法时有效
+	var sure=event.sure; // 是否确定创建桌面快捷方式成功,调用plus.navigator.createShortcut方法时有效
+}
+				</pre>
+<h2>参数：</h2>
+<ul><li>event: 
+		<em>(
+			<font class="type">Event</font>
+			)
+			必选 </em>创建桌面快捷方式返回的数据<br>
+	此对象包含以下属性值：
+	event.result - 查询快捷方式是否存在的结果（plus.navigator.hasShortcut），可取值：
+		existing"，快捷方式已存在；
+		"none"，快捷方式不存在（支持创建）；
+		"unsupported"，不支持创建桌面快捷方式；
+		"unknown"：不确定快捷方式是否存在。
+	event.sure - 创建快捷方式的结果（plus.navigator.createShortcut），Boolean类型，可取值：
+		true，表示在当前环境下确定快捷方式创建成功；
+		false，表示不确定快捷方式是否已创建。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<h1><a name="plus.navigator.NavigatorErrorCallback">NavigatorErrorCallback</a></h1>
+<p>操作错误回调函数接口</p>
+<pre class="prettyprint linenums">
+function void onError(Exception error){
+	// Error.
+	var code = error.code; // 错误编码
+	var message = error.message; // 错误描述信息
+}
+				</pre>
+<h2>参数：</h2>
+<ul><li>error: 
+		<em>(
+			<font class="type">Exception</font>
+			)
+			必选 </em>操作失败信息<br>
+	可通过error.code（Number类型）获取错误编码；
+	可通过error.message（String类型）获取错误描述信息。
+						</li></ul>
+<h2>返回值：</h2>
+<font class="type">void</font>
+			: 无<br><br>
+</div></body>
+</html>

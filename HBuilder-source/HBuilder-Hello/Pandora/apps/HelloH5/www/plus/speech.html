@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript">
+var text=null;
+function startRecognize() {
+	var options = {
+		engine: 'baidu'
+	};
+	text.value = '';
+	outSet('开始语音识别：');
+	plus.speech.startRecognize(options, function(s){
+		outLine(s);
+		text.value += s;
+	}, function(e){
+		outSet('语音识别失败：'+JSON.stringify(e));
+	} );
+}
+function startRecognizeEnglish(){
+	var options = {};
+	options.engine = 'iFly';
+	options.lang = 'en-us';
+	text.value = '';
+	outSet('开始语音识别：');
+	plus.speech.startRecognize(options, function(s){
+		outLine(s);
+		text.value += s;
+	}, function(e){
+		outSet('语音识别失败：'+JSON.stringify(e));
+	} );
+}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+		<style type="text/css">
+.out {
+	margin: 9px;
+	height: 30%;
+	width: 90%;
+}
+		</style>
+	</head>
+	<body onload="text=document.getElementById('text');">
+		<br/>
+		<div class="button" onclick="startRecognize()">开始语音识别</div>
+		<div class="button" onclick="startRecognizeEnglish()">开始语音识别（英语）</div>
+		<br/>
+		<textarea readonly="readonly" id="text" style="margin:2%;padding:2%;height:60px;width:90%;border:1px solid #6C6C6C;-webkit-border-radius: 2px;border-radius: 2px;-webkit-appearance:none;">
+语音输入内容
+		</textarea>
+		<br/>
+		<br/>
+		<div class="button" onclick="clicked('speech_custom.html')">自定义语音识别</div>
+		<br/>
+		<div id="outpos"/>
+		<div id="output">
+Speech提供语音识别功能，可通过麦克风设备进行语音输入操作。
+		</div>
+	</body>
+</html>
