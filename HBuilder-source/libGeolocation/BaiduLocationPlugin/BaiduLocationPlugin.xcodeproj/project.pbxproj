@@ -247,13 +247,11 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YQM5H857L5;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../Pandora/libs/Universal";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../SDK/Libs\"/**";
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Tools",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Managers",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
 					"$(SRCROOT)/../../libMap/BaiduKeyVerify/BaiduKeyVerify",
 					"$(SRCROOT)/../libGeolocation",
+					"\"$(SRCROOT)/../../../SDK/inc\"/**",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -267,13 +265,11 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YQM5H857L5;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../Pandora/libs/Universal";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../SDK/Libs\"/**";
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Tools",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Managers",
-					"$(SRCROOT)/../../libPDRCore/libPDRCore/Feature",
 					"$(SRCROOT)/../../libMap/BaiduKeyVerify/BaiduKeyVerify",
 					"$(SRCROOT)/../libGeolocation",
+					"\"$(SRCROOT)/../../../SDK/inc\"/**",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -21,7 +21,6 @@
 		24AFD8431CB50C4000C0F062 /* libBaiduMobStatForSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24AFD8061CB50C3F00C0F062 /* libBaiduMobStatForSDK.a */; };
 		24AFD8461CB50C4000C0F062 /* libcoreSupport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24AFD8091CB50C3F00C0F062 /* libcoreSupport.a */; };
 		24AFD8471CB50C4000C0F062 /* libGeTuiPush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24AFD80A1CB50C3F00C0F062 /* libGeTuiPush.a */; };
-		24AFD84A1CB50C4000C0F062 /* libiflySpeech.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24AFD80D1CB50C3F00C0F062 /* libiflySpeech.a */; };
 		24AFD84B1CB50C4000C0F062 /* libJSONKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24AFD80E1CB50C3F00C0F062 /* libJSONKit.a */; };
 		24AFD84E1CB50C4000C0F062 /* liblibCache.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24AFD8111CB50C3F00C0F062 /* liblibCache.a */; };
 		24AFD8531CB50C4000C0F062 /* liblibLog.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24AFD8161CB50C4000C0F062 /* liblibLog.a */; };
@@ -29,13 +28,10 @@
 		24AFD8591CB50C4000C0F062 /* liblibNavigator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24AFD81C1CB50C4000C0F062 /* liblibNavigator.a */; };
 		24AFD85E1CB50C4000C0F062 /* liblibPGInvocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24AFD8211CB50C4000C0F062 /* liblibPGInvocation.a */; };
 		24AFD8601CB50C4000C0F062 /* liblibPush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24AFD8231CB50C4000C0F062 /* liblibPush.a */; };
-		24AFD8621CB50C4000C0F062 /* liblibSpeech.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24AFD8251CB50C4000C0F062 /* liblibSpeech.a */; };
-		24AFD8631CB50C4000C0F062 /* liblibStatistic.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24AFD8261CB50C4000C0F062 /* liblibStatistic.a */; };
 		24AFD8641CB50C4000C0F062 /* liblibStorage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24AFD8271CB50C4000C0F062 /* liblibStorage.a */; };
 		24AFD8651CB50C4000C0F062 /* liblibUI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24AFD8281CB50C4000C0F062 /* liblibUI.a */; };
 		24AFD8661CB50C4000C0F062 /* liblibWebNavi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24AFD8291CB50C4000C0F062 /* liblibWebNavi.a */; };
 		24AFD8681CB50C4000C0F062 /* liblibXHR.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24AFD82B1CB50C4000C0F062 /* liblibXHR.a */; };
-		24AFD8691CB50C4000C0F062 /* liblibZip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24AFD82C1CB50C4000C0F062 /* liblibZip.a */; };
 		24AFD86B1CB50C4000C0F062 /* libopencore-amrnb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24AFD82E1CB50C4000C0F062 /* libopencore-amrnb.a */; };
 		24AFD8741CB50C4000C0F062 /* libTCWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24AFD8371CB50C4000C0F062 /* libTCWeiboSDK.a */; };
 		24AFD8761CB50C4000C0F062 /* libTouchJSON.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24AFD8391CB50C4000C0F062 /* libTouchJSON.a */; };
@@ -121,12 +117,17 @@
 		674F35A023606C3700297CB7 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 674F359F23606C3700297CB7 /* StoreKit.framework */; };
 		676E5383236076BB001D3299 /* liblibSqlite.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 676E5382236076A0001D3299 /* liblibSqlite.a */; };
 		676E538A23607720001D3299 /* liblibBeacon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 676E53892360770B001D3299 /* liblibBeacon.a */; };
+		676E5504236185D1001D3299 /* libbaiduSpeech.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67E588B723606082007E6832 /* libbaiduSpeech.a */; };
+		676E550523618611001D3299 /* libiflySpeech.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67E588B12360607D007E6832 /* libiflySpeech.a */; };
+		676E550623618612001D3299 /* liblibSpeech.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67E588AB23606070007E6832 /* liblibSpeech.a */; };
+		676E55072361864B001D3299 /* liblibZip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67E584F9236042B7007E6832 /* liblibZip.a */; };
+		676E560E23619DED001D3299 /* libBaiduKeyVerify.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67E588D223606341007E6832 /* libBaiduKeyVerify.a */; };
+		676E560F23619DED001D3299 /* libBaiduLocationPlugin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 676E560723619C94001D3299 /* libBaiduLocationPlugin.a */; };
 		67A3C8942276ED98004F2332 /* weex-polyfill.js in Resources */ = {isa = PBXBuildFile; fileRef = 67A3C8932276ED98004F2332 /* weex-polyfill.js */; };
 		67A63597235F1583005452B2 /* liblibMessage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67A63596235F1573005452B2 /* liblibMessage.a */; };
 		67AB0B3F21EEEAA60029B229 /* AMapSearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67AB0B3E21EEEAA60029B229 /* AMapSearchKit.framework */; };
 		67AB0B4121EEEACA0029B229 /* MAMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67AB0B4021EEEACA0029B229 /* MAMapKit.framework */; };
 		67AB0B4321EEEAE50029B229 /* AMapFoundationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67AB0B4221EEEAE50029B229 /* AMapFoundationKit.framework */; };
-		67AB0B9921EF10FE0029B229 /* libBaiduKeyVerify.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67AB0B9821EF10FE0029B229 /* libBaiduKeyVerify.a */; };
 		67AB0BA021EF111D0029B229 /* BaiduMapAPI_Cloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67AB0B9A21EF111C0029B229 /* BaiduMapAPI_Cloud.framework */; };
 		67AB0BA121EF111D0029B229 /* BaiduMapAPI_Search.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67AB0B9B21EF111D0029B229 /* BaiduMapAPI_Search.framework */; };
 		67AB0BA221EF111D0029B229 /* BaiduMapAPI_Utils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67AB0B9C21EF111D0029B229 /* BaiduMapAPI_Utils.framework */; };
@@ -144,7 +145,6 @@
 		67B7CAD621DE1F160083E96A /* bds_easr_wakeup_words.dat in Resources */ = {isa = PBXBuildFile; fileRef = 67B7CACE21DE1F150083E96A /* bds_easr_wakeup_words.dat */; };
 		67B7CAD721DE1F160083E96A /* bds_easr_dnn_wakeup_model.dat in Resources */ = {isa = PBXBuildFile; fileRef = 67B7CACF21DE1F150083E96A /* bds_easr_dnn_wakeup_model.dat */; };
 		67D6390921C12945005D1E8F /* libBaiduSpeechSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67D6390721C12944005D1E8F /* libBaiduSpeechSDK.a */; };
-		67D6390A21C12945005D1E8F /* libbaiduSpeech.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67D6390821C12944005D1E8F /* libbaiduSpeech.a */; };
 		67DF0170235F25F40014B3E6 /* libDCUniZXing.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67DF016F235F25DC0014B3E6 /* libDCUniZXing.a */; };
 		67DF01AA235F38370014B3E6 /* libbz2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 67DF01A9235F38370014B3E6 /* libbz2.tbd */; };
 		67DF01AB235F38B20014B3E6 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EED65A7198A6273000A4449 /* OpenGLES.framework */; };
@@ -167,7 +167,6 @@
 		67E5859D23605415007E6832 /* liblibShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67E5852623604F83007E6832 /* liblibShare.a */; };
 		67E5859E23605415007E6832 /* libQQShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67E5852C23605027007E6832 /* libQQShare.a */; };
 		67E5859F23605415007E6832 /* libSinaShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67E585322360502E007E6832 /* libSinaShare.a */; };
-		67E585A023605415007E6832 /* libTencentShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67E5853823605033007E6832 /* libTencentShare.a */; };
 		67E585A123605415007E6832 /* libweixinShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67E5853E23605038007E6832 /* libweixinShare.a */; };
 		67E588D32360645C007E6832 /* liblibOauth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67E585B023605CCE007E6832 /* liblibOauth.a */; };
 		67E588D42360645C007E6832 /* libMiOauth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67E585B623605D1F007E6832 /* libMiOauth.a */; };
@@ -261,6 +260,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 2FAA59A02175C381004283A6;
 			remoteInfo = libBeacon;
+		};
+		676E560623619C94001D3299 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 676E560223619C94001D3299 /* BaiduLocationPlugin.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2FF7201D21FABE3C0098CFBB;
+			remoteInfo = BaiduLocationPlugin;
 		};
 		67A63595235F1573005452B2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -429,13 +435,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 176C090D182746DB008683DC;
 			remoteInfo = SinaShare;
-		};
-		67E5853723605033007E6832 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 67E5853323605033007E6832 /* TencentShare.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 176C08F3182746A2008683DC;
-			remoteInfo = TencentShare;
 		};
 		67E5853D23605038007E6832 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -807,6 +806,7 @@
 		6756AB6921F58CA300765F52 /* liblibBlueTooth.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblibBlueTooth.a; path = ../SDK/Libs/liblibBlueTooth.a; sourceTree = "<group>"; };
 		676E537D2360769F001D3299 /* libSqlite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = libSqlite.xcodeproj; path = libSqlite/libSqlite.xcodeproj; sourceTree = SOURCE_ROOT; };
 		676E53842360770A001D3299 /* libBeacon.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = libBeacon.xcodeproj; path = libBeacon/libBeacon.xcodeproj; sourceTree = SOURCE_ROOT; };
+		676E560223619C94001D3299 /* BaiduLocationPlugin.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BaiduLocationPlugin.xcodeproj; path = libGeolocation/BaiduLocationPlugin/BaiduLocationPlugin.xcodeproj; sourceTree = SOURCE_ROOT; };
 		67A3C8932276ED98004F2332 /* weex-polyfill.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "weex-polyfill.js"; sourceTree = "<group>"; };
 		67A63591235F1573005452B2 /* libMessage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = libMessage.xcodeproj; path = libMessage/libMessage.xcodeproj; sourceTree = SOURCE_ROOT; };
 		67A63598235F168F005452B2 /* PTPathUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PTPathUtil.h; sourceTree = "<group>"; };
@@ -899,7 +899,6 @@
 		67E5852123604F83007E6832 /* libShare.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = libShare.xcodeproj; path = libShare/libShare.xcodeproj; sourceTree = SOURCE_ROOT; };
 		67E5852723605027007E6832 /* QQShare.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = QQShare.xcodeproj; path = libShare/QQShare/QQShare.xcodeproj; sourceTree = SOURCE_ROOT; };
 		67E5852D2360502E007E6832 /* SinaShare.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SinaShare.xcodeproj; path = libShare/SinaShare/SinaShare.xcodeproj; sourceTree = SOURCE_ROOT; };
-		67E5853323605033007E6832 /* TencentShare.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TencentShare.xcodeproj; path = libShare/TencentShare/TencentShare.xcodeproj; sourceTree = SOURCE_ROOT; };
 		67E5853923605038007E6832 /* weixinShare.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = weixinShare.xcodeproj; path = libShare/weixinShare/weixinShare.xcodeproj; sourceTree = SOURCE_ROOT; };
 		67E585402360517A007E6832 /* DCUniUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCUniUtility.h; sourceTree = "<group>"; };
 		67E585412360517A007E6832 /* WXModuleProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXModuleProtocol.h; sourceTree = "<group>"; };
@@ -1062,6 +1061,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				676E560E23619DED001D3299 /* libBaiduKeyVerify.a in Frameworks */,
+				676E560F23619DED001D3299 /* libBaiduLocationPlugin.a in Frameworks */,
+				676E55072361864B001D3299 /* liblibZip.a in Frameworks */,
+				676E5504236185D1001D3299 /* libbaiduSpeech.a in Frameworks */,
+				676E550523618611001D3299 /* libiflySpeech.a in Frameworks */,
+				676E550623618612001D3299 /* liblibSpeech.a in Frameworks */,
 				676E538A23607720001D3299 /* liblibBeacon.a in Frameworks */,
 				676E5383236076BB001D3299 /* liblibSqlite.a in Frameworks */,
 				674F35A023606C3700297CB7 /* StoreKit.framework in Frameworks */,
@@ -1077,12 +1082,10 @@
 				67E5859D23605415007E6832 /* liblibShare.a in Frameworks */,
 				67E5859E23605415007E6832 /* libQQShare.a in Frameworks */,
 				67E5859F23605415007E6832 /* libSinaShare.a in Frameworks */,
-				67E585A023605415007E6832 /* libTencentShare.a in Frameworks */,
 				67E585A123605415007E6832 /* libweixinShare.a in Frameworks */,
 				67E5851A23604AFB007E6832 /* liblibPGProximity.a in Frameworks */,
 				67E5851323604883007E6832 /* liblibVideo.a in Frameworks */,
 				67E584F323604248007E6832 /* liblibOrientation.a in Frameworks */,
-				67E584C623602D80007E6832 /* liblibNativeObj.a in Frameworks */,
 				67E584BB23601918007E6832 /* liblibMedia.a in Frameworks */,
 				67E584B423601546007E6832 /* liblibIO.a in Frameworks */,
 				67E584AD23600FAB007E6832 /* liblibGeolocation.a in Frameworks */,
@@ -1121,15 +1124,11 @@
 				6731F394232F4CE2007838BC /* libresolv.tbd in Frameworks */,
 				6731F391232F4C37007838BC /* UMCommon.framework in Frameworks */,
 				6731F392232F4C37007838BC /* UMAnalytics.framework in Frameworks */,
-				24AFD8531CB50C4000C0F062 /* liblibLog.a in Frameworks */,
-				2FDE156A215F468000588710 /* liblibWeex.a in Frameworks */,
 				67AB0B4321EEEAE50029B229 /* AMapFoundationKit.framework in Frameworks */,
 				2F0BA418215B8B5C00F67004 /* libbz2.1.0.tbd in Frameworks */,
-				2FD11BBB215C79C5000A23AD /* liblibAdSupport.a in Frameworks */,
 				2F0BA410215B784100F67004 /* Contacts.framework in Frameworks */,
 				67AB0B3F21EEEAA60029B229 /* AMapSearchKit.framework in Frameworks */,
 				7A49810D2126B01900D20880 /* Accelerate.framework in Frameworks */,
-				67AB0B9921EF10FE0029B229 /* libBaiduKeyVerify.a in Frameworks */,
 				7A49810B2126B01200D20880 /* libiconv.tbd in Frameworks */,
 				24F990131DFBDA3300848C2B /* CoreData.framework in Frameworks */,
 				67AB0BA021EF111D0029B229 /* BaiduMapAPI_Cloud.framework in Frameworks */,
@@ -1142,16 +1141,19 @@
 				8EED641C198A2654000A4449 /* SystemConfiguration.framework in Frameworks */,
 				242725CB1D2666ED00EBD79E /* JavaScriptCore.framework in Frameworks */,
 				67AB0BA121EF111D0029B229 /* BaiduMapAPI_Search.framework in Frameworks */,
+				67AB0BA421EF111D0029B229 /* BaiduMapAPI_Base.framework in Frameworks */,
+				67AB0B4121EEEACA0029B229 /* MAMapKit.framework in Frameworks */,
 				2447371B1D0830BB00D0F08F /* WebKit.framework in Frameworks */,
+				24AFD8531CB50C4000C0F062 /* liblibLog.a in Frameworks */,
+				2FDE156A215F468000588710 /* liblibWeex.a in Frameworks */,
+				2FD11BBB215C79C5000A23AD /* liblibAdSupport.a in Frameworks */,
+				67E584C623602D80007E6832 /* liblibNativeObj.a in Frameworks */,
 				24AFD8411CB50C4000C0F062 /* libASIHttpRequest.a in Frameworks */,
 				24AFD8431CB50C4000C0F062 /* libBaiduMobStatForSDK.a in Frameworks */,
 				7A1967C3212536EC00B330A9 /* libmp3lame.a in Frameworks */,
 				24AFD8461CB50C4000C0F062 /* libcoreSupport.a in Frameworks */,
 				24AFD8471CB50C4000C0F062 /* libGeTuiPush.a in Frameworks */,
-				24AFD84A1CB50C4000C0F062 /* libiflySpeech.a in Frameworks */,
 				24AFD84B1CB50C4000C0F062 /* libJSONKit.a in Frameworks */,
-				67AB0BA421EF111D0029B229 /* BaiduMapAPI_Base.framework in Frameworks */,
-				67AB0B4121EEEACA0029B229 /* MAMapKit.framework in Frameworks */,
 				24AFD84E1CB50C4000C0F062 /* liblibCache.a in Frameworks */,
 				24AFD8581CB50C4000C0F062 /* liblibNativeUI.a in Frameworks */,
 				24AFD8591CB50C4000C0F062 /* liblibNavigator.a in Frameworks */,
@@ -1160,28 +1162,24 @@
 				24AFD85E1CB50C4000C0F062 /* liblibPGInvocation.a in Frameworks */,
 				24AFD8601CB50C4000C0F062 /* liblibPush.a in Frameworks */,
 				67D6390921C12945005D1E8F /* libBaiduSpeechSDK.a in Frameworks */,
-				24AFD8621CB50C4000C0F062 /* liblibSpeech.a in Frameworks */,
-				24AFD8631CB50C4000C0F062 /* liblibStatistic.a in Frameworks */,
 				24AFD8641CB50C4000C0F062 /* liblibStorage.a in Frameworks */,
 				24AFD8651CB50C4000C0F062 /* liblibUI.a in Frameworks */,
 				24AFD8661CB50C4000C0F062 /* liblibWebNavi.a in Frameworks */,
 				24AFD8681CB50C4000C0F062 /* liblibXHR.a in Frameworks */,
+				24AFD8741CB50C4000C0F062 /* libTCWeiboSDK.a in Frameworks */,
+				24AFD8761CB50C4000C0F062 /* libTouchJSON.a in Frameworks */,
+				24AFD8791CB50C4000C0F062 /* libWeiboSDK.a in Frameworks */,
+				2430A7021E11603E00D3D42D /* libssl.a in Frameworks */,
+				247F85DB1FA32B2C006ECAC6 /* liblibPDRCore.a in Frameworks */,
+				24AFD86B1CB50C4000C0F062 /* libopencore-amrnb.a in Frameworks */,
 				24BD5AF21C994A1700B05AA2 /* libicucore.tbd in Frameworks */,
 				24BD5AEE1C99494200B05AA2 /* libxml2.tbd in Frameworks */,
 				24BD5AEA1C99492A00B05AA2 /* libiconv.2.tbd in Frameworks */,
 				24BD5AE81C99491D00B05AA2 /* libsqlite3.0.tbd in Frameworks */,
-				24AFD8691CB50C4000C0F062 /* liblibZip.a in Frameworks */,
-				24AFD86B1CB50C4000C0F062 /* libopencore-amrnb.a in Frameworks */,
 				67AB0BA521EF111D0029B229 /* BaiduMapAPI_Location.framework in Frameworks */,
 				67AB0BA321EF111D0029B229 /* BaiduMapAPI_Map.framework in Frameworks */,
 				7A1967C52125371000B330A9 /* storage.framework in Frameworks */,
 				24F990151DFBDA5600848C2B /* MiPassport.framework in Frameworks */,
-				24AFD8741CB50C4000C0F062 /* libTCWeiboSDK.a in Frameworks */,
-				24AFD8761CB50C4000C0F062 /* libTouchJSON.a in Frameworks */,
-				24AFD8791CB50C4000C0F062 /* libWeiboSDK.a in Frameworks */,
-				67D6390A21C12945005D1E8F /* libbaiduSpeech.a in Frameworks */,
-				2430A7021E11603E00D3D42D /* libssl.a in Frameworks */,
-				247F85DB1FA32B2C006ECAC6 /* liblibPDRCore.a in Frameworks */,
 				24AFD7FF1CB50C3200C0F062 /* AlipaySDK.framework in Frameworks */,
 				24AFD8011CB50C3200C0F062 /* iflyMSC.framework in Frameworks */,
 				24AFD8021CB50C3200C0F062 /* TencentOpenAPI.framework in Frameworks */,
@@ -1422,6 +1420,23 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		676E55D023619C61001D3299 /* location */ = {
+			isa = PBXGroup;
+			children = (
+				676E560223619C94001D3299 /* BaiduLocationPlugin.xcodeproj */,
+				67E584A623600DCF007E6832 /* libGeolocation.xcodeproj */,
+			);
+			name = location;
+			sourceTree = "<group>";
+		};
+		676E560323619C94001D3299 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				676E560723619C94001D3299 /* libBaiduLocationPlugin.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		67A6357F235F12E7005452B2 /* map */ = {
 			isa = PBXGroup;
 			children = (
@@ -1476,7 +1491,6 @@
 			isa = PBXGroup;
 			children = (
 				67E5853923605038007E6832 /* weixinShare.xcodeproj */,
-				67E5853323605033007E6832 /* TencentShare.xcodeproj */,
 				67E5852D2360502E007E6832 /* SinaShare.xcodeproj */,
 				67E5852723605027007E6832 /* QQShare.xcodeproj */,
 				67E5852123604F83007E6832 /* libShare.xcodeproj */,
@@ -1725,14 +1739,6 @@
 			isa = PBXGroup;
 			children = (
 				67E585322360502E007E6832 /* libSinaShare.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		67E5853423605033007E6832 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				67E5853823605033007E6832 /* libTencentShare.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2155,6 +2161,7 @@
 				67DF0171235F27740014B3E6 /* DCUniFaceID.xcodeproj */,
 				672D71C5236001390002A784 /* DCUniBarcode.xcodeproj */,
 				67DF016A235F25DB0014B3E6 /* DCUniZXing.xcodeproj */,
+				676E55D023619C61001D3299 /* location */,
 				67A635C9235F216D005452B2 /* Share */,
 				67A635C8235F212A005452B2 /* push */,
 				67A635C7235F2120005452B2 /* pay */,
@@ -2168,9 +2175,8 @@
 				67E584B5236018DA007E6832 /* libMedia.xcodeproj */,
 				67E584AE2360151E007E6832 /* libIO.xcodeproj */,
 				67E5851423604ABF007E6832 /* libPGProximity.xcodeproj */,
-				67E584EB236040FF007E6832 /* libOrientation.xcodeproj */,
-				67E584A623600DCF007E6832 /* libGeolocation.xcodeproj */,
 				67A63591235F1573005452B2 /* libMessage.xcodeproj */,
+				67E584EB236040FF007E6832 /* libOrientation.xcodeproj */,
 				672D71BF236000C70002A784 /* libAccelerometer.xcodeproj */,
 				672C86AF235F0F4300E4475F /* libFingerprint.xcodeproj */,
 				672C86A4235F0DDD00E4475F /* libContacts.xcodeproj */,
@@ -2307,6 +2313,10 @@
 				{
 					ProductGroup = 67E588CE23606341007E6832 /* Products */;
 					ProjectRef = 67E588CD23606341007E6832 /* BaiduKeyVerify.xcodeproj */;
+				},
+				{
+					ProductGroup = 676E560323619C94001D3299 /* Products */;
+					ProjectRef = 676E560223619C94001D3299 /* BaiduLocationPlugin.xcodeproj */;
 				},
 				{
 					ProductGroup = 67E588B323606082007E6832 /* Products */;
@@ -2469,10 +2479,6 @@
 					ProjectRef = 67E585C623605D30007E6832 /* SinaWBOauth.xcodeproj */;
 				},
 				{
-					ProductGroup = 67E5853423605033007E6832 /* Products */;
-					ProjectRef = 67E5853323605033007E6832 /* TencentShare.xcodeproj */;
-				},
-				{
 					ProductGroup = 67E5853A23605038007E6832 /* Products */;
 					ProjectRef = 67E5853923605038007E6832 /* weixinShare.xcodeproj */;
 				},
@@ -2547,6 +2553,13 @@
 			fileType = archive.ar;
 			path = liblibBeacon.a;
 			remoteRef = 676E53882360770B001D3299 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		676E560723619C94001D3299 /* libBaiduLocationPlugin.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libBaiduLocationPlugin.a;
+			remoteRef = 676E560623619C94001D3299 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		67A63596235F1573005452B2 /* liblibMessage.a */ = {
@@ -2715,13 +2728,6 @@
 			fileType = archive.ar;
 			path = libSinaShare.a;
 			remoteRef = 67E585312360502E007E6832 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		67E5853823605033007E6832 /* libTencentShare.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libTencentShare.a;
-			remoteRef = 67E5853723605033007E6832 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		67E5853E23605038007E6832 /* libweixinShare.a */ = {

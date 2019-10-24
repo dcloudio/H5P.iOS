@@ -51,7 +51,6 @@
 		2492ABE61FC2B6C20034E90C /* BDSSpeechSynthesizerParams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDSSpeechSynthesizerParams.h; sourceTree = "<group>"; };
 		2492ABE71FC2B6C20034E90C /* BDSSynthesizerLogLevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDSSynthesizerLogLevel.h; sourceTree = "<group>"; };
 		2492ABE81FC2B6C20034E90C /* BDSTTSEventManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDSTTSEventManager.h; sourceTree = "<group>"; };
-		DE5E5A002149066C00DCA389 /* libBaiduSpeechSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBaiduSpeechSDK.a; path = ../../Pandora/libs/Universal/libBaiduSpeechSDK.a; sourceTree = "<group>"; };
 		DE5E5A022149069A00DCA389 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DEACA2FD215498FB00EEC05D /* PGBaiduSplash.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGBaiduSplash.h; sourceTree = "<group>"; };
 		DEACA2FE215498FB00EEC05D /* PGBaiduSplash.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGBaiduSplash.m; sourceTree = "<group>"; };
@@ -154,7 +153,6 @@
 			isa = PBXGroup;
 			children = (
 				DE5E5A022149069A00DCA389 /* Foundation.framework */,
-				DE5E5A002149066C00DCA389 /* libBaiduSpeechSDK.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -338,11 +336,13 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = NO;
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../SDK/Libs\"/**";
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../libSpeech\"",
 					"\"$(SRCROOT)/baiduSpeech/BDSClientHeaders\"/**",
 					"\"$(SRCROOT)/../../../SDK/inc\"/**",
 				);
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../SDK/Libs\"/**";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -354,11 +354,13 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = NO;
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../SDK/Libs\"/**";
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../libSpeech\"",
 					"\"$(SRCROOT)/baiduSpeech/BDSClientHeaders\"/**",
 					"\"$(SRCROOT)/../../../SDK/inc\"/**",
 				);
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../SDK/Libs\"/**";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
