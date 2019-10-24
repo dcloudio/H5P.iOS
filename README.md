@@ -74,7 +74,7 @@
 ## 运行方式
 
 1. 将工程 clone 到本地（或直接下载zip）；
-2. 由于源码依赖了一些第三方库超过限制，无法上传请下载 [离线sdk](https://ask.dcloud.net.cn/docs/#//ask.dcloud.net.cn/article/103) 包，解压打开 SDK/Libs 目录，将以下库手动将库复制到本工程的 SDK/Libs 下，然后编译运行即可
+2. 由于源码依赖了一些第三方库超过限制，无法上传请下载 [离线sdk](https://ask.dcloud.net.cn/docs/#//ask.dcloud.net.cn/article/103) 包并解压，打开 SDK/Libs 目录，将以下库复制到本工程的 SDK/Libs 下，然后编译运行即可
 
 	- libBaiduSpeechSDK.a
 	- liblibWeex.a
