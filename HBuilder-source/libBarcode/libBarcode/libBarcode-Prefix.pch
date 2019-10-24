@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'libBarcode' target in the 'libBarcode' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+#endif

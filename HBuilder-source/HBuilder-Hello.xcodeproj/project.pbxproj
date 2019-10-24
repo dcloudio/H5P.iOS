@@ -31,7 +31,6 @@
 		24AFD8641CB50C4000C0F062 /* liblibStorage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24AFD8271CB50C4000C0F062 /* liblibStorage.a */; };
 		24AFD8651CB50C4000C0F062 /* liblibUI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24AFD8281CB50C4000C0F062 /* liblibUI.a */; };
 		24AFD8661CB50C4000C0F062 /* liblibWebNavi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24AFD8291CB50C4000C0F062 /* liblibWebNavi.a */; };
-		24AFD8681CB50C4000C0F062 /* liblibXHR.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24AFD82B1CB50C4000C0F062 /* liblibXHR.a */; };
 		24AFD86B1CB50C4000C0F062 /* libopencore-amrnb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24AFD82E1CB50C4000C0F062 /* libopencore-amrnb.a */; };
 		24AFD8741CB50C4000C0F062 /* libTCWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24AFD8371CB50C4000C0F062 /* libTCWeiboSDK.a */; };
 		24AFD8761CB50C4000C0F062 /* libTouchJSON.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24AFD8391CB50C4000C0F062 /* libTouchJSON.a */; };
@@ -123,6 +122,8 @@
 		676E55072361864B001D3299 /* liblibZip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67E584F9236042B7007E6832 /* liblibZip.a */; };
 		676E560E23619DED001D3299 /* libBaiduKeyVerify.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67E588D223606341007E6832 /* libBaiduKeyVerify.a */; };
 		676E560F23619DED001D3299 /* libBaiduLocationPlugin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 676E560723619C94001D3299 /* libBaiduLocationPlugin.a */; };
+		676E56DD2361B3CD001D3299 /* liblibBarcode.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 676E56BD2361B3AF001D3299 /* liblibBarcode.a */; };
+		676E56E42361B4CD001D3299 /* liblibXHR.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 676E56E32361B4B0001D3299 /* liblibXHR.a */; };
 		67A3C8942276ED98004F2332 /* weex-polyfill.js in Resources */ = {isa = PBXBuildFile; fileRef = 67A3C8932276ED98004F2332 /* weex-polyfill.js */; };
 		67A63597235F1583005452B2 /* liblibMessage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67A63596235F1573005452B2 /* liblibMessage.a */; };
 		67AB0B3F21EEEAA60029B229 /* AMapSearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67AB0B3E21EEEAA60029B229 /* AMapSearchKit.framework */; };
@@ -267,6 +268,20 @@
 			proxyType = 2;
 			remoteGlobalIDString = 2FF7201D21FABE3C0098CFBB;
 			remoteInfo = BaiduLocationPlugin;
+		};
+		676E56BC2361B3AF001D3299 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 676E56A62361B3AF001D3299 /* libBarcode.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 17E61011175D86E2004C29A5;
+			remoteInfo = libBarcode;
+		};
+		676E56E22361B4B0001D3299 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 676E56DE2361B4B0001D3299 /* libXHR.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 17F5CF021727972B00356EE5;
+			remoteInfo = libXHR;
 		};
 		67A63595235F1573005452B2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -807,6 +822,11 @@
 		676E537D2360769F001D3299 /* libSqlite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = libSqlite.xcodeproj; path = libSqlite/libSqlite.xcodeproj; sourceTree = SOURCE_ROOT; };
 		676E53842360770A001D3299 /* libBeacon.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = libBeacon.xcodeproj; path = libBeacon/libBeacon.xcodeproj; sourceTree = SOURCE_ROOT; };
 		676E560223619C94001D3299 /* BaiduLocationPlugin.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BaiduLocationPlugin.xcodeproj; path = libGeolocation/BaiduLocationPlugin/BaiduLocationPlugin.xcodeproj; sourceTree = SOURCE_ROOT; };
+		676E56A62361B3AF001D3299 /* libBarcode.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = libBarcode.xcodeproj; path = libBarcode/libBarcode.xcodeproj; sourceTree = SOURCE_ROOT; };
+		676E56DE2361B4B0001D3299 /* libXHR.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = libXHR.xcodeproj; path = libXHR/libXHR.xcodeproj; sourceTree = SOURCE_ROOT; };
+		676E56E52361B55B001D3299 /* PDRNetTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PDRNetTask.h; sourceTree = "<group>"; };
+		676E56E62361B55B001D3299 /* PDRNetConnection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PDRNetConnection.h; sourceTree = "<group>"; };
+		676E56E72361B59D001D3299 /* PTOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PTOperation.h; sourceTree = "<group>"; };
 		67A3C8932276ED98004F2332 /* weex-polyfill.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "weex-polyfill.js"; sourceTree = "<group>"; };
 		67A63591235F1573005452B2 /* libMessage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = libMessage.xcodeproj; path = libMessage/libMessage.xcodeproj; sourceTree = SOURCE_ROOT; };
 		67A63598235F168F005452B2 /* PTPathUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PTPathUtil.h; sourceTree = "<group>"; };
@@ -1061,6 +1081,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				676E56E42361B4CD001D3299 /* liblibXHR.a in Frameworks */,
+				676E56DD2361B3CD001D3299 /* liblibBarcode.a in Frameworks */,
 				676E560E23619DED001D3299 /* libBaiduKeyVerify.a in Frameworks */,
 				676E560F23619DED001D3299 /* libBaiduLocationPlugin.a in Frameworks */,
 				676E55072361864B001D3299 /* liblibZip.a in Frameworks */,
@@ -1165,7 +1187,6 @@
 				24AFD8641CB50C4000C0F062 /* liblibStorage.a in Frameworks */,
 				24AFD8651CB50C4000C0F062 /* liblibUI.a in Frameworks */,
 				24AFD8661CB50C4000C0F062 /* liblibWebNavi.a in Frameworks */,
-				24AFD8681CB50C4000C0F062 /* liblibXHR.a in Frameworks */,
 				24AFD8741CB50C4000C0F062 /* libTCWeiboSDK.a in Frameworks */,
 				24AFD8761CB50C4000C0F062 /* libTouchJSON.a in Frameworks */,
 				24AFD8791CB50C4000C0F062 /* libWeiboSDK.a in Frameworks */,
@@ -1223,6 +1244,9 @@
 				2F0BA3FF215B4A4100F67004 /* PDRCoreApp.h */,
 				67E584C723603547007E6832 /* PDRCoreFeature.h */,
 				67E584C3236029FC007E6832 /* PDRCoreAppFrame+Layout.h */,
+				676E56E62361B55B001D3299 /* PDRNetConnection.h */,
+				676E56E72361B59D001D3299 /* PTOperation.h */,
+				676E56E52361B55B001D3299 /* PDRNetTask.h */,
 				2F0BA400215B4A4100F67004 /* PDRCoreAppFrame.h */,
 				2F0BA401215B4A4100F67004 /* PDRCoreAppInfo.h */,
 				67E585AA23605A25007E6832 /* PDRCoreAppResource.h */,
@@ -1433,6 +1457,22 @@
 			isa = PBXGroup;
 			children = (
 				676E560723619C94001D3299 /* libBaiduLocationPlugin.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		676E56A72361B3AF001D3299 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				676E56BD2361B3AF001D3299 /* liblibBarcode.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		676E56DF2361B4B0001D3299 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				676E56E32361B4B0001D3299 /* liblibXHR.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2160,6 +2200,7 @@
 				67DF0177235F27B70014B3E6 /* WeexMaps */,
 				67DF0171235F27740014B3E6 /* DCUniFaceID.xcodeproj */,
 				672D71C5236001390002A784 /* DCUniBarcode.xcodeproj */,
+				676E56A62361B3AF001D3299 /* libBarcode.xcodeproj */,
 				67DF016A235F25DB0014B3E6 /* DCUniZXing.xcodeproj */,
 				676E55D023619C61001D3299 /* location */,
 				67A635C9235F216D005452B2 /* Share */,
@@ -2174,6 +2215,7 @@
 				67E5849F23600BF8007E6832 /* libCamera.xcodeproj */,
 				67E584B5236018DA007E6832 /* libMedia.xcodeproj */,
 				67E584AE2360151E007E6832 /* libIO.xcodeproj */,
+				676E56DE2361B4B0001D3299 /* libXHR.xcodeproj */,
 				67E5851423604ABF007E6832 /* libPGProximity.xcodeproj */,
 				67A63591235F1573005452B2 /* libMessage.xcodeproj */,
 				67E584EB236040FF007E6832 /* libOrientation.xcodeproj */,
@@ -2375,6 +2417,10 @@
 					ProjectRef = 672D71BF236000C70002A784 /* libAccelerometer.xcodeproj */;
 				},
 				{
+					ProductGroup = 676E56A72361B3AF001D3299 /* Products */;
+					ProjectRef = 676E56A62361B3AF001D3299 /* libBarcode.xcodeproj */;
+				},
+				{
 					ProductGroup = 676E53852360770A001D3299 /* Products */;
 					ProjectRef = 676E53842360770A001D3299 /* libBeacon.xcodeproj */;
 				},
@@ -2449,6 +2495,10 @@
 				{
 					ProductGroup = 67E5850E23604518007E6832 /* Products */;
 					ProjectRef = 67E5850D23604518007E6832 /* libVideo.xcodeproj */;
+				},
+				{
+					ProductGroup = 676E56DF2361B4B0001D3299 /* Products */;
+					ProjectRef = 676E56DE2361B4B0001D3299 /* libXHR.xcodeproj */;
 				},
 				{
 					ProductGroup = 67E584F5236042B7007E6832 /* Products */;
@@ -2560,6 +2610,20 @@
 			fileType = archive.ar;
 			path = libBaiduLocationPlugin.a;
 			remoteRef = 676E560623619C94001D3299 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		676E56BD2361B3AF001D3299 /* liblibBarcode.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = liblibBarcode.a;
+			remoteRef = 676E56BC2361B3AF001D3299 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		676E56E32361B4B0001D3299 /* liblibXHR.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = liblibXHR.a;
+			remoteRef = 676E56E22361B4B0001D3299 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		67A63596235F1573005452B2 /* liblibMessage.a */ = {
