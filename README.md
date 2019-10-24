@@ -28,14 +28,14 @@
 | Camera(摄像头)               | libCamera             | [plus.camera](https://www.html5plus.org/doc/zh_cn/camera.html) | https://uniapp.dcloud.io/api/media/image |
 | Contacts(通讯录)             | libContacts           | [plus.contacts](https://www.html5plus.org/doc/zh_cn/contacts.html) | https://uniapp.dcloud.io/api/system/contact |
 | Fingerprint(指纹识别)        | libFingerprint        | [plus.fingerprint](https://www.html5plus.org/doc/zh_cn/fingerprint.html) | https://uniapp.dcloud.io/api/other/authentication |
-| Geolocation(定位)           | libGeolocation         | [plus.geolocation](https://www.html5plus.org/doc/zh_cn/geolocation.html) | https://uniapp.dcloud.io/api/location/location |
+| Geolocation(系统定位)           | libGeolocation         | [plus.geolocation](https://www.html5plus.org/doc/zh_cn/geolocation.html) | https://uniapp.dcloud.io/api/location/location |
+|Geolocation(百度定位)         | BaiduLocationPlugin	           | [plus.geolocation](https://www.html5plus.org/doc/zh_cn/geolocation.html) | https://uniapp.dcloud.io/api/location/location |
 | iBeacon                     | libBeacon             | [plus.ibeacon](https://www.html5plus.org/doc/zh_cn/ibeacon.html) | https://uniapp.dcloud.io/api/system/ibeacon |
 | IO(文件系统)                 | libIO                 | [plus.io](https://www.html5plus.org/doc/zh_cn/io.html) | https://uniapp.dcloud.io/api/file/file |
 | Maps(地图基础库)             | libMap                | [plus.map](https://www.html5plus.org/doc/zh_cn/maps.html) | https://uniapp.dcloud.io/api/location/map |
 |Maps(高德德图)                | AMapImp               | [plus.map](https://www.html5plus.org/doc/zh_cn/maps.html) | https://uniapp.dcloud.io/api/location/map |
 | Maps(百度地图)               | bmapimp               | [plus.map](https://www.html5plus.org/doc/zh_cn/maps.html) | https://uniapp.dcloud.io/api/location/map |
 | Messaging(短彩邮件消息)       | libMessage            | [plus.messaging](https://www.html5plus.org/doc/zh_cn/messaging.html) |
-|NativeUI(系统原生界面)         | libNativeUI	           | [plus.nativeUI](https://www.html5plus.org/doc/zh_cn/nativeui.html) |
 | Oauth(登录基础库)             | libOauth              | [plus.oauth](https://www.html5plus.org/doc/zh_cn/oauth.html) | https://uniapp.dcloud.io/api/plugins/login |
 | Oauth(小米登录)               | MiOauth              | [plus.oauth](https://www.html5plus.org/doc/zh_cn/oauth.html) | https://uniapp.dcloud.io/api/plugins/login |
 | Oauth(QQ登录)                 | QQOauth              | [plus.oauth](https://www.html5plus.org/doc/zh_cn/oauth.html) | https://uniapp.dcloud.io/api/plugins/login |
