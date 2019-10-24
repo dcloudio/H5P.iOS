@@ -79,6 +79,7 @@
 	- libBaiduSpeechSDK.a
 	- liblibWeex.a
 	- MAMapKit.framework
+	- IJKMediaFramework.framework
 
 ## 许可协议
 本工程大部分源码开源，使用者可以自主修改已公开的源码，编译新版本。
