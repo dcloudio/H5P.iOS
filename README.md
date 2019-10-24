@@ -56,7 +56,7 @@
 | Share(新浪微博分享)            | SinaShare             | [plus.share](https://www.html5plus.org/doc/zh_cn/share.html) | https://uniapp.dcloud.io/api/plugins/share |
 | Share(微信分享)                | weixinShare           | [plus.share](https://www.html5plus.org/doc/zh_cn/share.html) | https://uniapp.dcloud.io/api/plugins/share |
 | Speech(语音识别基础库)          | libSpeech	            | [plus.speech](https://www.html5plus.org/doc/zh_cn/speech.html) | https://uniapp.dcloud.io/api/plugins/voice |
-| Speech(百度语音识别)             baiduSpeech           | [plus.speech](https://www.html5plus.org/doc/zh_cn/speech.html) | https://uniapp.dcloud.io/api/plugins/voice |
+| Speech(百度语音识别)           | baiduSpeech           | [plus.speech](https://www.html5plus.org/doc/zh_cn/speech.html) | https://uniapp.dcloud.io/api/plugins/voice |
 | Speech(讯飞语音识别)            | iflySpeech           | [plus.speech](https://www.html5plus.org/doc/zh_cn/speech.html) | https://uniapp.dcloud.io/api/plugins/voice |
 | Statistic(友盟统计)             | libStatistic         | [plus.statistic](https://www.html5plus.org/doc/zh_cn/statistic.html) |
 | VideoPlayer(视频播放)           | libVideo             | [plus.video.VideoPlayer](https://www.html5plus.org/doc/zh_cn/video.html#plus.video.VideoPlayer) | https://uniapp.dcloud.io/api/media/video |
