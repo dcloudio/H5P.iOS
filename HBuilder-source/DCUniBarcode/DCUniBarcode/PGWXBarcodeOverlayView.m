@@ -66,7 +66,6 @@ static CGFloat kRegionalPercent = 0.6f;
 static CGFloat kScanLineWidth = 4.0f;
 static CGFloat kScanLineHeightPercent = 0.10f;
 static CGFloat kBorderwidth = -2.0f;
-static CGFloat kOverlayColor[] = {0.0f, 0.0f, 0.0f, 0.5f};
 static CGFloat kLineColor[] = {1.0f, 0.0f, 0.0f, 1.0f};
 
 @interface PGWXBarcodeOverlayView()
@@ -202,42 +201,10 @@ static CGFloat kLineColor[] = {1.0f, 0.0f, 0.0f, 1.0f};
     return point;
 }
 
-#define kTextMargin 10
-- (void)drawRect:(CGRect)rect
-       fillColor:(const CGFloat[])components
-       inContext:(CGContextRef)context {
-    CGContextBeginPath(context);
-    CGContextMoveToPoint(context, rect.origin.x, rect.origin.y);
-    CGContextAddLineToPoint(context, rect.origin.x + rect.size.width, rect.origin.y);
-    CGContextAddLineToPoint(context, rect.origin.x + rect.size.width, rect.origin.y + rect.size.height);
-    CGContextAddLineToPoint(context, rect.origin.x, rect.origin.y + rect.size.height);
-    CGContextAddLineToPoint(context, rect.origin.x, rect.origin.y);
-    CGContextSetFillColor(context, components);
-    CGContextFillPath(context);
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
--(BOOL)firstColor:(UIColor*)firstColor secondColor:(UIColor*)secondColor
-{
-    if (CGColorEqualToColor(firstColor.CGColor, secondColor.CGColor))
-    {
-        return YES;
-    }else
-    {
-        return NO;
-    }
-}
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
     
     const CGFloat *scanLineColor = self.style.frameColor ? CGColorGetComponents(self.style.frameColor.CGColor):kLineColor;
-    const CGFloat *scanOverlayColor = kOverlayColor;
-    if ([self firstColor:self.style.scanBackground secondColor:[UIColor clearColor]]) {
-        scanOverlayColor = kOverlayColor;
-    }else{
-        scanOverlayColor =  CGColorGetComponents(self.style.scanBackground.CGColor);
-    }
-    
     CGFloat height = self.bounds.size.height;
     CGFloat width  = self.bounds.size.width;
     CGFloat cropsize = height > width ? width : height;
@@ -260,18 +227,17 @@ static CGFloat kLineColor[] = {1.0f, 0.0f, 0.0f, 1.0f};
     
     CGFloat paddingY = (marginY+kBorderwidth+kScanLineWidth);
     CGFloat paddingX = (marginX+kBorderwidth+kScanLineWidth);
-    // top
-    [self drawRect:CGRectMake(0, 0, self.bounds.size.width, paddingY)
-         fillColor:scanOverlayColor inContext:context];
-    // left
-    [self drawRect:CGRectMake(0, paddingY, paddingX, self.bounds.size.height - 2*paddingY )
-         fillColor:scanOverlayColor inContext:context];
-    //right
-    [self drawRect:CGRectMake(width - paddingX, paddingY, paddingX, self.bounds.size.height - 2*paddingY)
-         fillColor:scanOverlayColor inContext:context];
-    //bottom
-    [self drawRect:CGRectMake(0, self.bounds.size.height - paddingY, width, paddingY)
-         fillColor:scanOverlayColor inContext:context];
+   
+    // 半透明区域
+    [[UIColor colorWithWhite:0 alpha:0.6] setFill];
+    UIRectFill(rect);
+    // 中空区域
+    CGRect holeRection = CGRectMake(paddingX, paddingY, width - paddingX * 2, width - paddingX * 2);
+    // Intersection: 交集
+    CGRect holeiInterSection = CGRectIntersection(holeRection, rect);
+    // 设置透明
+    [[UIColor clearColor] setFill];
+    UIRectFill(holeiInterSection);
     
     // tl line
     CGContextBeginPath(context);

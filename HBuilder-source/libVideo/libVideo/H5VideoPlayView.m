@@ -18,6 +18,7 @@
 #import "UIImageView+Video.h"
 #import "SVProgressHUD.h"
 #import <IJKMediaFramework/IJKMediaFramework.h>
+#import <AVFoundation/AVFoundation.h>
 
 #define kH5VidelPlayViewAutoHideBarTimerinterval 8
 #define kH5VidelPlayViewBottomButtonSpace 5
@@ -146,10 +147,55 @@
     | UIViewAutoresizingFlexibleBottomMargin;
     self.videoPlayer.view.backgroundColor = [UIColor blackColor];
     [self.videoPlayer.view setFrame:self.bounds];
+    [self adapterVideoDirection];
     [self insertSubview:self.videoPlayer.view atIndex:0];
     
     [self installMovieNotificationObservers];
 }
+
+/// 调整视频方向
+- (void)adapterVideoDirection
+{
+    if (!self.setting.url) {
+        return;
+    }
+    
+    __weak __typeof(self)weakSelf = self;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSUInteger degress = 0;
+        AVAsset *asset = [AVAsset assetWithURL:[NSURL URLWithString:self.setting.url]];
+        NSArray *tracks = [asset tracksWithMediaType:AVMediaTypeVideo];
+        if([tracks count] > 0) {
+            AVAssetTrack *videoTrack = [tracks objectAtIndex:0];
+            CGAffineTransform t = videoTrack.preferredTransform;
+
+            if(t.a == 0 && t.b == 1.0 && t.c == -1.0 && t.d == 0){
+                // Portrait
+                degress = 90;
+            }else if(t.a == 0 && t.b == -1.0 && t.c == 1.0 && t.d == 0){
+                // PortraitUpsideDown
+                degress = 270;
+            }else if(t.a == 1.0 && t.b == 0 && t.c == 0 && t.d == 1.0){
+                // LandscapeRight
+                degress = 0;
+            }else if(t.a == -1.0 && t.b == 0 && t.c == 0 && t.d == -1.0){
+                // LandscapeLeft
+                degress = 180;
+            }
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (degress == 90) {
+                weakSelf.videoPlayer.view.frame = CGRectMake(0,0, weakSelf.bounds.size.height, weakSelf.bounds.size.width);
+                weakSelf.videoPlayer.view.transform = CGAffineTransformMakeRotation(M_PI_2);
+                weakSelf.videoPlayer.view.frame = CGRectMake(0,0, weakSelf.videoPlayer.view.frame.size.width, weakSelf.videoPlayer.view.frame.size.height);
+            }else{
+                weakSelf.videoPlayer.view.frame = self.bounds;
+            }
+        });
+    });
+}
+
 -(void)installMovieNotificationObservers
 {
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -1189,7 +1235,7 @@
 
 - (void)showBuffuingView {
     if ( !self.isShowBuffingView ) {
-        [SVProgressHUD setContainerView:self.videoPlayer.view];
+        [SVProgressHUD setContainerView:self];
         [SVProgressHUD setMinimumSize:CGSizeMake(20, 20)];
         [SVProgressHUD setRingThickness:4];
         [SVProgressHUD setBackgroundColor:[UIColor clearColor]];

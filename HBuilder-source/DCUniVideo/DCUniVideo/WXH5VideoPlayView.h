@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "WXH5VideoPlaySetting.h"
 
-
 @class WXH5VideoPlayView;
 @protocol WXH5VideoPlayViewDelegate <NSObject>
 @required

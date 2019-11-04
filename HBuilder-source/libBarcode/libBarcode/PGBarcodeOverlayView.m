@@ -66,7 +66,6 @@ static CGFloat kRegionalPercent = 0.6f;
 static CGFloat kScanLineWidth = 4.0f;
 static CGFloat kScanLineHeightPercent = 0.10f;
 static CGFloat kBorderwidth = -2.0f;
-static CGFloat kOverlayColor[] = {0.0f, 0.0f, 0.0f, 0.6f};
 static CGFloat kLineColor[] = {1.0f, 0.0f, 0.0f, 1.0f};
 
 @interface PGBarcodeOverlayView()
@@ -202,26 +201,11 @@ static CGFloat kLineColor[] = {1.0f, 0.0f, 0.0f, 1.0f};
     return point;
 }
 
-#define kTextMargin 10
-- (void)drawRect:(CGRect)rect
-       fillColor:(const CGFloat[])components
-       inContext:(CGContextRef)context {
-    CGContextBeginPath(context);
-    CGContextMoveToPoint(context, rect.origin.x, rect.origin.y);
-    CGContextAddLineToPoint(context, rect.origin.x + rect.size.width, rect.origin.y);
-    CGContextAddLineToPoint(context, rect.origin.x + rect.size.width, rect.origin.y + rect.size.height);
-    CGContextAddLineToPoint(context, rect.origin.x, rect.origin.y + rect.size.height);
-    CGContextAddLineToPoint(context, rect.origin.x, rect.origin.y);
-    CGContextSetFillColor(context, components);
-    CGContextFillPath(context);
-}
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
     
     const CGFloat *scanLineColor = self.style.frameColor ? CGColorGetComponents(self.style.frameColor.CGColor):kLineColor;
-    const CGFloat *scanOverlayColor = self.style.scanBackground ? CGColorGetComponents(self.style.scanBackground.CGColor):kOverlayColor;
     CGFloat height = self.bounds.size.height;
     CGFloat width  = self.bounds.size.width;
     CGFloat cropsize = height > width ? width : height;
@@ -244,18 +228,18 @@ static CGFloat kLineColor[] = {1.0f, 0.0f, 0.0f, 1.0f};
     
     CGFloat paddingY = (marginY+kBorderwidth+kScanLineWidth);
     CGFloat paddingX = (marginX+kBorderwidth+kScanLineWidth);
-    // top
-    [self drawRect:CGRectMake(0, 0, self.bounds.size.width, paddingY)
-         fillColor:scanOverlayColor inContext:context];
-    // left
-    [self drawRect:CGRectMake(0, paddingY, paddingX, self.bounds.size.height - 2*paddingY )
-         fillColor:scanOverlayColor inContext:context];
-    //right
-    [self drawRect:CGRectMake(width - paddingX, paddingY, paddingX, self.bounds.size.height - 2*paddingY)
-         fillColor:scanOverlayColor inContext:context];
-    //bottom
-    [self drawRect:CGRectMake(0, self.bounds.size.height - paddingY, width, paddingY)
-         fillColor:scanOverlayColor inContext:context];
+    
+
+    // 半透明区域
+    [[UIColor colorWithWhite:0 alpha:0.6] setFill];
+    UIRectFill(rect);
+    // 中空区域
+    CGRect holeRection = CGRectMake(paddingX, paddingY, width - paddingX * 2, width - paddingX * 2);
+    // Intersection: 交集
+    CGRect holeiInterSection = CGRectIntersection(holeRection, rect);
+    // 设置透明
+    [[UIColor clearColor] setFill];
+    UIRectFill(holeiInterSection);
     
     // tl line
     CGContextBeginPath(context);
@@ -292,140 +276,6 @@ static CGFloat kLineColor[] = {1.0f, 0.0f, 0.0f, 1.0f};
     CGContextSetStrokeColor(context, scanLineColor);
     CGContextSetLineWidth(context, kScanLineWidth);
     CGContextStrokePath(context);
-    /*
-     CGColorRef whiteColor = [UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.2].CGColor;
-     CGColorRef lightGrayColor = [UIColor colorWithRed:1.0 green: 0.0 blue:0.0 alpha:1.0].CGColor;
-     CGRect paperRect = CGRectMake(paddingX, paddingY+20, cropsize/2, 4);
-     drawLinearGradient(context, paperRect, whiteColor,lightGrayColor);
-     CGRect paperRect2 = CGRectMake(paddingX+cropsize/2, paddingY+20, cropsize/2, 4);
-     drawLinearGradient(context, paperRect2, lightGrayColor, whiteColor);*/
-    //CGContextSetStrokeColorWithColor(context, lightGrayColor);
-    //CGRect newrRect = CGRectInset(paperRect, 1.5, 1.5);//构造位置
-    // CGContextSetLineWidth(context, 1);//设置笔宽
-    // CGContextStrokeRect(context, newrRect);//绘图
-    
-    
-    /*
-     static CGFloat y = 100;
-     
-     y +=10;
-     if ( y >= (self.bounds.size.height - 100)) {
-     y = 100;
-     }
-     
-     CGContextRef context = UIGraphicsGetCurrentContext();
-     
-     //    CGMutablePathRef pathRef = CGPathCreateMutable();
-     CGFloat lineColor[] = {1.0f, 0.0f, 0.0f, 0.5f};
-     CGFloat marginColor[] = {0.5f, 0.5f, 0.5f, 0.5f};
-     
-     CGRect paths[]= {CGRectMake(0, 0, self.bounds.size.width, 100),
-     CGRectMake(0, 0, 100, self.bounds.size.height),
-     CGRectMake(self.bounds.size.width - 100, 0, 100, self.bounds.size.height),
-     CGRectMake(0, self.bounds.size.height - 100, self.bounds.size.width, 100)};
-     CGContextBeginPath(context);
-     CGContextAddRects(context, paths, 4);
-     CGContextSetFillColor(context, marginColor);
-     CGContextFillPath(context);
-     
-     CGContextBeginPath(context);
-     CGContextMoveToPoint(context, 100, 140);
-     CGContextAddLineToPoint(context, 100, 100);
-     CGContextAddLineToPoint(context, 140, 100);
-     CGContextSetStrokeColor(context, lineColor);
-     CGContextSetLineWidth(context, 5);
-     CGContextStrokePath(context);
-     
-     CGContextBeginPath(context);
-     CGContextMoveToPoint(context, 100, self.bounds.size.height - 140);
-     CGContextAddLineToPoint(context, 100, self.bounds.size.height - 100);
-     CGContextAddLineToPoint(context, 140, self.bounds.size.height - 100);
-     CGContextSetStrokeColor(context, lineColor);
-     CGContextSetLineWidth(context, 5);
-     CGContextStrokePath(context);
-     
-     
-     CGContextBeginPath(context);
-     CGContextMoveToPoint(context, self.bounds.size.width-140, 100);
-     CGContextAddLineToPoint(context, self.bounds.size.width-100, 100);
-     CGContextAddLineToPoint(context, self.bounds.size.width-100, 140);
-     CGContextSetStrokeColor(context, lineColor);
-     CGContextSetLineWidth(context, 5);
-     CGContextStrokePath(context);
-     
-     CGContextBeginPath(context);
-     CGContextMoveToPoint(context, self.bounds.size.width-140, self.bounds.size.height - 100);
-     CGContextAddLineToPoint(context, self.bounds.size.width-100, self.bounds.size.height - 100);
-     CGContextAddLineToPoint(context, self.bounds.size.width-100, self.bounds.size.height - 140);
-     CGContextSetStrokeColor(context, lineColor);
-     CGContextSetLineWidth(context, 5);
-     CGContextStrokePath(context);*/
-    /*
-     if (displayedMessage == nil) {
-     self.displayedMessage = NSLocalizedStringWithDefaultValue(@"OverlayView displayed message", nil, [NSBundle mainBundle], @"Place a barcode inside the viewfinder rectangle to scan it.", @"Place a barcode inside the viewfinder rectangle to scan it.");
-     }
-     CGContextRef c = UIGraphicsGetCurrentContext();
-     
-     CGFloat white[4] = {1.0f, 1.0f, 1.0f, 1.0f};
-     CGContextSetStrokeColor(c, white);
-     CGContextSetFillColor(c, white);
-     [self drawRect:cropRect inContext:c];
-     
-     //	CGContextSetStrokeColor(c, white);
-     //	CGContextSetStrokeColor(c, white);
-     CGContextSaveGState(c);
-     if (oneDMode) {
-     NSString *text = NSLocalizedStringWithDefaultValue(@"OverlayView 1d instructions", nil, [NSBundle mainBundle], @"Place a red line over the bar code to be scanned.", @"Place a red line over the bar code to be scanned.");
-     UIFont *helvetica15 = [UIFont fontWithName:@"Helvetica" size:15];
-     CGSize textSize = [text sizeWithFont:helvetica15];
-     
-     CGContextRotateCTM(c, M_PI/2);
-     // Invert height and width, because we are rotated.
-     CGPoint textPoint = CGPointMake(self.bounds.size.height / 2 - textSize.width / 2, self.bounds.size.width * -1.0f + 20.0f);
-     [text drawAtPoint:textPoint withFont:helvetica15];
-     }
-     else {
-     UIFont *font = [UIFont systemFontOfSize:18];
-     CGSize constraint = CGSizeMake(rect.size.width  - 2 * kTextMargin, cropRect.origin.y);
-     CGSize displaySize = [self.displayedMessage sizeWithFont:font constrainedToSize:constraint];
-     CGRect displayRect = CGRectMake((rect.size.width - displaySize.width) / 2 , cropRect.origin.y - displaySize.height, displaySize.width, displaySize.height);
-     [self.displayedMessage drawInRect:displayRect withFont:font lineBreakMode:UILineBreakModeWordWrap alignment:UITextAlignmentCenter];
-     }
-     CGContextRestoreGState(c);
-     int offset = rect.size.width / 2;
-     if (oneDMode) {
-     CGFloat red[4] = {1.0f, 0.0f, 0.0f, 1.0f};
-     CGContextSetStrokeColor(c, red);
-     CGContextSetFillColor(c, red);
-     CGContextBeginPath(c);
-     //		CGContextMoveToPoint(c, rect.origin.x + kPadding, rect.origin.y + offset);
-     //		CGContextAddLineToPoint(c, rect.origin.x + rect.size.width - kPadding, rect.origin.y + offset);
-     CGContextMoveToPoint(c, rect.origin.x + offset, rect.origin.y + kPadding);
-     CGContextAddLineToPoint(c, rect.origin.x + offset, rect.origin.y + rect.size.height - kPadding);
-     CGContextStrokePath(c);
-     }
-     if( nil != _points ) {
-     CGFloat blue[4] = {0.0f, 1.0f, 0.0f, 1.0f};
-     CGContextSetStrokeColor(c, blue);
-     CGContextSetFillColor(c, blue);
-     if (oneDMode) {
-     CGPoint val1 = [self map:[[_points objectAtIndex:0] CGPointValue]];
-     CGPoint val2 = [self map:[[_points objectAtIndex:1] CGPointValue]];
-     CGContextMoveToPoint(c, offset, val1.x);
-     CGContextAddLineToPoint(c, offset, val2.x);
-     CGContextStrokePath(c);
-     }
-     else {
-     CGRect smallSquare = CGRectMake(0, 0, 10, 10);
-     for( NSValue* value in _points ) {
-     CGPoint point = [self map:[value CGPointValue]];
-     smallSquare.origin = CGPointMake(
-     cropRect.origin.x + point.x - smallSquare.size.width / 2,
-     cropRect.origin.y + point.y - smallSquare.size.height / 2);
-     [self drawRect:smallSquare inContext:c];
-     }
-     }
-     }*/
 }
 
 - (void)layoutSubviews {

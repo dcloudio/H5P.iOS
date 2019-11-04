@@ -540,6 +540,7 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
     // Add the overlay to the application window if necessary
     if(!self.controlView.superview) {
         if(self.containerView){
+            self.controlView.frame = self.containerView.bounds;
             [self.containerView addSubview:self.controlView];
         } else {
 #if !defined(SV_APP_EXTENSIONS)
@@ -715,7 +716,7 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
 - (void)moveToPoint:(CGPoint)newCenter rotateAngle:(CGFloat)angle {
     self.hudView.transform = CGAffineTransformMakeRotation(angle);
     if (self.containerView) {
-        self.hudView.center = CGPointMake(self.containerView.center.x + self.offsetFromCenter.horizontal, self.containerView.center.y + self.offsetFromCenter.vertical);
+        self.hudView.center = CGPointMake(self.bounds.size.width / 2.0 + self.offsetFromCenter.horizontal, self.bounds.size.height / 2.0 + self.offsetFromCenter.vertical);
     } else {
         self.hudView.center = CGPointMake(newCenter.x + self.offsetFromCenter.horizontal, newCenter.y + self.offsetFromCenter.vertical);
     }
@@ -1199,6 +1200,11 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
 #else
     _controlView.frame = [UIScreen mainScreen].bounds;
 #endif
+    
+    if (self.containerView) {
+        self.frame = self.containerView.bounds;
+        _controlView.frame = self.containerView.bounds;
+    }
     
     return _controlView;
 }
