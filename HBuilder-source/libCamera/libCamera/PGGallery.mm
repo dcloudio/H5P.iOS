@@ -646,7 +646,8 @@
     NSString* outFilePath = nil;
     NSString *UTI = [asset valueForKey:@"uniformTypeIdentifier"];
     BOOL isHEIF = [UTI isEqualToString:@"public.heif"] || [UTI isEqualToString:@"public.heic"];
-    NSString *suggestedFileName = [asset valueForKey:@"filename"];
+    double createTime = [asset.creationDate timeIntervalSince1970];
+    NSString *suggestedFileName = [NSString stringWithFormat:@"%.0f-%@",createTime,[asset valueForKey:@"filename"]];
     if ( isHEIF ) {
         CIImage *ciImage = [CIImage imageWithData:imagedata];
         CIContext *context = [CIContext context];

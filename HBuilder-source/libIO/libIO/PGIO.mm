@@ -389,6 +389,7 @@
         [results setObject:[NSString stringWithFormat:@"file://%@", jdPath] forKey:@"path"];
     }else{
         [self toErrorCallback:cbId withCode:-1 withMessage:@"没有图片"];
+        return;
     }
     
     [results setValue:width forKey:@"width"];
