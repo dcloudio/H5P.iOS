@@ -1,3 +1,4 @@
 liblibWeex.a filter=lfs diff=lfs merge=lfs -text
 SDK/Libs/libBaiduSpeechSDK.a filter=lfs diff=lfs merge=lfs -text
 SDK/Libs/liblibWeex.a filter=lfs diff=lfs merge=lfs -text
+SDK/Libs/MAMapKit.framework/MAMapKit filter=lfs diff=lfs merge=lfs -text
