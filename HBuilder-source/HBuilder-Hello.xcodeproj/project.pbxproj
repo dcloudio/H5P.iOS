@@ -101,6 +101,8 @@
 		672C86AE235F0E2C00E4475F /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EED6413198A262C000A4449 /* CoreMedia.framework */; };
 		672C86B5235F0F4D00E4475F /* liblibFingerprint.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 672C86B4235F0F4400E4475F /* liblibFingerprint.a */; };
 		672CE2BB22DCAAA4005A0D88 /* weex-main-jsfm-uni.js in Resources */ = {isa = PBXBuildFile; fileRef = 672CE2BA22DCAAA4005A0D88 /* weex-main-jsfm-uni.js */; };
+		672D63C2237F0A49002A47DA /* DCUniVideoPublic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67DF01A5235F31C60014B3E6 /* DCUniVideoPublic.framework */; };
+		672D63C3237F0A63002A47DA /* libweixinShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67E5853E23605038007E6832 /* libweixinShare.a */; };
 		672D71CB236001550002A784 /* libDCUniBarcode.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67DF0162235F242F0014B3E6 /* libDCUniBarcode.a */; };
 		672D71D3236002880002A784 /* libDCUniFaceID.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67DF0176235F27740014B3E6 /* libDCUniFaceID.a */; };
 		672D71DA236004C50002A784 /* libDCUniVideo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 672D71D92360047D0002A784 /* libDCUniVideo.a */; };
@@ -150,7 +152,6 @@
 		67DF01AA235F38370014B3E6 /* libbz2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 67DF01A9235F38370014B3E6 /* libbz2.tbd */; };
 		67DF01AB235F38B20014B3E6 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EED65A7198A6273000A4449 /* OpenGLES.framework */; };
 		67DF01AD235F38BC0014B3E6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67DF01AC235F38BC0014B3E6 /* QuartzCore.framework */; };
-		67DF01AF235F3A3A0014B3E6 /* DCUniVideoPublic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67DF01A5235F31C60014B3E6 /* DCUniVideoPublic.framework */; };
 		67DF01B1235F3D460014B3E6 /* IJKMediaFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67229ACC230171AE0093F29A /* IJKMediaFramework.framework */; };
 		67E584A523600C73007E6832 /* liblibCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67E584A423600BF8007E6832 /* liblibCamera.a */; };
 		67E584AC23600E1A007E6832 /* liblibAccelerometer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 672D71C4236000C70002A784 /* liblibAccelerometer.a */; };
@@ -168,7 +169,6 @@
 		67E5859D23605415007E6832 /* liblibShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67E5852623604F83007E6832 /* liblibShare.a */; };
 		67E5859E23605415007E6832 /* libQQShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67E5852C23605027007E6832 /* libQQShare.a */; };
 		67E5859F23605415007E6832 /* libSinaShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67E585322360502E007E6832 /* libSinaShare.a */; };
-		67E585A123605415007E6832 /* libweixinShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67E5853E23605038007E6832 /* libweixinShare.a */; };
 		67E588D32360645C007E6832 /* liblibOauth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67E585B023605CCE007E6832 /* liblibOauth.a */; };
 		67E588D42360645C007E6832 /* libMiOauth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67E585B623605D1F007E6832 /* libMiOauth.a */; };
 		67E588D52360645C007E6832 /* libQHOauth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67E585BD23605D26007E6832 /* libQHOauth.a */; };
@@ -1081,6 +1081,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				672D63C3237F0A63002A47DA /* libweixinShare.a in Frameworks */,
+				672D63C2237F0A49002A47DA /* DCUniVideoPublic.framework in Frameworks */,
 				676E56E42361B4CD001D3299 /* liblibXHR.a in Frameworks */,
 				676E56DD2361B3CD001D3299 /* liblibBarcode.a in Frameworks */,
 				676E560E23619DED001D3299 /* libBaiduKeyVerify.a in Frameworks */,
@@ -1104,7 +1106,6 @@
 				67E5859D23605415007E6832 /* liblibShare.a in Frameworks */,
 				67E5859E23605415007E6832 /* libQQShare.a in Frameworks */,
 				67E5859F23605415007E6832 /* libSinaShare.a in Frameworks */,
-				67E585A123605415007E6832 /* libweixinShare.a in Frameworks */,
 				67E5851A23604AFB007E6832 /* liblibPGProximity.a in Frameworks */,
 				67E5851323604883007E6832 /* liblibVideo.a in Frameworks */,
 				67E584F323604248007E6832 /* liblibOrientation.a in Frameworks */,
@@ -1115,7 +1116,6 @@
 				67E584A523600C73007E6832 /* liblibCamera.a in Frameworks */,
 				672D71DC2360097D0002A784 /* liblibContacts.a in Frameworks */,
 				672D71DA236004C50002A784 /* libDCUniVideo.a in Frameworks */,
-				67DF01AF235F3A3A0014B3E6 /* DCUniVideoPublic.framework in Frameworks */,
 				672D71D3236002880002A784 /* libDCUniFaceID.a in Frameworks */,
 				672D71CB236001550002A784 /* libDCUniBarcode.a in Frameworks */,
 				67DF01B1235F3D460014B3E6 /* IJKMediaFramework.framework in Frameworks */,
