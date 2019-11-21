@@ -61,6 +61,7 @@
 | Statistic(友盟统计)             | libStatistic         | [plus.statistic](https://www.html5plus.org/doc/zh_cn/statistic.html) |
 | VideoPlayer(视频播放)           | libVideo             | [plus.video.VideoPlayer](https://www.html5plus.org/doc/zh_cn/video.html#plus.video.VideoPlayer) | https://uniapp.dcloud.io/api/media/video |
 | XHR(网络请求)                   | libXHR               | [plus.net](https://www.html5plus.org/doc/zh_cn/xhr.html) | https://uniapp.dcloud.io/api/request/request?id=request |
+| storage(本地数据存储)                   | libStorage               | [plus. storage](https://www.html5plus.org/doc/zh_cn/storage.html) | https://uniapp.dcloud.io/api/storage/storage?id=setstorage |
 | Zip(文件压缩和解压)	             | libZip               | [plus.zip](https://www.html5plus.org/doc/zh_cn/zip.html) |
 | nvue原生组件: barcode(二维码)    | DCUniBarcode         | 不支持 | https://uniapp.dcloud.io/component/barcode |
 | nvue原生组件: map(地图基础库)    | DCUniMap             | 不支持 | https://uniapp.dcloud.io/component/map |
