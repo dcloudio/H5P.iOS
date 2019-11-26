@@ -87,6 +87,7 @@
 		67065F532243868400DC71CA /* Default-Landscape-1112h@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 67065F372243868400DC71CA /* Default-Landscape-1112h@2x~ipad.png */; };
 		67065F542243868400DC71CA /* Default-Landscape-896h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67065F382243868400DC71CA /* Default-Landscape-896h@2x.png */; };
 		67065F552243868400DC71CA /* Default-Landscape-736h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67065F392243868400DC71CA /* Default-Landscape-736h@3x.png */; };
+		670949B7238D4CF400E5C970 /* liblibStorage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6709497C238D4A7D00E5C970 /* liblibStorage.a */; };
 		67229AC723015D800093F29A /* weex-main-jsfm-nvue.js in Resources */ = {isa = PBXBuildFile; fileRef = 67229AC523015D800093F29A /* weex-main-jsfm-nvue.js */; };
 		67229AC823015D800093F29A /* weex-main-jsfm-nvue-uni.js in Resources */ = {isa = PBXBuildFile; fileRef = 67229AC623015D800093F29A /* weex-main-jsfm-nvue-uni.js */; };
 		672904652354264B004DE4EB /* uni-app-service.js in Resources */ = {isa = PBXBuildFile; fileRef = 672904642354264B004DE4EB /* uni-app-service.js */; };
@@ -1087,6 +1088,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				670949B7238D4CF400E5C970 /* liblibStorage.a in Frameworks */,
 				672D63C3237F0A63002A47DA /* libweixinShare.a in Frameworks */,
 				672D63C2237F0A49002A47DA /* DCUniVideoPublic.framework in Frameworks */,
 				676E56E42361B4CD001D3299 /* liblibXHR.a in Frameworks */,

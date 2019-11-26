@@ -7,7 +7,7 @@
 //
 
 #import "PGStorage.h"
-#import "PDRCoreAppPrivate.h"
+#import "PDRCoreApp.h"
 #import "PDRCoreAppManager.h"
 #import "PDRToolSystemEx.h"
 #import "PDRCoreAppInfo.h"
