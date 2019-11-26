@@ -28,7 +28,6 @@
 		24AFD8591CB50C4000C0F062 /* liblibNavigator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24AFD81C1CB50C4000C0F062 /* liblibNavigator.a */; };
 		24AFD85E1CB50C4000C0F062 /* liblibPGInvocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24AFD8211CB50C4000C0F062 /* liblibPGInvocation.a */; };
 		24AFD8601CB50C4000C0F062 /* liblibPush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24AFD8231CB50C4000C0F062 /* liblibPush.a */; };
-		24AFD8641CB50C4000C0F062 /* liblibStorage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24AFD8271CB50C4000C0F062 /* liblibStorage.a */; };
 		24AFD8651CB50C4000C0F062 /* liblibUI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24AFD8281CB50C4000C0F062 /* liblibUI.a */; };
 		24AFD8661CB50C4000C0F062 /* liblibWebNavi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24AFD8291CB50C4000C0F062 /* liblibWebNavi.a */; };
 		24AFD86B1CB50C4000C0F062 /* libopencore-amrnb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24AFD82E1CB50C4000C0F062 /* libopencore-amrnb.a */; };
@@ -206,6 +205,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		6709497B238D4A7D00E5C970 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 67094977238D4A7D00E5C970 /* libStorage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 17F5CEE2172796EE00356EE5;
+			remoteInfo = libStorage;
+		};
 		672C869F235F0C4F00E4475F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 672C869B235F0C4F00E4475F /* libBlueTooth.xcodeproj */;
@@ -627,7 +633,6 @@
 		24AFD8241CB50C4000C0F062 /* liblibShare.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblibShare.a; path = ../SDK/Libs/liblibShare.a; sourceTree = "<group>"; };
 		24AFD8251CB50C4000C0F062 /* liblibSpeech.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblibSpeech.a; path = ../SDK/Libs/liblibSpeech.a; sourceTree = "<group>"; };
 		24AFD8261CB50C4000C0F062 /* liblibStatistic.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblibStatistic.a; path = ../SDK/Libs/liblibStatistic.a; sourceTree = "<group>"; };
-		24AFD8271CB50C4000C0F062 /* liblibStorage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblibStorage.a; path = ../SDK/Libs/liblibStorage.a; sourceTree = "<group>"; };
 		24AFD8281CB50C4000C0F062 /* liblibUI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblibUI.a; path = ../SDK/Libs/liblibUI.a; sourceTree = "<group>"; };
 		24AFD8291CB50C4000C0F062 /* liblibWebNavi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblibWebNavi.a; path = ../SDK/Libs/liblibWebNavi.a; sourceTree = "<group>"; };
 		24AFD82B1CB50C4000C0F062 /* liblibXHR.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblibXHR.a; path = ../SDK/Libs/liblibXHR.a; sourceTree = "<group>"; };
@@ -719,6 +724,7 @@
 		67065F372243868400DC71CA /* Default-Landscape-1112h@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape-1112h@2x~ipad.png"; sourceTree = "<group>"; };
 		67065F382243868400DC71CA /* Default-Landscape-896h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape-896h@2x.png"; sourceTree = "<group>"; };
 		67065F392243868400DC71CA /* Default-Landscape-736h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape-736h@3x.png"; sourceTree = "<group>"; };
+		67094977238D4A7D00E5C970 /* libStorage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = libStorage.xcodeproj; path = libStorage/libStorage.xcodeproj; sourceTree = SOURCE_ROOT; };
 		67229AC523015D800093F29A /* weex-main-jsfm-nvue.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "weex-main-jsfm-nvue.js"; sourceTree = "<group>"; };
 		67229AC623015D800093F29A /* weex-main-jsfm-nvue-uni.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "weex-main-jsfm-nvue-uni.js"; sourceTree = "<group>"; };
 		67229AC9230171AE0093F29A /* libDCUniAmap.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libDCUniAmap.a; path = ../SDK/Libs/libDCUniAmap.a; sourceTree = "<group>"; };
@@ -1184,7 +1190,6 @@
 				24AFD85E1CB50C4000C0F062 /* liblibPGInvocation.a in Frameworks */,
 				24AFD8601CB50C4000C0F062 /* liblibPush.a in Frameworks */,
 				67D6390921C12945005D1E8F /* libBaiduSpeechSDK.a in Frameworks */,
-				24AFD8641CB50C4000C0F062 /* liblibStorage.a in Frameworks */,
 				24AFD8651CB50C4000C0F062 /* liblibUI.a in Frameworks */,
 				24AFD8661CB50C4000C0F062 /* liblibWebNavi.a in Frameworks */,
 				24AFD8741CB50C4000C0F062 /* libTCWeiboSDK.a in Frameworks */,
@@ -1291,6 +1296,14 @@
 			);
 			name = Bundles;
 			path = ../../SDK/Bundles;
+			sourceTree = "<group>";
+		};
+		67094978238D4A7D00E5C970 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6709497C238D4A7D00E5C970 /* liblibStorage.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		672C869C235F0C4F00E4475F /* Products */ = {
@@ -2134,7 +2147,6 @@
 				24AFD8241CB50C4000C0F062 /* liblibShare.a */,
 				24AFD8251CB50C4000C0F062 /* liblibSpeech.a */,
 				24AFD8261CB50C4000C0F062 /* liblibStatistic.a */,
-				24AFD8271CB50C4000C0F062 /* liblibStorage.a */,
 				24AFD8281CB50C4000C0F062 /* liblibUI.a */,
 				24AFD8291CB50C4000C0F062 /* liblibWebNavi.a */,
 				24AFD82B1CB50C4000C0F062 /* liblibXHR.a */,
@@ -2210,6 +2222,7 @@
 				67A6357F235F12E7005452B2 /* map */,
 				67E588A52360605B007E6832 /* speech */,
 				67E5851B23604B69007E6832 /* libStatistic.xcodeproj */,
+				67094977238D4A7D00E5C970 /* libStorage.xcodeproj */,
 				67E584F4236042B7007E6832 /* libZip.xcodeproj */,
 				67E5850D23604518007E6832 /* libVideo.xcodeproj */,
 				67E5849F23600BF8007E6832 /* libCamera.xcodeproj */,
@@ -2493,6 +2506,10 @@
 					ProjectRef = 67E5851B23604B69007E6832 /* libStatistic.xcodeproj */;
 				},
 				{
+					ProductGroup = 67094978238D4A7D00E5C970 /* Products */;
+					ProjectRef = 67094977238D4A7D00E5C970 /* libStorage.xcodeproj */;
+				},
+				{
 					ProductGroup = 67E5850E23604518007E6832 /* Products */;
 					ProjectRef = 67E5850D23604518007E6832 /* libVideo.xcodeproj */;
 				},
@@ -2549,6 +2566,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		6709497C238D4A7D00E5C970 /* liblibStorage.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = liblibStorage.a;
+			remoteRef = 6709497B238D4A7D00E5C970 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		672C86A0235F0C4F00E4475F /* liblibBlueTooth.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -3104,8 +3128,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = HBuilder/HBuilder.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 飞 陈 (VHWW84B227)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: 花雨 熊 (Q59ZY3K5J2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 花雨 熊 (Q59ZY3K5J2)";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = G56NU654TV;
 				ENABLE_BITCODE = NO;
@@ -3141,7 +3165,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = io.dcloud.HBuilder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "a7e03077-46db-4b91-b0c4-20fd613c1e14";
-				PROVISIONING_PROFILE_SPECIFIER = "Wildcard. Development";
+				PROVISIONING_PROFILE_SPECIFIER = "HBuilder-Development";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 arm64 x86_64";
 				WRAPPER_EXTENSION = app;
