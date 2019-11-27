@@ -1,6 +1,6 @@
 # iOS平台5+App/uni-app运行环境开源项目
 
-**重要：请使用HBuilderX2.3.7-20191024生成本地打包App资源，否则uni-app项目可能提示“运行环境版本和编译器版本不一致”，详情参考[https://ask.dcloud.net.cn/article/35627](https://ask.dcloud.net.cn/article/35627)**
+**重要：请使用HBuilderX2.4.2-20191114生成本地打包App资源，否则uni-app项目可能提示“运行环境版本和编译器版本不一致”，详情参考[https://ask.dcloud.net.cn/article/35627](https://ask.dcloud.net.cn/article/35627)**
 
 
 ## 说明
