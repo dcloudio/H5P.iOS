@@ -18,6 +18,10 @@
     };
 }
 
++ (BOOL)CLLocationCoordinateEqualToCoordinate:(CLLocationCoordinate2D)c1 :(CLLocationCoordinate2D)c2 {
+    return c1.longitude == c2.longitude && c1.latitude == c2.latitude;
+}
+
 + (UIImage*)resizeWithImage:(UIImage *)image scaleSize:(CGSize)size {
     
     if (nil == image) {

@@ -15,12 +15,12 @@
 #import "WXH5DanmuSwitchView.h"
 #import "WXH5DanmakuManager.h"
 #import "PDRCore.h"
-#import "PGPlugin.h"
 #import "UIImageView+WXVideo.h"
 #import "SVProgressHUD.h"
 #import <IJKMediaFramework/IJKMediaFramework.h>
 #import <AVFoundation/AVFoundation.h>
 #import "WXConvert.h"
+#import "PGPlugin.h"
 #define wxkH5VidelPlayViewAutoHideBarTimerinterval 8
 #define wxkH5VidelPlayViewBottomButtonSpace 5
 

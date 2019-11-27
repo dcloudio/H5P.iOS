@@ -82,15 +82,7 @@
     self.titleLabel.text = self.title;
     self.titleLabel.textAlignment = _textAlign;
     
-    self.tapButton.frame = self.bounds;
-    
     [self setNeedsDisplay];
-}
-
-- (void)calloutViewClicked {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(calloutViewDidClicked:)]) {
-        [self.delegate calloutViewDidClicked:self.annotation];
-    }
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -131,11 +123,6 @@
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.titleLabel.userInteractionEnabled = YES;
     [self addSubview:self.titleLabel];
-    
-    // 添加点击事件
-    self.tapButton = [[UIButton alloc] init];
-    [self.tapButton addTarget:self action:@selector(calloutViewClicked) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:self.tapButton];
     
     // 添加副标题
 //    self.subtitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPortraitMargin * 2 + kPortraitWidth, kPortraitMargin * 2 + kTitleHeight, kTitleWidth, kTitleHeight)];

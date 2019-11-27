@@ -60,6 +60,7 @@ NSString *const dc_map_position = @"position";
 NSString *const dc_map_circles = @"circles";
 NSString *const dc_map_radius = @"radius";
 NSString *const dc_map_includePoints = @"includePoints";
+NSString *const dc_map_setting = @"setting";
 
 NSString *const dc_map_destination = @"destination";
 NSString *const dc_map_autoRotate = @"autoRotate";
@@ -80,6 +81,8 @@ NSString *const dc_map_bindcallouttap = @"callouttap";
 NSString *const dc_map_bindupdated = @"updated";
 NSString *const dc_map_bindregionchange = @"regionchange";
 NSString *const dc_map_bindpoitap = @"poitap";
+NSString *const dc_map_bindlabeltap = @"labeltap";
+NSString *const dc_map_binduserlocationchange = @"userlocationchange";
 
 
 @implementation DCMapConstant

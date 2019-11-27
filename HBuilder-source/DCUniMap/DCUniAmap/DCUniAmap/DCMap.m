@@ -28,16 +28,24 @@
 
 #define kDCCalloutViewMargin          -8
 
-@interface DCMap () <DCMapCalloutViewDelegate>
+@interface DCMap ()<DCAnnotationViewDelegate>
 
 @property (nonatomic, strong) MAAnnotationView *userLocationAnnotationView;
 @property (nonatomic, assign) CLLocationCoordinate2D centerCoordinate;
+@property (nonatomic, assign) CLLocationCoordinate2D lastUserCoordinate;
 @property (nonatomic, strong) NSMutableArray *pointAnnotations;
 @property (nonatomic, strong) NSMutableArray *polylines;
 @property (nonatomic, strong) NSMutableArray *polygons;
 @property (nonatomic, strong) NSMutableArray *circles;
 @property (nonatomic, strong) NSMutableArray *controls;
 @property (nonatomic, strong) id<WXImageOperationProtocol> imageOperation;
+
+@property (nonatomic, assign) CGFloat rotate;                       // 记录之前的旋转角度
+@property (nonatomic, assign) CGFloat skew;                         // 记录之前的倾斜角度
+@property (nonatomic, assign) BOOL canSendRegionchangeEvent;        // 是否触发视野更新事件 drag 及 scale 专有回调方法，不需要自己实现逻辑，其他情况自己实现逻辑判断
+@property (nonatomic, assign) BOOL rotateCausedByUpdate;            // 是否接口触发视野更新
+@property (nonatomic, assign) BOOL skewCausedByUpdate;              // 是否接口触发视野更新
+@property (nonatomic, assign) BOOL mapFirstScreenFinished;          // 记录首屏加载完毕，首屏没加载完毕不触发 regionchangeEvent
 
 @end
 
@@ -168,6 +176,8 @@
         self.mapView.showsCompass = [WXConvert BOOL:attributes[dc_map_showCompass]];
     }
     
+    
+    // 比例尺
     if (attributes[dc_map_showScale]) {
         self.mapView.showsScale = [WXConvert BOOL:attributes[dc_map_showScale]];
     }
@@ -205,11 +215,13 @@
     // 设置旋转角度
     if (attributes[dc_map_rotate]) {
         self.mapView.rotationDegree = [attributes[dc_map_rotate] floatValue];
+        if (self.mapFirstScreenFinished) _rotateCausedByUpdate = YES;
     }
     
     // 设置倾斜角度
     if (attributes[dc_map_skew]) {
         self.mapView.cameraDegree = [attributes[dc_map_skew] floatValue];
+        if (self.mapFirstScreenFinished) _skewCausedByUpdate = YES;
     }
     
     // 标注
@@ -240,6 +252,11 @@
     // 缩放地图以包含所有点
     if (attributes[dc_map_includePoints] && [attributes[dc_map_includePoints] isKindOfClass:[NSArray class]]) {
         [self includePoints:attributes[dc_map_includePoints] padding:UIEdgeInsetsZero];
+    }
+    
+    // setting 支持同时设置多个属性
+    if (attributes[dc_map_setting] && [attributes[dc_map_setting] isKindOfClass:[NSDictionary class]]) {
+        [self setMapAttribute:attributes[dc_map_setting]];
     }
 }
 
@@ -384,7 +401,7 @@
         if (annotationView == nil)
         {
             annotationView = [[DCAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:pointReuseIndentifier];
-            annotationView.calloutView.delegate = self;
+            annotationView.delegate = self;
         }
         annotationView.annotation = annotation;
         //更新标注数据
@@ -496,6 +513,16 @@
             
         }];
     }
+
+    if (updatingLocation && ![WXConvert CLLocationCoordinateEqualToCoordinate:self.lastUserCoordinate :userLocation.coordinate]) {
+        
+        self.lastUserCoordinate = userLocation.coordinate;
+        
+        [self handleMapEvent:dc_map_binduserlocationchange params:@{
+            dc_map_latitude: @(userLocation.coordinate.latitude),
+            dc_map_longitude: @(userLocation.coordinate.longitude)
+        }];
+    }
 }
 
 /** 地图标注被选中回调 */
@@ -537,7 +564,10 @@
  * @param coordinate 经纬度
  */
 - (void)mapView:(MAMapView *)mapView didSingleTappedAtCoordinate:(CLLocationCoordinate2D)coordinate {
-    [self handleMapEvent:dc_map_bindtap params:nil];
+    [self handleMapEvent:dc_map_bindtap params:@{
+        dc_map_latitude: @(coordinate.latitude),
+        dc_map_longitude: @(coordinate.longitude)
+    }];
 }
 
 /**
@@ -556,8 +586,13 @@
 }
 
 /** 点击标注气泡回调 */
-- (void)calloutViewDidClicked:(DCMapMarker *)marker {
+- (void)annotationCalloutViewTapped:(DCMapMarker *)marker {
     [self handleMapEvent:dc_map_bindcallouttap params:@{dc_map_markerId: @(marker._id)}];
+}
+
+/** 点击标注label回调 */
+- (void)annotationLabelTapped:(DCMapMarker *)marker {
+    [self handleMapEvent:dc_map_bindlabeltap params:@{dc_map_markerId: @(marker._id)}];
 }
 
 /**
@@ -565,6 +600,7 @@
  * @param mapView 地图View
  */
 - (void)mapViewDidFinishLoadingMap:(MAMapView *)mapView {
+    self.mapFirstScreenFinished = YES;
     [self handleMapEvent:dc_map_bindupdated params:nil];
 }
 
@@ -574,6 +610,20 @@
  * @param animated 是否动画
  */
 - (void)mapView:(MAMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
+    if (!self.mapFirstScreenFinished) {
+        return;
+    }
+    _canSendRegionchangeEvent = YES;
+    __weak __typeof(self)weakSelf = self;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if (weakSelf.canSendRegionchangeEvent) {
+//            NSLog(@">>>>>>>>>>>>>>>>>> Send regionWillChange Begin By: %@",(weakSelf.rotateCausedByUpdate || weakSelf.skewCausedByUpdate) ? @"update" : @"gesture");
+            [weakSelf handleMapEvent:dc_map_bindregionchange params:@{
+                                                                    @"type" : @"begin",
+                                                                    @"causedBy" : (weakSelf.rotateCausedByUpdate || weakSelf.skewCausedByUpdate) ? @"update" : @"gesture"
+                                                                }];
+        }
+    });
 }
 
 /**
@@ -582,6 +632,30 @@
  * @param animated 是否动画
  */
 - (void)mapView:(MAMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
+    if (!self.mapFirstScreenFinished) {
+        return;
+    }
+    __weak __typeof(self)weakSelf = self;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if (weakSelf.canSendRegionchangeEvent) {
+            
+//            NSLog(@">>>>>>>>>>>>>>>>>> Send regionDidChange End By: %@",(weakSelf.rotateCausedByUpdate || weakSelf.skewCausedByUpdate) ? @"update" : @"drag");
+            
+            [weakSelf handleMapEvent:dc_map_bindregionchange params:@{
+                                                                    @"type" : @"end",
+                                                                    @"causedBy" : (weakSelf.rotateCausedByUpdate || weakSelf.skewCausedByUpdate) ? @"update" : @"drag"
+                                                                }];
+            
+            if (weakSelf.mapView.rotationDegree != weakSelf.rotate) {
+                weakSelf.rotate = weakSelf.mapView.rotationDegree;
+                weakSelf.rotateCausedByUpdate = NO;
+            } else if (weakSelf.mapView.cameraDegree != weakSelf.skew) {
+                weakSelf.skew = weakSelf.mapView.cameraDegree;
+                weakSelf.skewCausedByUpdate = NO;
+            }
+        }
+    });
+    
 }
 
 /**
@@ -590,9 +664,14 @@
  * @param wasUserAction 标识是否是用户动作
  */
 - (void)mapView:(MAMapView *)mapView mapWillMoveByUser:(BOOL)wasUserAction {
+    if (!self.mapFirstScreenFinished) {
+        return;
+    }
+//    NSLog(@">>>>>>>>>>>>>>>>>> mapWillMove by: %@",wasUserAction ? @"gesture" : @"update");
+    _canSendRegionchangeEvent = NO;
     [self handleMapEvent:dc_map_bindregionchange params:@{
                                                           @"type" : @"begin",
-                                                          @"causedBy" : @"drag"
+                                                          @"causedBy" : wasUserAction ? @"gesture" : @"update"
                                                           }];
 }
 
@@ -602,9 +681,13 @@
  * @param wasUserAction 标识是否是用户动作
  */
 - (void)mapView:(MAMapView *)mapView mapDidMoveByUser:(BOOL)wasUserAction {
+    if (!self.mapFirstScreenFinished) {
+        return;
+    }
+//    NSLog(@">>>>>>>>>>>>>>>>>> mapDidMove by: %@",wasUserAction ? @"drag" : @"update");
     [self handleMapEvent:dc_map_bindregionchange params:@{
                                                           @"type" : @"end",
-                                                          @"causedBy" : @"drag"
+                                                          @"causedBy" : wasUserAction ? @"drag" : @"update"
                                                           }];
 }
 
@@ -614,9 +697,14 @@
  * @param wasUserAction 标识是否是用户动作
  */
 - (void)mapView:(MAMapView *)mapView mapWillZoomByUser:(BOOL)wasUserAction {
+    if (!self.mapFirstScreenFinished) {
+        return;
+    }
+//    NSLog(@">>>>>>>>>>>>>>>>>> mapWillZoom by: %@",wasUserAction ? @"gesture" : @"update");
+    _canSendRegionchangeEvent = NO;
     [self handleMapEvent:dc_map_bindregionchange params:@{
                                                           @"type" : @"begin",
-                                                          @"causedBy" : @"scale"
+                                                          @"causedBy" : wasUserAction ? @"gesture" : @"update"
                                                           }];
 }
 
@@ -626,9 +714,13 @@
  * @param wasUserAction 标识是否是用户动作
  */
 - (void)mapView:(MAMapView *)mapView mapDidZoomByUser:(BOOL)wasUserAction {
+    if (!self.mapFirstScreenFinished) {
+        return;
+    }
+//    NSLog(@">>>>>>>>>>>>>>>>>> mapDidZoom by: %@",wasUserAction ? @"scale" : @"update");
     [self handleMapEvent:dc_map_bindregionchange params:@{
                                                           @"type" : @"end",
-                                                          @"causedBy" : @"scale"
+                                                          @"causedBy" : wasUserAction ? @"scale" : @"update"
                                                           }];
 }
 

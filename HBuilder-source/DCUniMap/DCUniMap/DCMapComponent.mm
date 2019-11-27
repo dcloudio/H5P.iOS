@@ -39,7 +39,9 @@
 @property (nonatomic, assign) BOOL bindupdated;         /**< 在地图渲染更新完成时触发 */
 @property (nonatomic, assign) BOOL bindregionchange;    /**< 视野发生变化时触发 */
 @property (nonatomic, assign) BOOL bindpoitap;          /**< 点击地图poi点时触发 */
-
+@property (nonatomic, assign) BOOL bindlabeltap;        /**< 点击地图标注label触发 */
+@property (nonatomic, assign) BOOL binduserlocationchange;  /**< 用户位置信息变化触发 */
+    
 @end
 
 @implementation DCMapComponent
@@ -133,6 +135,14 @@
     {
         self.bindcontroltap = YES;
     }
+    else if ([eventName isEqualToString:dc_map_bindlabeltap])
+    {
+        self.bindlabeltap = YES;
+    }
+    else if ([eventName isEqualToString:dc_map_binduserlocationchange])
+    {
+        self.binduserlocationchange = YES;
+    }
 }
 
 - (void)removeEvent:(NSString *)eventName {
@@ -159,6 +169,14 @@
     }
     else if ([eventName isEqualToString:dc_map_bindcontroltap]) {
         self.bindcontroltap = NO;
+    }
+    else if ([eventName isEqualToString:dc_map_bindlabeltap])
+    {
+        self.bindlabeltap = NO;
+    }
+    else if ([eventName isEqualToString:dc_map_binduserlocationchange])
+    {
+        self.binduserlocationchange = NO;
     }
 }
 
@@ -189,6 +207,14 @@
         }
         else if ([eventName isEqualToString:dc_map_bindcontroltap] && self.bindcontroltap) {
             [weakSelf fireEvent:dc_map_bindcontroltap params:params];
+        }
+        else if ([eventName isEqualToString:dc_map_bindlabeltap] && self.bindlabeltap)
+        {
+            [weakSelf fireEvent:dc_map_bindlabeltap params:params];
+        }
+        else if ([eventName isEqualToString:dc_map_binduserlocationchange] && self.binduserlocationchange)
+        {
+            [weakSelf fireEvent:dc_map_binduserlocationchange params:params];
         }
     };
 }
@@ -274,5 +300,7 @@ WX_EXPORT_METHOD(@selector(translateMarker::))
         }
     }];
 }
+
+
 
 @end

@@ -7,7 +7,6 @@
 //
 
 #import "DCAnnotationView.h"
-#import "DCMapMarker.h"
 #import "WXImgLoaderProtocol.h"
 #import "WXHandlerFactory.h"
 #import "DCMapLabel.h"
@@ -27,6 +26,9 @@
     if (!_calloutView) {
         _calloutView = [[DCMapCalloutView alloc] init];
         [self addSubview:_calloutView];
+        
+        UITapGestureRecognizer *tapges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(calloutViewDidClicked)];
+        [_calloutView addGestureRecognizer:tapges];
     }
     return _calloutView;
 }
@@ -35,6 +37,9 @@
     if (!_label) {
         _label = [[DCMapLabel alloc] init];
         [self addSubview:_label];
+        
+        UITapGestureRecognizer *tapges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(labelClicked)];
+        [_label addGestureRecognizer:tapges];
     }
     return _label;
 }
@@ -167,17 +172,38 @@
     
 }
 
-/** 使 calloutView 可以响应点击事件 */
+/** 使 不在坐标系中的子视图 可以响应点击事件 */
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
     UIView *view = [super hitTest:point withEvent:event];
     if (view == nil) {
-        CGPoint tempoint = [self.calloutView.tapButton convertPoint:point fromView:self];
-        if (CGRectContainsPoint(self.calloutView.tapButton.bounds, tempoint))
+        CGPoint tempoint = [self.calloutView convertPoint:point fromView:self];
+        if (CGRectContainsPoint(self.calloutView.bounds, tempoint))
         {
-            view = self.calloutView.tapButton;
+            return self.calloutView;
+        }
+        tempoint = [self.label convertPoint:point fromView:self];
+        if (CGRectContainsPoint(self.label.bounds, tempoint)) {
+            return self.label;
         }
     }
     return view;
+}
+
+#pragma mark - DCMapCalloutViewDelegate
+
+/// 点击 CalloutView
+- (void)calloutViewDidClicked {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(annotationCalloutViewTapped:)]) {
+        [self.delegate annotationCalloutViewTapped:(DCMapMarker *)self.annotation];
+    }
+}
+
+
+/// 点击 label
+- (void)labelClicked {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(annotationLabelTapped:)]) {
+        [self.delegate annotationLabelTapped:(DCMapMarker *)self.annotation];
+    }
 }
 
 @end

@@ -20,7 +20,6 @@
 #import "PGMapView.h"
 #import "PDRCoreAppFrame.h"
 
-
 @implementation PGMapGeoReq
 @synthesize reqType;
 @synthesize city;

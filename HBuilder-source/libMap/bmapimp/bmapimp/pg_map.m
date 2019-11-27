@@ -23,7 +23,7 @@
 #import "pg_gis_overlay.h"
 #import "pg_gis_search.h"
 #import "PGObject.h"
-#import "PDRCoreAppFrame.h"
+#import "PDRCoreAppFramePrivate.h"
 #import <BaiduMapAPI_Utils/BMKGeometry.h>
 #import "pg_map_marker.h"
 #import "PGBaiduKeyVerify.h"

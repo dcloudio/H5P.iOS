@@ -13,6 +13,7 @@
 
 @interface libBlueTooth()
 
+@property (nonatomic, assign)int  mBlueToothState;
 @property (nonatomic, strong)DCHLBLEManager * mBleManager;
 @property (nonatomic, strong)NSMutableDictionary* connectDeviceArray;
 @property (strong, nonatomic)NSMutableDictionary* deviceArray;
@@ -49,26 +50,60 @@
 }
 -(void)openBluetoothAdapter:(PGMethod*)pMethod{
     
-    NSString* cbid = [pMethod.arguments objectAtIndex:0];
+    __block NSString* cbid = [pMethod.arguments objectAtIndex:0];
+    __weak typeof(self) weakSelf = self;
     if (_mBleManager == NULL) {
-         _mBleManager = [DCHLBLEManager sharedInstance];
-        [self eventState:cbid];
-        if (_mBleManager.isFirst) {
-            if (_mBleManager.mBlueToothState == 0) {
-                [self toSucessCallback:cbid withJSON:@{@"code":@(0),@"message":@"ok"}];
-            }else if(_mBleManager.mBlueToothState == 10000){
-                [self toErrorCallback:cbid withCode:_mBleManager.mBlueToothState withMessage:@"not init"];
-            }else {
-                [self toErrorCallback:cbid withCode:_mBleManager.mBlueToothState withMessage:@"not available"];
+        _mBleManager = [DCHLBLEManager sharedInstance];
+        _mBleManager.stateUpdateBlock = ^(CBCentralManager *central) {
+            switch (central.state) {
+                case CBCentralManagerStatePoweredOn:{
+                    //info = @"蓝牙已打开，并且可用";
+                    weakSelf.mBlueToothState = 0;
+                    [weakSelf toSucessCallback:weakSelf.onBluetoothAdapterStateChangeCbid withJSON:@{@"available":[NSNumber numberWithBool:YES],@"discovering":[NSNumber numberWithBool:false]} keepCallback:YES];
+                    if (cbid) {
+                         [weakSelf toSucessCallback:cbid withJSON:@{@"code":@(0),@"message":@"ok"}];
+                        cbid = nil;
+                    }
+                }
+                    break;
+                case CBCentralManagerStatePoweredOff:
+                case CBCentralManagerStateUnsupported:
+                case CBCentralManagerStateResetting:
+                case CBCentralManagerStateUnknown:{
+                    weakSelf.mBlueToothState = 10001;
+                    [weakSelf toSucessCallback:weakSelf.onBluetoothAdapterStateChangeCbid withJSON:@{@"available":[NSNumber numberWithBool:false],@"discovering":[NSNumber numberWithBool:false]} keepCallback:YES];
+                    if (cbid) {
+                        [weakSelf toErrorCallback:cbid withCode:weakSelf.mBlueToothState withMessage:@"not available"];
+                        cbid = nil;
+                    }
+                }
+                    break;
+                case CBCentralManagerStateUnauthorized:{
+                    weakSelf.mBlueToothState = 10000;
+                    [weakSelf toSucessCallback:weakSelf.onBluetoothAdapterStateChangeCbid withJSON:@{@"available":[NSNumber numberWithBool:false],@"discovering":[NSNumber numberWithBool:false]} keepCallback:YES];
+                    if (cbid) {
+                        [weakSelf toErrorCallback:cbid withCode:weakSelf.mBlueToothState withMessage:@"not init"];
+                        cbid = nil;
+                    }
+                }
+                    break;
             }
-        }
-    }else{
-        if (_mBleManager.mBlueToothState == 0) {
-            [self toSucessCallback:cbid withJSON:@{@"code":@(0),@"message":@"ok"}];
-        }else if(_mBleManager.mBlueToothState == 10000){
-            [self toErrorCallback:cbid withCode:_mBleManager.mBlueToothState withMessage:@"not init"];
+        };
+        if (weakSelf.mBlueToothState == 0) {
+            [weakSelf toSucessCallback:cbid withJSON:@{@"code":@(0),@"message":@"ok"}];
+        }else if(_mBlueToothState == 10000){
+            [weakSelf toErrorCallback:cbid withCode:weakSelf.mBlueToothState withMessage:@"not init"];
         }else {
-            [self toErrorCallback:cbid withCode:_mBleManager.mBlueToothState withMessage:@"not available"];
+            [weakSelf toErrorCallback:cbid withCode:weakSelf.mBlueToothState withMessage:@"not available"];
+        }
+        
+    }else{
+        if (_mBlueToothState == 0) {
+            [weakSelf toSucessCallback:cbid withJSON:@{@"code":@(0),@"message":@"ok"}];
+        }else if(_mBlueToothState == 10000){
+            [weakSelf toErrorCallback:cbid withCode:weakSelf.mBlueToothState withMessage:@"not init"];
+        }else {
+            [weakSelf toErrorCallback:cbid withCode:weakSelf.mBlueToothState withMessage:@"not available"];
         }
     }
 }
@@ -89,100 +124,65 @@
 
         [self toSucessCallback:self.onBluetoothAdapterStateChangeCbid withJSON:@{@"available":[NSNumber numberWithBool:false],@"discovering":[NSNumber numberWithBool:false]} keepCallback:YES];
     }
-    if (_mBleManager.mBlueToothState == 0) {
+    if (_mBlueToothState == 0) {
         [self toSucessCallback:cbid withJSON:@{@"code":@(0),@"message":@"ok"}];
-    }else if(_mBleManager.mBlueToothState == 10000){
-        [self toErrorCallback:cbid withCode:_mBleManager.mBlueToothState withMessage:@"not init"];
+    }else if(_mBlueToothState == 10000){
+        [self toErrorCallback:cbid withCode:_mBlueToothState withMessage:@"not init"];
     }else {
-        [self toErrorCallback:cbid withCode:_mBleManager.mBlueToothState withMessage:@"not available"];
+        [self toErrorCallback:cbid withCode:_mBlueToothState withMessage:@"not available"];
     }
     
 }
--(void)eventState:(NSString*)cbid{
-    __weak typeof(self) weakSelf = self;
-    _mBleManager.stateUpdateBlock = ^(CBCentralManager *central) {
-        switch (central.state) {
-            case CBManagerStatePoweredOn:{//@"蓝牙已打开，并且可用";
-                weakSelf.mBleManager.mBlueToothState = 0;
-                [weakSelf toSucessCallback:weakSelf.onBluetoothAdapterStateChangeCbid withJSON:@{@"available":[NSNumber numberWithBool:YES],@"discovering":[NSNumber numberWithBool:false]} keepCallback:YES];
-                if (cbid) {
-                    [weakSelf toSucessCallback:cbid withJSON:@{@"code":@(0),@"message":@"ok"}];
-                }
-            }
-                break;
-            case CBManagerStatePoweredOff:{
-                weakSelf.mBleManager.mBlueToothState = 1002;
-                [weakSelf toSucessCallback:weakSelf.onBluetoothAdapterStateChangeCbid withJSON:@{@"available":[NSNumber numberWithBool:false],@"discovering":[NSNumber numberWithBool:false]} keepCallback:YES];
-                if (cbid) {
-                    [weakSelf toErrorCallback:cbid withCode:1002 withMessage:@"State PoweredOff"];
-                }
-                break;
-            }
-            case CBManagerStateUnsupported:{
-                weakSelf.mBleManager.mBlueToothState = 1003;
-                [weakSelf toSucessCallback:weakSelf.onBluetoothAdapterStateChangeCbid withJSON:@{@"available":[NSNumber numberWithBool:false],@"discovering":[NSNumber numberWithBool:false]} keepCallback:YES];
-                if (cbid) {
-                    [weakSelf toErrorCallback:cbid withCode:1003 withMessage:@"State Unsupported"];
-                }
-                break;
-            }
-            case CBManagerStateResetting:{
-            }
-            case CBManagerStateUnknown:
-            {
-                weakSelf.mBleManager.mBlueToothState = 10001;
-                [weakSelf toSucessCallback:weakSelf.onBluetoothAdapterStateChangeCbid withJSON:@{@"available":[NSNumber numberWithBool:false],@"discovering":[NSNumber numberWithBool:false]} keepCallback:YES];
-                if (cbid) {
-                    [weakSelf toErrorCallback:cbid withCode:weakSelf.mBleManager.mBlueToothState withMessage:@"not available"];
-                }
-            }
-                break;
-            case CBManagerStateUnauthorized:
-            {
-                weakSelf.mBleManager.mBlueToothState = 10000;
-                [weakSelf toSucessCallback:weakSelf.onBluetoothAdapterStateChangeCbid withJSON:@{@"available":[NSNumber numberWithBool:false],@"discovering":[NSNumber numberWithBool:false]} keepCallback:YES];
-                if (cbid) {
-                    [weakSelf toErrorCallback:cbid withCode:weakSelf.mBleManager.mBlueToothState withMessage:@"not init"];
-                }
-            }
-                break;
-            default:{
-                weakSelf.mBleManager.mBlueToothState = 10004;
-                [weakSelf toSucessCallback:weakSelf.onBluetoothAdapterStateChangeCbid withJSON:@{@"available":[NSNumber numberWithBool:false],@"discovering":[NSNumber numberWithBool:false]} keepCallback:YES];
-                if (cbid) {
-                    [weakSelf toErrorCallback:cbid withCode:weakSelf.mBleManager.mBlueToothState withMessage:@"not available"];
-                }
-            }
-        }
-        weakSelf.mBleManager.isFirst = YES;
-    };
-}
+
 -(void)getBluetoothAdapterState:(PGMethod*)pMethod{
     
-    NSString* cbid = [pMethod.arguments objectAtIndex:0];
+   __block NSString* cbid = [pMethod.arguments objectAtIndex:0];
     __weak typeof(self) weakSelf = self;
     if (_mBleManager == NULL) {
         _mBleManager = [DCHLBLEManager sharedInstance];
         _mBleManager.getRSSIBlock = ^(CBPeripheral *peripheral, NSNumber *RSSI, NSError *error) {
             [weakSelf.rssiArray setObject:RSSI forKey:peripheral.identifier.UUIDString];
         };
-        [self eventState:cbid];
-        if (_mBleManager.isFirst) {
-            if (_mBleManager.mBlueToothState == 0) {
-                [self toSucessCallback:cbid withJSON:@{@"available":[NSNumber numberWithBool:YES],@"discovering":[NSNumber numberWithBool: [_mBleManager isScaning]]}];
-            }else if(_mBleManager.mBlueToothState == 10000){
-                [self toErrorCallback:cbid withCode:_mBleManager.mBlueToothState withMessage:@"not init"];
-            }else {
-                [self toErrorCallback:cbid withCode:_mBleManager.mBlueToothState withMessage:@"not available"];
+        
+        _mBleManager.stateUpdateBlock = ^(CBCentralManager *central) {
+            switch (central.state) {
+                case CBManagerStatePoweredOn:{//@"蓝牙已打开，并且可用";
+                    weakSelf.mBlueToothState = 0;
+                    [weakSelf toSucessCallback:weakSelf.onBluetoothAdapterStateChangeCbid withJSON:@{@"available":[NSNumber numberWithBool:YES],@"discovering":[NSNumber numberWithBool:false]} keepCallback:YES];
+                    if (cbid) {
+                        [weakSelf toSucessCallback:cbid withJSON:@{@"code":@(0),@"message":@"ok"}];
+                    }
+                }
+                    break;
+                case CBManagerStatePoweredOff:
+                case CBManagerStateUnsupported:
+                case CBManagerStateResetting:
+                case CBManagerStateUnknown:
+                {
+                    weakSelf.mBlueToothState = 10001;
+                    [weakSelf toSucessCallback:weakSelf.onBluetoothAdapterStateChangeCbid withJSON:@{@"available":[NSNumber numberWithBool:false],@"discovering":[NSNumber numberWithBool:false]} keepCallback:YES];
+                    if (cbid) {
+                        [weakSelf toErrorCallback:cbid withCode:weakSelf.mBlueToothState withMessage:@"not available"];
+                    }
+                }
+                    break;
+                case CBManagerStateUnauthorized:
+                {
+                    weakSelf.mBlueToothState = 10000;
+                    [weakSelf toSucessCallback:weakSelf.onBluetoothAdapterStateChangeCbid withJSON:@{@"available":[NSNumber numberWithBool:false],@"discovering":[NSNumber numberWithBool:false]} keepCallback:YES];
+                    if (cbid) {
+                        [weakSelf toErrorCallback:cbid withCode:weakSelf.mBlueToothState withMessage:@"not init"];
+                    }
+                }
+                    break;
             }
-        }
+        };
     }else{
-        if (_mBleManager.mBlueToothState == 0) {
-            [self toSucessCallback:cbid withJSON:@{@"available":[NSNumber numberWithBool:YES],@"discovering":[NSNumber numberWithBool: [_mBleManager isScaning]]}];
-        }else if(_mBleManager.mBlueToothState == 10000){
-            [self toErrorCallback:cbid withCode:_mBleManager.mBlueToothState withMessage:@"not init"];
-        }else{
-            [self toErrorCallback:cbid withCode:_mBleManager.mBlueToothState withMessage:@"not available"];
+        if (_mBlueToothState == 0) {
+            [weakSelf toSucessCallback:cbid withJSON:@{@"available":[NSNumber numberWithBool:YES],@"discovering":[NSNumber numberWithBool: [_mBleManager isScaning]]}];
+        }
+        else{
+            [weakSelf toSucessCallback:cbid withJSON:@{@"available":[NSNumber numberWithBool:false],@"discovering":[NSNumber numberWithBool:false]} keepCallback:NO];
         }
     }
 }
@@ -405,12 +405,12 @@
         };
 
         [_mBleManager scanForPeripheralsWithServiceUUIDs:[cbuuids count]?cbuuids:nil options:@{CBCentralManagerRestoredStateScanOptionsKey:@(YES)}];
-        if (_mBleManager.mBlueToothState == 0) {
+        if (_mBlueToothState == 0) {
             [self toSucessCallback:cbid withJSON:@{@"code":@(0),@"message":@"ok"}];
-        }else if(_mBleManager.mBlueToothState == 10000){
-            [self toErrorCallback:cbid withCode:_mBleManager.mBlueToothState withMessage:@"not init"];
+        }else if(_mBlueToothState == 10000){
+            [self toErrorCallback:cbid withCode:self.mBlueToothState withMessage:@"not init"];
         }else {
-            [self toErrorCallback:cbid withCode:_mBleManager.mBlueToothState withMessage:@"not available"];
+            [self toErrorCallback:cbid withCode:self.mBlueToothState withMessage:@"not available"];
         }
     }else{
         if (_mBleManager == nil) {

@@ -140,7 +140,6 @@ static NSMutableDictionary * barcodeUUIDDic;
         }
     }
 
-//    PDR_LOG_INFO(@"Barcode create-!!");
 }
 
 - (UIView*)__getNativeViewById:(NSString*)barcodeUUID{
@@ -455,7 +454,6 @@ static NSMutableDictionary * barcodeUUIDDic;
             }
         }
     }
-//    PDR_LOG_INFO(@"zxingController exec end");
 }
 
 #pragma mark -

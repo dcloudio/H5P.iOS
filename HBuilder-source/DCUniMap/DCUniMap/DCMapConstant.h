@@ -67,6 +67,7 @@ extern NSString *const dc_map_controls;
 extern NSString *const dc_map_position;
 extern NSString *const dc_map_radius;
 extern NSString *const dc_map_includePoints;
+extern NSString *const dc_map_setting;
 extern NSString *const dc_map_padding;
 extern NSString *const dc_map_markerId;
 extern NSString *const dc_map_destination;
@@ -84,6 +85,8 @@ extern NSString *const dc_map_bindcallouttap;
 extern NSString *const dc_map_bindupdated;
 extern NSString *const dc_map_bindregionchange;
 extern NSString *const dc_map_bindpoitap;
+extern NSString *const dc_map_bindlabeltap;
+extern NSString *const dc_map_binduserlocationchange;
 
 NS_ASSUME_NONNULL_BEGIN
 

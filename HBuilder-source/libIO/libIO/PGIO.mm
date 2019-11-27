@@ -320,7 +320,7 @@
     NSString *systemUrl = [command.arguments objectAtIndex:0];
     
     if ( [systemUrl isKindOfClass:[NSString class]] ) {
-        NSString *localUrl = [PTPathUtil relativePath:systemUrl withContext:self.appContext];
+        NSString *localUrl = [PTPathUtil sysPath2H5path:systemUrl withContext:self.appContext];
         if ( localUrl ) {
             return [self resultWithString:localUrl];
         }

@@ -380,12 +380,5 @@
 		<key>global</key>
 		<false/>
 	</dict>
-	<key>plugintest</key>
-	<dict>
-		<key>class</key>
-		<string>PGPluginTest</string>
-		<key>global</key>
-		<false/>
-	</dict>
 </dict>
 </plist>
