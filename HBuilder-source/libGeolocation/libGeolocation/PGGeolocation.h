@@ -30,7 +30,7 @@
 #import "PGPlugin.h"
 #import "PGMethod.h"
 #import "PGLocationServer.h"
-#import "PGLocationServerManager.h"
+//#import "PGLocationServerManager.h"
 
 //typedef NSInteger PGHeadingStatus;
 

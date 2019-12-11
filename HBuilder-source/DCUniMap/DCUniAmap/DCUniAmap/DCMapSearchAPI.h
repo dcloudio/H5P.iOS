@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)reverseGeocode:(NSDictionary *)info block:(void(^)(NSDictionary *))block;
 - (void)poiSearchNearBy:(NSDictionary *)info block:(void(^)(NSDictionary *))block;
+- (void)poiKeywordsSearch:(NSDictionary *)info block:(void(^)(NSDictionary *))block;
+- (void)inputTipsSearch:(NSDictionary *)info block:(void(^)(NSDictionary *))block;
 @end
 
 NS_ASSUME_NONNULL_END

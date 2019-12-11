@@ -237,6 +237,12 @@
     option.captureMode = PGCameraOptionTypePhoto;
     option.callbackId = callbackId;
     self.mOptions = option;
+
+    if ([self authorizeStatus]==PGPluginAuthorizeStatusDenied) {
+        [self result:PDRCommandStatusError message:@"No filming permission" callBackId:option.callbackId];
+        return;
+    }
+    
     [self startWithOption:option];
 }
 
@@ -266,6 +272,21 @@
     option.captureMode = PGCameraOptionTypeVideo;
     option.callbackId = callbackId;
     self.mOptions = option;
+    
+    AVAudioSession* sharedSession = [AVAudioSession sharedInstance];
+    if ([sharedSession respondsToSelector:@selector(recordPermission)]) {
+        AVAudioSessionRecordPermission permission = [sharedSession recordPermission];
+        if (permission==AVAudioSessionRecordPermissionDenied) {
+            [self result:PDRCommandStatusError message:@"No microphone permissions" callBackId:option.callbackId];
+            return;
+        }
+    }
+
+    if ([self authorizeStatus]==PGPluginAuthorizeStatusDenied) {
+        [self result:PDRCommandStatusError message:@"No filming permission" callBackId:option.callbackId];
+        return;
+    }
+    
     [self startWithOption:option];
 }
 

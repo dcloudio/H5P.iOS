@@ -291,6 +291,7 @@
         self.systemPickerController = imagePickerController;
         self.systemPickerController.delegate = self;
         self.systemPickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        self.systemPickerController.modalPresentationStyle = UIModalPresentationFullScreen;
         
         if ( PGGalleryFiltersVideo == self.mOptions.filters ) {
             self.systemPickerController.mediaTypes = [NSArray arrayWithObjects:(NSString*)kUTTypeMovie, nil];
@@ -306,6 +307,7 @@
                                                             initWithMaxImagesCount:self.mOptions.maximum
                                                             columnNumber:4
                                                             delegate:self];
+        imagePickerController.modalPresentationStyle = UIModalPresentationFullScreen;
         
         if ( PGGalleryFiltersPhoto == self.mOptions.filters ) {
             // 只读取图片

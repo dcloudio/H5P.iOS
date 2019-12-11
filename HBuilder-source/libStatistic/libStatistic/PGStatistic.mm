@@ -2,6 +2,7 @@
 #import <UMAnalytics/MobClick.h>
 #import <UMCommon/UMCommon.h>
 #import <Foundation/Foundation.h>
+#import "PTLog.h"
 #import "PDRCoreDefs.h"
 
 @interface PGUmengStartUp : H5Server

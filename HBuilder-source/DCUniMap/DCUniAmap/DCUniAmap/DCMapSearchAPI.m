@@ -21,6 +21,8 @@
 @property (nonatomic, strong) AMapSearchAPI *search;
 @property (nonatomic, copy) void (^reverseGeocodeBlock)(NSDictionary *ret);
 @property (nonatomic, copy) void (^poiSearchBlock)(NSDictionary *ret);
+@property (nonatomic, copy) void (^poiKeywordsSearchBlock)(NSDictionary *ret);
+@property (nonatomic, copy) void (^inputTipsSearchBlock)(NSDictionary *ret);
 @property (nonatomic, assign) NSInteger pageCapacity;
 
 @end
@@ -84,8 +86,8 @@
     NSString *key = info[@"key"];
     NSInteger index = info[@"index"] ? [info[@"index"] integerValue] : 1;
     NSInteger radius = info[dc_map_radius] ? [info[dc_map_radius] integerValue] : 3000;
-    float lat = [point[dc_map_latitude] floatValue];
-    float lon = [point[dc_map_longitude] floatValue];
+    float lat = [point[dc_map_latitude] doubleValue];
+    float lon = [point[dc_map_longitude] doubleValue];
     
     AMapPOIAroundSearchRequest *request = [[AMapPOIAroundSearchRequest alloc] init];
     request.location = [AMapGeoPoint locationWithLatitude:lat longitude:lon];
@@ -94,7 +96,82 @@
     request.page = index;
     request.offset = self.pageCapacity;
     
+    if (info[@"city"]) {
+        request.city = info[@"city"];
+    }
+    
+    if (info[@"types"]) {
+        request.types = info[@"types"];
+    }
+    
     [self.search AMapPOIAroundSearch:request]; 
+}
+
+
+///  poi 关键字搜索
+- (void)poiKeywordsSearch:(NSDictionary *)info block:(void(^)(NSDictionary *))block
+{
+    if (!info[@"key"]) {
+        block([DCUniCallbackUtility errorResult:DCUniPluginErrorInvalidArgument]);
+        return;
+    }
+    
+    self.poiKeywordsSearchBlock = block;
+    
+    AMapPOIKeywordsSearchRequest *request = [[AMapPOIKeywordsSearchRequest alloc] init];
+    
+    NSString *key = info[@"key"];
+    NSInteger index = info[@"index"] ? [info[@"index"] integerValue] : 1;
+    request.keywords = key;
+    request.page = index;
+    request.offset = self.pageCapacity;
+    
+    if (info[@"city"]) {
+        request.city = info[@"city"];
+    }
+    
+    if (info[@"types"]) {
+        request.types = info[@"types"];
+    }
+    
+    NSDictionary *point = info[@"point"];
+    if (point[dc_map_longitude] && point[dc_map_latitude]) {
+        float lat = [point[dc_map_latitude] doubleValue];
+        float lon = [point[dc_map_longitude] doubleValue];
+        request.location = [AMapGeoPoint locationWithLatitude:lat longitude:lon];
+    }
+    
+    [self.search AMapPOIKeywordsSearch:request];
+}
+
+
+/// 搜索提示请求
+- (void)inputTipsSearch:(NSDictionary *)info block:(void(^)(NSDictionary *))block
+{
+    if (!info[@"key"]) {
+        block([DCUniCallbackUtility errorResult:DCUniPluginErrorInvalidArgument]);
+        return;
+    }
+    
+    self.inputTipsSearchBlock = block;
+    
+    AMapInputTipsSearchRequest *request = [[AMapInputTipsSearchRequest alloc] init];
+    request.keywords = info[@"key"];
+    
+    if (info[@"city"]) {
+        request.city = info[@"city"];
+    }
+    
+    if (info[@"types"]) {
+        request.types = info[@"types"];
+    }
+    
+    NSDictionary *point = info[@"point"];
+    if (point[dc_map_longitude] && point[dc_map_latitude]) {
+        request.location = [NSString stringWithFormat:@"%@,%@",point[dc_map_longitude],point[dc_map_latitude]];
+    }
+    
+    [self.search AMapInputTipsSearch:request];
 }
 
 #pragma mark - AMapSearchDelegate
@@ -111,6 +188,12 @@
     }
     else if ([request isKindOfClass:[AMapPOIAroundSearchRequest class]] && self.poiSearchBlock) {
         self.poiSearchBlock([DCUniCallbackUtility errorResult:DCUniPluginErrorInner errorMessage:errMsg]);
+    }
+    else if ([request isKindOfClass:[AMapPOIKeywordsSearchRequest class]] && self.poiKeywordsSearchBlock) {
+        self.poiKeywordsSearchBlock([DCUniCallbackUtility errorResult:DCUniPluginErrorInner errorMessage:errMsg]);
+    }
+    else if ([request isKindOfClass:[AMapInputTipsSearchRequest class]] && self.inputTipsSearchBlock) {
+        self.inputTipsSearchBlock([DCUniCallbackUtility errorResult:DCUniPluginErrorInner errorMessage:errMsg]);
     }
 }
 
@@ -134,27 +217,29 @@
 
 /** POI 搜索回调 */
 - (void)onPOISearchDone:(AMapPOISearchBaseRequest *)request response:(AMapPOISearchResponse *)response {
-    NSLog(@"%@",response.formattedDescription);
-//    NSMutableString *jsResult = [NSMutableString stringWithFormat:jsonResultF,
-//                                 [self.jsBridge plusObject],
-//                                 response.count, //totalNumber
-//                                 [response.pois count], //currentNumber
-//                                 response.count/self.pageCapacity+1,//response.pageNum,//pageNumber
-//                                 request.page,//response.pageIndex, //pageIndex
-//                                 [AMapPOI JSArray:response.pois],
-//                                 _UUID];//poiList
-//    [jsBridge asyncWriteJavascript:jsResult];
-    if (self.poiSearchBlock) {
-        
-        NSDictionary *data = @{
-                               @"totalNumber": @(response.count),
-                               @"currentNumber": @(response.pois.count),
-                               @"pageNumber": @((response.count % self.pageCapacity) ? (response.count / self.pageCapacity + 1) : (response.count / self.pageCapacity)),
-                               @"pageIndex": @(request.page),
-                               @"poiList": [response.pois dc_modelToJSONObject] ?: @[]
-                               };
-        
+    
+    NSDictionary *data = @{
+                            @"totalNumber": @(response.count),
+                            @"currentNumber": @(response.pois.count),
+                            @"pageNumber": @((response.count % self.pageCapacity) ? (response.count / self.pageCapacity + 1) : (response.count / self.pageCapacity)),
+                            @"pageIndex": @(request.page),
+                            @"poiList": [response.pois dc_modelToJSONObject] ?: @[]
+                         };
+    if ([request isKindOfClass:[AMapPOIAroundSearchRequest class]] && self.poiSearchBlock) {
         self.poiSearchBlock([DCUniCallbackUtility successResult:data]);
+    }
+    else if ([request isKindOfClass:[AMapPOIKeywordsSearchRequest class]] && self.poiKeywordsSearchBlock) {
+        self.poiKeywordsSearchBlock([DCUniCallbackUtility successResult:data]);
+    }
+}
+
+- (void)onInputTipsSearchDone:(AMapInputTipsSearchRequest *)request response:(AMapInputTipsSearchResponse *)response {
+    if (self.inputTipsSearchBlock) {
+        NSDictionary *data = @{
+            @"count": @(response.count),
+            @"tips": [response.tips dc_modelToJSONObject] ?: @[]
+        };
+        self.inputTipsSearchBlock([DCUniCallbackUtility successResult:data]);
     }
 }
 

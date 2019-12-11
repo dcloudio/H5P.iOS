@@ -30,10 +30,14 @@
 
 - (NSString*)getSupportCoorType:(NSString*)coorType {
     if ( [coorType isKindOfClass:[NSNull class]] ) {
-        coorType = @"bd09ll";
+        coorType = @"gcj02";
     }
     if ( [coorType isKindOfClass:[NSString class]]) {
         if ( NSOrderedSame == [@"bd09ll" caseInsensitiveCompare:coorType] ) {
+            [BMKMapManager setCoordinateTypeUsedInBaiduMapSDK:BMK_COORDTYPE_BD09LL];
+            return coorType;
+        }else if ( NSOrderedSame == [@"gcj02" caseInsensitiveCompare:coorType] ) {
+            [BMKMapManager setCoordinateTypeUsedInBaiduMapSDK:BMK_COORDTYPE_COMMON];
             return coorType;
         }
     }

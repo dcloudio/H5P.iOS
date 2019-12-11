@@ -11,7 +11,9 @@
 @implementation PGLocationServerManager
 + (PGLocationServer*)getLocationServerPorvider:(NSString*)provider {
     NSDictionary *g_support_provider = @{@"system" : @"PGSystemLocationServer",
-                                                      @"baidu"  : @"PGLocationBaidu"};
+                                                      @"baidu"  : @"PGLocationBaidu",
+                                         @"amap":@"PGLocationAMap"
+    };
     if ( [provider isKindOfClass:[NSNull class]] ) {
         provider = @"system";
     }

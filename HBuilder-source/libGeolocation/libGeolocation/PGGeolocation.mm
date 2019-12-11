@@ -28,8 +28,8 @@
 static NSDictionary *g_support_provider =
 @{
   @"system" : @"PGSystemLocationServer",
-  @"baidu"  : @"PGLocationBaidu"/*,
-  @"amap"   : @""*/
+  @"baidu"  : @"PGLocationBaidu",
+  @"amap"   : @"PGLocationAMap"
 };
 
 
@@ -288,10 +288,38 @@ static NSDictionary *g_support_provider =
     }
     return locationService;
 }
-
+-(NSString*)providerForname:(NSString*)name{
+    NSString *providerServerName = [g_support_provider objectForKey:name];
+    if ( providerServerName ) {
+        Class  providerServer  = NSClassFromString(providerServerName);
+        if ( providerServer != nil){
+            if ([name isEqualToString:@"system"]) {
+                return  @"system";
+            }
+            if ([name isEqualToString:@"baidu"]) {
+                return  @"baidu";
+            }
+            if ([name isEqualToString:@"amap"]) {
+                return  @"amap";
+            }
+        }
+    }
+    return @"";
+}
 - (PGLocationServer*)getLocationServerPorvider:(NSString*)provider {
     if ( [provider isKindOfClass:[NSNull class]] ) {
-        provider = @"system";
+        NSString * provider1 = [self providerForname:@"system"];
+        NSString * provider2 = [self providerForname:@"baidu"];
+        NSString * provider3 = [self providerForname:@"amap"];
+        if (![provider1 isEqualToString:@""]&&[provider2 isEqualToString:@""] &&[provider3 isEqualToString:@""]) {
+            provider = @"system";
+        }
+        if(![provider2 isEqualToString:@""]&& [provider3 isEqualToString:@""]){
+            provider = @"baidu";
+        }
+        if(![provider3 isEqualToString:@""] ){
+            provider = @"amap";
+        }
     }
     if ( [provider isKindOfClass:[NSString class]]) {
         provider = [provider lowercaseString];
@@ -324,21 +352,21 @@ static NSDictionary *g_support_provider =
                       isGeocode:(BOOL)geocode
                withJSCallbackId:(NSString*)callbackId
                      withWathId:(NSString*)watchId {
-    BOOL isChoice = NO;
+//    BOOL isChoice = NO;
     PGLocationServer* locationServer = [self getLocationServerPorvider:providerValue];
-    if ( !locationServer ) {
-        isChoice = YES;
-        locationServer = [self getLocationServerPorvider:@"system"];
-    }
+//    if ( !locationServer ) {
+//        isChoice = YES;
+//        locationServer = [self getLocationServerPorvider:@"system"];
+//    }
     if ( !locationServer ) {
         [self toErrorCallback:callbackId withCode:-1503 withMessage:@"Not Support Provider"];
         return;
     }
     
     coorsTypeValue = [locationServer getSupportCoorType:coorsTypeValue];
-    if ( !coorsTypeValue && isChoice ) {
-        coorsTypeValue = [locationServer getDefalutCoorType];
-    }
+//    if ( !coorsTypeValue&& isChoice) {
+//        coorsTypeValue = [locationServer getDefalutCoorType];
+//    }
     if ( !coorsTypeValue ) {
         [self toErrorCallback:callbackId withCode:-1504 withMessage:@"Not Support CoordsType"];
         return;

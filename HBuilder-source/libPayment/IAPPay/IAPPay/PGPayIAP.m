@@ -284,6 +284,11 @@ NSString* pStrTransactionState      = @"transactionState";
         [self toErrorCallback:pRequestcbID withCode:-100 withMessage:[NSString stringWithFormat:@"Payment_appleiap:%@",transaction.error]];
     }
     
+    // 如果 pRestorecbID 存在也要返回
+    if (pRestorecbID && pDictran) {
+        [self triggerEventFunction:@[pDictran]];
+    }
+    
     // Remove the transaction from the payment queue.
     [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
 }
@@ -365,6 +370,11 @@ NSString* pStrTransactionState      = @"transactionState";
     }
     else{
         [self toErrorCallback:pRequestcbID withCode:-100 withMessage:@"Payment_appleiap:-5"];
+    }
+    
+    // 如果 pRestorecbID 存在也要返回
+    if (pRestorecbID && pDictran) {
+        [self triggerEventFunction:@[pDictran]];
     }
     
     [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
@@ -480,12 +490,10 @@ NSString* pStrTransactionState      = @"transactionState";
 
 - (void)triggerEventFunction:(NSArray*)RecQueue
 {
-    NSMutableDictionary* pEventDic = [NSMutableDictionary dictionary];
-    if (pEventDic) {
-        if (pRestorecbID != nil) {
-            PDRPluginResult *result = [PDRPluginResult resultWithStatus:PDRCommandStatusOK messageAsArray:RecQueue];
-            [self toCallback:pRestorecbID withReslut:[result toJSONString]];
-        }
+    if (RecQueue && pRestorecbID) {
+        PDRPluginResult *result = [PDRPluginResult resultWithStatus:PDRCommandStatusOK messageAsArray:RecQueue];
+//        [self toCallback:pRestorecbID withReslut:[result toJSONString]];
+        [self toSucessCallback:pRestorecbID withString:[result toJSONString] keepCallback:YES];
     }
 }
 

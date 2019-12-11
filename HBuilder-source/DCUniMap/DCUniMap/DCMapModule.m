@@ -24,6 +24,8 @@
 
 WX_EXPORT_METHOD(@selector(reverseGeocode::))
 WX_EXPORT_METHOD(@selector(poiSearchNearBy::))
+WX_EXPORT_METHOD(@selector(poiKeywordsSearch::))
+WX_EXPORT_METHOD(@selector(inputTipsSearch::))
 
 - (DCMapSearchAPI *)search {
     if (!_search) {
@@ -56,4 +58,23 @@ WX_EXPORT_METHOD(@selector(poiSearchNearBy::))
         }
     }];
 }
+
+///  poi 关键字搜索
+- (void)poiKeywordsSearch:(NSDictionary *)info :(WXModuleKeepAliveCallback)callback {
+    [self.search poiKeywordsSearch:info block:^(NSDictionary * _Nonnull data) {
+        if (callback) {
+            callback(data,NO);
+        }
+    }];
+}
+
+/// 搜索提示请求
+- (void)inputTipsSearch:(NSDictionary *)info :(WXModuleKeepAliveCallback)callback {
+    [self.search inputTipsSearch:info block:^(NSDictionary * _Nonnull data) {
+        if (callback) {
+            callback(data,NO);
+        }
+    }];
+}
+
 @end

@@ -112,8 +112,7 @@
 		6731F394232F4CE2007838BC /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6731F393232F4CE2007838BC /* libresolv.tbd */; };
 		6731F396232F4D05007838BC /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6731F395232F4D05007838BC /* UserNotifications.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		6731F398232F4D8E007838BC /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6731F397232F4D8E007838BC /* Photos.framework */; };
-		67388DDD238E2B2200118974 /* liblibStatistic.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67E5852023604B69007E6832 /* liblibStatistic.a */; };
-		67388E11238E2CE100118974 /* liblibPayment.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67E584CD236035D8007E6832 /* liblibPayment.a */; };
+		67388F04238E480700118974 /* liblibPayment.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67E584CD236035D8007E6832 /* liblibPayment.a */; };
 		674F359A2360665B00297CB7 /* qucFrameWorkAll.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67E588D9236064F5007E6832 /* qucFrameWorkAll.framework */; };
 		674F359C2360697000297CB7 /* libAMapImp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67E588CA2360633C007E6832 /* libAMapImp.a */; };
 		674F359E2360697000297CB7 /* liblibMap.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67E588BD2360632E007E6832 /* liblibMap.a */; };
@@ -1090,8 +1089,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				67388E11238E2CE100118974 /* liblibPayment.a in Frameworks */,
-				67388DDD238E2B2200118974 /* liblibStatistic.a in Frameworks */,
+				67388F04238E480700118974 /* liblibPayment.a in Frameworks */,
 				67094983238D4C3F00E5C970 /* liblibStorage.a in Frameworks */,
 				672D63C3237F0A63002A47DA /* libweixinShare.a in Frameworks */,
 				672D63C2237F0A49002A47DA /* DCUniVideoPublic.framework in Frameworks */,
